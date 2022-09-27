@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Proyecto_final_apps</string>
+    <string name="home">Home</string>
+    <string name="nuevo">Nuevo</string>
+    <string name="contacts">Contactos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="iniciar_sesion">Iniciar Sesión</string>
+    <string name="placeholder_usuario">Usuario/email</string>
+    <string name="placeholder_password">Contraseña</string>
+    <string name="aun_no_tienes_una_cuenta">¿Aún no tienes una cuenta?</string>
+    <string name="registrate">Registrate</string>
+</resources>

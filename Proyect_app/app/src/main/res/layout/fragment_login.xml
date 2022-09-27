@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.LoginFragment"
+    android:paddingHorizontal="25dp"
+    android:paddingVertical="25dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_loginFragment_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/iniciar_sesion"
+        app:layout_constraintBottom_toTopOf="@id/imageView_loginFragment_banner"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView_loginFragment_banner"
+        android:src="@drawable/ic_banner_login"
+        app:layout_constraintTop_toBottomOf="@id/textView_loginFragment_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textField_loginFragment_user"
+        android:layout_marginTop="35dp"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField_loginFragment_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/placeholder_usuario"
+        app:layout_constraintTop_toBottomOf="@id/imageView_loginFragment_banner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textField_loginFragment_password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_filled_user"
+        app:startIconTint="@color/dark_gray"
+        android:layout_marginTop="35dp"
+        >
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/plain_text_size"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField_loginFragment_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/placeholder_password"
+        app:layout_constraintTop_toBottomOf="@id/textField_loginFragment_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_loginFragment_login"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_filled_home"
+        app:startIconTint="@color/dark_gray"
+        android:layout_marginTop="15dp"
+        app:endIconMode="password_toggle"
+        >
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/plain_text_size"
+            android:inputType="textPassword"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_loginFragment_login"
+        android:text="@string/iniciar_sesion"
+        app:layout_constraintTop_toBottomOf="@id/textField_loginFragment_password"
+        app:layout_constraintBottom_toTopOf="@id/textView_loginFragment_noAccount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/button_radius"
+        android:paddingVertical="@dimen/button_vertical_padding"
+        android:layout_marginTop="35dp"
+        />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_loginFragment_noAccount"
+        android:text="@string/aun_no_tienes_una_cuenta"
+        android:textSize="@dimen/plain_text_size"
+        app:layout_constraintTop_toBottomOf="@id/button_loginFragment_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textView_loginFragment_registerLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_loginFragment_registerLabel"
+        android:text="@string/registrate"
+        app:layout_constraintTop_toTopOf="@id/textView_loginFragment_noAccount"
+        app:layout_constraintStart_toEndOf="@id/textView_loginFragment_noAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/plain_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/skyBlue"
+        android:layout_marginStart="5dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
