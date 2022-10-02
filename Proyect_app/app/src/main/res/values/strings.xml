@@ -10,4 +10,12 @@
     <string name="placeholder_password">Contraseña</string>
     <string name="aun_no_tienes_una_cuenta">¿Aún no tienes una cuenta?</string>
     <string name="registrate">Registrate</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="develop_name">Pablo Zamora</string>
+    <string name="balance_general">Balance General</string>
+    <string name="develop_general_balance">Q 5,295.59</string>
+    <string name="ver_detalles">ver detalles</string>
+    <string name="operaciones_recientes">Operaciones Recientes</string>
+    <string name="ver_todo">Ver todo</string>
+    <string name="operation_item_amount">%s %s</string>
 </resources>

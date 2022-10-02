@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps
+package com.example.proyecto_final_apps.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.example.proyecto_final_apps.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -47,6 +48,14 @@ class MainActivity : AppCompatActivity() {
             }else{
                 toolbar.isVisible = true
                 bottomNavBar.isVisible = true
+            }
+
+            //home
+            if(destination.id == R.id.homeFragment){
+                toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu)
+
+            }else{
+                toolbar.navigationIcon = null;
             }
 
         }

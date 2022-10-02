@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="title_text_size">50sp</dimen>
+    <dimen name="h1_text_size">50sp</dimen>
     <dimen name="button_vertical_padding">10dp</dimen>
     <dimen name="button_radius">25dp</dimen>
     <dimen name="plain_text_size">17sp</dimen>
+    <dimen name="small_text_size">15sp</dimen>
+    <dimen name="horizontal_toolbar_padding">16dp</dimen>
+    <dimen name="h2_text_size">40sp</dimen>
+    <dimen name="h4_text_size">27sp</dimen>
+    <dimen name="h5_text_size">24sp</dimen>
+    <dimen name="h6_text_size">20sp</dimen>
+    <dimen name="horizontal_fragment_padding">25dp</dimen>
 </resources>
