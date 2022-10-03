@@ -15,6 +15,9 @@ Es por ello que, a través de una aplicación móvil, buscamos ofrecer una alter
 * **Coil:** se va a emplear para la carga y despliegue de imagenes alojadas en el servidor remoto (principalmente las fotos de perfil de los diferentes usuarios).
 * **Retrofit:** se va a utilizar para ejecutar peticiones http y así poder consumir cada uno de los servicios que va a ofrecer nuetra API.
 *  **Room:** a través de esta libreria vamos a manejar el almacenamiento local por medio de SQLite. Esto con el objetivo de proporcionar un funcionamiento offline a la aplicación, guardando de manera local los datos poporcionados por la API con anterioridad.
+* **Datastore:** va a permitir el almacenamiento local de información específica del usuario, como sus preferencias (tema, idioma) y el token de autenticación.
+* **Jetpack Navigation:** se va a utilizar para el manejo de la navegación entre los diferentes fragments de la aplicación.
+* **GSON:** se utilizará para la conversión entre objetos JSON y objetos dataclass de kotlin.
 
 ## Funcionalidades
 
