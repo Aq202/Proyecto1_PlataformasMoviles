@@ -18,4 +18,9 @@
     <string name="operaciones_recientes">Operaciones Recientes</string>
     <string name="ver_todo">Ver todo</string>
     <string name="operation_item_amount">%s %s</string>
+    <string name="placeholder_nombre">Nombre</string>
+    <string name="placeholder_apellido">Apellido</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="ya_tienes_una_cuenta">¿Ya tienes una cuenta?</string>
+    <string name="inicia_sesion">Inicia sesión</string>
 </resources>
