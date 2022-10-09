@@ -2,37 +2,56 @@ package com.example.proyecto_final_apps.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.databinding.ActivityMainBinding
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+interface DrawerLocker{
+    fun setDrawerLocked(shouldLock:Boolean);
+}
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var toolbar: MaterialToolbar
-    private lateinit var bottomNavBar: BottomNavigationView
+
+
     private lateinit var navController: NavController
-    
+
+    private lateinit var binding: ActivityMainBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        toolbar = findViewById(R.id.toolbar)
-        bottomNavBar = findViewById(R.id.bottomNavigationBar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+
+
+        setSupportActionBar(binding.toolbar)
+
+
+
 
         //configuar toolbar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-
         navController = navHostFragment.navController
 
-        val appbarConfig = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment))
-        toolbar.setupWithNavController(navController, appbarConfig)
+        val appbarConfig = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment), binding.drawerLayout)
+        binding.toolbar.setupWithNavController(navController, appbarConfig)
+        binding.navView.setupWithNavController(navController)
 
         listenToNavGraphChanges()
     }
@@ -42,30 +61,19 @@ class MainActivity : AppCompatActivity() {
         //Detectar cambios en la navegación
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
+            binding.apply {
             //mostrar y ocultar el toolbar y bottomNavBar
             if(destination.id in setOf(R.id.loginFragment)){
                 toolbar.isVisible = false
-                bottomNavBar.isVisible = false
+                bottomNavigationBar.isVisible = false
+                binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
             }else{
                 toolbar.isVisible = true
-                bottomNavBar.isVisible = true
-            }
-
-            if(destination.id == R.id.homeFragment){
+                bottomNavigationBar.isVisible = true
+                binding.drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
 
             }
-
-            /*
-            //home
-            if(destination.id == R.id.homeFragment){
-                toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu)
-
-            }else{
-                toolbar.navigationIcon = null;
-            }
-
-             */
-
+        }
         }
 
     }
