@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_apps.R
@@ -36,6 +37,15 @@ class HomeFragment : Fragment(), OperationAdapter.OperationListener {
 
         setUpRecentOperationsRecycler()
         setUpPendingPaymentsRecycler()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.apply {
+            textViewHomeFragmentSeeDetails.setOnClickListener{
+                requireView().findNavController().navigate(R.id.action_homeFragment_to_accountsListFragment)
+            }
+        }
     }
 
     private fun setUpRecentOperationsRecycler() {

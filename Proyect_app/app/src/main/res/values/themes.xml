@@ -14,4 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="android:fitsSystemWindows">true</item>
     </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/dark_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+    </style>
 </resources>

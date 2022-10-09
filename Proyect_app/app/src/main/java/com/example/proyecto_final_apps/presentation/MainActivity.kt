@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
 
-        val appbarConfig = AppBarConfiguration(navController.graph)
+        val appbarConfig = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment))
         toolbar.setupWithNavController(navController, appbarConfig)
 
         listenToNavGraphChanges()

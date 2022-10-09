@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -18,5 +18,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.proyecto_final_apps.presentation.fragments.HomeFragment"
         android:label=""
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_accountsListFragment"
+            app:destination="@id/accountsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountsListFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountsListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_accounts_list" />
 </navigation>

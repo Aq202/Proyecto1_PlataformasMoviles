@@ -22,12 +22,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:id="@+id/cardView_homeFragment_headerCard"
+                android:id="@+id/cardView_accountsListFragment_headerCard"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:backgroundTint="@color/dark_blue"
-                app:cardCornerRadius="35dp"
-                android:layout_marginTop="-35dp"
+                app:cardCornerRadius="@dimen/header_card_radius"
+                android:layout_marginTop="@dimen/header_card_marginTop"
 
                 >
 
@@ -40,7 +40,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_welcomeHeader"
+                        android:id="@+id/textView_accountsListFragment_accountName"
                         android:text="@string/bienvenido"
                         android:textSize="@dimen/h4_text_size"
                         android:textColor="@color/aqua"
@@ -53,14 +53,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_headerUserName"
+                        android:id="@+id/textView_accountsListFragment_totalBalance"
                         android:text="@string/develop_name"
                         android:textSize="@dimen/h2_text_size"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_welcomeHeader"
-                        app:layout_constraintStart_toStartOf="@id/textView_homeFragment_welcomeHeader"
-                        app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_welcomeHeader"
+                        app:layout_constraintTop_toBottomOf="@id/textView_accountsListFragment_accountName"
+                        app:layout_constraintStart_toStartOf="@id/textView_accountsListFragment_accountName"
+                        app:layout_constraintEnd_toEndOf="@id/textView_accountsListFragment_accountName"
                         />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -74,7 +74,7 @@
                 app:cardElevation="5dp"
                 app:cardCornerRadius="20dp"
                 android:layout_marginTop="-110dp"
-                app:layout_constraintTop_toBottomOf="@id/cardView_homeFragment_headerCard"
+                app:layout_constraintTop_toBottomOf="@id/cardView_accountsListFragment_headerCard"
                 app:layout_constraintEnd_toEndOf="parent"
 
                 >
