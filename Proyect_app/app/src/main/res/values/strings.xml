@@ -18,4 +18,5 @@
     <string name="operaciones_recientes">Operaciones Recientes</string>
     <string name="ver_todo">Ver todo</string>
     <string name="operation_item_amount">%s %s</string>
+    <string name="pagos_pendientes">Pagos pendientes</string>
 </resources>

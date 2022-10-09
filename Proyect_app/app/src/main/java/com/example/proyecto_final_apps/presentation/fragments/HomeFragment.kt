@@ -1,37 +1,66 @@
 package com.example.proyecto_final_apps.presentation.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.CategoryTypes
 import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.data.TestOperations
+import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
 import com.example.proyecto_final_apps.presentation.adapters.OperationAdapter
 import com.google.android.material.appbar.MaterialToolbar
 
-class HomeFragment : Fragment(R.layout.fragment_home), OperationAdapter.OperationListener {
+class HomeFragment : Fragment(), OperationAdapter.OperationListener {
 
-    private lateinit var recyclerView_recentOperations:RecyclerView
+    private lateinit var binding:FragmentHomeBinding
 
     private lateinit var recentOperationsList: MutableList<Operation>
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView_recentOperations = view.findViewById(R.id.recyclerView_homeFragment_recentOperations)
-
         setUpRecentOperationsRecycler()
+        setUpPendingPaymentsRecycler()
     }
 
     private fun setUpRecentOperationsRecycler() {
-        recentOperationsList = TestOperations(requireContext()).getOperations()
-        recyclerView_recentOperations.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView_recentOperations.setHasFixedSize(true)
-        recyclerView_recentOperations.adapter = OperationAdapter(recentOperationsList,this)
+        recentOperationsList = TestOperations(requireContext()).getOperations().take(3) as MutableList<Operation>
+        val context = this
+        binding.recyclerViewHomeFragmentRecentOperations.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = OperationAdapter(recentOperationsList,context)
+        }
+    }
+
+    private fun setUpPendingPaymentsRecycler() {
+
+        //obtener 3 primeras deudas
+        recentOperationsList = TestOperations(requireContext()).getOperations().filter{
+            it.category?.type == CategoryTypes.DEUDAS
+        }.take(3) as MutableList<Operation>
+
+        val context = this
+        binding.recyclerViewHomeFragmentPendingPayments.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = OperationAdapter(recentOperationsList,context)
+        }
     }
 
     override fun onItemClicked(operationData: Operation, position: Int) {
