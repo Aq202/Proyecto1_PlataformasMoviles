@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 bottomNavBar.isVisible = true
             }
 
+            /*
             //home
             if(destination.id == R.id.homeFragment){
                 toolbar.setNavigationIcon(R.drawable.ic_hamburger_menu)
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
             }else{
                 toolbar.navigationIcon = null;
             }
+
+             */
 
         }
 

@@ -15,6 +15,10 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+    </style>
+
     <style name="ThemeOverlay.App.Toolbar" parent="">
         <item name="colorPrimary">@color/dark_blue</item>
         <item name="colorOnPrimary">@color/white</item>
