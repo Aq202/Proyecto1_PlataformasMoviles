@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -36,13 +35,13 @@ class OperationAdapter(
         private val imageIcon: ImageView =
             view.findViewById(R.id.imageView_operationItemTemplate_operationIcon)
         private val txtTitle: TextView =
-            view.findViewById(R.id.textView_operationItemTemplate_operationTitle)
+            view.findViewById(R.id.textView_accountItemTemplate_title)
         private val txtCategory: TextView =
             view.findViewById(R.id.textView_operationItemTemplate_category)
         private val amountContainer: MaterialCardView =
-            view.findViewById(R.id.cardView_operationItemTemplate_amountContainer)
+            view.findViewById(R.id.cardView_accountItemTemplate_amountContainer)
         private val txtAmount: TextView =
-            view.findViewById(R.id.textView_operationItemTemplate_amount)
+            view.findViewById(R.id.textView_accountItemTemplate_amount)
 
         private lateinit var operationData: Operation
 

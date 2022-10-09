@@ -19,7 +19,7 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class HomeFragment : Fragment(), OperationAdapter.OperationListener {
 
-    private lateinit var binding:FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
 
     private lateinit var recentOperationsList: MutableList<Operation>
 
@@ -42,34 +42,40 @@ class HomeFragment : Fragment(), OperationAdapter.OperationListener {
 
     private fun setListeners() {
         binding.apply {
-            textViewHomeFragmentSeeDetails.setOnClickListener{
-                requireView().findNavController().navigate(R.id.action_homeFragment_to_accountsListFragment)
+            textViewHomeFragmentSeeDetails.setOnClickListener {
+                requireView().findNavController()
+                    .navigate(R.id.action_homeFragment_to_accountsListFragment)
             }
         }
     }
 
     private fun setUpRecentOperationsRecycler() {
-        recentOperationsList = TestOperations(requireContext()).getOperations().take(3) as MutableList<Operation>
+        recentOperationsList =
+            TestOperations(requireContext()).getOperations().take(3) as MutableList<Operation>
         val context = this
         binding.recyclerViewHomeFragmentRecentOperations.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
-            adapter = OperationAdapter(recentOperationsList,context)
+            setHasFixedSize(false)
+            isNestedScrollingEnabled = false  //disable scroll
+
+            adapter = OperationAdapter(recentOperationsList, context)
         }
     }
 
     private fun setUpPendingPaymentsRecycler() {
 
         //obtener 3 primeras deudas
-        recentOperationsList = TestOperations(requireContext()).getOperations().filter{
+        recentOperationsList = TestOperations(requireContext()).getOperations().filter {
             it.category?.type == CategoryTypes.DEUDAS
         }.take(3) as MutableList<Operation>
 
         val context = this
         binding.recyclerViewHomeFragmentPendingPayments.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
-            adapter = OperationAdapter(recentOperationsList,context)
+            setHasFixedSize(false)
+            isNestedScrollingEnabled = false  //disable scroll
+
+            adapter = OperationAdapter(recentOperationsList, context)
         }
     }
 

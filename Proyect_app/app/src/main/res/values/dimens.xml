@@ -15,4 +15,7 @@
     <dimen name="header_card_marginTop">-25dp</dimen>
     <dimen name="header_card_horizontalPadding">25dp</dimen>
     <dimen name="h3_text_size">33sp</dimen>
+    <dimen name="operation_items_gap">15dp</dimen>
+    <dimen name="operationItem_horizontalPadding">15dp</dimen>
+    <dimen name="operationItem_verticalPadding">10dp</dimen>
 </resources>

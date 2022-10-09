@@ -26,6 +26,7 @@
             android:layout_marginEnd="@dimen/horizontal_toolbar_padding"
             >
             <ImageView
+                android:id="@+id/toolbar_profilePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/profile_pic_1"

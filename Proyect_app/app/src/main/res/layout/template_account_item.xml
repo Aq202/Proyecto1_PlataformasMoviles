@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/cardView_operationItemTemplate_parentContainer"
+        android:id="@+id/cardView_accountItemTemplate_parentContainer"
         android:backgroundTint="@color/light_gray_1"
         app:cardElevation="1dp"
         app:cardCornerRadius="10dp"
@@ -22,51 +22,53 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
+            android:paddingEnd="@dimen/operationItem_horizontalPadding"
             android:paddingVertical="@dimen/operationItem_verticalPadding"
             >
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView_operationItemTemplate_operationIconContainer"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                tools:cardBackgroundColor="@color/food_category"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/imageView_operationItemTemplate_operationIcon"
-                    android:padding="7dp"
-                    tools:src="@drawable/ic_category_restaurant" />
-            </com.google.android.material.card.MaterialCardView>
-
             <TextView
                 android:id="@+id/textView_accountItemTemplate_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/plain_text_size"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/cardView_operationItemTemplate_operationIconContainer"
-                app:layout_constraintTop_toTopOf="@id/cardView_operationItemTemplate_operationIconContainer"
-                 app:layout_constraintBottom_toTopOf="@id/textView_operationItemTemplate_category"
-                android:layout_marginStart="25dp"
-                tools:text="Almuerzo del viernes" />
+                app:layout_constraintStart_toEndOf="@id/imageView_accountItem_favoriteStar"
+                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_accountItemTemplate_defaultLabel"
+                tools:text="@tools:sample/lorem/random"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageView_accountItem_favoriteStar"
+                android:src="@drawable/ic_star"
+                app:layout_constraintTop_toTopOf="@id/textView_accountItemTemplate_title"
+                app:layout_constraintBottom_toBottomOf="@id/textView_accountItemTemplate_defaultLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                app:tint="@color/yellow"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView_operationItemTemplate_category"
-                tools:text="Alimentos"
+                android:id="@+id/textView_accountItemTemplate_defaultLabel"
+                tools:text="Cuenta default: Si"
                 android:textSize="@dimen/small_text_size"
                 android:textColor="@color/light_gray_2"
                 app:layout_constraintTop_toBottomOf="@id/textView_accountItemTemplate_title"
                 app:layout_constraintStart_toStartOf="@id/textView_accountItemTemplate_title"
-                app:layout_constraintBottom_toBottomOf="@id/cardView_operationItemTemplate_operationIconContainer"
+                app:layout_constraintBottom_toBottomOf="parent"
                 />
 
             <com.google.android.material.card.MaterialCardView

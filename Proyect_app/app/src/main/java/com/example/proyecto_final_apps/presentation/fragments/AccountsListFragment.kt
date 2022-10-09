@@ -5,56 +5,54 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.*
+import com.example.proyecto_final_apps.databinding.FragmentAccountsListBinding
+import com.example.proyecto_final_apps.presentation.adapters.AccountAdapter
+import com.example.proyecto_final_apps.presentation.adapters.OperationAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AccountsListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AccountsListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentAccountsListBinding
+    private lateinit var accountsList : MutableList<AccountModel>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentAccountsListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setUpRecycler()
+    }
+
+    private fun setUpRecycler() {
+
+        accountsList = AccountData.accounts
+
+        accountsList.sortBy { !it.default } //ordenar primero a la cuenta default
+
+        val context = this
+        binding.recyclerViewAccountsFragment.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(false)
+            isNestedScrollingEnabled = false  //disable scroll
+
+            adapter = AccountAdapter(accountsList, context)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_accounts_list, container, false)
+    override fun onItemClicked(operationData: AccountModel, position: Int) {
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AccountsListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AccountsListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onItemPressed(operationData: AccountModel, position: Int) {
+
     }
 }

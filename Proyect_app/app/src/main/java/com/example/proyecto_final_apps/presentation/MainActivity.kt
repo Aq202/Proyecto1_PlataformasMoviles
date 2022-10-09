@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var bottomNavBar: BottomNavigationView
     private lateinit var navController: NavController
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity() {
             }else{
                 toolbar.isVisible = true
                 bottomNavBar.isVisible = true
+            }
+
+            if(destination.id == R.id.homeFragment){
+
             }
 
             /*
