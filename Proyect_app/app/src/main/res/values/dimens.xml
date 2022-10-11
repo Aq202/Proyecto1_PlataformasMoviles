@@ -18,4 +18,9 @@
     <dimen name="operation_items_gap">15dp</dimen>
     <dimen name="operationItem_horizontalPadding">15dp</dimen>
     <dimen name="operationItem_verticalPadding">10dp</dimen>
+    <dimen name="header_card_elevation">5dp</dimen>
+    <dimen name="accountDetails_headerIcon_size">50dp</dimen>
+    <dimen name="accountDetails_headerIcon_radius">10dp</dimen>
+    <dimen name="accountDetails_headerIcon_gap">25dp</dimen>
+    <dimen name="sortIcon_size">30dp</dimen>
 </resources>

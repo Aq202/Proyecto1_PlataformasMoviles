@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_accountsListFragment_headerCard"
+                android:id="@+id/cardView_accountDetailsFragment_headerCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/header_card_marginTop"
@@ -36,7 +36,7 @@
                     android:paddingBottom="35dp">
 
                     <TextView
-                        android:id="@+id/textView_accountsListFragment_accountName"
+                        android:id="@+id/textView_accountDetailsFragment_accountName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/aqua"
@@ -47,47 +47,47 @@
                         android:text="@string/balance_general" />
 
                     <TextView
-                        android:id="@+id/textView_accountsListFragment_totalBalance"
+                        android:id="@+id/textView_accountDetailsFragment_accountBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="@dimen/h3_text_size"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@id/textView_accountsListFragment_accountName"
-                        app:layout_constraintTop_toBottomOf="@id/textView_accountsListFragment_accountName"
+                        app:layout_constraintStart_toStartOf="@id/textView_accountDetailsFragment_accountName"
+                        app:layout_constraintTop_toBottomOf="@id/textView_accountDetailsFragment_accountName"
                         android:text="Q 5,296" />
 
                     <TextView
-                        android:id="@+id/textView_accountListFragment_totalBalanceCents"
+                        android:id="@+id/textView_accountDetailsFragment_AccountlBalanceCents"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="@dimen/h5_text_size"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_accountsListFragment_totalBalance"
-                        app:layout_constraintStart_toEndOf="@id/textView_accountsListFragment_totalBalance"
+                        app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
+                        app:layout_constraintStart_toEndOf="@id/textView_accountDetailsFragment_accountBalance"
                         android:text=".59" />
 
                     <TextView
-                        android:id="@+id/textView_accountsListFragment_accountMovement"
+                        android:id="@+id/textView_accountDetailsFragment_accountMovement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/light_green_2"
                         android:textSize="@dimen/h4_text_size"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/textView_accountsListFragment_accountMovementCents"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_accountsListFragment_totalBalance"
+                        app:layout_constraintEnd_toStartOf="@id/textView_accountDetailsFragment_accountMovementCents"
+                        app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
                         android:text="+ 250" />
 
                     <TextView
-                        android:id="@+id/textView_accountsListFragment_accountMovementCents"
+                        android:id="@+id/textView_accountDetailsFragment_accountMovementCents"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/light_green_2"
                         android:textSize="@dimen/h6_text_size"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_accountsListFragment_accountMovement"
+                        app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountMovement"
                         android:text=".15" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -96,7 +96,7 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/cardView_accountsListFragment_headerCard"
+                app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 >

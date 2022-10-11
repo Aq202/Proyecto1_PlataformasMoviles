@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.*
@@ -43,13 +44,12 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
             isNestedScrollingEnabled = false  //disable scroll
-
             adapter = AccountAdapter(accountsList, context)
         }
     }
 
     override fun onItemClicked(operationData: AccountModel, position: Int) {
-
+        findNavController().navigate(R.id.action_accountsListFragment_to_accountDetailsFragment)
     }
 
     override fun onItemPressed(operationData: AccountModel, position: Int) {
