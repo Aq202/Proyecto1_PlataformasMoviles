@@ -23,4 +23,6 @@
     <string name="registrarse">Registrarse</string>
     <string name="ya_tienes_una_cuenta">¿Ya tienes una cuenta?</string>
     <string name="inicia_sesion">Inicia sesión</string>
+    <string name="placeholder_monto">Monto</string>
+    <string name="add_account">Agregar cuenta</string>
 </resources>

@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/contraint_signUpFragment_personalInfo"
+        app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_firstName"
         app:tint="@color/dark_blue" />
 
     <ImageView
@@ -31,27 +31,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="100dp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contraint_signUpFragment_personalInfo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_signUpFragment_banner">
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textField_signUpFragment_firstName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
             android:hint="@string/placeholder_nombre"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textField_signUpFragment_lastName"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_lastName"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/imageView_signUpFragment_banner">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -65,12 +55,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:hint="@string/placeholder_apellido"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_user"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textField_signUpFragment_firstName"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_firstName">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -79,18 +69,17 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField_signUpFragment_user"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/placeholder_usuario"
+        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contraint_signUpFragment_personalInfo"
+        app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_lastName"
         app:startIconDrawable="@drawable/ic_filled_user"
         app:startIconTint="@color/dark_gray">
 
@@ -106,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/placeholder_password"
+
         app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_user"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +103,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:startIconDrawable="@drawable/ic_lock_pass"
         app:startIconTint="@color/dark_gray"
-        android:layout_marginTop="15dp"
         app:endIconMode="password_toggle"
         >
 
