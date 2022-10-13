@@ -7,20 +7,12 @@
     tools:context=".ui.fragments.account_details.AccountDetailsFragment">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/header_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="-25dp"
-            android:translationZ="50dp"
-            >
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_accountDetailsFragment_headerCard"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/header_card_marginTop"
                 android:backgroundTint="@color/dark_blue"
                 app:cardCornerRadius="@dimen/header_card_radius"
@@ -34,7 +26,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="35dp"
                     android:paddingHorizontal="@dimen/header_card_horizontalPadding"
-                    android:paddingBottom="35dp">
+                    android:paddingBottom="25dp">
 
                     <TextView
                         android:id="@+id/textView_accountDetailsFragment_accountName"
@@ -91,81 +83,88 @@
                         app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountMovement"
                         app:layout_constraintEnd_toEndOf="parent" />
 
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_accountDetailsFragment_favoriteIconContainer"
+                        android:layout_width="@dimen/accountDetails_headerIcon_size"
+                        android:layout_height="@dimen/accountDetails_headerIcon_size"
+                        android:backgroundTint="@color/light_gray_1"
+                        app:cardCornerRadius="@dimen/accountDetails_headerIcon_radius"
+                        app:cardElevation="@dimen/header_card_elevation"
+                        app:layout_constraintEnd_toStartOf="@id/cardView_accountDetailsFragment_editIconContainer"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
+                        android:layout_marginTop="25dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/imageView_accountDetails_favoriteIcon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="7dp"
+                            android:src="@drawable/ic_star"
+                            android:tint="@color/dark_blue" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_accountDetailsFragment_editIconContainer"
+                        android:layout_width="@dimen/accountDetails_headerIcon_size"
+                        android:layout_height="@dimen/accountDetails_headerIcon_size"
+                        android:layout_marginStart="@dimen/accountDetails_headerIcon_gap"
+                        android:backgroundTint="@color/light_gray_1"
+                        app:cardCornerRadius="@dimen/accountDetails_headerIcon_radius"
+                        app:cardElevation="@dimen/header_card_elevation"
+                        app:layout_constraintEnd_toStartOf="@id/cardView_accountDetailsFragment_deleteIconContainer"
+                        app:layout_constraintStart_toEndOf="@id/cardView_accountDetailsFragment_favoriteIconContainer"
+                        app:layout_constraintTop_toTopOf="@id/cardView_accountDetailsFragment_favoriteIconContainer"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/imageView_accountDetails_editIcon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="7dp"
+                            android:src="@drawable/ic_edit"
+                            android:tint="@color/dark_blue" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_accountDetailsFragment_deleteIconContainer"
+                        android:layout_width="@dimen/accountDetails_headerIcon_size"
+                        android:layout_height="@dimen/accountDetails_headerIcon_size"
+                        android:layout_marginStart="@dimen/accountDetails_headerIcon_gap"
+                        android:backgroundTint="@color/light_gray_1"
+                        app:cardCornerRadius="@dimen/accountDetails_headerIcon_radius"
+                        app:cardElevation="@dimen/header_card_elevation"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cardView_accountDetailsFragment_editIconContainer"
+                        app:layout_constraintTop_toTopOf="@id/cardView_accountDetailsFragment_favoriteIconContainer"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/imageView_accountDetails_deleteIcon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="7dp"
+                            android:src="@drawable/ic_delete"
+                            android:tint="@color/dark_blue"
+                            />
+                    </androidx.cardview.widget.CardView>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_accountDetailsFragment_favoriteIconContainer"
-                android:layout_width="@dimen/accountDetails_headerIcon_size"
-                android:layout_height="@dimen/accountDetails_headerIcon_size"
-                android:layout_marginTop="-25dp"
-                android:backgroundTint="@color/light_gray_1"
-                app:cardCornerRadius="@dimen/accountDetails_headerIcon_radius"
-                app:cardElevation="@dimen/header_card_elevation"
-                app:layout_constraintEnd_toStartOf="@id/cardView_accountDetailsFragment_editIconContainer"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard"
-                android:layout_marginBottom="5dp"
-             >
-
-                <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:id="@+id/imageView_accountDetails_favoriteIcon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="7dp"
-                    android:src="@drawable/ic_star"
-                    android:tint="@color/dark_blue" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_accountDetailsFragment_editIconContainer"
-                android:layout_width="@dimen/accountDetails_headerIcon_size"
-                android:layout_height="@dimen/accountDetails_headerIcon_size"
-                android:layout_marginStart="@dimen/accountDetails_headerIcon_gap"
-                android:backgroundTint="@color/light_gray_1"
-                app:cardCornerRadius="@dimen/accountDetails_headerIcon_radius"
-                app:cardElevation="@dimen/header_card_elevation"
-                app:layout_constraintEnd_toStartOf="@id/cardView_accountDetailsFragment_deleteIconContainer"
-                app:layout_constraintStart_toEndOf="@id/cardView_accountDetailsFragment_favoriteIconContainer"
-                app:layout_constraintTop_toTopOf="@id/cardView_accountDetailsFragment_favoriteIconContainer">
-
-                <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:id="@+id/imageView_accountDetails_editIcon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="7dp"
-                    android:src="@drawable/ic_edit"
-                    android:tint="@color/dark_blue" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_accountDetailsFragment_deleteIconContainer"
-                android:layout_width="@dimen/accountDetails_headerIcon_size"
-                android:layout_height="@dimen/accountDetails_headerIcon_size"
-                android:layout_marginStart="@dimen/accountDetails_headerIcon_gap"
-                android:backgroundTint="@color/light_gray_1"
-                app:cardCornerRadius="@dimen/accountDetails_headerIcon_radius"
-                app:cardElevation="@dimen/header_card_elevation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cardView_accountDetailsFragment_editIconContainer"
-                app:layout_constraintTop_toTopOf="@id/cardView_accountDetailsFragment_favoriteIconContainer">
-
-                <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:id="@+id/imageView_accountDetails_deleteIcon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="7dp"
-                    android:src="@drawable/ic_delete"
-                    android:tint="@color/dark_blue" />
-            </androidx.cardview.widget.CardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard"
         tools:layout_editor_absoluteX="0dp"
         android:layout_marginTop="-25dp"
         >
