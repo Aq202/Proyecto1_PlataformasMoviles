@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
             binding.apply {
             //mostrar y ocultar el toolbar y bottomNavBar
-            if(destination.id in setOf(R.id.loginFragment)){
+            if(destination.id in setOf(R.id.loginFragment, R.id.signUpFragment)){
                 toolbar.isVisible = false
                 bottomNavigationBar.isVisible = false
                 binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)

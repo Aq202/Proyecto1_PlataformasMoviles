@@ -37,6 +37,10 @@ class LoginFragment : Fragment() {
             buttonLoginFragmentLogin.setOnClickListener {
                 requireView().findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
+
+            textViewLoginFragmentRegisterLabel.setOnClickListener{
+                requireView().findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+            }
         }
 
     }

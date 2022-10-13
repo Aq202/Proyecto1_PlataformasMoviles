@@ -31,6 +31,15 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecycler()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.apply {
+            fabAccountsListFragmentCreateAccount.setOnClickListener{
+                findNavController().navigate(R.id.action_accountsListFragment_to_newAccountFragment)
+            }
+        }
     }
 
     private fun setUpRecycler() {
