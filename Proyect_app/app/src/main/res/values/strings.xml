@@ -33,4 +33,6 @@
     <string name="inicia_sesion">Inicia sesión</string>
     <string name="placeholder_monto">Monto</string>
     <string name="add_account">Agregar cuenta</string>
+    <string name="date_filter_format">%s al %s</string>
+    <string name="nueva_cuenta">Nueva cuenta</string>
 </resources>

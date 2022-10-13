@@ -16,3 +16,4 @@ fun Double.addSigne(digits:Int, avoidPositive:Boolean = false):String{
     else if(!avoidPositive) "+ $result"
     else result
 }
+

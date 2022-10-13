@@ -1,21 +1,16 @@
-package com.example.proyecto_final_apps.presentation.adapters
+package com.example.proyecto_final_apps.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.request.CachePolicy
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.AccountModel
-import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.helpers.addSigne
-import com.example.proyecto_final_apps.helpers.format
 import com.google.android.material.card.MaterialCardView
 
 class AccountAdapter(

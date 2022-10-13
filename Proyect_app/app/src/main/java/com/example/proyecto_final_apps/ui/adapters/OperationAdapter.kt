@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.presentation.adapters
+package com.example.proyecto_final_apps.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View

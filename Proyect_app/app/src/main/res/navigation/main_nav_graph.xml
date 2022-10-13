@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.LoginFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.LoginFragment"
         android:label=""
         tools:layout="@layout/fragment_login" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.HomeFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.HomeFragment"
         android:label=""
         tools:layout="@layout/fragment_home" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountsListFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountsListFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.AccountsListFragment"
         android:label=""
         tools:layout="@layout/fragment_accounts_list" >
         <action
@@ -40,17 +40,17 @@
     </fragment>
     <fragment
         android:id="@+id/accountDetailsFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.account_details.AccountDetailsFragment"
         android:label=""
         tools:layout="@layout/fragment_account_details" />
     <fragment
         android:id="@+id/newAccountFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.NewAccountFragment"
-        android:label=""
+        android:name="com.example.proyecto_final_apps.ui.fragments.NewAccountFragment"
+        android:label="@string/nueva_cuenta"
         tools:layout="@layout/fragment_new_account" />
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.SignUpFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.SignUpFragment"
         android:label=""
         tools:layout="@layout/fragment_sign_up" />
 </navigation>

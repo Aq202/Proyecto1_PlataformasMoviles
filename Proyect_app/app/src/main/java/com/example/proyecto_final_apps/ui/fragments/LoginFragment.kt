@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.presentation.fragments
+package com.example.proyecto_final_apps.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentLoginBinding
-import com.google.android.material.button.MaterialButton
 
 class LoginFragment : Fragment() {
 

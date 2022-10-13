@@ -1,6 +1,5 @@
-package com.example.proyecto_final_apps.presentation.Components
+package com.example.proyecto_final_apps.ui.Components
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import com.github.mikephil.charting.animation.Easing
@@ -9,10 +8,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getColor
-import com.example.proyecto_final_apps.R
 import com.github.mikephil.charting.charts.PieChart
 import kotlin.math.round
 

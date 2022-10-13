@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.presentation.fragments
+package com.example.proyecto_final_apps.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.CategoryTypes
 import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
-import com.example.proyecto_final_apps.presentation.adapters.OperationAdapter
-import com.google.android.material.appbar.MaterialToolbar
+import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 
 class HomeFragment : Fragment(), OperationAdapter.OperationListener {
 

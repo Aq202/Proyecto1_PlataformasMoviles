@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.presentation.fragments
+package com.example.proyecto_final_apps.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.*
 import com.example.proyecto_final_apps.databinding.FragmentAccountsListBinding
-import com.example.proyecto_final_apps.presentation.adapters.AccountAdapter
-import com.example.proyecto_final_apps.presentation.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.adapters.AccountAdapter
 
 class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
 
