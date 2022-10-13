@@ -64,7 +64,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/plain_text_size" />
+            android:textSize="@dimen/plain_text_size"
+            android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

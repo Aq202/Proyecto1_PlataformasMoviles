@@ -33,4 +33,8 @@
     <string name="inicia_sesion">Inicia sesión</string>
     <string name="placeholder_monto">Monto</string>
     <string name="add_account">Agregar cuenta</string>
+    <string name="cuenta_de_origen">Cuenta de origen:</string>
+    <string name="cuenta_destino">Cuenta destino:</string>
+    <string name="description">Descripción:</string>
+    <string name="terminar">Terminar</string>
 </resources>
