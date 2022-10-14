@@ -37,4 +37,5 @@
     <string name="cuenta_destino">Cuenta destino:</string>
     <string name="description">Descripción:</string>
     <string name="terminar">Terminar</string>
+    <string name="placeholder_confirm_pass">Confirmar contraseña</string>
 </resources>
