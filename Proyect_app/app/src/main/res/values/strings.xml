@@ -36,6 +36,14 @@
     <string name="cuenta_de_origen">Cuenta de origen:</string>
     <string name="cuenta_destino">Cuenta destino:</string>
     <string name="description">Descripción:</string>
+    <string name="placeholder_description">Descripción</string>
     <string name="terminar">Terminar</string>
     <string name="placeholder_confirm_pass">Confirmar contraseña</string>
+    <string name="tipo_de_operacion">Tipo de operación</string>
+    <string name="monto">Monto:</string>
+    <string name="placeholder_cuenta_de_origen">Cuenta de origen</string>
+    <string name="placeholder_category">Categoría</string>
+    <string name="placeholder_date">Fecha</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
 </resources>

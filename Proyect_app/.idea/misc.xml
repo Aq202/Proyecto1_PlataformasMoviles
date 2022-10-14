@@ -10,11 +10,15 @@
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_menu_down.xml" value="0.15" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_money_bag.xml" value="0.15" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/dropout_menu_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_account_details.xml" value="0.22826086956521738" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_accounts_list.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_transfer.xml" value="0.22826086956521738" />
-        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.22826086956521738" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_operation_details.xml" value="0.22826086956521738" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.264" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_account_item.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/menu/account_dropdown_menu.xml" value="0.18984375" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
