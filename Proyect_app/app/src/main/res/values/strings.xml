@@ -18,6 +18,7 @@
     <string name="operaciones_recientes">Operaciones Recientes</string>
     <string name="ver_todo">Ver todo</string>
     <string name="operation_item_amount">%s %s</string>
+<<<<<<< HEAD
     <string name="pagos_pendientes">Pagos pendientes</string>
     <string name="cuentas_disponibles">Cuentas Disponibles</string>
     <string name="default_label">Cuenta default: %s</string>
@@ -33,4 +34,17 @@
     <string name="inicia_sesion">Inicia sesión</string>
     <string name="placeholder_monto">Monto</string>
     <string name="add_account">Agregar cuenta</string>
+=======
+    <string name="tab_new">Nuevo</string>
+    <string name="tab_favourites">Favoritos</string>
+    <string name="hint_source_account">Cuenta de origen</string>
+    <string name="txt_source_account">Cuenta de origen:</string>
+    <string name="txt_amount">Monto:</string>
+    <string name="hint_amount">Monto</string>
+    <string name="txt_operation_type">Tipo de operación:</string>
+    <string name="hint_operation_type">Ingreso/Egreso</string>
+    <string name="txt_description">Descripción:</string>
+    <string name="hint_description">Descripción de la operación</string>
+    <string name="txt_cathegory">Categoría:</string>
+>>>>>>> 96ae73b81182ba023e93c63a6a25aac209047c06
 </resources>
