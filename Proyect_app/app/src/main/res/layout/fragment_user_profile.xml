@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.UserProfileFragment">
+    tools:context=".ui.fragments.UserProfileFragment"
+    android:paddingBottom="30dp"
+    android:clipToPadding="false"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,11 +31,10 @@
             android:layout_marginTop="@dimen/header_card_marginTop">
 
             <TextView
-                android:id="@+id/textView_profileUserFragment_alias"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="@string/develop_user_alias"
+                android:text="@string/mi_perfil"
                 android:textColor="@color/white"
                 android:textSize="@dimen/h2_text_size"
                 android:textStyle="bold"
@@ -83,154 +85,56 @@
         android:clipToPadding="false"
         >
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cardView_profileUserFragment_nameContainer"
-            app:cardCornerRadius="@dimen/operation_item_borderRadius"
+            android:id="@+id/textView_profileUserFragment_name"
+            android:text="@string/develop_fullname"
+            android:textSize="@dimen/h2_text_size"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/light_gray_1"
+            android:layout_marginTop="25dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_profileUserFragment_alias"
+            android:textSize="@dimen/h4_text_size"
+            android:text="@string/develop_user_alias"
+            app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_name"
+            app:layout_constraintStart_toStartOf="@id/textView_profileUserFragment_name"
+            app:layout_constraintEnd_toEndOf="@id/textView_profileUserFragment_name"
+            android:textColor="@color/dark_gray"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="@dimen/button_size"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_profileUserFragment_editProfile"
+            android:text="@string/editar_perfil"
+            app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_alias"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/button_radius"
+            android:paddingVertical="@dimen/button_vertical_padding"
             android:layout_marginTop="30dp"
-            app:cardElevation="@dimen/item_elevation"
-            >
+            android:backgroundTint="@color/aqua"
+            />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
-                android:paddingVertical="@dimen/operationItem_verticalPadding"
-
-                >
-                <TextView
-                    android:id="@+id/textView_profileUserFragment_nameTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/plain_text_size"
-                    android:textStyle="bold"
-                    android:text="@string/placeholder_nombre"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-
-                    />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_profileUserFragment_name"
-                    android:text="@string/develop_user_name"
-                    app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_nameTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardView_profileUserFragment_lastNameContainer"
-            app:cardCornerRadius="@dimen/operation_item_borderRadius"
-            app:layout_constraintTop_toBottomOf="@id/cardView_profileUserFragment_nameContainer"
-            app:cardBackgroundColor="@color/light_gray_1"
-            android:layout_marginTop="@dimen/operation_items_gap"
-            app:cardElevation="@dimen/item_elevation"
-            >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
-                android:paddingVertical="@dimen/operationItem_verticalPadding"
-                >
-                <TextView
-                    android:id="@+id/textView_profileUserFragment_lastNameTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/plain_text_size"
-                    android:textStyle="bold"
-                    android:text="@string/placeholder_apellido"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-
-                    />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_profileUserFragment_lastName"
-                    android:text="@string/develop_user_lastName"
-                    app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_lastNameTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardView_profileUserFragment_emailContainer"
-            app:cardCornerRadius="@dimen/operation_item_borderRadius"
-            app:layout_constraintTop_toBottomOf="@id/cardView_profileUserFragment_lastNameContainer"
-            app:cardBackgroundColor="@color/light_gray_1"
-            android:layout_marginTop="@dimen/operation_items_gap"
-            app:cardElevation="@dimen/item_elevation"
-            >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
-                android:paddingVertical="@dimen/operationItem_verticalPadding"
-                >
-                <TextView
-                    android:id="@+id/textView_profileUserFragment_emailTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/plain_text_size"
-                    android:textStyle="bold"
-                    android:text="@string/correo_electronico"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-
-                    />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_profileUserFragment_emailName"
-                    android:text="@string/develop_user_email"
-                    app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_emailTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/divider"
 
-            app:layout_constraintTop_toBottomOf="@id/cardView_profileUserFragment_emailContainer"
+            app:layout_constraintTop_toBottomOf="@id/button_profileUserFragment_editProfile"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="30dp"
 
@@ -246,7 +150,7 @@
             android:textColor="@color/dark_blue"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -257,7 +161,6 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="20dp"
             android:clipToPadding="false"
-
             />
 
 

@@ -23,7 +23,7 @@
     <string name="default_label">Cuenta default: %s</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
-    <string name="develop_user_alias">Aq202</string>
+    <string name="develop_user_alias">@Aq202</string>
     <string name="money_format">Q. %s</string>
     <string name="registro_de_operaciones">Registro de operaciones</string>
     <string name="placeholder_nombre">Nombre</string>
@@ -40,4 +40,6 @@
     <string name="correo_electronico">Correo electrónico</string>
     <string name="develop_user_email">mor21762@uvg.edu.gt</string>
     <string name="contactos">Contactos</string>
+    <string name="mi_perfil">Mi Perfil</string>
+    <string name="editar_perfil">Editar perfil</string>
 </resources>

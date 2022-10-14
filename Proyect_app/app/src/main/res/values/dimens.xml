@@ -31,4 +31,6 @@
     <dimen name="operationItem_image_size">45dp</dimen>
     <dimen name="operationItem_border_radius">10dp</dimen>
     <dimen name="operation_items_horizontalPadding">10dp</dimen>
+    <dimen name="button_text_size">25sp</dimen>
+    <dimen name="button_size">300dp</dimen>
 </resources>
