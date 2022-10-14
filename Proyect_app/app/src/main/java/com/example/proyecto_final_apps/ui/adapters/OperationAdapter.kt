@@ -29,15 +29,15 @@ class OperationAdapter(
         RecyclerView.ViewHolder(view) {
 
         private val container: MaterialCardView =
-            view.findViewById(R.id.cardView_operationItemTemplate_parentContainer)
+            view.findViewById(R.id.cardView_contactItemTemplate_parentContainer)
         private val imageIconContainer: MaterialCardView =
-            view.findViewById(R.id.cardView_operationItemTemplate_operationIconContainer)
+            view.findViewById(R.id.cardView_contactItemTemplate_pictureContainer)
         private val imageIcon: ImageView =
-            view.findViewById(R.id.imageView_operationItemTemplate_operationIcon)
+            view.findViewById(R.id.imageView_contactItemTemplate_picture)
         private val txtTitle: TextView =
-            view.findViewById(R.id.textView_accountItemTemplate_title)
+            view.findViewById(R.id.textView_accountItemTemplate_name)
         private val txtCategory: TextView =
-            view.findViewById(R.id.textView_operationItemTemplate_category)
+            view.findViewById(R.id.textView_contactItemTemplate_alias)
         private val amountContainer: MaterialCardView =
             view.findViewById(R.id.cardView_accountItemTemplate_amountContainer)
         private val txtAmount: TextView =

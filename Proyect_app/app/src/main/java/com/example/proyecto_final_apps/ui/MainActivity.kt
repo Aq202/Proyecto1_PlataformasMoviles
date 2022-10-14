@@ -2,11 +2,15 @@ package com.example.proyecto_final_apps.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto_final_apps.R
@@ -32,12 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
         setSupportActionBar(binding.toolbar)
-
-
 
 
         //configuar toolbar
@@ -49,6 +48,21 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
         listenToNavGraphChanges()
+        listenToNavDrawerChanges()
+    }
+
+    private fun listenToNavDrawerChanges() {
+        val context = this
+        binding.navView.setNavigationItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.sideNav_item_profile -> {
+                    navController.navigate(R.id.action_toUserProfile)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    false
+                }
+                else -> false
+            }
+        }
     }
 
     private fun listenToNavGraphChanges(){

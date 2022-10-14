@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="@dimen/operation_items_gap"
     android:paddingHorizontal="@dimen/operation_items_horizontalPadding"
-    android:clipToPadding="false"
+    android:clipToPadding= "false"
     >
 
     <com.google.android.material.card.MaterialCardView
@@ -33,18 +33,18 @@
                 android:id="@+id/cardView_contactItemTemplate_pictureContainer"
                 android:layout_width="@dimen/operationItem_image_size"
                 android:layout_height="@dimen/operationItem_image_size"
-                tools:cardBackgroundColor="@color/food_category"
                 app:cardCornerRadius="@dimen/operationItem_border_radius"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardElevation="@dimen/item_elevation"
+                >
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/imageView_contactItemTemplate_picture"
-                    android:padding="7dp"
-                    tools:src="@drawable/ic_category_restaurant" />
+                    tools:src="@drawable/profile_pic_1" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
@@ -56,10 +56,9 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/cardView_contactItemTemplate_pictureContainer"
                 app:layout_constraintTop_toTopOf="@id/cardView_contactItemTemplate_pictureContainer"
-                 app:layout_constraintBottom_toTopOf="@id/textView_contactItemTemplate_alias"
-                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintBottom_toTopOf="@id/textView_contactItemTemplate_alias"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="25dp"
-                android:layout_marginEnd="15dp"
                 tools:text="@tools:sample/lorem/random"
                 android:scrollHorizontally="true"
                 android:ellipsize="end"
@@ -81,34 +80,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:paddingEnd="25dp"
-                />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cardView_accountItemTemplate_amountContainer"
-                app:cardCornerRadius="10dp"
-                tools:cardBackgroundColor="@color/light_red_1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:strokeWidth="1dp"
-                tools:strokeColor="@color/red"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_accountItemTemplate_amount"
-                    tools:text="- 49.84"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginHorizontal="15dp"
-                    android:textSize="@dimen/small_text_size"
-                    android:textStyle="bold"
-                    tools:textColor="@color/red"
-                    />
-            </com.google.android.material.card.MaterialCardView>
-
-
+                tools:ignore="RtlSymmetry" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

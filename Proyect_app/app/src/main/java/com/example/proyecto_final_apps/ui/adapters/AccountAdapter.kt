@@ -29,7 +29,7 @@ class AccountAdapter(
         private val container: MaterialCardView =
             view.findViewById(R.id.cardView_accountItemTemplate_parentContainer)
         private val txtTitle: TextView =
-            view.findViewById(R.id.textView_accountItemTemplate_title)
+            view.findViewById(R.id.textView_accountItemTemplate_name)
         private val txtDefaultLabel: TextView =
             view.findViewById(R.id.textView_accountItemTemplate_defaultLabel)
         private val amountContainer: MaterialCardView =

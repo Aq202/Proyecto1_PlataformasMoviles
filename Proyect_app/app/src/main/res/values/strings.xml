@@ -11,7 +11,7 @@
     <string name="aun_no_tienes_una_cuenta">¿Aún no tienes una cuenta?</string>
     <string name="registrate">Registrate</string>
     <string name="bienvenido">Bienvenido</string>
-    <string name="develop_name">Pablo Zamora</string>
+    <string name="develop_fullname">Diego Aquino</string>
     <string name="balance_general">Balance General</string>
     <string name="develop_general_balance">Q 5,295.59</string>
     <string name="ver_detalles">ver detalles</string>
@@ -23,7 +23,7 @@
     <string name="default_label">Cuenta default: %s</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
-    <string name="develop_user_alias">Zamurai286</string>
+    <string name="develop_user_alias">Aq202</string>
     <string name="money_format">Q. %s</string>
     <string name="registro_de_operaciones">Registro de operaciones</string>
     <string name="placeholder_nombre">Nombre</string>
@@ -35,4 +35,9 @@
     <string name="add_account">Agregar cuenta</string>
     <string name="date_filter_format">%s al %s</string>
     <string name="nueva_cuenta">Nueva cuenta</string>
+    <string name="develop_user_name">Diego</string>
+    <string name="develop_user_lastName">Aquino</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="develop_user_email">mor21762@uvg.edu.gt</string>
+    <string name="contactos">Contactos</string>
 </resources>
