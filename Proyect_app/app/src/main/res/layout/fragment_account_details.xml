@@ -209,8 +209,8 @@
 
             <ImageView
                 android:id="@+id/imageView_accountDetails_sortIcon"
-                android:layout_width="@dimen/sortIcon_size"
-                android:layout_height="@dimen/sortIcon_size"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:src="@drawable/ic_sort"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/textView_accountDetailsFragment_operationsRegisterTitle"

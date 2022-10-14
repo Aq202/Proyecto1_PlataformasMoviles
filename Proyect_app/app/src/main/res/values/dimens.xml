@@ -24,7 +24,7 @@
     <dimen name="accountDetails_headerIcon_size">50dp</dimen>
     <dimen name="accountDetails_headerIcon_radius">10dp</dimen>
     <dimen name="accountDetails_headerIcon_gap">25dp</dimen>
-    <dimen name="sortIcon_size">30dp</dimen>
+    <dimen name="icon_size">30dp</dimen>
     <dimen name="profile_picture_size">230dp</dimen>
     <dimen name="operation_item_borderRadius">10dp</dimen>
     <dimen name="item_elevation">2dp</dimen>

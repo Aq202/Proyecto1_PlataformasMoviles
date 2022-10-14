@@ -17,7 +17,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_accountDetailsFragment_headerCard"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="220dp"
         android:layout_marginTop="@dimen/header_card_negativeMarginTop"
 
         android:backgroundTint="@color/dark_blue"
@@ -33,7 +33,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:text="@string/mi_perfil"
                 android:textColor="@color/white"
                 android:textSize="@dimen/h2_text_size"
@@ -111,12 +110,77 @@
             android:textColor="@color/dark_gray"
             />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.10"
+            android:id="@+id/vertical_guideline1"
+            />
+
+
+
+        <ImageView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:id="@+id/imageView_profileUserFragment_mailIcon"
+            android:src="@drawable/ic_mail"
+            app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_alias"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline1"
+            android:layout_marginTop="30dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_profileUser_email"
+            android:text="diegoguatedb2002@gmail.com"
+            android:textSize="@dimen/plain_text_size"
+            app:layout_constraintTop_toTopOf="@id/imageView_profileUserFragment_mailIcon"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_profileUserFragment_mailIcon"
+            app:layout_constraintStart_toEndOf="@id/imageView_profileUserFragment_mailIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginStart="20dp"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:id="@+id/imageView_profileUserFragment_calendarIcon"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintTop_toBottomOf="@id/imageView_profileUserFragment_mailIcon"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline1"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_profileUser_signUpDate"
+            android:text="14 de octubre de 2022"
+            android:textSize="@dimen/plain_text_size"
+            app:layout_constraintTop_toTopOf="@id/imageView_profileUserFragment_calendarIcon"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_profileUserFragment_calendarIcon"
+            app:layout_constraintStart_toEndOf="@id/imageView_profileUserFragment_mailIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginStart="20dp"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            />
+
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="@dimen/button_size"
             android:layout_height="wrap_content"
             android:id="@+id/button_profileUserFragment_editProfile"
             android:text="@string/editar_perfil"
-            app:layout_constraintTop_toBottomOf="@id/textView_profileUserFragment_alias"
+            app:layout_constraintTop_toBottomOf="@id/imageView_profileUserFragment_calendarIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
