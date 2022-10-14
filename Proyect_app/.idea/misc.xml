@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.124" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_banner_login.xml" value="0.2085" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_filled_new.xml" value="0.2085" />
@@ -14,12 +13,6 @@
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.22826086956521738" />
-=======
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_login.xml" value="0.1585144927536232" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.49226441631504925" />
->>>>>>> 96ae73b81182ba023e93c63a6a25aac209047c06
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_banner_login.xml" value="0.1275" />

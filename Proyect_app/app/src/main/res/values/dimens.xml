@@ -11,7 +11,6 @@
     <dimen name="h5_text_size">24sp</dimen>
     <dimen name="h6_text_size">20sp</dimen>
     <dimen name="horizontal_fragment_padding">25dp</dimen>
-<<<<<<< HEAD
     <dimen name="header_card_radius">25dp</dimen>
     <dimen name="header_card_marginTop">-25dp</dimen>
     <dimen name="header_card_horizontalPadding">25dp</dimen>
@@ -24,8 +23,6 @@
     <dimen name="accountDetails_headerIcon_radius">10dp</dimen>
     <dimen name="accountDetails_headerIcon_gap">25dp</dimen>
     <dimen name="sortIcon_size">30dp</dimen>
-=======
     <dimen name="tab_layout_horizontal_margin">50dp</dimen>
     <dimen name="ic_start_padding">5dp</dimen>
->>>>>>> 96ae73b81182ba023e93c63a6a25aac209047c06
 </resources>
