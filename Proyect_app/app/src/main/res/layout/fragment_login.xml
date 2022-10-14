@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.LoginFragment"
+    tools:context=".presentation.fragments.LoginFragment"
     android:paddingHorizontal="25dp"
     android:paddingVertical="25dp"
     >
@@ -19,7 +19,7 @@
         android:text="@string/iniciar_sesion"
         app:layout_constraintBottom_toTopOf="@id/imageView_loginFragment_banner"
         app:layout_constraintVertical_chainStyle="packed"
-        android:textSize="@dimen/title_text_size"
+        android:textSize="@dimen/h1_text_size"
         android:textStyle="bold"
         android:textColor="@color/black"
         />
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/button_loginFragment_login"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:startIconDrawable="@drawable/ic_filled_home"
+        app:startIconDrawable="@drawable/ic_lock_pass"
         app:startIconTint="@color/dark_gray"
         android:layout_marginTop="15dp"
         app:endIconMode="password_toggle"

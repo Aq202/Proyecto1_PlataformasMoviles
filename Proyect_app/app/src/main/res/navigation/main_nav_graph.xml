@@ -7,7 +7,50 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.proyecto_final_apps.fragments.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        android:name="com.example.proyecto_final_apps.presentation.fragments.LoginFragment"
+        android:label=""
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.HomeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_accountsListFragment"
+            app:destination="@id/accountsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountsListFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountsListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_accounts_list" >
+        <action
+            android:id="@+id/action_accountsListFragment_to_accountDetailsFragment"
+            app:destination="@id/accountDetailsFragment" />
+        <action
+            android:id="@+id/action_accountsListFragment_to_newAccountFragment"
+            app:destination="@id/newAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountDetailsFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_account_details" />
+    <fragment
+        android:id="@+id/newAccountFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.NewAccountFragment"
+        android:label=""
+        tools:layout="@layout/fragment_new_account" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.SignUpFragment"
+        android:label=""
+        tools:layout="@layout/fragment_sign_up" />
 </navigation>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.NewAccountFragment"
+    android:padding="25dp">
+
+    <TextView
+        app:layout_constraintVertical_chainStyle="packed"
+        android:id="@+id/text_newAccountFragment_accountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre de la cuenta:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textInput_newAccountFragment_accountName"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_newAccountFragment_accountName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_accountName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_amount"
+        android:hint="@string/placeholder_nombre"
+        android:layout_margin="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/plain_text_size" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_newAccountFragment_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fondos actuales:"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInput_newAccountFragment_accountName"
+        app:layout_constraintBottom_toTopOf="@id/textInput_newAccountFragment_amount"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_newAccountFragment_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_defaultAccount"
+        android:hint="@string/placeholder_monto"
+        android:layout_margin="5dp"
+        app:startIconDrawable="@drawable/ic_cash_multiple">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/plain_text_size" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_newAccountFragment_defaultAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cuenta por defecto:"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInput_newAccountFragment_amount"
+        app:layout_constraintBottom_toTopOf="@id/switch_newAccountFragment_defaultAccountSwitch"
+        />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_newAccountFragment_defaultAccountSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_newAccountFragment_defaultAccount"
+        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_defaultDisclaimer"/>
+
+    <TextView
+        android:id="@+id/text_newAccountFragment_defaultDisclaimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/switch_newAccountFragment_defaultAccountSwitch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_newAccountFragment_addAccountButton"
+        android:text="Esta acción convertirá a esta cuenta en la única cuenta por defecto"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_newAccountFragment_addAccountButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:paddingVertical="@dimen/button_vertical_padding"
+        android:text="@string/add_account"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:backgroundTint="@color/aqua"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/button_radius"
+        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_defaultDisclaimer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

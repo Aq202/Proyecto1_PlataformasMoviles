@@ -10,4 +10,27 @@
     <string name="placeholder_password">Contraseña</string>
     <string name="aun_no_tienes_una_cuenta">¿Aún no tienes una cuenta?</string>
     <string name="registrate">Registrate</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="develop_name">Pablo Zamora</string>
+    <string name="balance_general">Balance General</string>
+    <string name="develop_general_balance">Q 5,295.59</string>
+    <string name="ver_detalles">ver detalles</string>
+    <string name="operaciones_recientes">Operaciones Recientes</string>
+    <string name="ver_todo">Ver todo</string>
+    <string name="operation_item_amount">%s %s</string>
+    <string name="pagos_pendientes">Pagos pendientes</string>
+    <string name="cuentas_disponibles">Cuentas Disponibles</string>
+    <string name="default_label">Cuenta default: %s</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="develop_user_alias">Zamurai286</string>
+    <string name="money_format">Q. %s</string>
+    <string name="registro_de_operaciones">Registro de operaciones</string>
+    <string name="placeholder_nombre">Nombre</string>
+    <string name="placeholder_apellido">Apellido</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="ya_tienes_una_cuenta">¿Ya tienes una cuenta?</string>
+    <string name="inicia_sesion">Inicia sesión</string>
+    <string name="placeholder_monto">Monto</string>
+    <string name="add_account">Agregar cuenta</string>
 </resources>

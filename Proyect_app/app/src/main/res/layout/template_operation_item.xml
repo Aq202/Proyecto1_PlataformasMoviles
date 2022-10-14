@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/operation_items_gap">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cardView_operationItemTemplate_parentContainer"
+        android:backgroundTint="@color/light_gray_1"
+        app:cardElevation="1dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_operationItemTemplate_operationIconContainer"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                tools:cardBackgroundColor="@color/food_category"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView_operationItemTemplate_operationIcon"
+                    android:padding="7dp"
+                    tools:src="@drawable/ic_category_restaurant" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView_accountItemTemplate_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/cardView_operationItemTemplate_operationIconContainer"
+                app:layout_constraintTop_toTopOf="@id/cardView_operationItemTemplate_operationIconContainer"
+                 app:layout_constraintBottom_toTopOf="@id/textView_operationItemTemplate_category"
+                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="15dp"
+                tools:text="@tools:sample/lorem/random"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationItemTemplate_category"
+                tools:text="@tools:sample/lorem/random"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_accountItemTemplate_title"
+                app:layout_constraintStart_toStartOf="@id/textView_accountItemTemplate_title"
+                app:layout_constraintBottom_toBottomOf="@id/cardView_operationItemTemplate_operationIconContainer"
+                app:layout_constraintEnd_toEndOf="@id/textView_accountItemTemplate_title"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="25dp"
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardView_accountItemTemplate_amountContainer"
+                app:cardCornerRadius="10dp"
+                tools:cardBackgroundColor="@color/light_red_1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:strokeWidth="1dp"
+                tools:strokeColor="@color/red"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_accountItemTemplate_amount"
+                    tools:text="- 49.84"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="@dimen/small_text_size"
+                    android:textStyle="bold"
+                    tools:textColor="@color/red"
+                    />
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

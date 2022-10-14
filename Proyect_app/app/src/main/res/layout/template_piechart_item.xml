@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="5dp"
+    >
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/textView_pieItem_circle"
+        android:background="@drawable/shape_circle"
+        tools:backgroundTint="@color/food_category"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/textView_pieItem_title"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_pieItem_title"
+        android:textStyle="bold"
+        tools:text="@tools:sample/lorem/random"
+        android:textSize="@dimen/plain_text_size"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintStart_toEndOf="@id/textView_pieItem_circle"
+        app:layout_constraintTop_toTopOf="@id/textView_pieItem_circle"
+        app:layout_constraintEnd_toStartOf="@id/textView_pieItem_amount"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:paddingHorizontal="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_pieItem_amount"
+        android:textStyle="bold"
+        tools:text="Q. 258.25"
+        android:textSize="@dimen/plain_text_size"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView_pieItem_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
