@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@id/switch_newAccountFragment_defaultAccountSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/button_newAccountFragment_addAccountButton"
-        android:text="Esta acción convertirá a esta cuenta en la única cuenta por defecto"/>
+        android:text="@string/default_account_disclaimer"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_newAccountFragment_addAccountButton"

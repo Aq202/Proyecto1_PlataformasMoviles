@@ -47,4 +47,8 @@
     <string name="edit">Editar</string>
     <string name="delete">Eliminar</string>
     <string name="email">Correo electrónico</string>
+    <string name="placeholder_notification_date">Fecha de notificación</string>
+    <string name="default_account_disclaimer">Esta acción convertirá a esta cuenta en la única cuenta por defecto</string>
+    <string name="pending_payment_disclaimer">Para finalizar la operación y agregarla a tu registro, selecciona la cuenta de origen de la misma:</string>
+    <string name="finalizar_pago">Finalizar pago</string>
 </resources>
