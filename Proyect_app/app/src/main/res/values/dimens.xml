@@ -33,4 +33,6 @@
     <dimen name="operation_items_horizontalPadding">5dp</dimen>
     <dimen name="button_text_size">25sp</dimen>
     <dimen name="button_size">300dp</dimen>
+    <dimen name="tab_layout_horizontal_margin">50dp</dimen>
+    <dimen name="ic_start_padding">5dp</dimen>
 </resources>
