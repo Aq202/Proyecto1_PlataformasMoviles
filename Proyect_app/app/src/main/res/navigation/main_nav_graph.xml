@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.UserProfileFragment"
-        android:label="Mi Perfil"
+        android:label=""
         tools:layout="@layout/fragment_user_profile" />
 
     <action android:id="@+id/action_toUserProfile"
