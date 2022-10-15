@@ -35,3 +35,10 @@ fun ChipGroup.addChip(context: Context, category: CategoryModel){
         addView(this)
     }
 }
+
+fun String.getWords(): List<String>{
+    val regex = Regex("\\S*\\S")
+    val result = regex.findAll(this)
+    return result.toList().map{ it.value }
+}
+

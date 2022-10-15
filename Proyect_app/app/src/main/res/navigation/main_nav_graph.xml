@@ -65,4 +65,35 @@
         app:popUpTo="@id/userProfileFragment"
         app:popUpToInclusive="true"
         />
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.contacts.ContactsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_contacts" />
+
+    <action android:id="@+id/action_toContacts"
+        app:destination="@id/contactsFragment"
+        app:popUpTo="@id/contactsFragment"
+        app:popUpToInclusive="true"
+        />
+    <fragment
+        android:id="@+id/tabLayoutFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.TabLayoutFragment"
+        android:label="Nueva Operación"
+        tools:layout="@layout/fragment_tab_layout" />
+
+    <action android:id="@+id/action_toTabLayoutFragment"
+        app:destination="@id/tabLayoutFragment"
+        app:popUpTo="@id/tabLayoutFragment"
+        app:popUpToInclusive="true"
+        />
+
+    <action android:id="@+id/action_toHome"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true"
+        />
+
+
+
 </navigation>

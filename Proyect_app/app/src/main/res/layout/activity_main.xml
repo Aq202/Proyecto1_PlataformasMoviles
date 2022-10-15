@@ -25,7 +25,7 @@
             app:menu="@menu/toolbar_menu"
             app:navigationIconTint="@color/white">
 
-            <androidx.cardview.widget.CardView
+            <!--<androidx.cardview.widget.CardView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"
@@ -39,6 +39,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/profile_pic_1" />
             </androidx.cardview.widget.CardView>
+            <!-->
         </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.fragment.app.FragmentContainerView

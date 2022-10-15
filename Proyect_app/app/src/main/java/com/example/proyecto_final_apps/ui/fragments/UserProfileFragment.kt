@@ -11,7 +11,7 @@ import com.example.proyecto_final_apps.data.ContactModel
 import com.example.proyecto_final_apps.databinding.FragmentUserProfileBinding
 import com.example.proyecto_final_apps.ui.adapters.ContactAdapter
 
-class UserProfileFragment : Fragment(), ContactAdapter.ContactListener {
+class UserProfileFragment : Fragment() {
 
     private lateinit var binding:FragmentUserProfileBinding
 
@@ -27,22 +27,7 @@ class UserProfileFragment : Fragment(), ContactAdapter.ContactListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpContactsRecycler()
     }
 
-    private fun setUpContactsRecycler() {
-        val contacts = Contact.contacts
-        val context = this
-        binding.recyclerViewProfileUserFragmentContacts.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(false)
-            isNestedScrollingEnabled = false  //disable scroll
 
-            adapter = ContactAdapter(contacts as MutableList<ContactModel>, context)
-        }
-    }
-
-    override fun onItemClicked(contactData: ContactModel, position: Int) {
-
-    }
 }

@@ -53,4 +53,5 @@
     <string name="txt_description">Descripción:</string>
     <string name="hint_description">Descripción de la operación</string>
     <string name="txt_cathegory">Categoría:</string>
+    <string name="resultados_de_busqueda">Resultados de búsqueda</string>
 </resources>
