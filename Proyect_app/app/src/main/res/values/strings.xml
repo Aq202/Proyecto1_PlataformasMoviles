@@ -44,4 +44,6 @@
     <string name="txt_description">Descripción:</string>
     <string name="hint_description">Descripción de la operación</string>
     <string name="txt_cathegory">Categoría:</string>
+    <string name="txt_checkAsFavourite">Marcar como favorito</string>
+    <string name="btn_add_operation">Añadir</string>
 </resources>

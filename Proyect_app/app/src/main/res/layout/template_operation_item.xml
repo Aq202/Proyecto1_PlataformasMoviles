@@ -54,7 +54,7 @@
                 app:layout_constraintStart_toEndOf="@id/cardView_operationItemTemplate_operationIconContainer"
                 app:layout_constraintTop_toTopOf="@id/cardView_operationItemTemplate_operationIconContainer"
                  app:layout_constraintBottom_toTopOf="@id/textView_operationItemTemplate_category"
-                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintEnd_toStartOf="@id/imageView_operationItemTemplate_favourite"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="15dp"
                 tools:text="@tools:sample/lorem/random"
@@ -105,7 +105,18 @@
                     />
             </com.google.android.material.card.MaterialCardView>
 
-
+            <ImageView
+                android:id="@+id/imageView_operationItemTemplate_favourite"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintTop_toTopOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintBottom_toBottomOf="@id/cardView_accountItemTemplate_amountContainer"
+                android:src="@drawable/ic_favourite"
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"
+                app:tint="@color/yellow"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

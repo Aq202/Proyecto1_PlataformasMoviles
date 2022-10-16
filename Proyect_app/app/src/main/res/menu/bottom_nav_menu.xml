@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
     <item
-        android:id="@+id/item_bottomNav_home"
+        android:id="@+id/homeFragment"
         android:title="@string/home"
         android:icon="@drawable/home_item_selector"
         />
 
     <item
-        android:id="@+id/item_bottomNav_newOperation"
+        android:id="@+id/tabLayoutFragment"
         android:title="@string/nuevo"
         android:icon="@drawable/new_operation_item_selector"
         />

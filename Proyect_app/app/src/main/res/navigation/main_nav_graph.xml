@@ -53,4 +53,9 @@
         android:name="com.example.proyecto_final_apps.presentation.fragments.SignUpFragment"
         android:label=""
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/tabLayoutFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.TabLayoutFragment"
+        android:label=""
+        tools:layout="@layout/fragment_tab_layout"/>
 </navigation>

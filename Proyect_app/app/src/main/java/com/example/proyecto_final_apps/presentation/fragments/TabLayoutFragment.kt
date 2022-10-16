@@ -12,7 +12,7 @@ import com.example.proyecto_final_apps.databinding.FragmentTabLayoutBinding
 import com.example.proyecto_final_apps.presentation.adapters.TabLayoutAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
-class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout) {
+class TabLayoutFragment : Fragment() {
     private lateinit var binding: FragmentTabLayoutBinding
     private var tabTitles = arrayOf("Nuevo","Favoritos")
 
@@ -27,7 +27,7 @@ class TabLayoutFragment : Fragment(R.layout.fragment_tab_layout) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewPager2TabLayoutFragment.adapter = TabLayoutAdapter(parentFragmentManager,lifecycle)
+        binding.viewPager2TabLayoutFragment.adapter = TabLayoutAdapter(childFragmentManager,lifecycle)
 
         TabLayoutMediator(binding.tabLayoutTabLayoutFragment, binding.viewPager2TabLayoutFragment){
             tab, position ->

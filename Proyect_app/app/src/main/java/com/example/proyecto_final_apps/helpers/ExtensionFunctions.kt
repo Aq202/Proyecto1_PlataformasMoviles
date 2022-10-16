@@ -22,13 +22,16 @@ fun Double.addSigne(digits:Int, avoidPositive:Boolean = false):String{
     else result
 }
 
-fun ChipGroup.addChip(context: Context, category: CategoryModel){
+fun ChipGroup.addChip(context: Context, category: CategoryModel, backgroundColor: ColorStateList, strokeColor: ColorStateList){
     Chip(context).apply {
         id = category.id
         text = category.name
         chipIcon = category.img
-        chipBackgroundColor = ColorStateList.valueOf(category.color)
+        setTextColor(strokeColor)
+        chipBackgroundColor = backgroundColor
+        chipStrokeColor = strokeColor
         isCheckable = true
+        chipIconTint = strokeColor
         isChecked = false
         isCheckedIconVisible = false
         isClickable = true

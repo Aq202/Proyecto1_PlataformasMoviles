@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -16,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
+import com.example.proyecto_final_apps.presentation.fragments.HomeFragment
 import com.example.proyecto_final_apps.presentation.fragments.TabLayoutFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -52,28 +54,12 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHostFragment.navController
 
-        val appbarConfig = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment), binding.drawerLayout)
+        val appbarConfig = AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment, R.id.tabLayoutFragment), binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appbarConfig)
         binding.navView.setupWithNavController(navController)
+        binding.bottomNavigationBar.setupWithNavController(navController)
 
         listenToNavGraphChanges()
-        setListeners()
-    }
-
-    private fun setListeners() {
-        binding.bottomNavigationBar.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.item_bottomNav_newOperation -> setCurrentFragment(TabLayoutFragment())
-            }
-            true
-        }
-    }
-
-    private fun setCurrentFragment(fragment: Fragment) {
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(R.id.fragmentContainer, fragment)
-        }
     }
 
     private fun listenToNavGraphChanges(){
