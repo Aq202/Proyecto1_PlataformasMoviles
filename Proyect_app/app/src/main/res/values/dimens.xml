@@ -37,4 +37,5 @@
     <dimen name="ic_start_padding">5dp</dimen>
     <dimen name="list_item_padding">16dp</dimen>
     <dimen name="line_spacing">10dp</dimen>
+    <dimen name="small_icon_size">20dp</dimen>
 </resources>

@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
+import coil.transform.CircleCropTransformation
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.helpers.format
@@ -42,8 +43,8 @@ class OperationAdapter(
             view.findViewById(R.id.cardView_operationItemTemplate_amountContainer)
         private val txtAmount: TextView =
             view.findViewById(R.id.textView_operationItemTemplate_amount)
-        private val favouriteIcon: ImageView =
-            view.findViewById(R.id.imageView_operationItemTemplate_favourite)
+        private val favouriteIcon: MaterialCardView =
+            view.findViewById(R.id.cardView_operationItemTemplate_favourite)
 
         private lateinit var operationData: Operation
 
@@ -123,9 +124,9 @@ class OperationAdapter(
                 }
             }
 
+            //icono de operacion favorita
             if(operation.favourite == true)
                 favouriteIcon.visibility = View.VISIBLE
-
 
             setListeners()
         }

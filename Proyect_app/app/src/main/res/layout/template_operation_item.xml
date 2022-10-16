@@ -27,6 +27,8 @@
             android:layout_height="match_parent"
             android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
             android:paddingVertical="@dimen/operationItem_verticalPadding"
+            android:clipToPadding="false"
+
             >
 
             <com.google.android.material.card.MaterialCardView
@@ -108,18 +110,27 @@
                     />
             </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/imageView_operationItemTemplate_favourite"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:layout_constraintEnd_toStartOf="@id/cardView_operationItemTemplate_amountContainer"
-                app:layout_constraintTop_toTopOf="@id/cardView_operationItemTemplate_amountContainer"
-                app:layout_constraintBottom_toBottomOf="@id/cardView_operationItemTemplate_amountContainer"
-                android:src="@drawable/ic_favourite"
-                android:layout_marginEnd="15dp"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_operationItemTemplate_favourite"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_icon_size"
+                app:cardCornerRadius="@dimen/small_icon_size"
+                app:layout_constraintBottom_toBottomOf="@id/cardView_operationItemTemplate_iconContainer"
+                app:layout_constraintEnd_toEndOf="@id/cardView_operationItemTemplate_iconContainer"
+                android:layout_marginBottom="-7dp"
+                android:layout_marginEnd="-7dp"
+                android:translationZ="100dp"
+                app:cardElevation="5dp"
                 android:visibility="gone"
-                app:tint="@color/yellow"
-                />
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_favourite"
+                     app:tint="@color/yellow"
+                    android:background="@color/white"
+                    />
+            </com.google.android.material.card.MaterialCardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
