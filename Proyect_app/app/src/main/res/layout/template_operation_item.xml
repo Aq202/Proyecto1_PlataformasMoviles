@@ -12,7 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/cardView_contactItemTemplate_parentContainer"
+        android:id="@+id/cardView_operationItemTemplate_parentContainer"
         android:backgroundTint="@color/light_gray_1"
         app:cardElevation="@dimen/item_elevation"
         app:cardCornerRadius="@dimen/operation_item_borderRadius"
@@ -30,7 +30,7 @@
             >
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView_contactItemTemplate_pictureContainer"
+                android:id="@+id/cardView_operationItemTemplate_iconContainer"
                 android:layout_width="@dimen/operationItem_image_size"
                 android:layout_height="@dimen/operationItem_image_size"
                 tools:cardBackgroundColor="@color/food_category"
@@ -42,22 +42,22 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/imageView_contactItemTemplate_picture"
+                    android:id="@+id/imageView_operationItemTemplate_icon"
                     android:padding="7dp"
                     tools:src="@drawable/ic_category_restaurant" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/textView_accountItemTemplate_name"
+                android:id="@+id/textView_operationItemTemplate_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_blue"
                 android:textSize="@dimen/plain_text_size"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/cardView_contactItemTemplate_pictureContainer"
-                app:layout_constraintTop_toTopOf="@id/cardView_contactItemTemplate_pictureContainer"
-                 app:layout_constraintBottom_toTopOf="@id/textView_contactItemTemplate_alias"
-                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintStart_toEndOf="@id/cardView_operationItemTemplate_iconContainer"
+                app:layout_constraintTop_toTopOf="@id/cardView_operationItemTemplate_iconContainer"
+                 app:layout_constraintBottom_toTopOf="@id/textView_operationItemTemplate_account"
+                app:layout_constraintEnd_toStartOf="@id/cardView_operationItemTemplate_amountContainer"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="15dp"
                 tools:text="@tools:sample/lorem/random"
@@ -69,14 +69,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView_contactItemTemplate_alias"
+                android:id="@+id/textView_operationItemTemplate_account"
                 tools:text="@tools:sample/lorem/random"
                 android:textSize="@dimen/small_text_size"
                 android:textColor="@color/light_gray_2"
-                app:layout_constraintTop_toBottomOf="@id/textView_accountItemTemplate_name"
-                app:layout_constraintStart_toStartOf="@id/textView_accountItemTemplate_name"
-                app:layout_constraintBottom_toBottomOf="@id/cardView_contactItemTemplate_pictureContainer"
-                app:layout_constraintEnd_toEndOf="@id/textView_accountItemTemplate_name"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationItemTemplate_title"
+                app:layout_constraintStart_toStartOf="@id/textView_operationItemTemplate_title"
+                app:layout_constraintBottom_toBottomOf="@id/cardView_operationItemTemplate_iconContainer"
+                app:layout_constraintEnd_toEndOf="@id/textView_operationItemTemplate_title"
                 android:scrollHorizontally="true"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -86,7 +86,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/cardView_accountItemTemplate_amountContainer"
+                android:id="@+id/cardView_operationItemTemplate_amountContainer"
                 app:cardCornerRadius="10dp"
                 tools:cardBackgroundColor="@color/light_red_1"
                 app:layout_constraintTop_toTopOf="parent"
@@ -98,7 +98,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView_accountItemTemplate_amount"
+                    android:id="@+id/textView_operationItemTemplate_amount"
                     tools:text="- 49.84"
                     android:layout_marginVertical="5dp"
                     android:layout_marginHorizontal="15dp"
@@ -112,9 +112,9 @@
                 android:id="@+id/imageView_operationItemTemplate_favourite"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                app:layout_constraintEnd_toStartOf="@id/cardView_accountItemTemplate_amountContainer"
-                app:layout_constraintTop_toTopOf="@id/cardView_accountItemTemplate_amountContainer"
-                app:layout_constraintBottom_toBottomOf="@id/cardView_accountItemTemplate_amountContainer"
+                app:layout_constraintEnd_toStartOf="@id/cardView_operationItemTemplate_amountContainer"
+                app:layout_constraintTop_toTopOf="@id/cardView_operationItemTemplate_amountContainer"
+                app:layout_constraintBottom_toBottomOf="@id/cardView_operationItemTemplate_amountContainer"
                 android:src="@drawable/ic_favourite"
                 android:layout_marginEnd="15dp"
                 android:visibility="gone"

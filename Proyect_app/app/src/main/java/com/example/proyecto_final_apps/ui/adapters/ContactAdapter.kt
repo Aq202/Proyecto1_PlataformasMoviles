@@ -28,12 +28,10 @@ class ContactAdapter(
 
         private val container: MaterialCardView =
             view.findViewById(R.id.cardView_contactItemTemplate_parentContainer)
-        private val imageIconContainer: MaterialCardView =
-            view.findViewById(R.id.cardView_contactItemTemplate_pictureContainer)
         private val imageIcon: ImageView =
             view.findViewById(R.id.imageView_contactItemTemplate_picture)
         private val txtName: TextView =
-            view.findViewById(R.id.textView_accountItemTemplate_name)
+            view.findViewById(R.id.textView_contactItemTemplate_name)
         private val txtAlias: TextView =
             view.findViewById(R.id.textView_contactItemTemplate_alias)
 

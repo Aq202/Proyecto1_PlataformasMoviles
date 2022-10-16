@@ -48,7 +48,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/textView_accountItemTemplate_name"
+                android:id="@+id/textView_contactItemTemplate_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_blue"
@@ -72,10 +72,10 @@
                 tools:text="@tools:sample/lorem/random"
                 android:textSize="@dimen/small_text_size"
                 android:textColor="@color/light_gray_2"
-                app:layout_constraintTop_toBottomOf="@id/textView_accountItemTemplate_name"
-                app:layout_constraintStart_toStartOf="@id/textView_accountItemTemplate_name"
+                app:layout_constraintTop_toBottomOf="@id/textView_contactItemTemplate_name"
+                app:layout_constraintStart_toStartOf="@id/textView_contactItemTemplate_name"
                 app:layout_constraintBottom_toBottomOf="@id/cardView_contactItemTemplate_pictureContainer"
-                app:layout_constraintEnd_toEndOf="@id/textView_accountItemTemplate_name"
+                app:layout_constraintEnd_toEndOf="@id/textView_contactItemTemplate_name"
                 android:scrollHorizontally="true"
                 android:ellipsize="end"
                 android:maxLines="1"
