@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.fragments.NewOperationFragment"
+    tools:context=".ui.fragments.NewOperationFragment"
     android:paddingHorizontal="@dimen/horizontal_fragment_padding"
-    android:paddingVertical="@dimen/horizontal_fragment_padding"
     >
 
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/textView_neOperationFragment_sourceAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,12 +33,13 @@
         app:startIconTint="@color/dark_gray"
         app:endIconMode="dropdown_menu"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:hint="@string/hint_source_account"
         >
 
         <AutoCompleteTextView
+            android:id="@+id/autoCompleteView_newOperationFragment_sourceAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_source_account"
             android:inputType="none"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -50,6 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputLayout_newOperationFragment_sourceAccount"
+        android:layout_marginTop="@dimen/line_spacing"
         android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/textInputLayout_newOperationFragment_amount"
@@ -66,18 +68,19 @@
         app:layout_constraintBottom_toTopOf="@id/textView_neOperationFragment_operationType"
         app:startIconTint="@color/dark_gray"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/hint_amount"
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_amount"
             android:inputType="numberDecimal"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView_neOperationFragment_operationType"
+        android:layout_marginTop="@dimen/line_spacing"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,18 +103,20 @@
         app:endIconMode="dropdown_menu"
         app:layout_constraintBottom_toTopOf="@id/textView_neOperationFragment_description"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:hint="@string/hint_operation_type"
         >
 
         <AutoCompleteTextView
+            android:id="@+id/autoCompleteView_newOperationFragment_operationType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_operation_type"
             android:inputType="none"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView_neOperationFragment_description"
+        android:layout_marginTop="@dimen/line_spacing"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -131,17 +136,18 @@
         app:layout_constraintTop_toBottomOf="@id/textView_neOperationFragment_description"
         app:layout_constraintBottom_toTopOf="@id/textView_neOperationFragment_cathegory"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/hint_description"
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_description"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView_neOperationFragment_cathegory"
+        android:layout_marginTop="@dimen/line_spacing"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,10 +165,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_neOperationFragment_cathegory"
+        app:selectionRequired="true"
         app:singleSelection="true"
         >
 
     </com.google.android.material.chip.ChipGroup>
+
+    <CheckBox
+        android:id="@+id/checkBox_newOperationFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chip_group_newOperationFragment_cathegories"
+
+        android:text="@string/txt_checkAsFavourite"
+        android:textStyle="bold"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_newOperationFragment_add"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_operation"
+        app:layout_constraintTop_toBottomOf="@id/checkBox_newOperationFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="25sp"
+        android:backgroundTint="@color/mint_green"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/button_radius"
+        android:paddingVertical="@dimen/button_vertical_padding"
+        />
 
 
 

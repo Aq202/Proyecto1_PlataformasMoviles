@@ -54,4 +54,6 @@
     <string name="hint_description">Descripción de la operación</string>
     <string name="txt_cathegory">Categoría:</string>
     <string name="resultados_de_busqueda">Resultados de búsqueda</string>
+    <string name="txt_checkAsFavourite">Marcar como favorito</string>
+    <string name="btn_add_operation">Añadir</string>
 </resources>

@@ -78,7 +78,7 @@
         />
     <fragment
         android:id="@+id/tabLayoutFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.TabLayoutFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.TabLayoutFragment"
         android:label="Nueva Operación"
         tools:layout="@layout/fragment_tab_layout" />
 

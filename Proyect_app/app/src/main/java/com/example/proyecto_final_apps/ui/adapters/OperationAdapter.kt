@@ -42,6 +42,8 @@ class OperationAdapter(
             view.findViewById(R.id.cardView_accountItemTemplate_amountContainer)
         private val txtAmount: TextView =
             view.findViewById(R.id.textView_accountItemTemplate_amount)
+        private val favouriteIcon: ImageView =
+            view.findViewById(R.id.imageView_operationItemTemplate_favourite)
 
         private lateinit var operationData: Operation
 
@@ -121,19 +123,20 @@ class OperationAdapter(
                 }
             }
 
+            if(operation.favourite == true)
+                favouriteIcon.visibility = View.VISIBLE
+
 
             setListeners()
         }
 
         private fun setListeners() {
+            container.setOnLongClickListener {
+                listener.onItemPressed(operationData, this.adapterPosition)
+                true
+            }
             container.setOnClickListener {
                 listener.onItemClicked(operationData, this.adapterPosition)
-            }
-
-            container.setOnLongClickListener {
-
-                listener.onItemPressed(operationData, this.adapterPosition)
-                false
             }
         }
     }
