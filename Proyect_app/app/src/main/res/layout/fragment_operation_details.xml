@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.OperationDetailsFragment"
+    android:padding="25dp">
+
+    <com.google.android.material.card.MaterialCardView
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:id="@+id/cardView_operationDetailsFragment_originAccountContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray_1"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardView_operationDetailsFragment_amountContainer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <TextView
+                android:id="@+id/textView_operationDetailsFragment_originAccountTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_operationDetailsFragment_originAccountName"
+                tools:text="@string/placeholder_cuenta_de_origen"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationDetailsFragment_originAccountName"
+                android:text="Cuenta default"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationDetailsFragment_originAccountTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_operationDetailsFragment_amountContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray_1"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_operationDetailsFragment_originAccountContainer"
+        app:layout_constraintBottom_toTopOf="@id/cardView_operationDetailsFragment_operationTypeContainer"
+        android:layout_marginTop="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <TextView
+                android:id="@+id/textView_operationDetailsFragment_amountTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_operationDetailsFragment_amount"
+                android:text="@string/placeholder_monto"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationDetailsFragment_amount"
+                android:text="Q.0.00"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationDetailsFragment_amountTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_operationDetailsFragment_operationTypeContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray_1"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_operationDetailsFragment_amountContainer"
+        app:layout_constraintBottom_toTopOf="@id/cardView_operationDetailsFragment_descriptionContainer"
+        android:layout_marginTop="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <TextView
+                android:id="@+id/textView_operationDetailsFragment_operationTypeTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_operationDetailsFragment_operationType"
+                android:text="@string/tipo_de_operacion"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationDetailsFragment_operationType"
+                android:text="Tipo"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationDetailsFragment_operationTypeTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_operationDetailsFragment_descriptionContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray_1"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_operationDetailsFragment_operationTypeContainer"
+        app:layout_constraintBottom_toTopOf="@id/cardView_operationDetailsFragment_categoryContainer"
+        android:layout_marginTop="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <TextView
+                android:id="@+id/textView_operationDetailsFragment_descriptionTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_operationDetailsFragment_description"
+                android:text="@string/placeholder_description"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationDetailsFragment_description"
+                android:text="Descripción de la operación"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationDetailsFragment_descriptionTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_operationDetailsFragment_categoryContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray_1"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_operationDetailsFragment_descriptionContainer"
+        app:layout_constraintBottom_toTopOf="@id/cardView_operationDetailsFragment_dateContainer"
+        android:layout_marginTop="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <TextView
+                android:id="@+id/textView_operationDetailsFragment_categoryTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_operationDetailsFragment_category"
+                android:text="@string/placeholder_category"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationDetailsFragment_category"
+                android:text="Categoría de la operación"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationDetailsFragment_categoryTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_operationDetailsFragment_dateContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray_1"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_operationDetailsFragment_categoryContainer"
+        app:layout_constraintBottom_toTopOf="@id/button_operationDetailsFragment_edit"
+        android:layout_marginTop="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <TextView
+                android:id="@+id/textView_operationDetailsFragment_dateTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView_operationDetailsFragment_date"
+                android:text="@string/placeholder_date"
+                android:paddingEnd="15dp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_operationDetailsFragment_date"
+                android:text="01/01/2022"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_operationDetailsFragment_dateTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_operationDetailsFragment_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/aqua"
+        android:paddingVertical="@dimen/button_vertical_padding"
+        android:text="@string/edit"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/button_radius"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_operationDetailsFragment_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_operationDetailsFragment_dateContainer"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_operationDetailsFragment_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/red"
+        android:paddingVertical="@dimen/button_vertical_padding"
+        android:text="@string/delete"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/button_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_operationDetailsFragment_edit"
+        app:layout_constraintTop_toTopOf="@id/button_operationDetailsFragment_edit"
+        android:layout_marginStart="5dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
