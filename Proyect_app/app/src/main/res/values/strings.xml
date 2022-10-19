@@ -51,4 +51,6 @@
     <string name="default_account_disclaimer">Esta acción convertirá a esta cuenta en la única cuenta por defecto</string>
     <string name="pending_payment_disclaimer">Para finalizar la operación y agregarla a tu registro, selecciona la cuenta de origen de la misma:</string>
     <string name="finalizar_pago">Finalizar pago</string>
+    <string name="fab_new_operation">Nueva operación</string>
+    <string name="pagos_pendientes_por_cargar">Pagos pendientes por cargar</string>
 </resources>
