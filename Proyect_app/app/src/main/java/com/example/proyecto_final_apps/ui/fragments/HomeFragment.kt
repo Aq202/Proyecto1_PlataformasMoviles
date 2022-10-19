@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
@@ -13,11 +14,13 @@ import com.example.proyecto_final_apps.data.CategoryTypes
 import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
+import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 
 class HomeFragment : Fragment(), OperationAdapter.OperationListener {
 
     private lateinit var binding: FragmentHomeBinding
+    private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
 
     private lateinit var recentOperationsList: MutableList<Operation>
 
@@ -36,6 +39,15 @@ class HomeFragment : Fragment(), OperationAdapter.OperationListener {
         setUpRecentOperationsRecycler()
         setUpPendingPaymentsRecycler()
         setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        selectCurrentBottomNavigationItem()
+    }
+
+    private fun selectCurrentBottomNavigationItem(){
+        bottomNavigationViewModel.setSelectedItem(BottomNavigationViewModel.BottomNavigationItem.HOME)
     }
 
     private fun setListeners() {

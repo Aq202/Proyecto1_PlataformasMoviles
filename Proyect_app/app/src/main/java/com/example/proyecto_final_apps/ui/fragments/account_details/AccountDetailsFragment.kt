@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentAccountDetailsBinding
 import com.example.proyecto_final_apps.ui.Components.PieChart
+import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.adapters.ChartDescriptionAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.util.DATE_FORMAT
@@ -28,6 +30,8 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
 
     private lateinit var binding: FragmentAccountDetailsBinding
     private val accountDetailsViewModel:AccountDetailsViewModel by viewModels()
+    private val bottomNavigationViewModel:BottomNavigationViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +50,15 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         setUpOperationsRecycler()
         setListeners()
         setObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        selectCurrentBottomNavigationItem()
+    }
+
+    private fun selectCurrentBottomNavigationItem(){
+        bottomNavigationViewModel.setSelectedItem(BottomNavigationViewModel.BottomNavigationItem.HOME)
     }
 
     private fun setObservers(){

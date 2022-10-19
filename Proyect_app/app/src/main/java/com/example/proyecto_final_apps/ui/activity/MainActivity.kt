@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,6 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.flow.collectLatest
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private var searchViewInitialized = false
 
     private val toolbarViewModel: ToolbarViewModel by viewModels()
+    private val bottomNavigationViewModel:BottomNavigationViewModel by viewModels()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +56,15 @@ class MainActivity : AppCompatActivity() {
 
         listenToNavGraphChanges()
         listenToNavDrawerChanges()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        lifecycleScope.launchWhenStarted {
+            bottomNavigationViewModel.selectedItem.collectLatest { item ->
+                binding.bottomNavigationBar.menu.findItem(item.itemId).isChecked = true
+            }
+        }
     }
 
     private fun listenToNavDrawerChanges() {
@@ -111,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
 
     }
+
 
     /**
      * Manejo de la barra de busqueda

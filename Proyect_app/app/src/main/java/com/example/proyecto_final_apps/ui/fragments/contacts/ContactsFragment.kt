@@ -11,6 +11,7 @@ import com.example.proyecto_final_apps.data.Contact
 import com.example.proyecto_final_apps.data.ContactModel
 import com.example.proyecto_final_apps.databinding.FragmentContactsBinding
 import com.example.proyecto_final_apps.helpers.Search
+import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.ToolbarViewModel
 import com.example.proyecto_final_apps.ui.adapters.ContactAdapter
 import kotlinx.coroutines.flow.collectLatest
@@ -20,6 +21,8 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
 
     private lateinit var binding: FragmentContactsBinding
     private val toolbarViewModel: ToolbarViewModel by activityViewModels()
+    private val bottomNavigationViewModel:BottomNavigationViewModel by activityViewModels()
+
 
     private lateinit var contactsList: MutableList<ContactModel>
     private lateinit var searchUsersList: MutableList<ContactModel>
@@ -38,6 +41,14 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
         setUpContactsRecycler()
         setUpSearchUsersRecycler()
         setObservers()
+    }
+    override fun onResume() {
+        super.onResume()
+        selectCurrentBottomNavigationItem()
+    }
+
+    private fun selectCurrentBottomNavigationItem(){
+        bottomNavigationViewModel.setSelectedItem(BottomNavigationViewModel.BottomNavigationItem.CONTACTS)
     }
 
     @SuppressLint("NotifyDataSetChanged")
