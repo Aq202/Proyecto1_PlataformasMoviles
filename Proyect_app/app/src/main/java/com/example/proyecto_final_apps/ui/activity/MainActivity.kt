@@ -73,6 +73,11 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     false
                 }
+                R.id.sideNav_item_logout -> {
+                    navController.navigate(R.id.action_toLoginFragment)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    false
+                }
                 else -> false
             }
         }
