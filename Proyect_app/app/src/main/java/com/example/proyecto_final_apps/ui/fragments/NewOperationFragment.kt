@@ -67,9 +67,7 @@ class NewOperationFragment : Fragment() {
             var operationType = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $operationType", Toast.LENGTH_SHORT).show()
         }
-        binding.buttonNewOperationFragmentAdd.setOnClickListener {
-            requireView().findNavController().navigate(R.id.action_tabLayoutFragment_to_editFavouriteOperationFragment)
-        }
+
     }
 
     private fun updateChips(chipGroup: ChipGroup, checkedChip: Int) {
