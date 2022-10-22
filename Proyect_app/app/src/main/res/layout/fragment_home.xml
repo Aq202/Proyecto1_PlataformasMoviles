@@ -160,18 +160,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_homeFragment_seeAllRecentOperation"
-                    android:text="@string/ver_todo"
-                    android:textSize="@dimen/h6_text_size"
-                    android:textColor="@color/skyBlue"
-                    android:textStyle="bold"
+                <ImageView
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:id="@+id/imageView_homeFragment_seeAllRecentOperationIcon"
+                    app:tint="@color/skyBlue"
+                    android:src="@drawable/ic_right_arrow"
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintTop_toTopOf="@id/textView_homeFragment_recentOperationsTitle"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_homeFragment_recentOperationsTitle"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -197,18 +196,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_homeFragment_seeAllPendingPayments"
-                    android:text="@string/ver_todo"
-                    android:textSize="@dimen/h6_text_size"
-                    android:textColor="@color/skyBlue"
-                    android:textStyle="bold"
+                <ImageView
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:id="@+id/imageView_homeFragment_seeAllPendingPaymentsIcon"
+                    app:tint="@color/skyBlue"
+                    android:src="@drawable/ic_right_arrow"
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintTop_toTopOf="@id/textView_homeFragment_pendingPaymentsTitle"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_homeFragment_pendingPaymentsTitle"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -6,7 +6,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Contact
 import com.example.proyecto_final_apps.data.ContactModel
 import com.example.proyecto_final_apps.databinding.FragmentContactsBinding
@@ -14,6 +16,7 @@ import com.example.proyecto_final_apps.helpers.Search
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.ToolbarViewModel
 import com.example.proyecto_final_apps.ui.adapters.ContactAdapter
+import com.example.proyecto_final_apps.ui.fragments.ExternalUserProfileFragmentDirections
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -21,7 +24,7 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
 
     private lateinit var binding: FragmentContactsBinding
     private val toolbarViewModel: ToolbarViewModel by activityViewModels()
-    private val bottomNavigationViewModel:BottomNavigationViewModel by activityViewModels()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
 
 
     private lateinit var contactsList: MutableList<ContactModel>
@@ -42,12 +45,13 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
         setUpSearchUsersRecycler()
         setObservers()
     }
+
     override fun onResume() {
         super.onResume()
         selectCurrentBottomNavigationItem()
     }
 
-    private fun selectCurrentBottomNavigationItem(){
+    private fun selectCurrentBottomNavigationItem() {
         bottomNavigationViewModel.setSelectedItem(BottomNavigationViewModel.BottomNavigationItem.CONTACTS)
     }
 
@@ -63,7 +67,13 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
 
                 if (query != "") {
                     val nonFilteredItems = contactsList.filter { contact ->
-                        Search.hasCoincidences(query, contact.name, contact.lastName, contact.alias, contact.name + " " + contact.lastName)
+                        Search.hasCoincidences(
+                            query,
+                            contact.name,
+                            contact.lastName,
+                            contact.alias,
+                            contact.name + " " + contact.lastName
+                        )
                     }
                     contactsList.retainAll(nonFilteredItems.filter { it.isAdded })
                     searchUsersList.addAll(nonFilteredItems.filter { !it.isAdded })
@@ -71,7 +81,7 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
 
                     binding.recyclerViewProfileUserFragmentSearchUsers.adapter!!.notifyDataSetChanged()
 
-                }else{
+                } else {
                     contactsList.removeAll(contactsList.filter { !it.isAdded })
                 }
 
@@ -105,6 +115,20 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
 
     override fun onItemClicked(contactData: ContactModel, position: Int) {
 
+        val name = "${contactData.name} ${contactData.lastName}"
+        var action =
+            if (!contactData.isAdded) ContactsFragmentDirections.actionContactsFragmentToExternalUserProfileFragment(
+                name,
+                contactData.alias,
+                contactData.pictureUrl
+            )
+            else ContactsFragmentDirections.actionContactsFragmentToContactProfileFragment(
+                name,
+                contactData.alias,
+                contactData.pictureUrl
+            )
+
+        findNavController().navigate(action)
     }
 
 
