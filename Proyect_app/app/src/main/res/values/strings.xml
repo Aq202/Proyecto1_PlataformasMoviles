@@ -76,4 +76,6 @@
     <string name="finalizar_pago">Finalizar pago</string>
     <string name="fab_new_operation">Nueva operación</string>
     <string name="pagos_pendientes_por_cargar">Pagos pendientes por cargar</string>
+    <string name="guardar_cambios">Guardar cambios</string>
+    <string name="deshacer_cambios">Deshacer cambios</string>
 </resources>
