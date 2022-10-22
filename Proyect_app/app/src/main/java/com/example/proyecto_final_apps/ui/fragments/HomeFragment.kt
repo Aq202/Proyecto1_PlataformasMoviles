@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.CategoryTypes
@@ -56,6 +57,14 @@ class HomeFragment : Fragment(), OperationAdapter.OperationListener {
                 requireView().findNavController()
                     .navigate(R.id.action_homeFragment_to_accountsListFragment)
             }
+
+            imageViewHomeFragmentSeeAllRecentOperationIcon.setOnClickListener{
+                findNavController().navigate(R.id.action_homeFragment_to_recentOperationsFragment)
+            }
+
+            imageViewHomeFragmentSeeAllPendingPaymentsIcon.setOnClickListener{
+                findNavController().navigate(R.id.action_homeFragment_to_pendingPaymentsFragment)
+            }
         }
     }
 
@@ -90,7 +99,8 @@ class HomeFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
     override fun onItemClicked(operationData: Operation, position: Int) {
-        Toast.makeText(requireContext(), "CLICKED...", Toast.LENGTH_LONG).show()
+        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.id)
+        findNavController().navigate(action)
     }
 
     override fun onItemPressed(operationData: Operation, position: Int) {

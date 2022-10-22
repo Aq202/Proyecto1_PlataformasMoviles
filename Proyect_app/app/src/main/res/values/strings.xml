@@ -76,4 +76,7 @@
     <string name="finalizar_pago">Finalizar pago</string>
     <string name="fab_new_operation">Nueva operación</string>
     <string name="pagos_pendientes_por_cargar">Pagos pendientes por cargar</string>
+    <string name="ingreso">Ingreso</string>
+    <string name="egreso">Egreso</string>
+    <string name="sin_descripcion">Sin descripción</string>
 </resources>

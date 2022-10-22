@@ -51,7 +51,7 @@ class OperationAdapter(
         fun setData(operation: Operation) {
             this.operationData = operation
 
-            val (title, category, amount, active: Boolean?, imgUrl) = operation
+            val (_, title, _,category, amount, active: Boolean?, imgUrl) = operation
 
             //agregar texto de la operacion
             txtTitle.text = operation.title

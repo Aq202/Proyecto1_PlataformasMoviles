@@ -29,117 +29,14 @@ object AccountData {
             -299.54,
              false
         ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
-        AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),AccountModel(
-            1,
-            "Cuenta Bac",
-            3560.19,
-            false
-        ),
-        AccountModel(
-            2,
-            "Deudas",
-            299.54,
-            false
-        ),
+
 
 
     )
 
     val accounts = _accounts
+    fun getAccountById (id:Int):AccountModel{
+        return _accounts.filter { it.id == id }[0]
+    }
 
 }

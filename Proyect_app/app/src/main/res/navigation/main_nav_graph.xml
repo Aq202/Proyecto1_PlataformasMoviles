@@ -28,6 +28,12 @@
         <action
             android:id="@+id/action_homeFragment_to_accountsListFragment"
             app:destination="@id/accountsListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_recentOperationsFragment"
+            app:destination="@id/recentOperationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_pendingPaymentsFragment"
+            app:destination="@id/pendingPaymentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountsListFragment"
@@ -104,7 +110,28 @@
         app:popUpTo="@id/homeFragment"
         app:popUpToInclusive="true"
         />
+    <fragment
+        android:id="@+id/operationDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragment"
+        android:label="Detalles de operación"
+        tools:layout="@layout/fragment_operation_details" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 
-
+    <action android:id="@+id/action_toOperationDetails"
+        app:destination="@id/operationDetailsFragment"
+        />
+    <fragment
+        android:id="@+id/recentOperationsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.RecentOperationsFragment"
+        android:label="Operaciones recientes"
+        tools:layout="@layout/fragment_recent_operations" />
+    <fragment
+        android:id="@+id/pendingPaymentsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.PendingPaymentsFragment"
+        android:label="Pagos pendientes"
+        tools:layout="@layout/fragment_pending_payments" />
 
 </navigation>
