@@ -79,4 +79,9 @@
     <string name="ingreso">Ingreso</string>
     <string name="egreso">Egreso</string>
     <string name="sin_descripcion">Sin descripción</string>
+    <string name="que_quiero_hacer">¿Qué quiero hacer?</string>
+    <string name="nueva_operacion">NUEVA\nOPERACIÓN</string>
+    <string name="transferir_fondos">TRANSFERIR\nFONDOS</string>
+    <string name="pago_pendiente">PAGO\nPENDIENTE</string>
+    <string name="nueva_deuda">NUEVA\nDEUDA</string>
 </resources>

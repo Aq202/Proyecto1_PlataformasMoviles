@@ -99,11 +99,6 @@
         android:label="Nueva Operación"
         tools:layout="@layout/fragment_tab_layout" />
 
-    <action android:id="@+id/action_toTabLayoutFragment"
-        app:destination="@id/tabLayoutFragment"
-        app:popUpTo="@id/tabLayoutFragment"
-        app:popUpToInclusive="true"
-        />
 
     <action android:id="@+id/action_toHome"
         app:destination="@id/homeFragment"
@@ -133,5 +128,25 @@
         android:name="com.example.proyecto_final_apps.ui.fragments.PendingPaymentsFragment"
         android:label="Pagos pendientes"
         tools:layout="@layout/fragment_pending_payments" />
+    <fragment
+        android:id="@+id/newActionFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.NewActionFragment"
+        tools:layout="@layout/fragment_new_action" >
+        <action
+            android:id="@+id/action_newActionFragment_to_tabLayoutFragment"
+            app:destination="@id/tabLayoutFragment" />
+        <action
+            android:id="@+id/action_newActionFragment_to_newTransferFragment"
+            app:destination="@id/newTransferFragment" />
+    </fragment>
+    <action android:id="@+id/action_toNewActionFragment"
+        app:destination="@id/newActionFragment"
+        app:popUpTo="@id/newActionFragment"
+        app:popUpToInclusive="true"
+        />
+    <fragment
+        android:id="@+id/newTransferFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.NewTransferFragment"
+        tools:layout="@layout/fragment_new_transfer" />
 
 </navigation>
