@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.AccountData
@@ -30,6 +31,13 @@ class OperationDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         insertData()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.buttonOperationDetailsFragmentEdit.setOnClickListener{
+            findNavController().navigate(R.id.action_operationDetailsFragment_to_editPendingPaymentFragment)
+        }
     }
 
     private fun insertData() {

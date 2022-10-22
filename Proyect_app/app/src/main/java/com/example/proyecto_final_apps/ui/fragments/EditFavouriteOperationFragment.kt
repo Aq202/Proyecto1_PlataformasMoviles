@@ -63,9 +63,7 @@ class EditFavouriteOperationFragment : Fragment() {
             var cuenta = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $cuenta", Toast.LENGTH_SHORT).show()
         }
-        binding.buttonEditFavouriteOperationFragmentAdd.setOnClickListener{
-            requireView().findNavController().navigate(R.id.action_editFavouriteOperationFragment_to_newPendingPaymentFragment)
-        }
+
         binding.autoCompleteViewEditFavouriteOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
             var operationType = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $operationType", Toast.LENGTH_SHORT).show()

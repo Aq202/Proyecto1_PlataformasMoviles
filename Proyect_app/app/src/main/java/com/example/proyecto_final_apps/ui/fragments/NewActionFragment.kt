@@ -54,6 +54,14 @@ class NewActionFragment : Fragment() {
             cardViewNewActionFragmentTransferenceCard.setOnClickListener{
                 findNavController().navigate(R.id.action_newActionFragment_to_newTransferFragment)
             }
+
+            cardViewNewActionFragmentNewDebtCard.setOnClickListener{
+                findNavController().navigate(R.id.action_newActionFragment_to_newDebtFragment)
+            }
+
+            cardViewNewActionFragmentPendingOperationCard.setOnClickListener{
+                findNavController().navigate(R.id.action_newActionFragment_to_newPendingPaymentFragment)
+            }
         }
     }
 

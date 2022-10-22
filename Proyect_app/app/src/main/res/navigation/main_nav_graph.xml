@@ -127,26 +127,18 @@
         android:id="@+id/editFavouriteOperationFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.EditFavouriteOperationFragment"
         android:label="Editar operación favorita"
-        tools:layout="@layout/fragment_edit_favourite_operation" >
-        <action
-            android:id="@+id/action_editFavouriteOperationFragment_to_newPendingPaymentFragment"
-            app:destination="@id/newPendingPaymentFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_edit_favourite_operation" />
     <fragment
         android:id="@+id/newPendingPaymentFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.NewPendingPaymentFragment"
         android:label="Nuevo pago pendiente"
-        tools:layout="@layout/fragment_new_pending_payment" >
-        <action
-            android:id="@+id/action_newPendingPaymentFragment_to_editPendingPaymentFragment"
-            app:destination="@id/editPendingPaymentFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_new_pending_payment" />
     <fragment
         android:id="@+id/editPendingPaymentFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.EditPendingPaymentFragment"
-        android:label="Editar pago pendiente"
+        android:label="Editar operación"
         tools:layout="@layout/fragment_edit_pending_payment" />
-        app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/operationDetailsFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragment"
@@ -155,11 +147,12 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_operationDetailsFragment_to_editPendingPaymentFragment"
+            app:destination="@id/editPendingPaymentFragment" />
     </fragment>
 
-        <action
-            android:id="@+id/action_editPendingPaymentFragment_to_newDebtFragment"
-            app:destination="@id/newDebtFragment" />
+
 
     <fragment
         android:id="@+id/favouriteOperationsFragment"
@@ -174,7 +167,7 @@
     <fragment
         android:id="@+id/newDebtFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.NewDebtFragment"
-        android:label="fragment_new_debt"
+        android:label="Nueva deuda"
         tools:layout="@layout/fragment_new_debt" />
 
     <action
@@ -200,6 +193,12 @@
         <action
             android:id="@+id/action_newActionFragment_to_newTransferFragment"
             app:destination="@id/newTransferFragment" />
+        <action
+            android:id="@+id/action_newActionFragment_to_newDebtFragment"
+            app:destination="@id/newDebtFragment" />
+        <action
+            android:id="@+id/action_newActionFragment_to_newPendingPaymentFragment"
+            app:destination="@id/newPendingPaymentFragment" />
     </fragment>
     <action
         android:id="@+id/action_toNewActionFragment"
