@@ -76,4 +76,8 @@
     <string name="finalizar_pago">Finalizar pago</string>
     <string name="fab_new_operation">Nueva operación</string>
     <string name="pagos_pendientes_por_cargar">Pagos pendientes por cargar</string>
+    <string name="btn_update_operation">Actualizar</string>
+    <string name="txt_notification_date">Programar notificación:</string>
+    <string name="hint_notificationDate">dd/mm/aaaa</string>
+    <string name="pending_payment_description">Los pagos pendientes te permiten generar recordatorios en la pagina principal y realizar posteriormente dichas operaciones de manera rápida y sencilla.</string>
 </resources>

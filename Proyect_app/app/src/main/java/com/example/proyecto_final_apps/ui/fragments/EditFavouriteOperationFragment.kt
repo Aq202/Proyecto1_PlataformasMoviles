@@ -15,13 +15,13 @@ import androidx.navigation.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.AccountData
 import com.example.proyecto_final_apps.data.Category
-import com.example.proyecto_final_apps.databinding.FragmentNewOperationBinding
+import com.example.proyecto_final_apps.databinding.FragmentEditFavouriteOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-class NewOperationFragment : Fragment() {
-    private lateinit var binding: FragmentNewOperationBinding
+class EditFavouriteOperationFragment : Fragment() {
+    private lateinit var binding: FragmentEditFavouriteOperationBinding
     private lateinit var checkedCathegory: String
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class NewOperationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNewOperationBinding.inflate(inflater, container, false)
+        binding = FragmentEditFavouriteOperationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,26 +49,26 @@ class NewOperationFragment : Fragment() {
         }
         val adapterAccount = ArrayAdapter(requireContext(), R.layout.list_item, accounts)
         val adapterOperation = ArrayAdapter(requireContext(), R.layout.list_item, operationTypes)
-        binding.autoCompleteViewNewOperationFragmentSourceAccount.setAdapter(adapterAccount)
-        binding.autoCompleteViewNewOperationFragmentOperationType.setAdapter(adapterOperation)
+        binding.autoCompleteViewEditFavouriteOperationFragmentSourceAccount.setAdapter(adapterAccount)
+        binding.autoCompleteViewEditFavouriteOperationFragmentOperationType.setAdapter(adapterOperation)
     }
 
     private fun setListeners() {
-        val chipGroup = binding.chipGroupNewOperationFragmentCathegories
+        val chipGroup = binding.chipGroupEditFavouriteOperationFragmentCathegories
         chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
             updateChips(chipGroup, checkedIds[0])
             Toast.makeText(requireContext(), "Categoria seleccionada: $checkedCathegory", Toast.LENGTH_SHORT).show()
         }
-        binding.autoCompleteViewNewOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoCompleteViewEditFavouriteOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
             var cuenta = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $cuenta", Toast.LENGTH_SHORT).show()
         }
-        binding.autoCompleteViewNewOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
+        binding.buttonEditFavouriteOperationFragmentAdd.setOnClickListener{
+            requireView().findNavController().navigate(R.id.action_editFavouriteOperationFragment_to_newPendingPaymentFragment)
+        }
+        binding.autoCompleteViewEditFavouriteOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
             var operationType = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $operationType", Toast.LENGTH_SHORT).show()
-        }
-        binding.buttonNewOperationFragmentAdd.setOnClickListener {
-            requireView().findNavController().navigate(R.id.action_tabLayoutFragment_to_editFavouriteOperationFragment)
         }
     }
 
@@ -89,7 +89,7 @@ class NewOperationFragment : Fragment() {
         categories.forEach{ cathegory ->
             val backgroundCSL = generateCSL(cathegory.color, true)
             val strokeCSL = generateCSL(cathegory.color, false)
-            binding.chipGroupNewOperationFragmentCathegories.addChip(requireContext(), cathegory, backgroundCSL, strokeCSL)
+            binding.chipGroupEditFavouriteOperationFragmentCathegories.addChip(requireContext(), cathegory, backgroundCSL, strokeCSL)
         }
     }
 
