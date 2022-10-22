@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.HomeFragment">
+    tools:context=".ui.fragments.HomeFragment">
 
 
     <androidx.core.widget.NestedScrollView
@@ -27,7 +27,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:backgroundTint="@color/dark_blue"
                 app:cardCornerRadius="@dimen/header_card_radius"
-                android:layout_marginTop="@dimen/header_card_marginTop"
+                android:layout_marginTop="@dimen/header_card_negativeMarginTop"
 
                 >
 
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView_accountDetailsFragment_accountBalance"
-                        android:text="@string/develop_name"
+                        android:text="@string/develop_fullname"
                         android:textSize="@dimen/h2_text_size"
                         android:textColor="@color/white"
                         android:textStyle="bold"

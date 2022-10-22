@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/operation_items_gap"
+    android:paddingHorizontal="@dimen/operation_items_horizontalPadding"
+    android:clipToPadding= "false"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cardView_contactItemTemplate_parentContainer"
+        android:backgroundTint="@color/light_gray_1"
+        app:cardElevation="@dimen/item_elevation"
+        app:cardCornerRadius="@dimen/operation_item_borderRadius"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/operationItem_horizontalPadding"
+            android:paddingVertical="@dimen/operationItem_verticalPadding"
+            >
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_contactItemTemplate_pictureContainer"
+                android:layout_width="@dimen/operationItem_image_size"
+                android:layout_height="@dimen/operationItem_image_size"
+                app:cardCornerRadius="@dimen/operationItem_border_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardElevation="@dimen/item_elevation"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView_contactItemTemplate_picture"
+                    tools:src="@drawable/profile_pic_1" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView_contactItemTemplate_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/plain_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/cardView_contactItemTemplate_pictureContainer"
+                app:layout_constraintTop_toTopOf="@id/cardView_contactItemTemplate_pictureContainer"
+                app:layout_constraintBottom_toTopOf="@id/textView_contactItemTemplate_alias"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="25dp"
+                tools:text="@tools:sample/lorem/random"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_contactItemTemplate_alias"
+                tools:text="@tools:sample/lorem/random"
+                android:textSize="@dimen/small_text_size"
+                android:textColor="@color/light_gray_2"
+                app:layout_constraintTop_toBottomOf="@id/textView_contactItemTemplate_name"
+                app:layout_constraintStart_toStartOf="@id/textView_contactItemTemplate_name"
+                app:layout_constraintBottom_toBottomOf="@id/cardView_contactItemTemplate_pictureContainer"
+                app:layout_constraintEnd_toEndOf="@id/textView_contactItemTemplate_name"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="25dp"
+                tools:ignore="RtlSymmetry" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

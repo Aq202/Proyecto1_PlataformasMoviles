@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.OperationDetailsFragment"
+    tools:context=".ui.fragments.OperationDetailsFragment"
     android:padding="25dp">
 
     <com.google.android.material.card.MaterialCardView

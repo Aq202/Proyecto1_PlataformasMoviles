@@ -3,34 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
+    android:label="Mi Perfil"
     app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.LoginFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.LoginFragment"
         android:label=""
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/main_nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.HomeFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.HomeFragment"
         android:label=""
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_accountsListFragment"
             app:destination="@id/accountsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountsListFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountsListFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.AccountsListFragment"
         android:label=""
-        tools:layout="@layout/fragment_accounts_list" >
+        tools:layout="@layout/fragment_accounts_list">
         <action
             android:id="@+id/action_accountsListFragment_to_accountDetailsFragment"
             app:destination="@id/accountDetailsFragment" />
@@ -40,17 +43,68 @@
     </fragment>
     <fragment
         android:id="@+id/accountDetailsFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.AccountDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.account_details.AccountDetailsFragment"
         android:label=""
         tools:layout="@layout/fragment_account_details" />
     <fragment
         android:id="@+id/newAccountFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.NewAccountFragment"
-        android:label=""
+        android:name="com.example.proyecto_final_apps.ui.fragments.NewAccountFragment"
+        android:label="@string/nueva_cuenta"
         tools:layout="@layout/fragment_new_account" />
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.SignUpFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.SignUpFragment"
         android:label=""
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/main_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.UserProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_user_profile" />
+
+    <action android:id="@+id/action_toUserProfile"
+        app:destination="@id/userProfileFragment"
+        app:popUpTo="@id/userProfileFragment"
+        app:popUpToInclusive="true"
+        />
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.contacts.ContactsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_contacts" />
+
+    <action android:id="@+id/action_toContacts"
+        app:destination="@id/contactsFragment"
+        app:popUpTo="@id/contactsFragment"
+        app:popUpToInclusive="true"
+        />
+    <fragment
+        android:id="@+id/tabLayoutFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.TabLayoutFragment"
+        android:label="Nueva Operación"
+        tools:layout="@layout/fragment_tab_layout" />
+
+    <action android:id="@+id/action_toTabLayoutFragment"
+        app:destination="@id/tabLayoutFragment"
+        app:popUpTo="@id/tabLayoutFragment"
+        app:popUpToInclusive="true"
+        />
+
+    <action android:id="@+id/action_toHome"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true"
+        />
+
+
+
 </navigation>

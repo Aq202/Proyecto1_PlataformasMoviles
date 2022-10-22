@@ -4,15 +4,18 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingBottom="@dimen/operation_items_gap">
+    android:paddingBottom="@dimen/operation_items_gap"
+    android:paddingHorizontal="@dimen/operation_items_horizontalPadding"
+    android:clipToPadding="false"
+    >
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cardView_accountItemTemplate_parentContainer"
         android:backgroundTint="@color/light_gray_1"
-        app:cardElevation="1dp"
-        app:cardCornerRadius="10dp"
+        app:cardElevation="@dimen/item_elevation"
+        app:cardCornerRadius="@dimen/operation_item_borderRadius"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:clickable="true"
@@ -27,7 +30,7 @@
             >
 
             <TextView
-                android:id="@+id/textView_accountItemTemplate_title"
+                android:id="@+id/textView_accountItemTemplate_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_blue"
@@ -47,11 +50,11 @@
                 />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/small_icon_size"
+                android:layout_height="@dimen/small_text_size"
                 android:id="@+id/imageView_accountItem_favoriteStar"
                 android:src="@drawable/ic_star"
-                app:layout_constraintTop_toTopOf="@id/textView_accountItemTemplate_title"
+                app:layout_constraintTop_toTopOf="@id/textView_accountItemTemplate_name"
                 app:layout_constraintBottom_toBottomOf="@id/textView_accountItemTemplate_defaultLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="15dp"
@@ -66,8 +69,8 @@
                 tools:text="Cuenta default: Si"
                 android:textSize="@dimen/small_text_size"
                 android:textColor="@color/light_gray_2"
-                app:layout_constraintTop_toBottomOf="@id/textView_accountItemTemplate_title"
-                app:layout_constraintStart_toStartOf="@id/textView_accountItemTemplate_title"
+                app:layout_constraintTop_toBottomOf="@id/textView_accountItemTemplate_name"
+                app:layout_constraintStart_toStartOf="@id/textView_accountItemTemplate_name"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 

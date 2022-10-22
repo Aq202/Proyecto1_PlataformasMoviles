@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.fragments.LoginFragment"
+    tools:context=".ui.fragments.LoginFragment"
     android:paddingHorizontal="25dp"
     android:paddingVertical="25dp"
     >
@@ -96,7 +96,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="25sp"
+        android:textSize="@dimen/button_text_size"
         android:textStyle="bold"
         app:cornerRadius="@dimen/button_radius"
         android:paddingVertical="@dimen/button_vertical_padding"

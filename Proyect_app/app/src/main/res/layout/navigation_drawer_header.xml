@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView_sideNavBar_name"
         android:textSize="@dimen/h5_text_size"
-        android:text="@string/develop_name"
+        android:text="@string/develop_fullname"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/cardView_sideNavBar_pictureContainer"
         app:layout_constraintStart_toStartOf="@id/cardView_sideNavBar_pictureContainer"
