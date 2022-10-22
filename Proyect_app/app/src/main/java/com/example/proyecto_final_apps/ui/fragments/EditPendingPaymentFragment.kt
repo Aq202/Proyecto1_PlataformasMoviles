@@ -115,7 +115,7 @@ class EditPendingPaymentFragment : Fragment() {
             datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
         }
         binding.buttonEditPendingPaymentFragmentAdd.setOnClickListener{
-            requireView().findNavController().navigate(R.id.action_newPendingPaymentFragment_to_editPendingPaymentFragment)
+            requireView().findNavController().navigate(R.id.action_editPendingPaymentFragment_to_newDebtFragment)
         }
     }
 }

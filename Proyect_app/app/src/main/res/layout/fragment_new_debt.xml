@@ -4,41 +4,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.NewPendingPaymentFragment"
-    android:paddingHorizontal="@dimen/horizontal_fragment_padding">
+    tools:context=".ui.fragments.NewDebtFragment"
+    android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+    >
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    >
+        >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
 
             <TextView
-                android:id="@+id/textView_newPendingPaymentFragment_Amount"
+                android:layout_marginTop="20dp"
+                android:id="@+id/textView_newDebtFragment_sourceAccount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="20dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newPendingPaymentFragment_amount"
-                android:text="@string/txt_amount"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newDebtFragment_sourceAccount"
+                android:text="@string/txt_destiny_account"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_newPendingPaymentFragment_amount"
+                android:id="@+id/textInputLayout_newDebtFragment_sourceAccount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_newPendingPaymentFragment_Amount"
-                app:startIconDrawable="@drawable/ic_coin"
-                app:layout_constraintBottom_toTopOf="@id/textView_newPendingPaymentFragment_operationType"
+                app:layout_constraintTop_toBottomOf="@id/textView_newDebtFragment_sourceAccount"
+                app:layout_constraintBottom_toTopOf="@id/textView_newDebtFragment_Amount"
+                app:startIconDrawable="@drawable/ic_account"
                 app:startIconTint="@color/dark_gray"
+                app:endIconMode="dropdown_menu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="@string/hint_destiny_account"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteView_newDebtFragment_sourceAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView_newDebtFragment_Amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newDebtFragment_sourceAccount"
+                android:layout_marginTop="@dimen/line_spacing"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newDebtFragment_amount"
+                android:text="@string/txt_amount"
+                />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_newDebtFragment_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_newDebtFragment_Amount"
+                app:startIconDrawable="@drawable/ic_coin"
+                app:startIconTint="@color/dark_gray"
+                app:layout_constraintBottom_toTopOf="@id/textView_newDebtFragment_operationType"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/hint_amount"
                 >
@@ -51,35 +89,35 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_newPendingPaymentFragment_operationType"
+                android:id="@+id/textView_newDebtFragment_operationType"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newPendingPaymentFragment_amount"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newDebtFragment_amount"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newPendingPaymentFragment_operationType"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newDebtFragment_operationType"
                 android:text="@string/txt_operation_type"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_newPendingPaymentFragment_operationType"
+                android:id="@+id/textInputLayout_newDebtFragment_operationType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_newPendingPaymentFragment_operationType"
+                app:layout_constraintTop_toBottomOf="@id/textView_newDebtFragment_operationType"
                 app:startIconDrawable="@drawable/ic_balance"
                 app:startIconTint="@color/dark_gray"
                 app:endIconMode="dropdown_menu"
-                app:layout_constraintBottom_toTopOf="@id/textView_newPendingPaymentFragment_notificationDate"
+                app:layout_constraintBottom_toTopOf="@id/textView_newDebtFragment_user"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:hint="@string/hint_operation_type"
                 >
 
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteView_newPendingPaymentFragment_operationType"
+                    android:id="@+id/autoCompleteView_newDebtFragment_operationType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -87,64 +125,59 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_newPendingPaymentFragment_notificationDate"
+                android:id="@+id/textView_newDebtFragment_user"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newPendingPaymentFragment_operationType"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newDebtFragment_operationType"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newPendingPaymentFragment_notificationDate"
-                android:text="@string/txt_notification_date"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newDebtFragment_user"
+                android:text="@string/txt_user"
                 />
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_newPendingPaymentFragment_notificationDate"
+                android:id="@+id/textInputLayout_newDebtFragment_user"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_newPendingPaymentFragment_notificationDate"
-                app:layout_constraintBottom_toTopOf="@id/textView_newPendingPaymentFragment_description"
+                app:layout_constraintTop_toBottomOf="@id/textView_newDebtFragment_user"
+                app:layout_constraintBottom_toTopOf="@id/textView_newDebtFragment_description"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="@string/hint_notificationDate"
-                app:startIconDrawable="@drawable/ic_schedule"
+                android:hint="@string/hint_user"
+                app:startIconDrawable="@drawable/ic_filled_user"
                 app:startIconTint="@color/dark_gray"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/datePicker_newPendingPaymentFragment_notificationDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:clickable="false"
-                    android:focusable="false"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_newPendingPaymentFragment_description"
+                android:id="@+id/textView_newDebtFragment_description"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newPendingPaymentFragment_notificationDate"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newDebtFragment_user"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newPendingPaymentFragment_description"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newDebtFragment_description"
                 android:text="@string/txt_description"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_newPendingPaymentFragment_description"
+                android:id="@+id/textInputLayout_newDebtFragment_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_newPendingPaymentFragment_description"
-                app:layout_constraintBottom_toTopOf="@id/textView_newPendingPaymentFragment_cathegory"
+                app:layout_constraintTop_toBottomOf="@id/textView_newDebtFragment_description"
+                app:layout_constraintBottom_toTopOf="@id/button_newDebtFragment_add"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/hint_description"
                 >
@@ -155,57 +188,20 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/textView_newPendingPaymentFragment_cathegory"
-                android:layout_marginTop="@dimen/line_spacing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newPendingPaymentFragment_description"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:text="@string/txt_cathegory"
-                />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_newPendingPaymentFragment_cathegories"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_newPendingPaymentFragment_cathegory"
-                app:selectionRequired="true"
-                app:singleSelection="true"
-                >
-
-            </com.google.android.material.chip.ChipGroup>
-
-            <TextView
-                android:id="@+id/txt_pendingPaymentDescription"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chip_group_newPendingPaymentFragment_cathegories"
-                app:layout_constraintBottom_toTopOf="@id/button_newPendingPaymentFragment_add"
-                android:text="@string/pending_payment_description"
-                />
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_newPendingPaymentFragment_add"
+                android:id="@+id/button_newDebtFragment_add"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_add_operation"
-                app:layout_constraintTop_toBottomOf="@id/txt_pendingPaymentDescription"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newDebtFragment_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="25sp"
                 android:backgroundTint="@color/mint_green"
                 android:textStyle="bold"
-                android:layout_marginTop="25dp"
                 app:cornerRadius="@dimen/button_radius"
+                android:layout_marginTop="@dimen/top_button_margin"
                 android:paddingVertical="@dimen/button_vertical_padding"
                 />
 

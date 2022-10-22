@@ -91,4 +91,8 @@
     <string name="alias_format">\@%s</string>
     <string name="anadir_usuario">Añadir usuario</string>
     <string name="deudas_realizadas">Deudas realizadas</string>
+    <string name="txt_user">Usuario deudor</string>
+    <string name="txt_destiny_account">Cuenta destino:</string>
+    <string name="hint_destiny_account">Cuenta destino</string>
+    <string name="hint_user">Usuario</string>
 </resources>

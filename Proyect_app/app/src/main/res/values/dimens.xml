@@ -40,4 +40,5 @@
     <dimen name="small_icon_size">20dp</dimen>
     <dimen name="newAction_cardview_borderRadius">15dp</dimen>
     <dimen name="newActionCard_padding">15dp</dimen>
+    <dimen name="top_button_margin">20dp</dimen>
 </resources>
