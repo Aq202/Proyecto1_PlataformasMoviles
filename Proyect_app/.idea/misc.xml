@@ -13,28 +13,23 @@
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/dropout_menu_item.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_account_details.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_accounts_list.xml" value="0.22826086956521738" />
-        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_profile.xml" value="0.264" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_pending_payment.xml" value="0.25416666666666665" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_transfer.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_operation_details.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_pending_payment_details.xml" value="0.264" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_pending_payments.xml" value="0.25416666666666665" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_recent_operations.xml" value="0.25416666666666665" />
-        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.264" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_user_profile.xml" value="0.264" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_account_item.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/menu/account_dropdown_menu.xml" value="0.18984375" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/menu/navigation_drawer_menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/drawable/ic_coin.xml" value="0.198" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_account_details.xml" value="0.20416666666666666" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_favourite_operation.xml" value="0.20416666666666666" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_pending_payment.xml" value="0.20416666666666666" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_pending_payment.xml" value="0.5" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.20416666666666666" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_banner_login.xml" value="0.1275" />
