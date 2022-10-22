@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.CategoryTypes
@@ -49,7 +50,7 @@ class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
     override fun onItemClicked(operationData: Operation, position: Int) {
-        Toast.makeText(requireContext(), "CLICKED...", Toast.LENGTH_LONG).show()
+        findNavController().navigate(R.id.action_toPendingPaymentDetailsFragment)
     }
 
     override fun onItemPressed(operationData: Operation, position: Int) {

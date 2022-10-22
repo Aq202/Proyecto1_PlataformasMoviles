@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
@@ -18,6 +19,7 @@ import com.example.proyecto_final_apps.ui.Components.PieChart
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.adapters.ChartDescriptionAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.DATE_FORMAT
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -164,7 +166,8 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
     override fun onItemClicked(operationData: Operation, position: Int) {
-        return
+        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.id)
+        findNavController().navigate(action)
     }
 
     override fun onItemPressed(operationData: Operation, position: Int) {
