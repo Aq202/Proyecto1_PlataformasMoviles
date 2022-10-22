@@ -1,18 +1,25 @@
-# Aplicación de FInanzas Personales - *Funcionalidades*
+# Aplicación de Finanzas Personales 
+## *Funcionalidades*
 
-## Funcionalidades a implementar
+### Funcionalidades a implementar
 
-* **Registro de usuarios:** Recopilación de información básica de los usuarios para crear y asignarle una nueva cuenta.
+* **Registro de usuarios:** Recopilación de información básica de los usuarios para crear una nueva cuenta dentro de la aplicación.
 
 * **Login de usuario:** Formulario en el que los usuarios deben ingresar sus credenciales para acceder a las funcionalidades de la aplicación.
 
-* **Creación de cuentas:** El usuario será capaz de agregar diferentes cuentas (efectivo, bancarias, etc.) con el fin de mantener un registro del balance total en cada una de ellas.
+* **Edición de perfil:** El usuario podrá editar la información básica que proporcionó durante su registro en la aplicación.
+
+* **Creación y administración de cuentas:** El usuario será capaz de agregar diferentes cuentas (efectivo, bancarias, etc.) con el fin de mantener un registro del balance total en cada una de ellas. También será capaz de seleccionar una cuenta por defecto, con la que se realizarán todas las transacciones en caso de no especificar lo contrario.
 
 * **Creación de operaciones:** El usuario podrá crear operaciones que representen un activo o pasivo en alguna de sus cuentas actuales.
 
 * **Edición de operaciones:** El usuario también podrá editar operaciones existentes.
 
-## Funcionalidades opcionales
+* **Realización de transferencias:** El usuario será capaz de realizar transferencias entre sus cuentas actuales.
+
+* **Balance de cuentas agrupado por categorías:** El usuario podrá visualizar el comportamiento que ha tenido su dinero a través de una gráfica que refleje el porcentaje de gastos realizados e ingresos recibidos por categoría.
+
+### Funcionalidades opcionales
 
 * **Crear y programar pagos pendientes:** Se permite la creación de operaciones de la categoría de **deudas** que aún no se han realizado, es decir, que el usuario debe pagar en algún momento, o bien, cobrar a otros usuarios.
 
