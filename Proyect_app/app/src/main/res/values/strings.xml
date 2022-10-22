@@ -84,4 +84,7 @@
     <string name="transferir_fondos">TRANSFERIR\nFONDOS</string>
     <string name="pago_pendiente">PAGO\nPENDIENTE</string>
     <string name="nueva_deuda">NUEVA\nDEUDA</string>
+    <string name="alias_format">\@%s</string>
+    <string name="anadir_usuario">Añadir usuario</string>
+    <string name="deudas_realizadas">Deudas realizadas</string>
 </resources>

@@ -86,7 +86,14 @@
         android:id="@+id/contactsFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.contacts.ContactsFragment"
         android:label=""
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_contactsFragment_to_externalUserProfileFragment"
+            app:destination="@id/externalUserProfileFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_contactProfileFragment"
+            app:destination="@id/contactProfileFragment" />
+    </fragment>
 
     <action android:id="@+id/action_toContacts"
         app:destination="@id/contactsFragment"
@@ -148,5 +155,35 @@
         android:id="@+id/newTransferFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.NewTransferFragment"
         tools:layout="@layout/fragment_new_transfer" />
+    <fragment
+        android:id="@+id/externalUserProfileFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.ExternalUserProfileFragment"
+        tools:layout="@layout/fragment_external_user_profile">
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="alias"
+            app:argType="string" />
+        <argument
+            android:name="pictureUrl"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactProfileFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.ContactProfileFragment"
+        tools:layout="@layout/fragment_contact_profile">
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="alias"
+            app:argType="string" />
+        <argument
+            android:name="pictureUrl"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>
