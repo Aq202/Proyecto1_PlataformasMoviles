@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentSignUpBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 
 
 class SignUpFragment : Fragment() {
@@ -42,6 +43,18 @@ class SignUpFragment : Fragment() {
 
             buttonSignUpFragmentSignUp.setOnClickListener {
                 findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
+            }
+        }
+
+        binding.datePickerSignUpFragmentBirthDate.setOnClickListener {
+            val datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Fecha de nacimiento")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .build()
+
+            datePicker.addOnPositiveButtonClickListener {
+                binding.datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
             }
         }
 

@@ -76,6 +76,8 @@
     <string name="finalizar_pago">Finalizar pago</string>
     <string name="fab_new_operation">Nueva operación</string>
     <string name="pagos_pendientes_por_cargar">Pagos pendientes por cargar</string>
+    <string name="guardar_cambios">Guardar cambios</string>
+    <string name="deshacer_cambios">Deshacer cambios</string>
     <string name="btn_update_operation">Actualizar</string>
     <string name="txt_notification_date">Programar notificación:</string>
     <string name="hint_notificationDate">dd/mm/aaaa</string>
@@ -95,4 +97,5 @@
     <string name="txt_destiny_account">Cuenta destino:</string>
     <string name="hint_destiny_account">Cuenta destino</string>
     <string name="hint_user">Usuario</string>
+    <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
 </resources>

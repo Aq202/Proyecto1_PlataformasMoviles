@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.SignUpFragment"
-    android:paddingHorizontal="25dp"
-    android:paddingVertical="25dp">
+    android:padding="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.fragments.EditProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            app:layout_constraintVertical_chainStyle="packed"
-            android:id="@+id/imageView_signUpFragment_banner"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/ic_filled_user"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_editProfile_pictureContainer"
+            android:layout_width="@dimen/profile_picture_size"
+            android:layout_height="@dimen/profile_picture_size"
+            app:cardBackgroundColor="@color/light_gray_1"
+            app:cardCornerRadius="300dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_firstName"
-            app:tint="@color/dark_blue" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_filled_new"
-            app:tint="@color/aqua"
-            android:background="@drawable/background_round"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView_signUpFragment_banner"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="100dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="300dp">
+
+                <ImageView
+                    android:id="@+id/imageView_editProfileFragment_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profile_pic_1" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_firstName"
+            android:id="@+id/textField_editProfileFragment_firstName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/placeholder_nombre"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            app:startIconDrawable="@drawable/ic_alphabetical"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_lastName"
+            android:hint="@string/placeholder_nombre"
+            app:layout_constraintBottom_toTopOf="@id/textField_editProfileFragment_lastName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_signUpFragment_banner">
+            app:layout_constraintTop_toBottomOf="@+id/cardView_editProfile_pictureContainer"
+            app:startIconDrawable="@drawable/ic_alphabetical">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -56,17 +59,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_lastName"
+            android:id="@+id/textField_editProfileFragment_lastName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/placeholder_apellido"
             android:layout_marginBottom="15dp"
             app:startIconDrawable="@drawable/ic_alphabetical_variant"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_birthDate"
+            app:layout_constraintBottom_toTopOf="@id/textField_editProfileFragment_birthDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_firstName">
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_firstName">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -76,14 +79,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_birthDate"
+            android:id="@+id/textField_editProfileFragment_birthDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_lastName"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_user"
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_lastName"
+            app:layout_constraintBottom_toTopOf="@id/textField_editProfileFragment_user"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/fecha_de_nacimiento"
             app:startIconDrawable="@drawable/ic_schedule"
@@ -91,7 +94,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/datePicker_signUpFragment_birthDate"
+                android:id="@+id/datePicker_editProfileFragment_birthDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
@@ -101,16 +104,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_user"
+            android:id="@+id/textField_editProfileFragment_user"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/placeholder_usuario"
             android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_email"
+            app:layout_constraintBottom_toTopOf="@id/textField_editProfileFragment_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_birthDate"
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_birthDate"
             app:startIconDrawable="@drawable/ic_filled_user"
             app:startIconTint="@color/dark_gray">
 
@@ -122,16 +125,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_email"
+            android:id="@+id/textField_editProfileFragment_email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/email"
             android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_password"
+            app:layout_constraintBottom_toTopOf="@id/textField_editProfileFragment_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_user"
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_user"
             app:startIconDrawable="@drawable/ic_email_filled"
             app:startIconTint="@color/dark_gray">
 
@@ -143,15 +146,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_password"
+            android:id="@+id/textField_editProfileFragment_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/placeholder_password"
             android:layout_marginBottom="15dp"
-            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_email"
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/textField_signUpFragment_confirmPassword"
+            app:layout_constraintBottom_toTopOf="@id/textField_editProfileFragment_confirmPassword"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/ic_lock_pass"
             app:startIconTint="@color/dark_gray"
@@ -168,15 +171,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_signUpFragment_confirmPassword"
+            android:id="@+id/textField_editProfileFragment_confirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/placeholder_confirm_pass"
 
-            app:layout_constraintTop_toBottomOf="@id/textField_signUpFragment_password"
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/button_signUpFragment_signUp"
+            app:layout_constraintBottom_toTopOf="@id/button_editProfileFragment_saveChanges"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/ic_check_bold"
             app:startIconTint="@color/dark_gray"
@@ -193,54 +196,38 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_signUpFragment_signUp"
+            android:id="@+id/button_editProfileFragment_saveChanges"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:paddingVertical="@dimen/button_vertical_padding"
-            android:text="@string/registrarse"
+            android:text="@string/guardar_cambios"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:backgroundTint="@color/aqua"
             android:textSize="20sp"
             android:textStyle="bold"
             app:cornerRadius="@dimen/button_radius"
-            app:layout_constraintBottom_toTopOf="@id/textView_signUpFragment_existingAccount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textField_signUpFragment_confirmPassword"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_signUpFragment_existingAccount"
-            android:text="@string/ya_tienes_una_cuenta"
-            android:textSize="@dimen/plain_text_size"
-            app:layout_constraintTop_toBottomOf="@id/button_signUpFragment_signUp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textView_signUpFragment_loginLabel"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:textColor="@color/black"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            android:layout_marginTop="10dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_signUpFragment_loginLabel"
-            android:text="@string/inicia_sesion"
-            app:layout_constraintTop_toTopOf="@id/textView_signUpFragment_existingAccount"
-            app:layout_constraintStart_toEndOf="@id/textView_signUpFragment_existingAccount"
+            app:layout_constraintTop_toBottomOf="@id/textField_editProfileFragment_confirmPassword"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="@dimen/plain_text_size"
-            android:textStyle="bold"
-            android:textColor="@color/skyBlue"
-            android:layout_marginStart="5dp"
-            android:clickable="true"
-            android:focusable="true" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/background_round"
+            android:backgroundTint="@color/aqua"
+            android:padding="5dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView_editProfile_pictureContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="80dp"
+            app:tint="@color/white"
+            android:elevation="2dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
 
+</androidx.core.widget.NestedScrollView>
