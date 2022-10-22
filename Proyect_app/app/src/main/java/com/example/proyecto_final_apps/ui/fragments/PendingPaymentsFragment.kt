@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.presentation.fragments
+package com.example.proyecto_final_apps.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,7 +14,7 @@ import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentPendingPaymentsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 
-class PendingPaymentsFragment : Fragment(R.layout.fragment_pending_payments), OperationAdapter.OperationListener {
+class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
 
     private lateinit var binding: FragmentPendingPaymentsBinding
 
@@ -22,8 +22,8 @@ class PendingPaymentsFragment : Fragment(R.layout.fragment_pending_payments), Op
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pending_payments, container, false)
+        binding = FragmentPendingPaymentsBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class PendingPaymentsFragment : Fragment(R.layout.fragment_pending_payments), Op
         binding.recyclerViewPendingPaymentsFragmentPendingPayments.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
-            isNestedScrollingEnabled = true  //enable scroll
+            isNestedScrollingEnabled = false //disable scroll
 
             adapter = OperationAdapter(pendingPaymentsList, context)
         }

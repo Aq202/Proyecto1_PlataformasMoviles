@@ -6,13 +6,16 @@ import android.graphics.drawable.Drawable
 
 
 data class Operation(
+    val id:Int,
     val title:String,
+    val accountId:Int,
     val category:CategoryModel?,
     val amount:Double,
     val active:Boolean?,
     val imgUrl:String?,
     val favourite: Boolean? = null,
-    val selected: Boolean? = null
+    val date:String,
+    val description :String? = null,
 )
 
 
@@ -23,364 +26,66 @@ class TestOperations(private val context:Context) {
     private val operations = mutableListOf(
 
         Operation(
+            0,
             "Almuerzo del viernes",
+            0,
             Category(context).getCategory(1),
             15.57,
             false,
             null,
-            true
+            true,
+            "21/10/2022",
+            "Hamburguesa en Mac.",
         ),
 
         Operation(
+            1,
             "Viaje en Uber",
+            1,
             Category(context).getCategory(2),
             45.00,
             false,
             null,
-            false
+            false,
+            "21/10/2022",
+            "Viaje en uber pagado a mi hermana",
         ),
 
         Operation(
+            2,
             "Venta de helados",
+            0,
             Category(context).getCategory(1),
             20.56,
             true,
             null,
-            false
+            false,
+            "21/10/2022"
+
         ),
         Operation(
+            3,
             "Deuda",
+            2,
             Category(context).getCategory(3),
             30.56,
             null,
             null,
-            false
+            false,
+            "21/10/2022"
         ),
         Operation(
+            4,
             "Deuda con Samuel",
+            2,
             Category(context).getCategory(3),
             20.86,
             false,
             "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-            false
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
             false,
-            null,
-            false
+            "21/10/2022"
         ),
 
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-            true
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-            false
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-            false
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-            null
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-            false
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-            false
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-            false
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-            true
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-            true
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-            false
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-            null
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-            true
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-            false
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-            false
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-            true
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-            true
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-            null
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-            true
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-            false
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-            null
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-        ),
-        Operation(
-            "Deuda con Samuel",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-        ),
-        Operation(
-            "Almuerzo del viernes",
-            Category(context).getCategory(1),
-            15.57,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Viaje en Uber",
-            Category(context).getCategory(2),
-            45.00,
-            false,
-            null,
-        ),
-
-        Operation(
-            "Venta de helados",
-            Category(context).getCategory(1),
-            20.56,
-            true,
-            null,
-        ),
-        Operation(
-            "Deuda",
-            Category(context).getCategory(3),
-            30.56,
-            null,
-            null,
-        ),
-        Operation(
-            "FIIIIN",
-            Category(context).getCategory(3),
-            20.86,
-            false,
-            "https://cdn.domestika.org/c_fill,dpr_1.0,f_auto,h_1200,pg_1,t_base_params,w_1200/v1589759117/project-covers/000/721/921/721921-original.png?1589759117",
-        ),
 
     )
 
@@ -392,5 +97,9 @@ class TestOperations(private val context:Context) {
                 favourites.add(it)
         }
         return favourites
+    }
+
+    fun getOperationById(id:Int) :List<Operation>{
+        return operations.filter { it.id == id }
     }
 }

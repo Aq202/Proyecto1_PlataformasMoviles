@@ -25,10 +25,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var navController: NavController
-    private lateinit var navBar: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
 
-    private var searchViewInitialized = false
 
     private val toolbarViewModel: ToolbarViewModel by viewModels()
     private val bottomNavigationViewModel:BottomNavigationViewModel by viewModels()
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         val appbarConfig =
-            AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment), binding.drawerLayout)
+            AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment, R.id.newActionFragment, R.id.contactsFragment), binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appbarConfig)
         binding.navView.setupWithNavController(navController)
 
@@ -68,11 +66,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listenToNavDrawerChanges() {
-        val context = this
         binding.navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.sideNav_item_profile -> {
                     navController.navigate(R.id.action_toUserProfile)
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    false
+                }
+                R.id.sideNav_item_logout -> {
+                    navController.navigate(R.id.action_toLoginFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     false
                 }
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.item_bottomNav_home -> navController.navigate(R.id.action_toHome)
-                R.id.item_bottomNav_newOperation -> navController.navigate(R.id.action_toTabLayoutFragment)
+                R.id.item_bottomNav_newOperation -> navController.navigate(R.id.action_toNewActionFragment)
                 R.id.item_bottomNav_contacts -> navController.navigate(R.id.action_toContacts)
             }
             true
