@@ -38,4 +38,5 @@
     <dimen name="list_item_padding">16dp</dimen>
     <dimen name="line_spacing">10dp</dimen>
     <dimen name="small_icon_size">20dp</dimen>
+    <dimen name="top_button_margin">20dp</dimen>
 </resources>

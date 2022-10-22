@@ -130,7 +130,26 @@
         android:id="@+id/editPendingPaymentFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.EditPendingPaymentFragment"
         android:label="Editar pago pendiente"
-        tools:layout="@layout/fragment_edit_pending_payment" />
+        tools:layout="@layout/fragment_edit_pending_payment" >
+        <action
+            android:id="@+id/action_editPendingPaymentFragment_to_newDebtFragment"
+            app:destination="@id/newDebtFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteOperationsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.FavouriteOperationsFragment"
+        android:label="fragment_favourite_operations"
+        tools:layout="@layout/fragment_favourite_operations" />
+    <fragment
+        android:id="@+id/newOperationFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.NewOperationFragment"
+        android:label="fragment_new_operation"
+        tools:layout="@layout/fragment_new_operation" />
+    <fragment
+        android:id="@+id/newDebtFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.NewDebtFragment"
+        android:label="fragment_new_debt"
+        tools:layout="@layout/fragment_new_debt" />
 
 
 </navigation>

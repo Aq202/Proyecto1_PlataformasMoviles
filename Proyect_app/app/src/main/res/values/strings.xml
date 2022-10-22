@@ -80,4 +80,8 @@
     <string name="txt_notification_date">Programar notificación:</string>
     <string name="hint_notificationDate">dd/mm/aaaa</string>
     <string name="pending_payment_description">Los pagos pendientes te permiten generar recordatorios en la pagina principal y realizar posteriormente dichas operaciones de manera rápida y sencilla.</string>
+    <string name="txt_user">Usuario deudor</string>
+    <string name="txt_destiny_account">Cuenta destino:</string>
+    <string name="hint_destiny_account">Cuenta destino</string>
+    <string name="hint_user">Usuario</string>
 </resources>
