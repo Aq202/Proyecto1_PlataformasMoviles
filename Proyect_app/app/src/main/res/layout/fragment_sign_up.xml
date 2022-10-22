@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.SignUpFragment"
     android:paddingHorizontal="25dp"
-    android:paddingVertical="25dp">
+    android:paddingVertical="25dp"
+    android:clipToPadding="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -81,7 +81,11 @@
         android:id="@+id/userProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.UserProfileFragment"
         android:label=""
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
 
     <action
         android:id="@+id/action_toUserProfile"
@@ -248,5 +252,10 @@
     <action
         android:id="@+id/action_toPendingPaymentDetailsFragment"
         app:destination="@id/pendingPaymentDetailsFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.proyecto_final_apps.presentation.fragments.EditProfileFragment"
+        android:label="Editar perfil"
+        tools:layout="@layout/fragment_edit_profile" />
 
 </navigation>
