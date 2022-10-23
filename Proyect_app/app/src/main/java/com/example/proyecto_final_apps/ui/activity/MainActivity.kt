@@ -3,6 +3,7 @@ package com.example.proyecto_final_apps.ui.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
@@ -55,6 +57,21 @@ class MainActivity : AppCompatActivity() {
         listenToNavGraphChanges()
         listenToNavDrawerChanges()
         setObservers()
+
+        pruebasSocket()
+    }
+
+    private fun pruebasSocket() {
+        SocketClient.setSocket()
+        SocketClient.connect()
+
+        val mSocket = SocketClient.getSocket()
+
+        mSocket.on("global"){
+            println("socket message received ${it[0]}")
+        }
+
+
     }
 
     private fun setObservers() {
