@@ -4,7 +4,9 @@ const express = require("express");
 const http = require("http");
 const port = require("./services/port");
 const SocketServer = require("./services/socketServer")
-const DBConnection = require("./services/DBConnection")
+const DBConnection = require("./services/DBConnection");
+const UserRoute = require("./routes/user.route");
+
 
 
 const app = express();
@@ -14,6 +16,12 @@ const httpServer = http.createServer(app);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(express.static(__dirname + "/public"));
+
+//agregar routers
+app.use("/user", UserRoute)
+
 
 app.use(function (req, res, next) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -38,6 +46,8 @@ db.connect().then(() => {
 }).catch(err => {
     console.log('Error de conexión a la base de datos.\n', err);
 });
+
+
 
 
 
