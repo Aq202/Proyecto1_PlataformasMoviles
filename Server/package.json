@@ -4,7 +4,8 @@
   "description": "Servidor del proyecto final de Apps",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Diego Morales, Pablo Zamora y Erick Guerra",
   "license": "ISC",
@@ -12,6 +13,12 @@
     "express": "^4.18.2",
     "mongodb": "^4.11.0",
     "mongoose": "^6.7.0",
-    "socket.io": "^4.5.3"
+    "socket.io": "^4.5.3",
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.20.1",
+    "jwt-simple": "^0.5.6"
+  }, 
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

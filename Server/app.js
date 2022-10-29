@@ -4,6 +4,7 @@ const express = require("express");
 const http = require("http");
 const port = require("./services/port");
 const SocketServer = require("./services/socketServer")
+const DBConnection = require("./services/DBConnection")
 
 
 const app = express();
@@ -27,18 +28,18 @@ app.use(function (req, res, next) {
 
 new SocketServer(httpServer)
 
-app.get("/", (req, res) => {
-	res.send("HOLA MUNDO!");
+const db = new DBConnection();
+
+db.connect().then(() => {
+    console.log("Conexión exitosa a la base de datos.")
+    httpServer.listen(port, () => {
+        console.log("Servidor corriendo en puerto " + port);
+    });
+}).catch(err => {
+    console.log('Error de conexión a la base de datos.\n', err);
 });
 
-app.get("/send/:message", (req, res) => {
-	const {message} = req.params
 
-	SocketServer.io.emit("global", message)
 
-	res.send("Mensaje enviado")
-})
 
-httpServer.listen(port, () => {
-	console.log("Servidor corriendo en puerto " + port);
-});
+
