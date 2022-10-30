@@ -11,4 +11,6 @@ module.exports = yup.object().shape({
     birthDate: yup.date().nullable().typeError("La propiedad 'birthDate' debe ser una fecha valida.").required("La propiedad 'birthDate' es obligatoria."),
 	alias: yup.string().nullable().required("La propiedad 'alias' es obligatoria."),
     password: yup.string().trim().nullable().required("La propiedad 'password' es requerida."),
+	imageUrl:yup.string().trim().nullable().required("La propiedad 'image' es obligatoria."),
+	fileValidationError:yup.mixed().notOneOf([true], "Solo se permiten imagenes con formato png, jpg o jpeg.")
 });
