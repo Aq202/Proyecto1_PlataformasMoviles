@@ -1,5 +1,6 @@
 const express = require("express");
-const { registerUser } = require("../controllers/user.controller");
+const { registerUser, login } = require("../controllers/user.controller");
+const userLoginSchema = require("../helpers/validationSchemas/userLoginSchema");
 const userRegistrationSchema = require("../helpers/validationSchemas/userRegistrationSchema");
 const { profilePicPath } = require("../middlewares/defineImagePath");
 const validateBody = require("../middlewares/validateBody");
@@ -14,5 +15,7 @@ router.post(
 	validateBody(userRegistrationSchema),
 	registerUser
 );
+
+router.post("/login", validateBody(userLoginSchema), login);
 
 module.exports = router;

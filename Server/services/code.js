@@ -1,0 +1,1 @@
+exports.jwtKey = "a7b96287e2bb316cfc7d3fd1c73fddb1376bf24638af8b208b2bd50ff2629828"

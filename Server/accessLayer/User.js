@@ -14,7 +14,33 @@ class User {
 		user.imageUrl = imageUrl || null;
 
 		const saved = await user.save();
-		return parseMongoObject(saved);
+		const parsedObject = parseMongoObject(saved);
+		delete parsedObject.passwordHash;
+		return parsedObject
+	}
+
+	/**
+	 *
+	 * @param User Alias o email del usuario
+	 * @param passwordHash hash en formato sha256
+	 *
+	 * @return Retorna la información del usuario si sus credenciales coinciden. De lo contrario retorna null.
+	 */
+	static async getUserByCredentials(user, passwordHash) {
+		console.log(user, "\n",passwordHash)
+		const result = await UserSchema.findOne({
+			$or: [
+				{ email: user, passwordHash },
+				{ alias: user, passwordHash },
+			],
+		});
+
+		if (!result) return null;
+		else{
+			const objParsed = parseMongoObject(result);
+			delete objParsed.passwordHash
+			return objParsed
+		}
 	}
 }
 

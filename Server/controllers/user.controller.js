@@ -1,6 +1,7 @@
 const User = require("../accessLayer/User");
 const { sha256 } = require("js-sha256");
 const fs = require("fs");
+const { generateSessionToken } = require("../services/jwt");
 
 const registerUser = async (req, res) => {
 	try {
@@ -41,4 +42,33 @@ const registerUser = async (req, res) => {
 	}
 };
 
+const login = async (req, res) => {
+	const { user, password } = req.body;
+
+	const passwordHash = sha256(password);
+
+	const userData = await User.getUserByCredentials(user, passwordHash);
+
+	if (userData === null) {
+		const error = "Usuario o contraseña incorrectos.";
+		res.statusMessage = error;
+		res.status(400).send({ ok: false, err: error });
+		return;
+	}
+
+	//autentificacion exitosa
+
+	const token = generateSessionToken(userData.id);
+
+	res.status(200).send({
+		ok: true,
+		result: {
+			token,
+			userData,
+		},
+	});
+
+};
+
 exports.registerUser = registerUser;
+exports.login = login;
