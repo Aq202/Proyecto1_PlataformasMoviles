@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.LoginFragment"
+    tools:context=".ui.fragments.login.LoginFragment"
     android:paddingHorizontal="25dp"
     android:paddingVertical="25dp"
     >
@@ -101,6 +101,19 @@
         app:cornerRadius="@dimen/button_radius"
         android:paddingVertical="@dimen/button_vertical_padding"
         android:layout_marginTop="35dp"
+
+        />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressIndicator_fragmentLogin"
+        android:indeterminate="true"
+        app:layout_constraintTop_toTopOf="@id/button_loginFragment_login"
+        app:layout_constraintBottom_toBottomOf="@id/button_loginFragment_login"
+        app:layout_constraintStart_toStartOf="@id/button_loginFragment_login"
+        app:layout_constraintEnd_toEndOf="@id/button_loginFragment_login"
+        android:visibility="gone"
         />
     
     <TextView

@@ -1,13 +1,13 @@
-package com.example.proyecto_final_apps.ui.fragments
+package com.example.proyecto_final_apps.ui.fragments.home
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -18,12 +18,20 @@ import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
+import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
+import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
+    private val userViewModel : UserViewModel by activityViewModels()
 
     private lateinit var recentOperationsList: MutableList<Operation>
 
@@ -44,6 +52,29 @@ class HomeFragment : Fragment() {
         setUpRecentOperationsRecycler()
         setUpPendingPaymentsRecycler()
         setListeners()
+        setObservers()
+
+        userViewModel.getUserData()
+    }
+
+    private fun setObservers() {
+        lifecycleScope.launchWhenStarted {
+            userViewModel.userDataStateFlow.collectLatest { status ->
+
+                when(status){
+                    is UserSessionStatus.Logged -> {
+                        binding.apply {
+                            textViewHomeFragmentUserName.text = getString(R.string.fullName_template, status.data.name, status.data.lastName)
+                        }
+                    }
+                    is UserSessionStatus.Error-> {
+                        println("DIEGO: ${status.err}")
+                    }
+                    else -> {}
+                }
+
+            }
+        }
     }
 
     override fun onResume() {

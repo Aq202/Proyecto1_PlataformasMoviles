@@ -1,7 +1,8 @@
 const express = require("express");
-const { registerUser, login } = require("../controllers/user.controller");
+const { registerUser, login, getSessionUserData } = require("../controllers/user.controller");
 const userLoginSchema = require("../helpers/validationSchemas/userLoginSchema");
 const userRegistrationSchema = require("../helpers/validationSchemas/userRegistrationSchema");
+const { ensureAuth } = require("../middlewares/auth");
 const { profilePicPath } = require("../middlewares/defineImagePath");
 const validateBody = require("../middlewares/validateBody");
 const multer = require("../services/multer");
@@ -17,5 +18,6 @@ router.post(
 );
 
 router.post("/login", validateBody(userLoginSchema), login);
+router.get("/sessionUserData", ensureAuth, getSessionUserData)
 
 module.exports = router;

@@ -3,7 +3,8 @@ package com.example.proyecto_final_apps.ui.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -16,13 +17,17 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import coil.load
+import coil.request.CachePolicy
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.proyecto_final_apps.helpers.apiUrl
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 
@@ -32,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private val toolbarViewModel: ToolbarViewModel by viewModels()
     private val bottomNavigationViewModel:BottomNavigationViewModel by viewModels()
+    private val mainUserViewModel:UserViewModel by viewModels()
 
 
 
@@ -45,6 +51,16 @@ class MainActivity : AppCompatActivity() {
 
 
         //configuar toolbar
+        configureNavigation()
+        listenToNavGraphChanges()
+        listenToNavDrawerChanges()
+        setObservers()
+
+
+        pruebasSocket()
+    }
+
+    private fun configureNavigation() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHostFragment.navController
@@ -53,12 +69,6 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment, R.id.newActionFragment, R.id.contactsFragment), binding.drawerLayout)
         binding.toolbar.setupWithNavController(navController, appbarConfig)
         binding.navView.setupWithNavController(navController)
-
-        listenToNavGraphChanges()
-        listenToNavDrawerChanges()
-        setObservers()
-
-        pruebasSocket()
     }
 
     private fun pruebasSocket() {
@@ -79,6 +89,36 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationViewModel.selectedItem.collectLatest { item ->
                 binding.bottomNavigationBar.menu.findItem(item.itemId).isChecked = true
             }
+
+        }
+
+        lifecycleScope.launchWhenStarted {
+
+            mainUserViewModel.userDataStateFlow.collectLatest { status ->
+                when(status){
+                    is UserSessionStatus.Logged -> {
+                        addSideBarInfo(status.data)
+                    }
+                    is UserSessionStatus.Error-> {
+                        println("DIEGO: ${status.err}")
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun addSideBarInfo(data:UserModel) {
+        val txtName:TextView = binding.navView.findViewById(R.id.textView_sideNavBar_name)
+        val txtAlias:TextView = binding.navView.findViewById(R.id.textView_sideNavBar_alias)
+        val profilePic:ImageView = binding.navView.findViewById(R.id.imageView_sideNavBar_profilePic)
+
+        txtName.text = getString(R.string.fullName_template, data.name, data.lastName)
+        txtAlias.text = getString(R.string.alias_format, data.alias)
+        profilePic.load(apiUrl + data.imageUrl){
+            placeholder(R.drawable.ic_default_user)
+            error(R.drawable.ic_default_user)
+            diskCachePolicy(CachePolicy.ENABLED)
         }
     }
 
@@ -91,6 +131,7 @@ class MainActivity : AppCompatActivity() {
                     false
                 }
                 R.id.sideNav_item_logout -> {
+                    mainUserViewModel.logout()
                     navController.navigate(R.id.action_toLoginFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     false

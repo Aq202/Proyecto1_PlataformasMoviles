@@ -52,7 +52,7 @@ const login = async (req, res) => {
 	if (userData === null) {
 		const error = "Usuario o contraseña incorrectos.";
 		res.statusMessage = error;
-		res.status(400).send({ ok: false, err: error });
+		res.status(400).send({ err: error });
 		return;
 	}
 
@@ -61,14 +61,35 @@ const login = async (req, res) => {
 	const token = generateSessionToken(userData.id);
 
 	res.status(200).send({
-		ok: true,
-		result: {
 			token,
 			userData,
-		},
 	});
+};
 
+const getSessionUserData = async (req, res) => {
+	const userId = req.session.id;
+
+	try {
+		const user = new User(userId);
+
+		const userData = await user.getData()
+
+		if(userData == null){
+			throw {err: "No se encontró el usuario en sesión.", status:400}
+		}
+
+		else res.status(200).send(userData)
+
+
+	} catch (ex) {
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({err: error });
+	}
 };
 
 exports.registerUser = registerUser;
 exports.login = login;
+exports.getSessionUserData = getSessionUserData;
