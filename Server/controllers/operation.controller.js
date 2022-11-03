@@ -23,7 +23,7 @@ const createOperation = async (req, res) => {
 			return;
 		}
 
-		data.subject = req.session.id
+		data.subject = req.session.id;
 
 		const result = await Operation.createOperation(data);
 
@@ -39,6 +39,14 @@ const createOperation = async (req, res) => {
 		res.statusMessage = error;
 		res.status(status).send({ err: error });
 	}
+};
+
+const getGeneralBallance = async (req, res) => {
+	const subject = req.session.id;
+
+	const result = await Operation.getGeneralBallance(subject);
+
+	res.status(200).send(result);
 };
 
 const editOperation = async (req, res) => {
@@ -109,3 +117,4 @@ const deleteOperation = async (req, res) => {
 exports.createOperation = createOperation;
 exports.editOperation = editOperation;
 exports.deleteOperation = deleteOperation;
+exports.getGeneralBallance = getGeneralBallance;

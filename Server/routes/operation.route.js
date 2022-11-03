@@ -1,5 +1,5 @@
-const express = require("express");
-const { createOperation, editOperation, deleteOperation } = require("../controllers/operation.controller");
+const express = require('express')
+const { createOperation, editOperation, deleteOperation, getGeneralBallance} = require("../controllers/operation.controller");
 const newOperationSchema = require("../helpers/validationSchemas/newOperationSchema");
 const { ensureAuth } = require("../middlewares/auth");
 const { operationImagePath } = require("../middlewares/defineImagePath");
@@ -24,5 +24,7 @@ router.delete(
     "/deleteOperation",
     deleteOperation
 )
+
+router.get("/generalBallance", ensureAuth,  getGeneralBallance)
 
 module.exports = router;

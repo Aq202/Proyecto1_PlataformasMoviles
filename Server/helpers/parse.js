@@ -16,5 +16,16 @@ const parseDate = date => {
 	return `${day}/${month}/${year}`;
 };
 
+/**
+ * 
+ * @param {*} number float.
+ * @returns float. Two decimals number.
+ */
+ const twoDecimals = number => {
+	const fixedNumber = parseFloat(number).toFixed(2);
+	return parseFloat(fixedNumber);
+};
+
 exports.parseMongoObject = parseMongoObject;
 exports.parseDate = parseDate
+exports.twoDecimals = twoDecimals
