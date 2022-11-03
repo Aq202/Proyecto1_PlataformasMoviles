@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -13,6 +14,7 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.FragmentLoginBinding
 import com.example.proyecto_final_apps.helpers.Internet
+import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -21,6 +23,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
+    private val userViewModel:UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +54,10 @@ class LoginFragment : Fragment() {
                         }
                     }
                     is LoginStatus.Logged -> {
+
+                            userViewModel.getUserData(false)
                         requireView().findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
                     }
                     is LoginStatus.Error -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()

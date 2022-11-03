@@ -13,8 +13,7 @@ import javax.inject.Inject
 
 sealed class UserSessionStatus{
     class Logged(val data: UserModel):UserSessionStatus()
-    class Error(val err:String):UserSessionStatus()
-    object Loading:UserSessionStatus()
+    object NotLogged:UserSessionStatus()
     object Default:UserSessionStatus()
 }
 
@@ -27,16 +26,15 @@ class UserViewModel @Inject constructor(
         UserSessionStatus.Default)
     val userDataStateFlow: StateFlow<UserSessionStatus> = _userDataStateFlow
 
-    fun getUserData(){
+    fun getUserData(remote:Boolean){
 
-        _userDataStateFlow.value = UserSessionStatus.Loading
         viewModelScope.launch {
-            when(val result = repository.getUserData()){
+            when(val result = repository.getUserData(remote)){
                 is Resource.Success -> {
                     _userDataStateFlow.value = UserSessionStatus.Logged(result.data)
                 }
                 else -> {
-                    _userDataStateFlow.value = UserSessionStatus.Error(result.message ?: "")
+                    _userDataStateFlow.value = UserSessionStatus.NotLogged
                 }
             }
         }
@@ -45,7 +43,7 @@ class UserViewModel @Inject constructor(
     fun logout(){
         viewModelScope.launch {
             repository.logout()
-            _userDataStateFlow.value = UserSessionStatus.Default
+            _userDataStateFlow.value = UserSessionStatus.NotLogged
         }
     }
 

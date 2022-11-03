@@ -45,13 +45,25 @@ class UserRepositoryImp @Inject constructor(
 
     }
 
-    override suspend fun getUserData(): Resource<UserModel> {
+    /**
+     * Se encarga de obtener los datos del usuario en sesión.
+     * Retorna Success si se obtienen los datos o Error si no.
+     */
+    override suspend fun getUserData(remote: Boolean): Resource<UserModel> {
 
-        if (Internet.checkForInternet(context)) {
-            val ds = MyDataStore(context)
-            val token = ds.getValueFromKey("token") ?: ""
+        val ds = MyDataStore(context)
+        val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
 
-            //get data from api
+        //get from local database
+        val storedData = database.userDao().getUser()
+
+        if (storedData != null && (!remote || !Internet.checkForInternet(context)))
+            return Resource.Success(storedData)
+
+        //Si no hay datos locales o se requiere descargar datos remotos
+
+        //get data from api
+        try {
             val result = api.getSessionUserData(token)
 
             if (result.isSuccessful) {
@@ -63,19 +75,18 @@ class UserRepositoryImp @Inject constructor(
                     return Resource.Success(userData)
                 }
             }
+        }catch(ex:Exception){
+            println("Error de conexión.")
         }
 
-        val storedData = database.userDao().getUser()
-            ?: return Resource.Error("No hay conexión ni datos locales.")
+        return Resource.Error("No se obtuvieron datos locales ni remotos")
+}
 
-        return Resource.Success(storedData)
-    }
+override suspend fun logout() {
+    val ds = MyDataStore(context)
 
-    override suspend fun logout(){
-        val ds = MyDataStore(context)
-
-        ds.removeKey("token")
-        database.userDao().deleteAll()
-    }
+    ds.removeKey("token")
+    database.userDao().deleteAll()
+}
 
 }

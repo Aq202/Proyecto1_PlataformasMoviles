@@ -1,4 +1,4 @@
-const { parseMongoObject } = require("../helpers/parse");
+const { parseMongoObject, parseDate } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { UserSchema } = require("../models/user.model");
 
@@ -20,24 +20,24 @@ class User {
 		return parsedObject;
 	}
 
-	static async updateUser(userId, newData){
-		const updated = await UserSchema.findByIdAndUpdate(userId, newData, {new:true});
-		if(!updated) return null;
+	static async updateUser(userId, newData) {
+		const updated = await UserSchema.findByIdAndUpdate(userId, newData, { new: true });
+		if (!updated) return null;
 		const parsedObject = parseMongoObject(updated);
 		delete parsedObject.passwordHash;
-		return parsedObject
+		return parsedObject;
 	}
 
-	static async deleteUser(userId){
+	static async deleteUser(userId) {
 		const deleted = await UserSchema.findByIdAndDelete(userId);
-		if(!deleted) return null;
+		if (!deleted) return null;
 		const parsedObject = parseMongoObject(deleted);
-		return parsedObject
+		return parsedObject;
 	}
 
-	static async getUser(userId){
+	static async getUser(userId) {
 		const user = await UserSchema.findById(userId);
-		if(!user) return null;
+		if (!user) return null;
 		else return user;
 	}
 
@@ -72,8 +72,11 @@ class User {
 	async getData() {
 		if (!this.data) {
 			const data = await UserSchema.findById(this.id);
-			const parsedData = parseMongoObject(data)
-			delete parsedData.passwordHash
+			const parsedData = parseMongoObject(data);
+			delete parsedData.passwordHash;
+
+			//parse date
+			parsedData.birthDate = parseDate(parsedData.birthDate);
 			this.data = parsedData;
 		}
 

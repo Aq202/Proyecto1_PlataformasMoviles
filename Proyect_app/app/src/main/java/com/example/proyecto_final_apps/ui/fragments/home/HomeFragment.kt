@@ -54,7 +54,6 @@ class HomeFragment : Fragment() {
         setListeners()
         setObservers()
 
-        userViewModel.getUserData()
     }
 
     private fun setObservers() {
@@ -66,9 +65,6 @@ class HomeFragment : Fragment() {
                         binding.apply {
                             textViewHomeFragmentUserName.text = getString(R.string.fullName_template, status.data.name, status.data.lastName)
                         }
-                    }
-                    is UserSessionStatus.Error-> {
-                        println("DIEGO: ${status.err}")
                     }
                     else -> {}
                 }
