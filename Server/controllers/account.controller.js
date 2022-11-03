@@ -5,34 +5,51 @@ const createAccount = async (req, res) => {
 	try {
 		const data = req.body;
 
-		console.log("🚀 ~ file: account.controller.js ~ line 7 ~ createAccount ~ data", data);
-		const user = await User.getUser(data.subject);
-		if (user === null) {
+		//validar existencia del subject
+		const user = new User(req.session.id);
+		const userData = await  user.getData()
+
+		if (userData === null) {
 			const error = "No se han encontrado usuarios con el ID proporcionado.";
 			res.statusMessage = error;
-			res.status(404).send({ ok: false, err: error });
+			res.status(400).send({ ok: false, err: error });
 			return;
 		}
+
+		data.subject = req.session.id
+
+		//crear nueva cuenta
 		const result = await Account.createAccount(data);
 
 		let message = "Account created succesfully!";
 		res.statusMessage = message;
-		res.status(200).send({ ok: true, status: 200, message, result });
+		res.status(200).send(result);
+
 	} catch (ex) {
 		console.log(ex);
 
-		let error = "Ocurrió un error.",
-			status = 500;
+		let error = ex?.err ?? "Ocurrió un error.",
+			status = ex?.status ?? 500;
 
-		if (ex.code === 11000) {
+		if (ex.code === 11000 && ex?.keyValue?.hasOwnProperty("localId")) {
 			status = 400;
-			if (ex?.keyValue?.hasOwnProperty("localId"))
-				error = "El id ingresado ya se encuentra registrado.";
-		}
+			error = "El id ingresado ya se encuentra registrado.";
+		} 
 		res.statusMessage = error;
-		res.status(status).send({ ok: false, err: error });
+		res.status(status).send({err: error });
 	}
 };
+
+const getAccountList = async (req, res) => {
+	
+	const subject = req.session.id
+
+	const accountsList = await Account.getUserAccountsList(subject)
+
+	res.status(200).send({accounts:accountsList})
+
+}
+
 
 const editAccount = async (req, res) => {
 	try {
@@ -40,7 +57,7 @@ const editAccount = async (req, res) => {
 		const data = req.body;
 
 		console.log("🚀 ~ file: account.controller.js ~ line 7 ~ editAccount ~ data", data);
-		if(data.user){
+		if (data.user) {
 			const user = await User.getUser(data.subject);
 			if (user === null) {
 				const error = "No se han encontrado usuarios con el ID proporcionado.";
@@ -95,3 +112,4 @@ const deleteAccount = async (req, res) => {
 exports.createAccount = createAccount;
 exports.editAccount = editAccount;
 exports.deleteAccount = deleteAccount;
+exports.getAccountList = getAccountList

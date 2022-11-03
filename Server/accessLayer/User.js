@@ -72,6 +72,9 @@ class User {
 	async getData() {
 		if (!this.data) {
 			const data = await UserSchema.findById(this.id);
+
+			if(data === null) return null;
+			
 			const parsedData = parseMongoObject(data);
 			delete parsedData.passwordHash;
 
