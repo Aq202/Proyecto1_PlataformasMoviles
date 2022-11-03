@@ -99,9 +99,7 @@ class MainActivity : AppCompatActivity() {
                     is UserSessionStatus.Logged -> {
                         addSideBarInfo(status.data)
                     }
-                    is UserSessionStatus.Error-> {
-                        println("DIEGO: ${status.err}")
-                    }
+
                     else -> {}
                 }
             }

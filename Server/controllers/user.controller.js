@@ -15,9 +15,11 @@ const registerUser = async (req, res) => {
 		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ registerUser ~ data", data);
 		const result = await User.createUser(data);
 
+		const token = generateSessionToken(result.id);
+
 		let message = "User created succesfully!";
 		res.statusMessage = message;
-		res.status(200).send({ ok: true, status: 200, message, result });
+		res.status(200).send({ token, userData: result });
 	} catch (ex) {
 		console.log(ex);
 
@@ -48,10 +50,10 @@ const editUser = async (req, res) => {
 		const data = req.body;
 
 		//encriptar contraseña
-		if(data.password){
+		if (data.password) {
 			const passwordHash = sha256(data.password);
 			delete data.password;
-			data.passwordHash = passwordHash;		
+			data.passwordHash = passwordHash;
 		}
 
 		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ editUser ~ data", data);
@@ -125,8 +127,8 @@ const login = async (req, res) => {
 	const token = generateSessionToken(userData.id);
 
 	res.status(200).send({
-			token,
-			userData,
+		token,
+		userData,
 	});
 };
 
@@ -136,21 +138,18 @@ const getSessionUserData = async (req, res) => {
 	try {
 		const user = new User(userId);
 
-		const userData = await user.getData()
+		const userData = await user.getData();
 
-		if(userData == null){
-			throw {err: "No se encontró el usuario en sesión.", status:400}
-		}
-
-		else res.status(200).send(userData)
-
-
+		if (userData == null) {
+			throw { err: "No se encontró el usuario en sesión.", status: 400 };
+		} else res.status(200).send(userData);
 	} catch (ex) {
+		console.log(ex);
 		let error = ex?.err ?? "Ocurrio un error";
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({err: error });
+		res.status(status).send({ err: error });
 	}
 };
 

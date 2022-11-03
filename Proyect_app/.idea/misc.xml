@@ -52,6 +52,7 @@
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_pending_payments.xml" value="0.2140625" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_recent_operations.xml" value="0.1140625" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_splash_screen.xml" value="0.2391304347826087" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_user_profile.xml" value="0.264" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/navigation_drawer_header.xml" value="0.4" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_account_item.xml" value="0.23148148148148148" />
@@ -71,5 +72,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="Proyecto_final_apps.app" />
+      </set>
+    </option>
   </component>
 </project>

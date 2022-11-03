@@ -15,12 +15,12 @@ import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.data.Operation
 import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentAccountDetailsBinding
+import com.example.proyecto_final_apps.helpers.DATE_FORMAT
 import com.example.proyecto_final_apps.ui.Components.PieChart
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.adapters.ChartDescriptionAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
-import com.example.proyecto_final_apps.ui.util.DATE_FORMAT
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.flow.collectLatest
