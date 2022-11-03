@@ -6,6 +6,7 @@ const port = require("./services/port");
 const SocketServer = require("./services/socketServer");
 const DBConnection = require("./services/DBConnection");
 const UserRoute = require("./routes/user.route");
+const OperationRoute = require("./routes/operation.route");
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -17,6 +18,7 @@ app.use(express.static(__dirname + "/public"));
 
 //agregar routers
 app.use("/user", UserRoute);
+app.use("/operation", OperationRoute);
 
 app.use(function (req, res, next) {
 	res.setHeader("Access-Control-Allow-Origin", "*");

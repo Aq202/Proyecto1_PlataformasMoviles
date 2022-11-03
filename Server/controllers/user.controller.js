@@ -42,6 +42,70 @@ const registerUser = async (req, res) => {
 	}
 };
 
+const editUser = async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const data = req.body;
+
+		//encriptar contraseña
+		if(data.password){
+			const passwordHash = sha256(data.password);
+			delete data.password;
+			data.passwordHash = passwordHash;		
+		}
+
+		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ editUser ~ data", data);
+		const result = await User.editUser(userId, data);
+
+		if (result === null) {
+			const error = "No se han encontrado usuarios con el ID proporcionado.";
+			res.statusMessage = error;
+			res.status(404).send({ ok: false, err: error });
+			return;
+		}
+
+		let message = "User updated succesfully!";
+		res.statusMessage = message;
+		res.status(200).send({ ok: true, status: 200, message, result });
+	} catch (ex) {
+		console.log(ex);
+
+		//delete profile image if exists
+		if (req.body.imageUrl)
+			fs.unlink(`./public${req.body.imageUrl}`, err => {
+				if (!err) console.log("File deleted! ");
+			});
+
+		let error = "Ocurrió un error.",
+			status = 500;
+
+		if (ex.code === 11000) {
+			status = 400;
+			if (ex?.keyValue?.hasOwnProperty("email"))
+				error = "El email ingresado ya se encuentra registrado.";
+			else if (ex?.keyValue?.hasOwnProperty("alias"))
+				error = "El alias ingresado ya ha sido ocupado por otro usuario.";
+		}
+		res.statusMessage = error;
+		res.status(status).send({ ok: false, err: error });
+	}
+};
+
+const deleteUser = async (req, res) => {
+	const userId = req.params.userId;
+
+	const userDeleted = await User.deleteUser(userId);
+
+	if (userDeleted === null) {
+		const error = "No se han encontrado usuarios con el ID proporcionado.";
+		res.statusMessage = error;
+		res.status(404).send({ ok: false, err: error });
+		return;
+	}
+
+	res.status(200).send({ ok: true, result: "Usuario eliminado exitosamente" });
+};
+
 const login = async (req, res) => {
 	const { user, password } = req.body;
 
@@ -72,3 +136,5 @@ const login = async (req, res) => {
 
 exports.registerUser = registerUser;
 exports.login = login;
+exports.editUser = editUser;
+exports.deleteUser = deleteUser;

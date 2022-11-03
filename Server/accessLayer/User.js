@@ -19,6 +19,27 @@ class User {
 		return parsedObject
 	}
 
+	static async updateUser(userId, newData){
+		const updated = await UserSchema.findByIdAndUpdate(userId, newData, {new:true});
+		if(!updated) return null;
+		const parsedObject = parseMongoObject(updated);
+		delete parsedObject.passwordHash;
+		return parsedObject
+	}
+
+	static async deleteUser(userId){
+		const deleted = await UserSchema.findByIdAndDelete(userId);
+		if(!deleted) return null;
+		const parsedObject = parseMongoObject(deleted);
+		return parsedObject
+	}
+
+	static async getUser(userId){
+		const user = await UserSchema.findById(userId);
+		if(!user) return null;
+		else return user;
+	}
+
 	/**
 	 *
 	 * @param User Alias o email del usuario
