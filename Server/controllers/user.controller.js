@@ -15,9 +15,11 @@ const registerUser = async (req, res) => {
 		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ registerUser ~ data", data);
 		const result = await User.createUser(data);
 
+		const token = generateSessionToken(result.id);
+
 		let message = "User created succesfully!";
 		res.statusMessage = message;
-		res.status(200).send({ ok: true, status: 200, message, result });
+		res.status(200).send({ token, userData: result });
 	} catch (ex) {
 		console.log(ex);
 
