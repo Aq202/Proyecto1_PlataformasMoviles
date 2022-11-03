@@ -44,19 +44,29 @@ class SignUpFragment : Fragment() {
             buttonSignUpFragmentSignUp.setOnClickListener {
                 findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
             }
-        }
 
-        binding.datePickerSignUpFragmentBirthDate.setOnClickListener {
-            val datePicker =
-                MaterialDatePicker.Builder.datePicker()
-                    .setTitleText("Fecha de nacimiento")
-                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                    .build()
+            datePickerSignUpFragmentBirthDate.setOnClickListener {
+                val datePicker =
+                    MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Fecha de nacimiento")
+                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .build()
 
-            datePicker.addOnPositiveButtonClickListener {
-                binding.datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
+                datePicker.addOnPositiveButtonClickListener {
+                    datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
+                }
+            }
+
+            buttonSignUpFragmentSignUp.setOnClickListener {
+
+                signUp()
+
             }
         }
 
+    }
+
+    private fun signUp() {
+        TODO("Not yet implemented")
     }
 }

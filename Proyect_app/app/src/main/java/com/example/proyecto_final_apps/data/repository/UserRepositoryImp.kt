@@ -8,6 +8,7 @@ import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
 import com.example.proyecto_final_apps.data.remote.dto.toUserModel
 import com.example.proyecto_final_apps.helpers.Internet
 import javax.inject.Inject
@@ -76,6 +77,38 @@ class UserRepositoryImp @Inject constructor(
 
         ds.removeKey("token")
         database.userDao().deleteAll()
+    }
+
+    override suspend fun signUp(
+        firstName: String,
+        lastName: String,
+        birthDate: String,
+        user: String,
+        password: String
+    ): Resource<Boolean> {
+
+        try{
+
+            val result = api.signUp(SignUpRequest(
+                firstName = firstName,
+                lastName = lastName,
+                birthDate = birthDate,
+                user = user,
+                password = password
+            ))
+
+            return if (result.isSuccessful){
+
+                login(user, password)
+            } else{
+                Resource.Error("El correo electrónico o nombre de usuario ya está registrado")
+            }
+
+        }catch (exception: Exception){
+            println(exception.message)
+            return Resource.Error("Error de conexión al servidor.")
+        }
+
     }
 
 }
