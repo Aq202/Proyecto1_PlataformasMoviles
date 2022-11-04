@@ -7,7 +7,6 @@ interface UserRepository {
 
     suspend fun login(user:String, password:String):Resource<Boolean>
     suspend fun logout()
-    suspend fun getUserData(): Resource<UserModel>
-    suspend fun signUp(firstName: String, lastName: String, birthDate: String, user: String, password: String): Resource<Boolean>
+    suspend fun signUp(firstName: String, lastName: String, birthDate: String, user: String, email: String, password: String): Resource<Boolean>
     suspend fun getUserData(remote:Boolean): Resource<UserModel>
 }

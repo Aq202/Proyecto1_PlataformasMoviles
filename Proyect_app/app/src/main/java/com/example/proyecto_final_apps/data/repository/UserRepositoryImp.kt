@@ -95,7 +95,8 @@ override suspend fun logout() {
         lastName: String,
         birthDate: String,
         user: String,
-        password: String
+        password: String,
+        email: String
     ): Resource<Boolean> {
 
         try{
@@ -105,14 +106,25 @@ override suspend fun logout() {
                 lastName = lastName,
                 birthDate = birthDate,
                 user = user,
+                email = email,
                 password = password
             ))
 
             return if (result.isSuccessful){
 
-                login(user, password)
+                val response = result.body()
+                val ds = MyDataStore(context)
+
+                ds.saveKeyValue("token", response!!.token)
+
+                //guardar datos del usuario
+                database.userDao().deleteAll()
+                database.userDao().insertUser(response.userData.toUserModel())
+
+                return Resource.Success(true)
+
             } else{
-                Resource.Error("El correo electrónico o nombre de usuario ya está registrado")
+                Resource.Error("El correo electrónico o nombre de usuario ya está registrado.")
             }
 
         }catch (exception: Exception){
