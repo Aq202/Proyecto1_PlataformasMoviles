@@ -10,8 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.CategoryTypes
-import com.example.proyecto_final_apps.data.Operation
-import com.example.proyecto_final_apps.data.TestOperations
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentPendingPaymentsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 
@@ -19,7 +18,7 @@ class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
 
     private lateinit var binding: FragmentPendingPaymentsBinding
 
-    private lateinit var pendingPaymentsList: MutableList<Operation>
+    private lateinit var pendingPaymentsList: MutableList<OperationModel>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,9 +34,7 @@ class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
 
     private fun setUpPendingPaymentsRecycler() {
 
-        pendingPaymentsList = TestOperations(requireContext()).getOperations().filter {
-            it.category?.type == CategoryTypes.DEUDAS
-        } as MutableList<Operation>
+        pendingPaymentsList = mutableListOf()
 
         val context = this
         binding.recyclerViewPendingPaymentsFragmentPendingPayments.apply {
@@ -49,11 +46,11 @@ class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
         }
     }
 
-    override fun onItemClicked(operationData: Operation, position: Int) {
+    override fun onItemClicked(operationData: OperationModel, position: Int) {
         findNavController().navigate(R.id.action_toPendingPaymentDetailsFragment)
     }
 
-    override fun onItemPressed(operationData: Operation, position: Int) {
+    override fun onItemPressed(operationData: OperationModel, position: Int) {
         Toast.makeText(requireContext(), "PRESSED...", Toast.LENGTH_LONG).show()
     }
 }

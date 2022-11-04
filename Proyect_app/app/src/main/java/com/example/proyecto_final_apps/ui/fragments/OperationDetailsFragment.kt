@@ -9,8 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.AccountData
-import com.example.proyecto_final_apps.data.Operation
-import com.example.proyecto_final_apps.data.TestOperations
 import com.example.proyecto_final_apps.databinding.FragmentOperationDetailsBinding
 
 class OperationDetailsFragment : Fragment() {
@@ -30,7 +28,6 @@ class OperationDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        insertData()
         setListeners()
     }
 
@@ -40,21 +37,4 @@ class OperationDetailsFragment : Fragment() {
         }
     }
 
-    private fun insertData() {
-
-        val operationId = args.id
-
-        val operation: Operation = TestOperations(requireContext()).getOperationById(operationId)[0]
-
-        binding.apply {
-
-            textViewOperationDetailsFragmentOriginAccountName.text = AccountData.getAccountById(operation.accountId).title
-            textViewOperationDetailsFragmentAmount.text = operation.amount.toString()
-            textViewOperationDetailsFragmentOperationType.text = if (operation.active == true) getString(
-                            R.string.ingreso) else getString(R.string.egreso)
-            textViewOperationDetailsFragmentDescription.text = operation.description ?: getString(R.string.sin_descripcion)
-            textViewOperationDetailsFragmentCategory.text = operation.category!!.name
-            textViewOperationDetailsFragmentDate.text = operation.date
-        }
-    }
 }

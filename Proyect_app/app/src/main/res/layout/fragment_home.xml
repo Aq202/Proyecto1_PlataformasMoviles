@@ -1,228 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.home.HomeFragment">
 
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/swipeResfreshLayout_homeFragment"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView_fragmentHome_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
             >
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:id="@+id/cardView_homeFragment_headerCard"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:backgroundTint="@color/dark_blue"
-                app:cardCornerRadius="@dimen/header_card_radius"
-                android:layout_marginTop="@dimen/header_card_negativeMarginTop"
-
-                >
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="35dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_accountName"
-                        android:text="@string/bienvenido"
-                        android:textSize="@dimen/h4_text_size"
-                        android:textColor="@color/aqua"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_userName"
-                        tools:text="@string/develop_fullname"
-                        android:textSize="@dimen/h2_text_size"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_accountName"
-                        app:layout_constraintStart_toStartOf="@id/textView_homeFragment_accountName"
-                        app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_accountName"
-                        />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cardView_homeFragment_generalAccountCard"
-                android:layout_marginHorizontal="60dp"
-                android:backgroundTint="@color/light_gray_1"
-                app:cardElevation="@dimen/header_card_elevation"
-                app:cardCornerRadius="20dp"
-                android:layout_marginTop="-110dp"
-                app:layout_constraintTop_toBottomOf="@id/cardView_homeFragment_headerCard"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                >
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="25dp"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_generalBalanceTitle"
-                        android:text="@string/balance_general"
-                        android:textSize="@dimen/h4_text_size"
-                        android:textStyle="bold"
-                        android:textColor="@color/dark_blue"
-
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/textView_homeFragment_generalBalanceAmount"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_generalBalanceAmount"
-                        android:text="@string/develop_general_balance"
-                        android:textSize="@dimen/h4_text_size"
-                        android:textStyle="bold"
-                        android:textColor="@color/light_green_2"
-
-                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_generalBalanceTitle"
-                        app:layout_constraintStart_toStartOf="@id/textView_homeFragment_generalBalanceTitle"
-                        app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_generalBalanceTitle"
-                        app:layout_constraintBottom_toTopOf="@id/textView_homeFragment_seeDetails"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_homeFragment_seeDetails"
-                        android:text="@string/ver_detalles"
-                        android:textColor="@color/sky_blue"
-                        android:textStyle="bold"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:textSize="@dimen/h6_text_size"
-                        android:layout_marginTop="10dp"
-
-                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_generalBalanceAmount"
-                        app:layout_constraintStart_toStartOf="@id/textView_homeFragment_generalBalanceTitle"
-                        app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_generalBalanceTitle"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/horizontal_fragment_padding"
-                android:paddingVertical="20dp"
-                app:layout_constraintTop_toBottomOf="@id/cardView_homeFragment_generalAccountCard"
-                app:layout_constraintStart_toStartOf="parent"
-                >
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_homeFragment_recentOperationsTitle"
-                    android:text="@string/operaciones_recientes"
-                    android:textSize="@dimen/h5_text_size"
-                    android:textStyle="bold"
-                    android:textColor="@color/dark_blue"
-
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_homeFragment_headerCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="@dimen/header_card_negativeMarginTop"
+                    android:backgroundTint="@color/dark_blue"
+                    app:cardCornerRadius="@dimen/header_card_radius"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
 
-                <ImageView
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:id="@+id/imageView_homeFragment_seeAllRecentOperationIcon"
-                    app:tint="@color/skyBlue"
-                    android:src="@drawable/ic_right_arrow"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:layout_constraintTop_toTopOf="@id/textView_homeFragment_recentOperationsTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/textView_homeFragment_recentOperationsTitle"
-                    />
+                    >
 
-                <androidx.recyclerview.widget.RecyclerView
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="35dp">
+
+                        <TextView
+                            android:id="@+id/textView_homeFragment_accountName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bienvenido"
+                            android:textColor="@color/aqua"
+                            android:textSize="@dimen/h4_text_size"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView_homeFragment_userName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/h2_text_size"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_accountName"
+                            app:layout_constraintStart_toStartOf="@id/textView_homeFragment_accountName"
+                            app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_accountName"
+                            tools:text="@string/develop_fullname" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_homeFragment_generalAccountCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/recyclerView_homeFragment_recentOperations"
-                    app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_recentOperationsTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="20dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_homeFragment_pendingPaymentsTitle"
-                    android:text="@string/pagos_pendientes"
-                    android:textSize="@dimen/h5_text_size"
-                    android:textStyle="bold"
-                    android:textColor="@color/dark_blue"
-                    android:layout_marginTop="20dp"
-
-                    app:layout_constraintTop_toBottomOf="@id/recyclerView_homeFragment_recentOperations"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <ImageView
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:id="@+id/imageView_homeFragment_seeAllPendingPaymentsIcon"
-                    app:tint="@color/skyBlue"
-                    android:src="@drawable/ic_right_arrow"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:layout_constraintTop_toTopOf="@id/textView_homeFragment_pendingPaymentsTitle"
+                    android:layout_marginHorizontal="60dp"
+                    android:layout_marginTop="-110dp"
+                    android:backgroundTint="@color/light_gray_1"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="@dimen/header_card_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/textView_homeFragment_pendingPaymentsTitle"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/cardView_homeFragment_headerCard"
 
-                <androidx.recyclerview.widget.RecyclerView
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="25dp">
+
+                        <TextView
+                            android:id="@+id/textView_homeFragment_generalBalanceTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/balance_general"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/h4_text_size"
+                            android:textStyle="bold"
+
+                            app:layout_constraintBottom_toTopOf="@id/textView_homeFragment_generalBalanceAmount"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView_homeFragment_generalBalanceAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/default_balance"
+                            android:textColor="@color/light_green_2"
+                            android:textSize="@dimen/h4_text_size"
+                            android:textStyle="bold"
+
+                            app:layout_constraintBottom_toTopOf="@id/textView_homeFragment_seeDetails"
+                            app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_generalBalanceTitle"
+                            app:layout_constraintStart_toStartOf="@id/textView_homeFragment_generalBalanceTitle"
+                            app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_generalBalanceTitle" />
+
+                        <TextView
+                            android:id="@+id/textView_homeFragment_seeDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:text="@string/ver_detalles"
+                            android:textColor="@color/sky_blue"
+                            android:textSize="@dimen/h6_text_size"
+                            android:textStyle="bold"
+
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_generalBalanceTitle"
+                            app:layout_constraintStart_toStartOf="@id/textView_homeFragment_generalBalanceTitle"
+                            app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_generalBalanceAmount" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/recyclerView_homeFragment_pendingPayments"
-                    app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_pendingPaymentsTitle"
+                    android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+                    android:paddingVertical="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="20dp"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/cardView_homeFragment_generalAccountCard">
+
+                    <TextView
+                        android:id="@+id/textView_homeFragment_recentOperationsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/operaciones_recientes"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/h5_text_size"
+                        android:textStyle="bold"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView_homeFragment_seeAllRecentOperationIcon"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_right_arrow"
+                        app:layout_constraintBottom_toBottomOf="@id/textView_homeFragment_recentOperationsTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/textView_homeFragment_recentOperationsTitle"
+                        app:tint="@color/skyBlue" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_homeFragment_recentOperations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_recentOperationsTitle" />
+
+                    <TextView
+                        android:id="@+id/textView_homeFragment_recentOperationsNoContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:paddingVertical="20dp"
+                        android:text="@string/sin_resultados"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/h5_text_size"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/recyclerView_homeFragment_recentOperations" />
+
+                    <TextView
+                        android:id="@+id/textView_homeFragment_pendingPaymentsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/pagos_pendientes"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/h5_text_size"
+                        android:textStyle="bold"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_recentOperationsNoContent" />
+
+                    <ImageView
+                        android:id="@+id/imageView_homeFragment_seeAllPendingPaymentsIcon"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_right_arrow"
+                        app:layout_constraintBottom_toBottomOf="@id/textView_homeFragment_pendingPaymentsTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/textView_homeFragment_pendingPaymentsTitle"
+                        app:tint="@color/skyBlue" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_homeFragment_pendingPayments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_pendingPaymentsTitle" />
+
+                    <TextView
+                        android:id="@+id/textView_homeFragment_pendingPaymentsNoContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:paddingVertical="20dp"
+                        android:text="@string/sin_resultados"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/h5_text_size"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/recyclerView_homeFragment_pendingPayments" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressIndicator_fragmentHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,12 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.request.CachePolicy
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.CategoryTypes
-import com.example.proyecto_final_apps.data.Operation
-import com.example.proyecto_final_apps.data.TestOperations
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentContactProfileBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
-
 class ContactProfileFragment : Fragment(), OperationAdapter.OperationListener {
     private lateinit var binding:FragmentContactProfileBinding
     private val args:ContactProfileFragmentArgs by navArgs()
@@ -51,9 +48,7 @@ class ContactProfileFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
     private fun setUpDebtsRecycler() {
-        val operations = TestOperations(requireContext()).getOperations().filter {
-            it.category?.type == CategoryTypes.DEUDAS
-        }.take(3) as MutableList<Operation>
+        val operations = mutableListOf<OperationModel>()
 
         val context = this
         binding.recyclerViewContactProfileFragmentDebtsList.apply {
@@ -66,12 +61,12 @@ class ContactProfileFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
 
-    override fun onItemClicked(operationData: Operation, position: Int) {
-        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.id)
+    override fun onItemClicked(operationData: OperationModel, position: Int) {
+        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.localId!!)
         findNavController().navigate(action)
     }
 
-    override fun onItemPressed(operationData: Operation, position: Int) {
+    override fun onItemPressed(operationData: OperationModel, position: Int) {
 
     }
 }

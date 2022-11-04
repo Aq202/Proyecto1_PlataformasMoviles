@@ -1,6 +1,7 @@
-const { parseMongoObject } = require("../helpers/parse");
+const { parseMongoObject, parseBooleanStrict, twoDecimals } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { AccountModel } = require("../models/account.model");
+const Operation = require("./Operation");
 
 class Account {
 	static async createAccount({
@@ -22,13 +23,16 @@ class Account {
 		account.allowNegativeValues = allowNegativeValues || false;
 		account.editable = editable || true;
 
+		//Desmarcar cuentas por default
+		if (parseBooleanStrict(defaultAccount) === true) await this.uncheckDefaultAccounts(subject);
+
 		const saved = await account.save();
 		const parsedObject = parseMongoObject(saved);
 		return parsedObject;
 	}
 
-	constructor(userId) {
-		this.id = validateId(userId);
+	static async uncheckDefaultAccounts(subject) {
+		await AccountModel.updateMany({ subject, defaultAccount: true }, { $set: { defaultAccount: false } });
 	}
 
 	async getData() {
@@ -60,6 +64,12 @@ class Account {
 		const parsedList = list.map(item => parseMongoObject(item));
 		return parsedList;
 	}
+
+	constructor(accountId) {
+		this.id = validateId(accountId);
+	}
+
+	
 }
 
 module.exports = Account;

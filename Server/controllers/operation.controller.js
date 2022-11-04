@@ -41,13 +41,7 @@ const createOperation = async (req, res) => {
 	}
 };
 
-const getGeneralBallance = async (req, res) => {
-	const subject = req.session.id;
 
-	const result = await Operation.getGeneralBallance(subject);
-
-	res.status(200).send(result);
-};
 
 const editOperation = async (req, res) => {
 	try {
@@ -114,7 +108,26 @@ const deleteOperation = async (req, res) => {
 	res.status(200).send({ ok: true, result: "Operación eliminada exitosamente" });
 };
 
+const getAllOperations = async (req, res) => {
+	try{
+
+	const operations = await Operation.getOperationsBySubject(req.session.id)
+
+	setTimeout(()=>{
+		res.status(200).send({operations});
+	}, 5000)
+
+	}catch(ex){
+		console.log("🚀 ~ file: user.controller.js ~ line 163 ~ getGeneralBallance ~ ex", ex)
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+};
+
 exports.createOperation = createOperation;
 exports.editOperation = editOperation;
 exports.deleteOperation = deleteOperation;
-exports.getGeneralBallance = getGeneralBallance;
+exports.getAllOperations = getAllOperations

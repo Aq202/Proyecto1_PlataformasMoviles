@@ -153,6 +153,8 @@ const getSessionUserData = async (req, res) => {
 	}
 };
 
+
+
 exports.registerUser = registerUser;
 exports.login = login;
 exports.getSessionUserData = getSessionUserData;

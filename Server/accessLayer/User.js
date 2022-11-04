@@ -1,6 +1,8 @@
-const { parseMongoObject, parseDate } = require("../helpers/parse");
+const { parseMongoObject, parseDate, twoDecimals } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { UserSchema } = require("../models/user.model");
+const Operation = require("./Operation");
+const moment = require("moment");
 
 class User {
 	static async createUser({ name, lastName, email, birthDate, alias, passwordHash, imageUrl }) {
@@ -73,8 +75,8 @@ class User {
 		if (!this.data) {
 			const data = await UserSchema.findById(this.id);
 
-			if(data === null) return null;
-			
+			if (data === null) return null;
+
 			const parsedData = parseMongoObject(data);
 			delete parsedData.passwordHash;
 
@@ -85,6 +87,8 @@ class User {
 
 		return this.data;
 	}
+
+
 }
 
 module.exports = User;

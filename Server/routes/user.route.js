@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, login, getSessionUserData } = require("../controllers/user.controller");
+const { registerUser, login, getSessionUserData, getGeneralBallance } = require("../controllers/user.controller");
 const userLoginSchema = require("../helpers/validationSchemas/userLoginSchema");
 const userRegistrationSchema = require("../helpers/validationSchemas/userRegistrationSchema");
 const { ensureAuth } = require("../middlewares/auth");

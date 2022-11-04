@@ -10,6 +10,6 @@ module.exports = yup.object().shape({
 		.typeError("La propiedad 'active' debe ser un  valor booleano.")
 		.required("La propiedad 'active' es requerida."),
     date: yup.date().nullable().typeError("La propiedad 'date' debe ser una fecha valida.").required("La propiedad 'date' es obligatoria."),
-	category: yup.string().trim().nullable().required("La propiedad 'category' es obligatoria."),
+	category: yup.number().nullable().typeError("La propiedad 'category' debe ser un numero.").required("La propiedad 'category' es obligatoria."),
     
 });

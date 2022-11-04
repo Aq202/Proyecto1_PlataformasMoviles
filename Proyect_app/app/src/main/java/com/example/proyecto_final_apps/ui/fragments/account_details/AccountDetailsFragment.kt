@@ -12,8 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
-import com.example.proyecto_final_apps.data.Operation
-import com.example.proyecto_final_apps.data.TestOperations
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentAccountDetailsBinding
 import com.example.proyecto_final_apps.helpers.DATE_FORMAT
 import com.example.proyecto_final_apps.ui.Components.PieChart
@@ -152,8 +151,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
     private fun setUpOperationsRecycler() {
-        val data =
-            TestOperations(requireContext()).getOperations()
+        val data = mutableListOf<OperationModel>()
 
         val context = this
         binding.recyclerViewAccountDetailsOperations.apply {
@@ -165,12 +163,12 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         }
     }
 
-    override fun onItemClicked(operationData: Operation, position: Int) {
-        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.id)
+    override fun onItemClicked(operationData: OperationModel, position: Int) {
+        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.localId!!)
         findNavController().navigate(action)
     }
 
-    override fun onItemPressed(operationData: Operation, position: Int) {
+    override fun onItemPressed(operationData: OperationModel, position: Int) {
         return
     }
 

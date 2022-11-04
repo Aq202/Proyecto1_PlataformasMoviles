@@ -7,7 +7,7 @@ const createAccount = async (req, res) => {
 
 		//validar existencia del subject
 		const user = new User(req.session.id);
-		const userData = await  user.getData()
+		const userData = await user.getData();
 
 		if (userData === null) {
 			const error = "No se han encontrado usuarios con el ID proporcionado.";
@@ -16,15 +16,15 @@ const createAccount = async (req, res) => {
 			return;
 		}
 
-		data.subject = req.session.id
+		data.subject = req.session.id;
 
 		//crear nueva cuenta
 		const result = await Account.createAccount(data);
 
+
 		let message = "Account created succesfully!";
 		res.statusMessage = message;
 		res.status(200).send(result);
-
 	} catch (ex) {
 		console.log(ex);
 
@@ -34,22 +34,19 @@ const createAccount = async (req, res) => {
 		if (ex.code === 11000 && ex?.keyValue?.hasOwnProperty("localId")) {
 			status = 400;
 			error = "El id ingresado ya se encuentra registrado.";
-		} 
+		}
 		res.statusMessage = error;
-		res.status(status).send({err: error });
+		res.status(status).send({ err: error });
 	}
 };
 
 const getAccountList = async (req, res) => {
-	
-	const subject = req.session.id
+	const subject = req.session.id;
 
-	const accountsList = await Account.getUserAccountsList(subject)
+	const accountsList = await Account.getUserAccountsList(subject);
 
-	res.status(200).send({accounts:accountsList})
-
-}
-
+	res.status(200).send({ accounts: accountsList });
+};
 
 const editAccount = async (req, res) => {
 	try {
@@ -109,7 +106,9 @@ const deleteAccount = async (req, res) => {
 	res.status(200).send({ ok: true, result: "Cuenta eliminada exitosamente" });
 };
 
+
 exports.createAccount = createAccount;
 exports.editAccount = editAccount;
 exports.deleteAccount = deleteAccount;
-exports.getAccountList = getAccountList
+exports.getAccountList = getAccountList;
+

@@ -11,7 +11,7 @@ const operationSchema = Schema({
 	active: { type: Boolean, required: true },
 	date: { type: Date, required: true },
 	description: { type: String },
-	category: { type: String, default: null },
+	category: { type: Number, default: null },
 	favorite: { type: Boolean, default: false },
 	imgUrl: { type: String },
 });
