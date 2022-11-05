@@ -25,6 +25,7 @@
     <string name="no">No</string>
     <string name="develop_user_alias">/@Aq202</string>
     <string name="money_format">Q. %s</string>
+    <string name="cents_format">.%s</string>
     <string name="registro_de_operaciones">Registro de operaciones</string>
     <string name="placeholder_nombre">Nombre</string>
     <string name="placeholder_apellido">Apellido</string>

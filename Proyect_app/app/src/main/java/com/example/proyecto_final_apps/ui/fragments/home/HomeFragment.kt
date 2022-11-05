@@ -24,11 +24,14 @@ import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
 import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -59,9 +62,19 @@ class HomeFragment : Fragment() {
         setListeners()
         setObservers()
 
+        //Show loading dialog
+        val loadingDialog = LoadingDialog()
+        loadingDialog.show(requireActivity().supportFragmentManager,"Loading")
+
         lifecycleScope.launchWhenStarted {
-            loadFragmentData()
+
+            loadFragmentData() //load data
+
+            //close loading dialog
+            delay(500)
+            loadingDialog.dismiss()
         }
+
 
 
     }
@@ -154,37 +167,24 @@ class HomeFragment : Fragment() {
     }
 
     private fun showGeneralBalance(status: Status<Double>) {
-        when (status) {
-            is Status.Success -> {
-                val balance = status.value
-                if (balance!! >= 0.0)
-                    binding.textViewHomeFragmentGeneralBalanceAmount.setTextColor(
-                        ContextCompat.getColor(requireContext(), R.color.light_green_2)
-                    )
-                else
-                    binding.textViewHomeFragmentGeneralBalanceAmount.setTextColor(
-                        ContextCompat.getColor(requireContext(), R.color.red)
-                    )
+        if (status is Status.Success) {
+            val balance = status.value
+            if (balance!! >= 0.0)
+                binding.textViewHomeFragmentGeneralBalanceAmount.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.light_green_2)
+                )
+            else
+                binding.textViewHomeFragmentGeneralBalanceAmount.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.red)
+                )
 
-                binding.textViewHomeFragmentGeneralBalanceAmount.text =
-                    getString(R.string.money_format, abs(balance).twoDecimals())
+            binding.textViewHomeFragmentGeneralBalanceAmount.text =
+                getString(R.string.money_format, abs(balance).twoDecimals())
 
-
-                //show content
-                binding.apply {
-                    nestedScrollViewFragmentHomeContainer.visibility = View.VISIBLE
-                    progressIndicatorFragmentHome.visibility = View.INVISIBLE
-                }
-            }
-            is Status.Default -> {
-                binding.apply {
-                    nestedScrollViewFragmentHomeContainer.visibility = View.INVISIBLE
-                    progressIndicatorFragmentHome.visibility = View.VISIBLE
-                }
-            }
-            else -> {}
 
         }
+
+
     }
 
     override fun onResume() {

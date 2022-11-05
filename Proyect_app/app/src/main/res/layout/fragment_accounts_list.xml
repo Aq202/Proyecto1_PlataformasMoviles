@@ -1,147 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.AccountsListFragment">
+    android:id="@+id/swipeResfreshLayout_listAccountsFragment"
+    tools:context=".ui.fragments.accounts_list.AccountsListFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView_accountDetailsFragment_headerCard"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_card_negativeMarginTop"
-                android:backgroundTint="@color/dark_blue"
-                app:cardCornerRadius="@dimen/header_card_radius"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
-                >
+                android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="35dp"
-                    android:paddingHorizontal="@dimen/header_card_horizontalPadding"
-                    android:paddingBottom="35dp">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/textView_accountDetailsFragment_accountName"
-                        android:layout_width="wrap_content"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView_accountDetailsFragment_headerCard"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/aqua"
-                        android:textSize="@dimen/h4_text_size"
-                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/header_card_negativeMarginTop"
+                        android:backgroundTint="@color/dark_blue"
+                        app:cardCornerRadius="@dimen/header_card_radius"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:text="@string/balance_general" />
 
-                    <TextView
-                        android:id="@+id/textView_accountDetailsFragment_accountBalance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/h3_text_size"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@id/textView_accountDetailsFragment_accountName"
-                        app:layout_constraintTop_toBottomOf="@id/textView_accountDetailsFragment_accountName"
-                        android:text="Q 5,296" />
+                        >
 
-                    <TextView
-                        android:id="@+id/textView_accountDetailsFragment_AccountlBalanceCents"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/h5_text_size"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
-                        app:layout_constraintStart_toEndOf="@id/textView_accountDetailsFragment_accountBalance"
-                        android:text=".59" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="35dp"
+                            android:paddingHorizontal="@dimen/header_card_horizontalPadding"
+                            android:paddingBottom="35dp">
 
-                    <TextView
-                        android:id="@+id/textView_accountDetailsFragment_accountMovement"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/light_green_2"
-                        android:textSize="@dimen/h4_text_size"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/textView_accountDetailsFragment_accountMovementCents"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
-                        android:text="+ 250" />
+                            <TextView
+                                android:id="@+id/textView_accountDetailsFragment_accountName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/balance_general"
+                                android:textColor="@color/aqua"
+                                android:textSize="@dimen/h4_text_size"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textView_accountDetailsFragment_accountMovementCents"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/light_green_2"
-                        android:textSize="@dimen/h6_text_size"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountMovement"
-                        android:text=".15" />
+                            <TextView
+                                android:id="@+id/textView_accountDetailsFragment_accountBalance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Q 5,296"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/h3_text_size"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="@id/textView_accountDetailsFragment_accountName"
+                                app:layout_constraintTop_toBottomOf="@id/textView_accountDetailsFragment_accountName" />
+
+                            <TextView
+                                android:id="@+id/textView_accountDetailsFragment_AccountlBalanceCents"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=".59"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/h5_text_size"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
+                                app:layout_constraintStart_toEndOf="@id/textView_accountDetailsFragment_accountBalance" />
+
+                            <TextView
+                                android:id="@+id/textView_accountDetailsFragment_accountMovement"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+ 250"
+                                android:textColor="@color/light_green_2"
+                                android:textSize="@dimen/h4_text_size"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountBalance"
+                                app:layout_constraintEnd_toStartOf="@id/textView_accountDetailsFragment_accountMovementCents" />
+
+                            <TextView
+                                android:id="@+id/textView_accountDetailsFragment_accountMovementCents"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=".15"
+                                android:textColor="@color/light_green_2"
+                                android:textSize="@dimen/h6_text_size"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="@id/textView_accountDetailsFragment_accountMovement"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+                            android:paddingTop="30dp">
+
+                            <TextView
+                                android:id="@+id/textView_accountsListFragment_accountsTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cuentas_disponibles"
+                                android:textColor="@color/dark_blue"
+                                android:textSize="@dimen/h5_text_size"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView_accountsFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="30dp"
+                                android:paddingBottom="50dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/textView_accountsListFragment_accountsTitle" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.core.widget.NestedScrollView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="30dp"
-                android:paddingHorizontal="@dimen/horizontal_fragment_padding"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_accountsListFragment_accountsTitle"
-                    android:text="@string/cuentas_disponibles"
-                    android:textSize="@dimen/h5_text_size"
-                    android:textStyle="bold"
-                    android:textColor="@color/dark_blue"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/recyclerView_accountsFragment"
-                    app:layout_constraintTop_toBottomOf="@id/textView_accountsListFragment_accountsTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="30dp"
-                    android:paddingBottom="50dp"
-                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_accountsListFragment_createAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/nuevo"
+                app:srcCompat="@drawable/ic_plus" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_accountsListFragment_createAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/nuevo"
-        app:srcCompat="@drawable/ic_plus"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>

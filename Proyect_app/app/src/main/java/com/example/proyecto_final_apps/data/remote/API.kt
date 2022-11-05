@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.data.remote
 
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
+import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
 import com.example.proyecto_final_apps.data.remote.dto.operationResponse.OperationDto
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
@@ -28,5 +29,8 @@ interface API {
         @Header("authorization") token:String
     ):Response<OperationDto>
 
-
+    @GET("/account/list")
+    suspend fun getAccountList(
+        @Header("authorization") token:String
+    ):Response<AccountListDto>
 }

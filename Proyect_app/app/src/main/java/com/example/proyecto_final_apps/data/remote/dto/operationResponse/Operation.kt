@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.data.remote.dto.operationResponse
 
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.helpers.DateParse
 
 data class Operation(
     val account: String,
@@ -27,7 +28,7 @@ fun Operation.toOperationModel(): OperationModel {
         amount = this.amount,
         category = this.category,
         favorite = this.favorite,
-        date = this.date,
+        date = formattedDate,
         remoteId = this.id,
         subject = this.subject,
         title = this.title,

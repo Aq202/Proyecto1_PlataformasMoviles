@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountsListFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.AccountsListFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListFragment"
         android:label=""
         tools:layout="@layout/fragment_accounts_list">
         <action

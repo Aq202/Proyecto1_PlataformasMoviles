@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.AccountData
 import com.example.proyecto_final_apps.databinding.FragmentNewDebtBinding
 
 class NewDebtFragment : Fragment() {
@@ -33,9 +32,7 @@ class NewDebtFragment : Fragment() {
     private fun setDropLists() {
         val accounts = arrayListOf<String>()
         val operationTypes = listOf("Ingreso","Egreso")
-        AccountData.accounts.forEach{
-            accounts.add(it.title)
-        }
+
         val adapterAccount = ArrayAdapter(requireContext(), R.layout.list_item, accounts)
         val adapterOperation = ArrayAdapter(requireContext(), R.layout.list_item, operationTypes)
         binding.autoCompleteViewNewDebtFragmentSourceAccount.setAdapter(adapterAccount)

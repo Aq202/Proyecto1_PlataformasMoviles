@@ -18,7 +18,6 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-
     private val _generalBalance:MutableStateFlow<Status<Double>> = MutableStateFlow(Status.Default())
     val generalBalance:StateFlow<Status<Double>> = _generalBalance
 

@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.operationResponse.toOperationModel
+import com.example.proyecto_final_apps.helpers.DateParse
 import javax.inject.Inject
 
 class OperationRepositoryImp @Inject constructor(
@@ -17,6 +18,7 @@ class OperationRepositoryImp @Inject constructor(
 
     override suspend fun getOperations(forceUpdate: Boolean): Resource<List<OperationModel>> {
 
+        try{
 
         val operationsStoredNumber = database.operationDao().getOperationsStoredNumber()
         if (operationsStoredNumber > 0 && !forceUpdate) {
@@ -49,6 +51,10 @@ class OperationRepositoryImp @Inject constructor(
 
         }
 
+        }catch(ex:Exception){
+
+        }
+
         return Resource.Error("Error al obtener operaciones.")
     }
 
@@ -66,5 +72,33 @@ class OperationRepositoryImp @Inject constructor(
         }
 
         return Resource.Success(ballance)
+    }
+
+    override suspend fun getBalanceMovement(): Resource<Double> {
+
+        val balanceResult = getGeneralBalance()
+        val operationsList = database.operationDao().getAllOperations()
+
+        if( balanceResult is Resource.Success && operationsList.isNotEmpty()){
+            val currentBalance = balanceResult.data
+            var lastBalance = 0.0
+
+
+            operationsList.forEach{ op ->
+
+                val operationDate = DateParse.formatDate(op.date)
+                val firstDayMonthDate = DateParse.getFirstDayOfMonthDate()
+
+                if(firstDayMonthDate > operationDate){
+                    if (op.active) lastBalance += op.amount
+                    else lastBalance -= op.amount
+                }
+
+            }
+
+            return Resource.Success(currentBalance - lastBalance)
+        }
+
+        return Resource.Success(0.00)
     }
 }

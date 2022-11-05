@@ -7,4 +7,5 @@ interface OperationRepository {
 
     suspend fun getOperations(forceUpdate:Boolean = false):Resource<List<OperationModel>>
     suspend fun getGeneralBalance(): Resource<Double>
+    suspend fun getBalanceMovement():Resource<Double>
 }

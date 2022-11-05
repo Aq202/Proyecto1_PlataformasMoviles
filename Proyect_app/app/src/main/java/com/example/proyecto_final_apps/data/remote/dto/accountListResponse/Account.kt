@@ -1,0 +1,27 @@
+package com.example.proyecto_final_apps.data.remote.dto.accountListResponse
+
+import com.example.proyecto_final_apps.data.local.entity.AccountModel
+
+data class Account(
+    val allowNegativeValues: Boolean,
+    val defaultAccount: Boolean,
+    val editable: Boolean,
+    val id: String,
+    val localId: Int,
+    val subject: String,
+    val title: String,
+    val total: Double
+)
+
+fun Account.toAccountModel():AccountModel{
+    return AccountModel(
+        localId = localId,
+        remoteId = id,
+        allowNegativeValues = allowNegativeValues,
+        defaultAccount = defaultAccount,
+        editable = editable,
+        subject = subject,
+        title = title,
+        total = total
+    )
+}

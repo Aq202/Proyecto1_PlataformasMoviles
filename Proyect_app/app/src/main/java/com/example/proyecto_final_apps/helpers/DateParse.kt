@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.helpers
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 object DateParse {
@@ -33,5 +34,28 @@ object DateParse {
         val year = calendar[Calendar.YEAR]
 
         return "$day de ${months[month]} de $year"
+    }
+
+    fun getFirstDayOfMonthDate():Date{
+        val date = Date()
+        return formatDate("01/${date.getMonthValue()}/${date.getYearValue()}")
+    }
+
+    fun Date.getDayValue():Int{
+        val calendar = Calendar.getInstance()
+        calendar.time = this
+        return calendar[Calendar.DATE]
+    }
+
+    fun Date.getMonthValue():Int{
+            val calendar = Calendar.getInstance()
+            calendar.time = this
+            return calendar[Calendar.MONTH] + 1
+    }
+
+    fun Date.getYearValue():Int{
+        val calendar = Calendar.getInstance()
+        calendar.time = this
+        return calendar[Calendar.YEAR]
     }
 }

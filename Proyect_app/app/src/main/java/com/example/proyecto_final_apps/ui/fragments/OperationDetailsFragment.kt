@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.AccountData
 import com.example.proyecto_final_apps.databinding.FragmentOperationDetailsBinding
 
 class OperationDetailsFragment : Fragment() {

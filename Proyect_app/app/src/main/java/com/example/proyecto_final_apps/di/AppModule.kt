@@ -8,10 +8,7 @@ import androidx.room.Room
 import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.remote.API
-import com.example.proyecto_final_apps.data.repository.OperationRepository
-import com.example.proyecto_final_apps.data.repository.OperationRepositoryImp
-import com.example.proyecto_final_apps.data.repository.UserRepository
-import com.example.proyecto_final_apps.data.repository.UserRepositoryImp
+import com.example.proyecto_final_apps.data.repository.*
 import com.example.proyecto_final_apps.helpers.apiUrl
 import dagger.Module
 import dagger.Provides
@@ -72,6 +69,20 @@ class AppModule {
         database: Database
     ): OperationRepository {
         return OperationRepositoryImp(
+            api = api,
+            context = context,
+            database = database
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAccountRepository(
+        api: API,
+        @ApplicationContext context: Context,
+        database: Database
+    ): AccountRepository {
+        return AccountRepositoryImp(
             api = api,
             context = context,
             database = database
