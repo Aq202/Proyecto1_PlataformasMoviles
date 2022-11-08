@@ -23,4 +23,7 @@ interface OperationDao {
     @Query("DELETE FROM OperationModel")
     suspend fun deleteAllOperations()
 
+    @Query("SELECT * FROM OperationModel WHERE accountLocalId=:accountLocalId")
+    suspend fun getAccountOperations(accountLocalId:Int):List<OperationModel>
+
 }

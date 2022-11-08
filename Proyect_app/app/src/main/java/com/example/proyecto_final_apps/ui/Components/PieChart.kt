@@ -15,7 +15,7 @@ class PieChart( val pieChart:PieChart) {
 
     data class PieElement(
         val color:Int,
-        val amount:Double,
+        var amount:Double,
         val text:String?
     );
 

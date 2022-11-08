@@ -39,7 +39,7 @@ class Operation {
 	}
 
 	static async getOperationsBySubject(subjectId) {
-		const operationsList = await OperationModel.find({ subject: subjectId });
+		const operationsList = await OperationModel.find({ subject: subjectId }).populate("account")
 
 		const parsedOperations = operationsList
 			.map(op => {

@@ -19,4 +19,10 @@ interface AccountDao {
 
     @Query("DELETE FROM AccountModel")
     suspend fun deleteAll()
+
+    @Query("SELECT remoteId FROM AccountModel WHERE localId=:localId")
+    suspend fun getRemoteId(localId:String):String?
+
+    @Query("SELECT * FROM AccountModel WHERE localId=:localId")
+    suspend fun getAccountById(localId:Int):AccountModel?
 }

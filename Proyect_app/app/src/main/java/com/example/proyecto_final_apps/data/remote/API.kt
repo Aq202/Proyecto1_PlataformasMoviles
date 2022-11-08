@@ -2,8 +2,8 @@ package com.example.proyecto_final_apps.data.remote
 
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
+import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.OperationDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
-import com.example.proyecto_final_apps.data.remote.dto.operationResponse.OperationDto
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
 import retrofit2.Response
 import retrofit2.http.Body

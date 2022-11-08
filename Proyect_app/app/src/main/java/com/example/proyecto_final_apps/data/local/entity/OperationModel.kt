@@ -11,13 +11,14 @@ import java.util.*
 data class OperationModel(
     @PrimaryKey(autoGenerate = true)
     val localId: Int? = null,
-    val account: String,
+    val accountRemoteId: String?,
+    val accountLocalId:Int,
     val active: Boolean,
     val amount: Double,
     val category: Int,
     val favorite: Boolean,
     val date: String,
-    val remoteId: String,
+    val remoteId: String?,
     val subject: String,
     val title: String,
     val requiresUpdate: Boolean? = false,

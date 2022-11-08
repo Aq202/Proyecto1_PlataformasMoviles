@@ -21,6 +21,7 @@ import com.example.proyecto_final_apps.helpers.twoDigits
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.adapters.AccountAdapter
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
+import com.example.proyecto_final_apps.ui.fragments.account_details.AccountDetailsFragment
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -168,7 +169,8 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
     }
 
     override fun onItemClicked(operationData: AccountModel, position: Int) {
-        findNavController().navigate(R.id.action_accountsListFragment_to_accountDetailsFragment)
+        val action = AccountsListFragmentDirections.actionAccountsListFragmentToAccountDetailsFragment(accountId = operationData.localId!!)
+        findNavController().navigate(action)
     }
 
     override fun onItemPressed(operationData: AccountModel, position: Int) {

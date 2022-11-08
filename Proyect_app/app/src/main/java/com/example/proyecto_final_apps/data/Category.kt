@@ -9,7 +9,10 @@ import com.example.proyecto_final_apps.R
 enum class CategoryTypes{
     ALIMENTOS,
     TRANSPORTE,
-    DEUDAS
+    DEUDAS,
+    DEFAULT,
+    ENTRETENIMIENTO,
+    TRABAJO
 }
 
 data class CategoryModel(
@@ -24,6 +27,13 @@ class Category(private val context:Context) {
 
     private val categories = setOf(
 
+        CategoryModel(
+            0,
+            "Otros",
+            CategoryTypes.DEFAULT,
+            null,
+            getColor(context,R.color.default_category)
+        ),
         CategoryModel(
             1,
             "Alimentos",
@@ -43,8 +53,23 @@ class Category(private val context:Context) {
             "Deudas",
             CategoryTypes.DEUDAS,
             null,
-            getColor(context,R.color.default_category)
-        )
+            getColor(context,R.color.debts_category)
+        ),
+        CategoryModel(
+            4,
+            "Entretenimiento",
+            CategoryTypes.ENTRETENIMIENTO,
+            getDrawable(context, R.drawable.ic_category_movies),
+            getColor(context,R.color.entretaiment_category)
+        ),
+
+        CategoryModel(
+            5,
+            "Trabajo",
+            CategoryTypes.TRABAJO,
+            getDrawable(context, R.drawable.ic_category_work),
+            getColor(context,R.color.work_category)
+        ),
 
     )
 
