@@ -18,6 +18,8 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+
+
     private val _generalBalance:MutableStateFlow<Status<Double>> = MutableStateFlow(Status.Default())
     val generalBalance:StateFlow<Status<Double>> = _generalBalance
 
@@ -26,6 +28,8 @@ class HomeViewModel @Inject constructor(
 
     private val _pendingOperations:MutableStateFlow<Status<List<OperationModel>>> = MutableStateFlow(Status.Default())
     val pendingOperations:StateFlow<Status<List<OperationModel>>> = _pendingOperations
+
+
 
     suspend fun getGeneralBalance(){
             when(val result = opRepository.getGeneralBalance()){

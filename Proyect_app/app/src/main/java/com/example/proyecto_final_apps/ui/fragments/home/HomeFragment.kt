@@ -21,6 +21,7 @@ import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
 import com.example.proyecto_final_apps.helpers.twoDecimals
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
+import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
@@ -41,9 +42,11 @@ class HomeFragment : Fragment() {
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+    private val loadingViewModel: LoadingViewModel by activityViewModels()
 
     private var recentOperationsList: MutableList<OperationModel> = mutableListOf()
     private var pendingOperationsList: MutableList<OperationModel> = mutableListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,17 +65,12 @@ class HomeFragment : Fragment() {
         setListeners()
         setObservers()
 
-        //Show loading dialog
-        val loadingDialog = LoadingDialog()
-        loadingDialog.show(requireActivity().supportFragmentManager,"Loading")
-
+        loadingViewModel.showLoadingDialog()
         lifecycleScope.launchWhenStarted {
 
             loadFragmentData() //load data
+            loadingViewModel.hideLoadingDialog()
 
-            //close loading dialog
-            delay(500)
-            loadingDialog.dismiss()
         }
 
 
@@ -125,7 +123,9 @@ class HomeFragment : Fragment() {
         }
 
 
+
     }
+
 
     private fun addPendingOperationsData(status: Status<List<OperationModel>>) {
         when (status) {

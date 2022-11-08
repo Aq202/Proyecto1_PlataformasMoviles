@@ -24,8 +24,6 @@ class AccountDetailsViewModel @Inject constructor(
         object EmptyFilter : Filter()
     }
 
-    private val _isLoading:MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val isLoading:StateFlow<Boolean> = _isLoading
 
     private val _dateFilterFlow: MutableStateFlow<Filter> = MutableStateFlow(Filter.EmptyFilter)
     val dateFilterFlow: MutableStateFlow<Filter> = _dateFilterFlow
@@ -50,13 +48,6 @@ class AccountDetailsViewModel @Inject constructor(
     private val _accountName:MutableStateFlow<Status<String>> = MutableStateFlow(Status.Default())
     val accountName:StateFlow<Status<String>> = _accountName
 
-    fun showLoadingDialog(){
-        _isLoading.value = true
-    }
-
-    fun hideLoadingDialog(){
-        _isLoading.value = false
-    }
 
     fun addDateFilter(start: Date, end: Date) {
         _dateFilterFlow.value = Filter.ActiveDateFilter(start, end)

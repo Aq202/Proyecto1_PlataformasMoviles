@@ -23,6 +23,7 @@ import com.example.proyecto_final_apps.helpers.twoDigits
 import com.example.proyecto_final_apps.ui.Components.PieChart
 import com.example.proyecto_final_apps.ui.Components.PieChart.PieElement
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
+import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.adapters.ChartDescriptionAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
@@ -44,11 +45,12 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
     private lateinit var binding: FragmentAccountDetailsBinding
     private val accountDetailsViewModel: AccountDetailsViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
+    private val loadingViewModel: LoadingViewModel by activityViewModels()
+
     private val pieData: MutableList<PieElement> = mutableListOf()
     private val args: AccountDetailsFragmentArgs by navArgs()
     private val operationsRecyclerData:MutableList<OperationModel> = mutableListOf()
     private var blockDatePicker:Boolean = false
-    private val loadingDialog = LoadingDialog()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,10 +70,10 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         setObservers()
 
 
-        accountDetailsViewModel.showLoadingDialog() //show loading
+        loadingViewModel.showLoadingDialog() //show loading
         lifecycleScope.launchWhenStarted {
             getFragmentData()
-            accountDetailsViewModel.hideLoadingDialog() //hide loading
+            loadingViewModel.hideLoadingDialog() //hide loading
         }
         
     }
@@ -80,11 +82,6 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
     override fun onResume() {
         super.onResume()
         selectCurrentBottomNavigationItem()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        accountDetailsViewModel.hideLoadingDialog()
     }
 
     private suspend fun getFragmentData(forceUpdate: Boolean = false) {
@@ -100,13 +97,6 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
     }
 
     private fun setObservers() {
-
-        lifecycleScope.launchWhenStarted {
-            accountDetailsViewModel.isLoading.collectLatest { isLoading ->
-                manageLoadingComponent(isLoading)
-            }
-        }
-
 
         lifecycleScope.launchWhenStarted {
             accountDetailsViewModel.dateFilterFlow.collectLatest { filter ->
@@ -169,15 +159,6 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         }
     }
 
-    private suspend fun manageLoadingComponent(isLoading:Boolean) {
-        if(isLoading){
-            //Show loading dialog
-            loadingDialog.show(requireActivity().supportFragmentManager, "Loading")
-        }else{
-            delay(300)
-            loadingDialog.dismiss()
-        }
-    }
 
     private fun changeBalanceData(balanceData: Pair<Double, Double>?) {
         binding.apply {

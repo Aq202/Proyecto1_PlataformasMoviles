@@ -19,6 +19,7 @@ import com.example.proyecto_final_apps.databinding.FragmentAccountsListBinding
 import com.example.proyecto_final_apps.helpers.getDecimal
 import com.example.proyecto_final_apps.helpers.twoDigits
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
+import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.adapters.AccountAdapter
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
 import com.example.proyecto_final_apps.ui.fragments.account_details.AccountDetailsFragment
@@ -35,6 +36,8 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
     private var accountsList : MutableList<AccountModel> = mutableListOf()
     private val bottomNavigationViewModel:BottomNavigationViewModel by activityViewModels()
     private val accountListViewModel:AccountsListViewModel by viewModels()
+    private val loadingViewModel: LoadingViewModel by activityViewModels()
+
 
 
     override fun onCreateView(
@@ -53,16 +56,10 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
         setListeners()
         setObservers()
 
-        //Show loading dialog
-        val loadingDialog = LoadingDialog()
-        loadingDialog.show(requireActivity().supportFragmentManager,"Loading")
-
+        loadingViewModel.showLoadingDialog()
         lifecycleScope.launchWhenStarted {
             getFragmentData()
-
-            //close loading dialog
-            delay(500)
-            loadingDialog.dismiss()
+            loadingViewModel.hideLoadingDialog()
         }
     }
 
@@ -153,6 +150,13 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
         binding.apply {
             fabAccountsListFragmentCreateAccount.setOnClickListener{
                 findNavController().navigate(R.id.action_accountsListFragment_to_newAccountFragment)
+            }
+
+            swipeResfreshLayoutListAccountsFragment.setOnRefreshListener {
+                lifecycleScope.launchWhenStarted {
+                    getFragmentData(true)
+                    binding.swipeResfreshLayoutListAccountsFragment.isRefreshing = false
+                }
             }
         }
     }

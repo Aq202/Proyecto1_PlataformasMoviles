@@ -24,7 +24,9 @@ import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
 import com.example.proyecto_final_apps.helpers.apiUrl
+import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
@@ -33,12 +35,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
+    private val loadingDialog = LoadingDialog()
+
 
 
     private val toolbarViewModel: ToolbarViewModel by viewModels()
     private val bottomNavigationViewModel:BottomNavigationViewModel by viewModels()
     private val mainUserViewModel:UserViewModel by viewModels()
-
+    private val loadingViewModel:LoadingViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,6 +106,12 @@ class MainActivity : AppCompatActivity() {
 
                     else -> {}
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            loadingViewModel.isLoading.collectLatest { isLoading ->
+                manageLoadingComponent(isLoading)
             }
         }
     }
@@ -228,16 +238,22 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-
-
-
-
         } else search.isVisible = false
-
-
 
         return super.onCreateOptionsMenu(menu)
     }
+
+    private suspend fun manageLoadingComponent(isLoading:Boolean) {
+        if(isLoading){
+            //Show loading dialog
+            if(loadingDialog.isVisible) loadingDialog.dismiss()
+            loadingDialog.show(supportFragmentManager, "Loading")
+        }else if(loadingDialog.isVisible){
+            delay(300)
+            loadingDialog.dismiss()
+        }
+    }
+
 
 
 
