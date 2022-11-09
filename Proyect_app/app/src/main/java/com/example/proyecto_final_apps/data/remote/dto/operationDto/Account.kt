@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse
+package com.example.proyecto_final_apps.data.remote.dto.operationDto
 
 data class Account(
     val __v: Int,

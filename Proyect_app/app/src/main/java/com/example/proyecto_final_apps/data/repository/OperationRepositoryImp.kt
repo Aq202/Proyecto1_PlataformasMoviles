@@ -6,7 +6,7 @@ import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.API
-import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.toOperationModel
+import com.example.proyecto_final_apps.data.remote.dto.operationDto.toOperationModel
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
 import java.util.*
@@ -160,6 +160,13 @@ class OperationRepositoryImp @Inject constructor(
                 else -> return result //Estado de error de getOperations
             }
         }
+
+    }
+
+    override suspend fun uploadPendingChanges() {
+
+
+        //eliminar operaciones pendinetes
 
     }
 }

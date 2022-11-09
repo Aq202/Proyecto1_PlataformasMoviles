@@ -243,14 +243,13 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private suspend fun manageLoadingComponent(isLoading:Boolean) {
+    private fun manageLoadingComponent(isLoading:Boolean) {
         if(isLoading){
             //Show loading dialog
-            if(loadingDialog.isVisible) loadingDialog.dismiss()
+            if(loadingDialog.isAdded) loadingDialog.dismiss()
             loadingDialog.show(supportFragmentManager, "Loading")
-        }else if(loadingDialog.isVisible){
-            delay(300)
-            loadingDialog.dismiss()
+        }else{
+            if(loadingDialog.isAdded)loadingDialog.dismiss()
         }
     }
 

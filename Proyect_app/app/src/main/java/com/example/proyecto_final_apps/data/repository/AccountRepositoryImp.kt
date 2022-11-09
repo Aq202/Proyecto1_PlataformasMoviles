@@ -6,7 +6,7 @@ import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.remote.API
-import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.toAccountModel
+import com.example.proyecto_final_apps.data.remote.dto.toAccountModel
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
 import javax.inject.Inject
@@ -15,61 +15,70 @@ class AccountRepositoryImp @Inject constructor(
     val api: API,
     val context: Context,
     val database: Database
-):AccountRepository {
+) : AccountRepository {
 
-    override suspend fun getAccountList(forceUpdate:Boolean): Resource<List<AccountModel>> {
-        try{
+    override suspend fun getAccountList(forceUpdate: Boolean): Resource<List<AccountModel>> {
 
-        val numberOfAccounts = database.accountDao().getNumberOfAccounts()
-        if(numberOfAccounts > 0 && !(forceUpdate && Internet.checkForInternet(context))){
-            //from database
-            val accountList = database.accountDao().getAccounts()
-            return Resource.Success(accountList)
+        try {
 
-        }else{
+            uploadPendingChanges()
 
-            val ds = MyDataStore(context)
-            val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+            val numberOfAccounts = database.accountDao().getNumberOfAccounts()
+            if (numberOfAccounts > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
+                //from database
+                val accountList = database.accountDao().getAccounts()
+                return Resource.Success(accountList)
+
+            } else {
+
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
 
 
-            //from api
-            val result = api.getAccountList(token)
+                //from api
+                val result = api.getAccountList(token)
 
-            if(result.isSuccessful){
-                val accountList = result.body()?.accounts?.map{it.toAccountModel()}
+                if (result.isSuccessful) {
+                    val accountList = result.body()?.accounts?.map { it.toAccountModel() }
 
-                return if(accountList != null && accountList.isNotEmpty()){
+                    return if (accountList != null && accountList.isNotEmpty()) {
 
-                    //store in database
-                    database.accountDao().deleteAll()
-                    database.accountDao().insertManyAccounts(accountList)
+                        //store in database
+                        database.accountDao().deleteAll()
+                        database.accountDao().insertManyAccounts(accountList)
 
-                    Resource.Success(accountList)
-                }else
-                    Resource.Error("No se obtuvo ningúna cuenta.")
+                        Resource.Success(accountList)
+                    } else
+                        Resource.Error("No se obtuvo ningúna cuenta.")
+                }
             }
-        }
-        }catch(ex:Exception){
+        } catch (ex: Exception) {
             println("Diego: ${ex.message} ")
         }
         return Resource.Error("Error al obtener lista de cuentas.")
     }
 
-    override suspend fun getAccountName(accountLocalId:Int, forceUpdate: Boolean):Resource<String>{
+    override suspend fun getAccountData(
+        accountLocalId: Int,
+        forceUpdate: Boolean
+    ): Resource<AccountModel> {
+
+        uploadPendingChanges()
+
         val account = database.accountDao().getAccountById(accountLocalId)
-        if(!(forceUpdate && Internet.checkForInternet(context)))
-        return Resource.Success(account!!.title)
-        else{
+        if (!(forceUpdate && Internet.checkForInternet(context)))
+            return Resource.Success(account!!)
+        else {
             val accountsResult = getAccountList(true)
-            return if(accountsResult is Resource.Success) {
+            return if (accountsResult is Resource.Success) {
                 val accountUpdated = database.accountDao().getAccountById(accountLocalId)
-                if(accountUpdated != null)
-                    Resource.Success(accountUpdated.title)
+                if (accountUpdated != null)
+                    Resource.Success(accountUpdated)
                 else Resource.Error("La cuenta ha sido eliminada remotamente.")
 
-            }else{
+            } else {
                 //no se obtuvieron resultados remotos
-                if(account != null) Resource.Success(account.title)
+                if (account != null) Resource.Success(account)
                 else Resource.Error("No se encontró la cuenta.")
             }
 
@@ -77,7 +86,121 @@ class AccountRepositoryImp @Inject constructor(
 
     }
 
-    override suspend fun getAccountBalance(accountLocalId:Int): Resource<Double> {
+    override suspend fun setAsDefaultAccount(accountLocalId: Int): Resource<Boolean> {
+
+        //actualizar en BD
+        val previousDefaultAccount = database.accountDao().getDefaultAccount()
+        val accountToUpdate = database.accountDao().getAccountById(accountLocalId)
+            ?: return Resource.Error("No se ha encontrado la cuenta.")
+
+        if (!accountToUpdate.editable) return Resource.Error("La cuenta no puede ser seleccionada como default.")
+
+        previousDefaultAccount?.defaultAccount = false
+        accountToUpdate.defaultAccount = true
+
+        try {
+
+            if (Internet.checkForInternet(context)) {
+
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+                //realizar peticion
+                val result = api.setAsDefaultAccount(token, accountToUpdate.remoteId)
+                if (result.isSuccessful) {
+                    //actualizar en BD
+                    if (previousDefaultAccount != null)
+                        database.accountDao().updateAccount(previousDefaultAccount)
+                    database.accountDao().updateAccount(accountToUpdate)
+
+                    return Resource.Success(true)
+                }
+            }
+
+        } catch (ex: Exception) {
+            println("Diego: ${ex.message}")
+
+        }
+        //Si no se actualizó en el servidor
+        previousDefaultAccount?.requiresUpdate = true
+        accountToUpdate.requiresUpdate = true
+
+        //actualizar en BD
+        if (previousDefaultAccount != null)
+            database.accountDao().updateAccount(previousDefaultAccount)
+        database.accountDao().updateAccount(accountToUpdate)
+
+        return Resource.Success(true)
+    }
+
+    override suspend fun deleteAccount(accountLocalId: Int): Resource<Boolean> {
+
+        val ds = MyDataStore(context)
+        val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+        val account = database.accountDao().getAccountById(accountLocalId)
+            ?: return Resource.Error("La cuenta no existe.")
+
+        if (!account.editable) return Resource.Error("La cuenta no puede ser eliminada.")
+
+
+        //delete in api
+        if (Internet.checkForInternet(context)) {
+
+            try {
+                val result = api.deleteAccount(token, account.remoteId)
+                if (result.isSuccessful) {
+                    //Eliminar completamente de la bd
+                    val deletedCount = database.accountDao().deleteAccount(account)
+                    if (deletedCount > 0) {
+                        //Eliminar operaciones relacionadas
+                        database.operationDao().deleteAllAccountOperations(accountLocalId)
+
+                        //Marcar nueva cuenta favorita en caso de haberse modificado
+                        if (result.body()?.newDefaultAccount != null) {
+                            val newDefaultAccountId = result.body()?.newDefaultAccount!!.localId
+                            val newDefaultAccount =
+                                database.accountDao().getAccountById(newDefaultAccountId)
+
+                            newDefaultAccount?.defaultAccount = true
+                            if (newDefaultAccount != null)
+                                database.accountDao().updateAccount(newDefaultAccount)
+
+                        }
+                        return Resource.Success(true)
+                    }
+                }
+            } catch (ex: Exception) {
+                println("Diego: ${ex.message}")
+            }
+        }
+
+        //No se pudo eliminar en la api
+        //Marcar para late delete
+        account.deletionPending = true
+        database.accountDao().updateAccount(account)
+        database.operationDao().setDeletionPendingToAccountOperations(accountLocalId)
+
+        //Si la operación es la favorita, sustituirla
+        val editableAccounts = database.accountDao().getEditableAccounts()
+
+        if (editableAccounts.isNotEmpty()) {
+            editableAccounts[0].localId?.let { setAsDefaultAccount(it) }
+        }
+
+        return Resource.Success(true)
+    }
+
+    override suspend fun uploadPendingChanges() {
+        val accountsToDelete = database.accountDao().getAllPendingToDeleteAccount()
+        if(accountsToDelete.isNotEmpty()){
+            accountsToDelete.forEach{ account ->
+                deleteAccount(account.localId!!)
+            }
+        }
+    }
+
+    override suspend fun getAccountBalance(accountLocalId: Int): Resource<Double> {
         var ballance = 0.0
         val operationsList = database.operationDao().getAccountOperations(accountLocalId)
 
@@ -93,7 +216,7 @@ class AccountRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun getAccountBalanceMovement(accountLocalId:Int): Resource<Double> {
+    override suspend fun getAccountBalanceMovement(accountLocalId: Int): Resource<Double> {
 
         val balanceResult = getAccountBalance(accountLocalId)
         val operationsList = database.operationDao().getAccountOperations(accountLocalId)

@@ -22,7 +22,8 @@ data class OperationModel(
     val subject: String,
     val title: String,
     val requiresUpdate: Boolean? = false,
-    val imgUrl: String?
+    val imgUrl: String?,
+    val deletionPending:Boolean = false
 )
 
 fun OperationModel.getCategory(context: Context):CategoryModel?{

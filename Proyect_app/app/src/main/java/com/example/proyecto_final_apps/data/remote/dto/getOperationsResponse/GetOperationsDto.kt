@@ -1,5 +1,7 @@
 package com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse
 
-data class OperationDto(
+import com.example.proyecto_final_apps.data.remote.dto.operationDto.Operation
+
+data class GetOperationsDto(
     val operations: List<Operation>
 )

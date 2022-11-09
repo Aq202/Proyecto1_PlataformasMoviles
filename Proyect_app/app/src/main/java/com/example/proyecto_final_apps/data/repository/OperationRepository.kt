@@ -10,4 +10,5 @@ interface OperationRepository {
     suspend fun getGeneralBalance(): Resource<Double>
     suspend fun getBalanceMovement():Resource<Double>
     suspend fun getAccountOperations(localAccountId:Int, forceUpdate: Boolean, startDate: Date?, endDate:Date?):Resource<List<OperationModel>>
+    suspend fun uploadPendingChanges()
 }

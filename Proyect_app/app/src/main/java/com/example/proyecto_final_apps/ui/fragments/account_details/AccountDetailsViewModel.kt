@@ -2,20 +2,23 @@ package com.example.proyecto_final_apps.ui.fragments.account_details
 
 import androidx.lifecycle.ViewModel
 import com.example.proyecto_final_apps.data.Resource
+import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountDetailsViewModel @Inject constructor(
     private val opRepository: OperationRepository,
-    private val acRepository:AccountRepository
+    private val acRepository: AccountRepository
 
 ) : ViewModel() {
 
@@ -42,11 +45,13 @@ class AccountDetailsViewModel @Inject constructor(
     val accountOperations: StateFlow<Status<List<OperationModel>>> =
         _accountOperations
 
-    private val _accountBalanceData:MutableStateFlow<Status<Pair<Double, Double>>> = MutableStateFlow(Status.Default())
-    val accountBalanceData:StateFlow<Status<Pair<Double, Double>>> = _accountBalanceData
+    private val _accountBalanceData: MutableStateFlow<Status<Pair<Double, Double>>> =
+        MutableStateFlow(Status.Default())
+    val accountBalanceData: StateFlow<Status<Pair<Double, Double>>> = _accountBalanceData
 
-    private val _accountName:MutableStateFlow<Status<String>> = MutableStateFlow(Status.Default())
-    val accountName:StateFlow<Status<String>> = _accountName
+    private val _accountData: MutableStateFlow<Status<AccountModel>> =
+        MutableStateFlow(Status.Default())
+    val accountData: StateFlow<Status<AccountModel>> = _accountData
 
 
     fun addDateFilter(start: Date, end: Date) {
@@ -57,7 +62,11 @@ class AccountDetailsViewModel @Inject constructor(
         _dateFilterFlow.value = Filter.EmptyFilter
     }
 
-    suspend fun getAccountExpenses(localAccountId: Int, forceUpdate: Boolean = false, autoChange:Boolean = false) {
+    suspend fun getAccountExpenses(
+        localAccountId: Int,
+        forceUpdate: Boolean = false,
+        autoChange: Boolean = false
+    ) {
 
         when (val operationsResult =
             opRepository.getAccountOperations(localAccountId, forceUpdate, null, null)) {
@@ -117,16 +126,17 @@ class AccountDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getBalanceDescription(localAccountId: Int){
+    suspend fun getBalanceDescription(localAccountId: Int) {
 
         val balanceResult = acRepository.getAccountBalance(localAccountId)
         val movementResult = acRepository.getAccountBalanceMovement(localAccountId)
 
-        if(balanceResult is Resource.Success && movementResult is Resource.Success){
+        if (balanceResult is Resource.Success && movementResult is Resource.Success) {
 
-            _accountBalanceData.value = Status.Success(Pair(balanceResult.data, movementResult.data))
+            _accountBalanceData.value =
+                Status.Success(Pair(balanceResult.data, movementResult.data))
 
-        }else if(balanceResult is Resource.Success)
+        } else if (balanceResult is Resource.Success)
             _accountBalanceData.value = Status.Error(balanceResult.message ?: "")
         else
             _accountBalanceData.value = Status.Error(movementResult.message ?: "")
@@ -134,14 +144,41 @@ class AccountDetailsViewModel @Inject constructor(
 
     }
 
-    suspend fun getAccountName(localAccountId:Int, forceUpdate: Boolean){
-        val result = acRepository.getAccountName(localAccountId, forceUpdate)
+    suspend fun getAccountData(localAccountId: Int, forceUpdate: Boolean) {
+        val result = acRepository.getAccountData(localAccountId, forceUpdate)
 
-        if(result is Resource.Success)
-            _accountName.value = Status.Success(result.data)
+        if (result is Resource.Success)
+            _accountData.value = Status.Success(result.data)
         else
-            _accountName.value = Status.Error(result.message ?: "")
+            _accountData.value = Status.Error(result.message ?: "")
 
+    }
+
+    suspend fun setAsFavorite(accountLocalId: Int): Flow<Status<Boolean>> {
+        return flow {
+            emit(Status.Loading())
+            val resultFavorite = acRepository.setAsDefaultAccount(accountLocalId)
+
+            if (resultFavorite is Resource.Success) {
+
+                getAccountData(accountLocalId, false)
+                emit(Status.Success(true))
+
+            } else emit(Status.Error(resultFavorite.message ?: ""))
+        }
+
+    }
+
+    suspend fun deleteAccount(accountLocalId:Int):Flow<Status<Boolean>>{
+        return flow{
+            emit(Status.Loading())
+
+            val resultDelete = acRepository.deleteAccount(accountLocalId)
+
+            if(resultDelete is Resource.Success)
+                emit(Status.Success(true))
+            else emit(Status.Error(resultDelete.message ?: ""))
+        }
     }
 
 

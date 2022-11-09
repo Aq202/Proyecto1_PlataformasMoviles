@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse
+package com.example.proyecto_final_apps.data.remote.dto.operationDto
 
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 

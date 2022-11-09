@@ -1,8 +1,8 @@
-package com.example.proyecto_final_apps.data.remote.dto.accountListResponse
+package com.example.proyecto_final_apps.data.remote.dto
 
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 
-data class Account(
+data class AccountDto(
     val allowNegativeValues: Boolean,
     val defaultAccount: Boolean,
     val editable: Boolean,
@@ -13,7 +13,7 @@ data class Account(
     val total: Double
 )
 
-fun Account.toAccountModel():AccountModel{
+fun AccountDto.toAccountModel():AccountModel{
     return AccountModel(
         localId = localId,
         remoteId = id,

@@ -9,9 +9,11 @@ data class AccountModel(
     val localId: Int? = null,
     val remoteId: String,
     val allowNegativeValues: Boolean,
-    val defaultAccount: Boolean,
+    var defaultAccount: Boolean,
     val editable: Boolean,
     val subject: String,
     val title: String,
-    val total: Double
+    val total: Double,
+    var deletionPending:Boolean = false,
+    var requiresUpdate: Boolean? = false,
 )
