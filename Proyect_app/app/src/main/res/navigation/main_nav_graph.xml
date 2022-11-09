@@ -69,9 +69,15 @@
     </fragment>
     <fragment
         android:id="@+id/newAccountFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.NewAccountFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.newAccount.NewAccountFragment"
         android:label="@string/nueva_cuenta"
-        tools:layout="@layout/fragment_new_account" />
+        tools:layout="@layout/fragment_new_account" >
+        <action
+            android:id="@+id/action_newAccountFragment_to_accountDetailsFragment"
+            app:destination="@id/accountDetailsFragment"
+            app:popUpTo="@id/newAccountFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.SignUpFragment"

@@ -15,14 +15,14 @@ class Account {
 		editable,
 	}) {
 		const account = new AccountModel();
+		defaultAccount = (parseBooleanStrict(defaultAccount) && (parseBooleanStrict(editable) !== false))
 
-		defaultAccount = (parseBooleanStrict(editable) && parseBooleanStrict(defaultAccount))
 
-		account.localId = localId.trim();
-		account.subject = subject.trim();
-		account.title = title.trim();
+		account.localId = localId;
+		account.subject = subject?.trim();
+		account.title = title?.trim();
 		account.defaultAccount = defaultAccount || false;
-		account.total = total.trim();
+		account.total = total;
 		account.allowNegativeValues = allowNegativeValues || false;
 		account.editable = editable || true;
 

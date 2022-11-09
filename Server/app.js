@@ -2,7 +2,7 @@
 
 const express = require("express");
 const http = require("http");
-const port = require("./services/port");
+const port = process.env.PORT || require("./services/port");
 const SocketServer = require("./services/socketServer");
 const DBConnection = require("./services/DBConnection");
 const UserRoute = require("./routes/user.route");
@@ -33,6 +33,10 @@ app.use(function (req, res, next) {
 	);
 	next();
 });
+
+app.get("/", (req, res) => {
+	res.send({msg:"Hello World!"})
+})
 
 new SocketServer(httpServer);
 

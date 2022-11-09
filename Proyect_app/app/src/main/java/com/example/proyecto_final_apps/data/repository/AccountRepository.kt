@@ -12,4 +12,5 @@ interface AccountRepository {
     suspend fun setAsDefaultAccount(accountLocalId: Int):Resource<Boolean>
     suspend fun deleteAccount(accountLocalId: Int):Resource<Boolean>
     suspend fun uploadPendingChanges()
+    suspend fun createAccount(title:String, total:Double, defaultAccount:Boolean):Resource<AccountModel>
 }

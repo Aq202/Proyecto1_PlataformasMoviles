@@ -6,6 +6,7 @@ import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.remote.API
+import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountRequest
 import com.example.proyecto_final_apps.data.remote.dto.toAccountModel
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
@@ -100,7 +101,7 @@ class AccountRepositoryImp @Inject constructor(
 
         try {
 
-            if (Internet.checkForInternet(context)) {
+            if (Internet.checkForInternet(context) && accountToUpdate.remoteId != null) {
 
                 val ds = MyDataStore(context)
                 val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
@@ -145,7 +146,7 @@ class AccountRepositoryImp @Inject constructor(
 
 
         //delete in api
-        if (Internet.checkForInternet(context)) {
+        if (Internet.checkForInternet(context) && account.remoteId != null) {
 
             try {
                 val result = api.deleteAccount(token, account.remoteId)
@@ -200,6 +201,8 @@ class AccountRepositoryImp @Inject constructor(
         }
     }
 
+
+
     override suspend fun getAccountBalance(accountLocalId: Int): Resource<Double> {
         var ballance = 0.0
         val operationsList = database.operationDao().getAccountOperations(accountLocalId)
@@ -242,6 +245,57 @@ class AccountRepositoryImp @Inject constructor(
         }
 
         return Resource.Success(0.00)
+    }
+
+    override suspend fun createAccount(
+        title: String,
+        total: Double,
+        defaultAccount: Boolean
+    ): Resource<AccountModel> {
+
+        val accountCreated = AccountModel(title = title, total = total, defaultAccount = defaultAccount)
+        accountCreated.localId = database.accountDao().insertAccount(AccountModel(title = title, total = total, defaultAccount = defaultAccount)).toInt()
+
+        //Si se seleccionó como cuenta default, quitar la anterior
+        database.accountDao().deselectDefaultAccount()
+
+        if(Internet.checkForInternet(context)){
+
+            try {
+
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+                val requestResult = api.createAccount(
+                    token,
+                    NewAccountRequest(
+                        localId = accountCreated.localId!!,
+                        title = title,
+                        total = total,
+                        defaultAccount = defaultAccount
+                    )
+                )
+
+                if (requestResult.isSuccessful) {
+
+                    requestResult.body()?.toAccountModel()?.let { accountDataFromApi ->
+
+                        //update db data
+                        database.accountDao().updateAccount(accountDataFromApi)
+                        return Resource.Success(accountDataFromApi)
+                    }
+
+
+                }else println(requestResult.errorBody().toString())
+            }catch(ex:Exception){
+                println("Diego: ${ex.message}")
+            }
+        }
+
+        //Si no se completó la solicitud a la api
+        accountCreated.requiresUpdate = true
+        database.accountDao().updateAccount(accountCreated)
+        return Resource.Success(accountCreated)
     }
 
 }

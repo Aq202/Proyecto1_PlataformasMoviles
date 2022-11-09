@@ -10,6 +10,9 @@ interface AccountDao {
     @Query("SELECT COUNT(localId) FROM AccountModel WHERE deletionPending=${false}")
     suspend fun getNumberOfAccounts():Int
 
+    @Insert
+    suspend fun insertAccount(account:AccountModel):Long
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertManyAccounts(accounts:List<AccountModel>)
 
@@ -39,6 +42,9 @@ interface AccountDao {
 
     @Query("SELECT * FROM AccountModel WHERE defaultAccount=${true}")
     suspend fun getDefaultAccount():AccountModel?
+
+    @Query("UPDATE AccountModel SET defaultAccount=${false} WHERE defaultAccount=${true}")
+    suspend fun deselectDefaultAccount()
 
     @Query("SELECT * FROM AccountModel WHERE deletionPending=${true}")
     suspend fun getAllPendingToDeleteAccount():List<AccountModel>

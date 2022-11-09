@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 @Entity
 data class AccountModel(
     @PrimaryKey(autoGenerate = true)
-    val localId: Int? = null,
-    val remoteId: String,
-    val allowNegativeValues: Boolean,
+    var localId: Int? = null,
+    val remoteId: String? = null,
+    val allowNegativeValues: Boolean = false,
     var defaultAccount: Boolean,
-    val editable: Boolean,
-    val subject: String,
+    val editable: Boolean = true,
+    val subject: String? = null,
     val title: String,
     val total: Double,
     var deletionPending:Boolean = false,

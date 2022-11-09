@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.NewAccountFragment"
+    tools:context=".ui.fragments.newAccount.NewAccountFragment"
     android:padding="25dp">
 
     <TextView
@@ -33,7 +33,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/plain_text_size" />
+            android:textSize="@dimen/plain_text_size"
+            app:errorEnabled="true"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/plain_text_size"
-            android:inputType="number"/>
+            android:inputType="numberDecimal"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

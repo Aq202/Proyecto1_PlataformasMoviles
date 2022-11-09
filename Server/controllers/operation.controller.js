@@ -113,10 +113,8 @@ const getAllOperations = async (req, res) => {
 
 	const operations = await Operation.getOperationsBySubject(req.session.id)
 
-	setTimeout(()=>{
 		res.status(200).send({operations});
-	}, 5000)
-
+		
 	}catch(ex){
 		console.log("🚀 ~ file: user.controller.js ~ line 163 ~ getGeneralBallance ~ ex", ex)
 		let error = ex?.err ?? "Ocurrio un error";
