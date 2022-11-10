@@ -69,6 +69,11 @@
         <action
             android:id="@+id/action_accountDetailsFragment_to_editAccountFragment"
             app:destination="@id/editAccountFragment" />
+        <action
+            android:id="@+id/action_accountDetailsFragment_to_accountsListFragment"
+            app:destination="@id/accountsListFragment"
+            app:popUpTo="@id/accountsListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newAccountFragment"

@@ -384,7 +384,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
                             is Status.Loading -> loadingViewModel.showLoadingDialog()
                             is Status.Success -> {
                                 loadingViewModel.hideLoadingDialog()
-                                findNavController().navigate(R.id.action_accountDetailsFragment_to_homeFragment)
+                                findNavController().navigate(R.id.action_accountDetailsFragment_to_accountsListFragment)
                             }
                             is Status.Error -> {
                                 loadingViewModel.hideLoadingDialog()
