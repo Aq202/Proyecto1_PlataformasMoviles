@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.SignUpFragment"
+    tools:context=".ui.fragments.signUp.SignUpFragment"
     android:paddingHorizontal="25dp"
     android:paddingVertical="25dp"
     android:clipToPadding="false">
@@ -209,6 +209,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textField_signUpFragment_confirmPassword"/>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressIndicator_fragmentSignUp"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="@id/button_signUpFragment_signUp"
+            app:layout_constraintBottom_toBottomOf="@id/button_signUpFragment_signUp"
+            app:layout_constraintStart_toStartOf="@id/button_signUpFragment_signUp"
+            app:layout_constraintEnd_toEndOf="@id/button_signUpFragment_signUp"
+            android:visibility="gone"
+            />
 
         <TextView
             android:layout_width="wrap_content"

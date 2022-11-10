@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.SignUpFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.signUp.SignUpFragment"
         android:label=""
         tools:layout="@layout/fragment_sign_up">
         <action

@@ -8,6 +8,7 @@ import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
 import com.example.proyecto_final_apps.data.remote.dto.toUserModel
 import com.example.proyecto_final_apps.helpers.Internet
 import javax.inject.Inject
@@ -90,5 +91,49 @@ override suspend fun logout() {
     database.operationDao().deleteAllOperations()
     database.accountDao().deleteAll()
 }
+
+    override suspend fun signUp(
+        firstName: String,
+        lastName: String,
+        birthDate: String,
+        user: String,
+        password: String,
+        email: String
+    ): Resource<Boolean> {
+
+        try{
+
+            val result = api.signUp(SignUpRequest(
+                firstName = firstName,
+                lastName = lastName,
+                birthDate = birthDate,
+                user = user,
+                email = email,
+                password = password
+            ))
+
+            return if (result.isSuccessful){
+
+                val response = result.body()
+                val ds = MyDataStore(context)
+
+                ds.saveKeyValue("token", response!!.token)
+
+                //guardar datos del usuario
+                database.userDao().deleteAll()
+                database.userDao().insertUser(response.userData.toUserModel())
+
+                return Resource.Success(true)
+
+            } else{
+                Resource.Error("El correo electrónico o nombre de usuario ya está registrado.")
+            }
+
+        }catch (exception: Exception){
+            println(exception.message)
+            return Resource.Error("Error de conexión al servidor.")
+        }
+
+    }
 
 }
