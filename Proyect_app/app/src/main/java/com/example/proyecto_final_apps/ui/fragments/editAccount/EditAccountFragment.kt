@@ -73,7 +73,6 @@ class EditAccountFragment : Fragment() {
                         binding.apply {
                             textInputEditAccountFragmentAccountName.editText!!.setText(account.title)
                             textInputEditAccountFragmentAmount.editText!!.setText(account.total.twoDecimals())
-                            switchEditAccountFragmentDefaultAccountSwitch.isChecked = account.defaultAccount
                         }
                     }
 
@@ -123,12 +122,11 @@ class EditAccountFragment : Fragment() {
         val title = binding.textInputEditAccountFragmentAccountName.editText!!.text.toString()
         val total =
             binding.textInputEditAccountFragmentAmount.editText!!.text.toString().toDouble()
-        val defaultAccount = binding.switchEditAccountFragmentDefaultAccountSwitch.isChecked
 
 
 
         lifecycleScope.launch {
-             editAccountViewModel.updateAccount(accountLocalId=args.accountId, title = title, total = total, defaultAccount=defaultAccount).collectLatest { status ->
+             editAccountViewModel.updateAccount(accountLocalId=args.accountId, title = title, total = total).collectLatest { status ->
 
                 if(status is Status.Loading) loadingViewModel.showLoadingDialog()
                 else loadingViewModel.hideLoadingDialog()

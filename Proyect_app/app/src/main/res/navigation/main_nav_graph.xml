@@ -301,7 +301,7 @@
         <action
             android:id="@+id/action_editAccountFragment_to_accountDetailsFragment"
             app:destination="@id/accountDetailsFragment"
-            app:popUpTo="@id/editAccountFragment"
+            app:popUpTo="@id/accountDetailsFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
