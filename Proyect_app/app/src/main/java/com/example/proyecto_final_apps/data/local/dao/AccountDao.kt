@@ -32,7 +32,7 @@ interface AccountDao {
     suspend fun getAccountById(localId:Int):AccountModel?
 
     @Update
-    suspend fun updateAccount(account:AccountModel)
+    suspend fun updateAccount(account:AccountModel):Int
 
     @Delete
     suspend fun deleteAccount(account:AccountModel):Int
@@ -48,5 +48,8 @@ interface AccountDao {
 
     @Query("SELECT * FROM AccountModel WHERE deletionPending=${true}")
     suspend fun getAllPendingToDeleteAccount():List<AccountModel>
+
+    @Query("SELECT * FROM AccountModel WHERE requiresUpdate=${true}")
+    suspend fun getAllAccountsRequiringUpdate():List<AccountModel>
 
 }

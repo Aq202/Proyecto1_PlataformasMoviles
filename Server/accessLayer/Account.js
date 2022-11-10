@@ -15,8 +15,7 @@ class Account {
 		editable,
 	}) {
 		const account = new AccountModel();
-		defaultAccount = (parseBooleanStrict(defaultAccount) && (parseBooleanStrict(editable) !== false))
-
+		defaultAccount = parseBooleanStrict(defaultAccount) && parseBooleanStrict(editable) !== false;
 
 		account.localId = localId;
 		account.subject = subject?.trim();
@@ -65,43 +64,60 @@ class Account {
 		return result;
 	}
 
-	static async updateAccount(accountId, newData) {
-		const updated = await AccountModel.findByIdAndUpdate(accountId, newData, { new: true });
-		if (!updated) return null;
-		const parsedObject = parseMongoObject(updated);
+	async updateAccount({ subject, title, defaultAccount, total }) {
+		const account = await AccountModel.findOne({ _id: this.id, subject });
+
+		if (account == null) throw { err: "La cuenta proporcionada no existe.", status: 400 };
+		if (parseBooleanStrict(account.editable) !== true)
+			throw { err: "La cuenta no es editable.", status: 409 };
+
+		if (title) account.title = title?.trim();
+		if (total !== null && total !== undefined) account.total = total;
+
+		//verificar si el valor de cuenta por defaultCambió
+		if (
+			defaultAccount !== null &&
+			defaultAccount !== undefined &&
+			account.defaultAccount !== parseBooleanStrict(defaultAccount)
+		) {
+			account.defaultAccount = defaultAccount;
+			//Desmarcar cuentas por default
+			if (parseBooleanStrict(defaultAccount) === true) await Account.uncheckDefaultAccounts(subject);
+		}
+
+		const saved = await account.save();
+		const parsedObject = parseMongoObject(saved);
 		return parsedObject;
 	}
 
 	async deleteAccount() {
-		const data = await this.getData()
-		
+		const data = await this.getData();
+
 		if (!data) throw { err: "No se encontró la cuenta.", status: 404 };
 		if (data.editable !== true)
 			throw { err: "No está permitido eliminar esta cuenta.", status: 403 };
 
 		//Eliminar
-		const result = await AccountModel.deleteOne({ _id: this.id, subject:data.subject });
-		
+		const result = await AccountModel.deleteOne({ _id: this.id, subject: data.subject });
+
 		if (result?.deletedCount === 0) throw { err: "No se pudo eliminar la cuenta", status: 500 };
 
 		//eliminar operaciones vinculadas
-		await OperationModel.deleteMany({ account: this.id, subject:data.subject });
+		await OperationModel.deleteMany({ account: this.id, subject: data.subject });
 
 		if (data.defaultAccount === true) {
 			//Asignar una cuenta arbitraria como default
-			const randomAccount = await AccountModel.findOne({ editable: true, subject:data.subject });
+			const randomAccount = await AccountModel.findOne({ editable: true, subject: data.subject });
 			if (randomAccount) {
 				randomAccount.defaultAccount = true;
 				randomAccount.save();
 			}
 
-			return parseMongoObject(randomAccount)
+			return parseMongoObject(randomAccount);
 		}
-
 
 		return null;
 	}
-
 
 	static async getUserAccountsList(subjectId) {
 		const list = await AccountModel.find({ subject: subjectId });

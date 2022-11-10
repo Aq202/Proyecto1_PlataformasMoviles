@@ -12,8 +12,8 @@ data class AccountModel(
     var defaultAccount: Boolean,
     val editable: Boolean = true,
     val subject: String? = null,
-    val title: String,
-    val total: Double,
+    var title: String,
+    var total: Double,
     var deletionPending:Boolean = false,
     var requiresUpdate: Boolean? = false,
 )

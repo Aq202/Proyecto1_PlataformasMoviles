@@ -7,9 +7,11 @@ import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
 import com.example.proyecto_final_apps.data.remote.dto.toAccountModel
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
+import retrofit2.Response
 import javax.inject.Inject
 
 class AccountRepositoryImp @Inject constructor(
@@ -22,7 +24,7 @@ class AccountRepositoryImp @Inject constructor(
 
         try {
 
-            uploadPendingChanges()
+            uploadPendingChanges()  //subir cambios locales a api
 
             val numberOfAccounts = database.accountDao().getNumberOfAccounts()
             if (numberOfAccounts > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
@@ -64,7 +66,7 @@ class AccountRepositoryImp @Inject constructor(
         forceUpdate: Boolean
     ): Resource<AccountModel> {
 
-        uploadPendingChanges()
+        uploadPendingChanges()  //actualizar cambios locales en api
 
         val account = database.accountDao().getAccountById(accountLocalId)
         if (!(forceUpdate && Internet.checkForInternet(context)))
@@ -90,13 +92,11 @@ class AccountRepositoryImp @Inject constructor(
     override suspend fun setAsDefaultAccount(accountLocalId: Int): Resource<Boolean> {
 
         //actualizar en BD
-        val previousDefaultAccount = database.accountDao().getDefaultAccount()
         val accountToUpdate = database.accountDao().getAccountById(accountLocalId)
             ?: return Resource.Error("No se ha encontrado la cuenta.")
 
         if (!accountToUpdate.editable) return Resource.Error("La cuenta no puede ser seleccionada como default.")
 
-        previousDefaultAccount?.defaultAccount = false
         accountToUpdate.defaultAccount = true
 
         try {
@@ -110,8 +110,7 @@ class AccountRepositoryImp @Inject constructor(
                 val result = api.setAsDefaultAccount(token, accountToUpdate.remoteId)
                 if (result.isSuccessful) {
                     //actualizar en BD
-                    if (previousDefaultAccount != null)
-                        database.accountDao().updateAccount(previousDefaultAccount)
+                    deselectDefaultAccountLocally() //retirar default anterior
                     database.accountDao().updateAccount(accountToUpdate)
 
                     return Resource.Success(true)
@@ -122,16 +121,26 @@ class AccountRepositoryImp @Inject constructor(
             println("Diego: ${ex.message}")
 
         }
+
         //Si no se actualizó en el servidor
-        previousDefaultAccount?.requiresUpdate = true
+
+        deselectDefaultAccountLocally(true) //desmarcar default anterior
         accountToUpdate.requiresUpdate = true
 
         //actualizar en BD
-        if (previousDefaultAccount != null)
-            database.accountDao().updateAccount(previousDefaultAccount)
         database.accountDao().updateAccount(accountToUpdate)
 
         return Resource.Success(true)
+    }
+
+    private suspend fun deselectDefaultAccountLocally(requiresUpdate: Boolean = false) {
+        val defaultAccount = database.accountDao().getDefaultAccount()
+
+        defaultAccount?.let {
+            it.defaultAccount = false
+            if (requiresUpdate) it.requiresUpdate = true
+            database.accountDao().updateAccount(it)
+        }
     }
 
     override suspend fun deleteAccount(accountLocalId: Int): Resource<Boolean> {
@@ -177,30 +186,51 @@ class AccountRepositoryImp @Inject constructor(
         }
 
         //No se pudo eliminar en la api
+
         //Marcar para late delete
         account.deletionPending = true
         database.accountDao().updateAccount(account)
         database.operationDao().setDeletionPendingToAccountOperations(accountLocalId)
 
         //Si la operación es la favorita, sustituirla
-        val editableAccounts = database.accountDao().getEditableAccounts()
-
-        if (editableAccounts.isNotEmpty()) {
-            editableAccounts[0].localId?.let { setAsDefaultAccount(it) }
+        if (account.defaultAccount) {
+            deselectDefaultAccountLocally() //deseleccionar como favorita
+            val editableAccounts = database.accountDao().getEditableAccounts()
+            if (editableAccounts.isNotEmpty()) {
+                editableAccounts[0].localId?.let { setAsDefaultAccount(it) }
+            }
         }
 
         return Resource.Success(true)
     }
 
     override suspend fun uploadPendingChanges() {
+
+        //Eliminar operaciones pendientes
         val accountsToDelete = database.accountDao().getAllPendingToDeleteAccount()
-        if(accountsToDelete.isNotEmpty()){
-            accountsToDelete.forEach{ account ->
+        if (accountsToDelete.isNotEmpty()) {
+            accountsToDelete.forEach { account ->
                 deleteAccount(account.localId!!)
             }
         }
-    }
 
+        //Operaciones pendientes
+        val accountsToUpdate = database.accountDao().getAllAccountsRequiringUpdate()
+        if(accountsToUpdate.isNotEmpty()){
+
+            //Operaciones que no se han creado
+            accountsToUpdate.filter { it.remoteId == null }.forEach{ account ->
+                uploadNewAccountToApi(account)
+            }
+
+            //Operaciones por actualizar
+            accountsToUpdate.filter { it.remoteId != null }.forEach{account ->
+                uploadAccountUpdatesToApi(account)
+            }
+        }
+
+
+    }
 
 
     override suspend fun getAccountBalance(accountLocalId: Int): Resource<Double> {
@@ -253,13 +283,32 @@ class AccountRepositoryImp @Inject constructor(
         defaultAccount: Boolean
     ): Resource<AccountModel> {
 
-        val accountCreated = AccountModel(title = title, total = total, defaultAccount = defaultAccount)
-        accountCreated.localId = database.accountDao().insertAccount(AccountModel(title = title, total = total, defaultAccount = defaultAccount)).toInt()
+        val accountCreated =
+            AccountModel(title = title, total = total, defaultAccount = defaultAccount)
+        accountCreated.localId = database.accountDao().insertAccount(
+            AccountModel(
+                title = title,
+                total = total,
+                defaultAccount = defaultAccount
+            )
+        ).toInt()
 
         //Si se seleccionó como cuenta default, quitar la anterior
         database.accountDao().deselectDefaultAccount()
 
-        if(Internet.checkForInternet(context)){
+        //Subir datos a la api
+        val requestResult = uploadNewAccountToApi(accountCreated)
+        if(requestResult is Resource.Success) return requestResult
+        else println("Diego: ${requestResult.message}")
+
+        //Si no se completó la solicitud a la api
+        accountCreated.requiresUpdate = true
+        database.accountDao().updateAccount(accountCreated)
+        return Resource.Success(accountCreated)
+    }
+
+    private suspend fun uploadNewAccountToApi(account:AccountModel):Resource<AccountModel>{
+        if (Internet.checkForInternet(context)) {
 
             try {
 
@@ -269,33 +318,92 @@ class AccountRepositoryImp @Inject constructor(
                 val requestResult = api.createAccount(
                     token,
                     NewAccountRequest(
-                        localId = accountCreated.localId!!,
-                        title = title,
-                        total = total,
-                        defaultAccount = defaultAccount
+                        localId = account.localId!!,
+                        title = account.title,
+                        total = account.total,
+                        defaultAccount = account.defaultAccount
                     )
                 )
 
                 if (requestResult.isSuccessful) {
 
                     requestResult.body()?.toAccountModel()?.let { accountDataFromApi ->
-
                         //update db data
                         database.accountDao().updateAccount(accountDataFromApi)
                         return Resource.Success(accountDataFromApi)
                     }
 
 
-                }else println(requestResult.errorBody().toString())
-            }catch(ex:Exception){
-                println("Diego: ${ex.message}")
+                } else return Resource.Error(requestResult.errorBody().toString())
+            } catch (ex: Exception) {
+                return Resource.Error(ex.message ?:"")
             }
         }
+        return Resource.Error("No internet.")
+    }
 
-        //Si no se completó la solicitud a la api
-        accountCreated.requiresUpdate = true
-        database.accountDao().updateAccount(accountCreated)
-        return Resource.Success(accountCreated)
+    override suspend fun updateAccount(
+        accountLocalId: Int,
+        title: String?,
+        total: Double?,
+        defaultAccount: Boolean?
+    ): Resource<AccountModel> {
+
+
+        val account = database.accountDao().getAccountById(accountLocalId)
+            ?: return Resource.Error("La cuenta no existe.")
+
+        if (!(title != null || total != null || defaultAccount != null))
+            return Resource.Success(account)
+
+            if (title != null) account.title = title
+            if (total != null) account.total = total
+            if (defaultAccount != null) account.defaultAccount = defaultAccount
+
+            val updateRes = database.accountDao().updateAccount(account)
+            if (updateRes == 0) return Resource.Error("No se pudo actualizar localmente")
+
+            val updateRequest = uploadAccountUpdatesToApi(account)
+            if(updateRequest is Resource.Error) return updateRequest
+
+        return Resource.Success(account)
+
+    }
+
+    private suspend fun uploadAccountUpdatesToApi(updatedAccount:AccountModel):Resource<AccountModel>{
+
+        if (Internet.checkForInternet(context) && updatedAccount.remoteId != null) {
+
+            try {
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+
+                //terminar el actualizar cuenta remotamente
+                val updateRequestResult = api.updateAccount(
+                    token,
+                    updatedAccount.remoteId,
+                    UpdateAccountRequest(updatedAccount.title, updatedAccount.total, updatedAccount.defaultAccount)
+                )
+
+                if (updateRequestResult.isSuccessful && updatedAccount.requiresUpdate == true) {
+
+                    //Retirar la marca de requiresUpdate
+                    updatedAccount.requiresUpdate = false
+                    database.accountDao().updateAccount(updatedAccount)
+
+                } else if(updatedAccount.requiresUpdate != true){
+                    //Si no se actualizó en la api, marcarlo
+                    updatedAccount.requiresUpdate = true
+                    database.accountDao().updateAccount(updatedAccount)
+                }
+            } catch (ex: Exception) {
+                println("Diego: ${ex.message}")
+                return Resource.Error(ex.message ?: "")
+            }
+        }
+        return Resource.Success(updatedAccount)
+
     }
 
 }

@@ -38,6 +38,11 @@ app.get("/", (req, res) => {
 	res.send({msg:"Hello World!"})
 })
 
+process.on("unhandledRejection", (error, p) => {
+	console.log("=== UNHANDLED REJECTION ===");
+	console.dir(error);
+});
+
 new SocketServer(httpServer);
 
 const db = new DBConnection();

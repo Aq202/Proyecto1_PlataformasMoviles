@@ -8,6 +8,7 @@ import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.Get
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -51,4 +52,13 @@ interface API {
         @Header("authorization") token:String,
         @Body body: NewAccountRequest
     ): Response<AccountDto>
+
+    @POST("/account/update/{accountId}")
+    suspend fun updateAccount(
+        @Header("authorization") token:String,
+        @Path("accountId") accountId:String,
+        @Body body: UpdateAccountRequest
+    ): Response<AccountDto>
+
+
 }

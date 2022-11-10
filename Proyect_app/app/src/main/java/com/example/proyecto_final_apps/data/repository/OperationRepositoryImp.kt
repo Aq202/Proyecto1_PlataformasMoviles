@@ -26,7 +26,7 @@ class OperationRepositoryImp @Inject constructor(
             if (operationsStoredNumber > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
 
                 //local data
-                val operationsList = database.operationDao().getAllOperations()
+                val operationsList = sortOperationsByDate(database.operationDao().getAllOperations())
                 return Resource.Success(operationsList)
             } else {
 
@@ -38,15 +38,15 @@ class OperationRepositoryImp @Inject constructor(
 
                 if (result.isSuccessful) {
                     val operationsList = result.body()?.operations?.map { it.toOperationModel() }
-                    if (operationsList != null && operationsList.isNotEmpty()) {
+                    return if (operationsList != null && operationsList.isNotEmpty()) {
 
                         //store in db
                         database.operationDao().deleteAllOperations()
                         database.operationDao().insertMany(operationsList)
 
-                        return Resource.Success(operationsList)
+                        Resource.Success(sortOperationsByDate(operationsList))
                     } else
-                        return Resource.Error("No hay operaciones por mostrar.")
+                        Resource.Error("No hay operaciones por mostrar.")
 
                 } else
                     println(result.message())
@@ -60,13 +60,20 @@ class OperationRepositoryImp @Inject constructor(
         return Resource.Error("Error al obtener operaciones.")
     }
 
+    private fun sortOperationsByDate(operations:List<OperationModel>):List<OperationModel>{
+
+        val mutableOperationsList = operations as MutableList
+        mutableOperationsList.sortByDescending { DateParse.formatDate(it.date) }
+        return mutableOperationsList
+    }
+
     override suspend fun getGeneralBalance(): Resource<Double> {
 
         var ballance = 0.0;
         val operationsList = database.operationDao().getAllOperations()
 
         if (operationsList.isEmpty())
-            return return Resource.Success(0.00)
+            return Resource.Success(0.00)
 
         operationsList.forEach { operation ->
             if (operation.active) ballance += operation.amount
