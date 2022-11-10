@@ -1,8 +1,10 @@
 const { parseMongoObject, parseDate, twoDecimals } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { UserSchema } = require("../models/user.model");
-const Operation = require("./Operation");
+
 const moment = require("moment");
+const Contact = require("./Contact");
+const { ContactSchema } = require("../models/contact.model");
 
 class User {
 	static async createUser({ name, lastName, email, birthDate, alias, passwordHash, imageUrl }) {
@@ -86,6 +88,25 @@ class User {
 		}
 
 		return this.data;
+	}
+
+	async getContact(targetContactId) {
+		return await ContactSchema.findOne({subject:this.id, userAsContact:targetContactId})
+	}
+
+	async getContacts(){
+		return await Contact.getContactBySubject(this.id)
+	}
+
+	async addContact({targetUser, localId}) {
+		if ((await this.getContact(targetUser)) !== null)
+			throw { err: "El usuario ya se encuentra agregado. ", status: 400 };
+
+		const user = await UserSchema.findById(this.id);
+		if (!user) throw { err: "El usuario no existe.", status: 404 };
+
+		const contact = await Contact.createContact({localId, subject:this.id, userAsContact:targetUser})
+		return contact
 	}
 
 

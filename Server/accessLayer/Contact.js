@@ -3,18 +3,25 @@ const { ContactSchema } = require("../models/contact.model");
 const { DebtSchema } = require("../models/debt.model");
 
 class Contact {
-	static async createContact({ localId, subject, userAsContact, debtsToAccept, debtsAccepted }) {
+	static async createContact({ localId, subject, userAsContact}) {
 		const contact = new ContactSchema();
 
-		contact.localId = localId.trim();
-		contact.subject = subject.trim();
-		contact.userAsContact = subject.trim();
-		contact.debtsToAccept = debtsToAccept.trim();
-		contact.debtsAccepted = debtsAccepted.trim();
+		contact.localId = localId
+		contact.subject = subject?.trim();
+		contact.userAsContact = userAsContact?.trim();
 
 		const saved = await contact.save();
 		const parsedObject = parseMongoObject(saved);
 		return parsedObject
+	}
+
+	static async getContactBySubject(subjectId){
+		const result = await ContactSchema.find({subject:subjectId}).populate("userAsContact")
+		return result.map(contact => {
+			const parsed = parseMongoObject(contact)
+			parsed.userAsContact = parseMongoObject(parsed.userAsContact)
+			return parsed
+		})
 	}
 
 	static async updateContact(contactId, newData) {

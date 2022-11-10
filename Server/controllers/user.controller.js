@@ -2,6 +2,7 @@ const User = require("../accessLayer/User");
 const { sha256 } = require("js-sha256");
 const fs = require("fs");
 const { generateSessionToken } = require("../services/jwt");
+const Contact = require("../accessLayer/Contact");
 
 const registerUser = async (req, res) => {
 	try {
@@ -153,10 +154,49 @@ const getSessionUserData = async (req, res) => {
 	}
 };
 
+const newContact = async (req, res) => {
+	try {
+		const { targetUser, localId } = req.body;
 
+		const user = new User(req.session?.id);
+
+		const target = new User(targetUser);
+		if (!(await target.getData())) throw { err: "El usuario objetivo no existe.", status: 404 };
+
+		const result = await user.addContact({ targetUser, localId });
+		res.status(200).send(result);
+	} catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+};
+
+const getContacts = async (req, res) => {
+	try {
+
+		const user = new User(req.session?.id);
+		if (!(await user.getData())) throw { err: "El usuario no existe.", status: 404 };
+
+		const result = await user.getContacts()
+		res.status(200).send(result);
+	} catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+};
 
 exports.registerUser = registerUser;
 exports.login = login;
 exports.getSessionUserData = getSessionUserData;
 exports.editUser = editUser;
 exports.deleteUser = deleteUser;
+exports.newContact = newContact;
+exports.getContacts = getContacts
