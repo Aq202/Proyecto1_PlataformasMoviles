@@ -355,7 +355,19 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             cardViewAccountDetailsFragmentDeleteIconContainer.setOnClickListener {
                 deleteAccountAction()
             }
+
+            cardViewAccountDetailsFragmentEditIconContainer.setOnClickListener{
+                editPressedAction()
+            }
         }
+    }
+
+    private fun editPressedAction() {
+        if(blockFavoriteButton) return
+
+        val action = AccountDetailsFragmentDirections.actionAccountDetailsFragmentToEditAccountFragment(args.accountId)
+        findNavController().navigate(action)
+
     }
 
     private fun deleteAccountAction() {

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.newAccount.NewAccountFragment"
+    tools:context=".ui.fragments.editAccount.EditAccountFragment"
     android:paddingHorizontal="@dimen/horizontal_fragment_padding"
     android:paddingVertical="30dp"
     >
 
     <TextView
-        android:id="@+id/textView_newAccountFragment_fragmentTitle"
+        android:id="@+id/textView_editAccountFragment_fragmentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nueva_cuenta"
+        android:text="@string/editar_cuenta"
         android:textColor="@color/dark_blue"
         android:textSize="@dimen/h3_text_size"
         android:textStyle="bold"
@@ -26,26 +26,26 @@
 
 
     <TextView
-        android:id="@+id/text_newAccountFragment_accountName"
+        android:id="@+id/text_editAccountFragment_accountName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nombre_de_la_cuenta"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/textInput_newAccountFragment_accountName"
+        app:layout_constraintBottom_toTopOf="@id/textInput_editAccountFragment_accountName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_newAccountFragment_fragmentTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textView_editAccountFragment_fragmentTitle"
         app:layout_constraintVertical_chainStyle="packed"
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_newAccountFragment_accountName"
+        android:id="@+id/textInput_editAccountFragment_accountName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_accountName"
+        app:layout_constraintTop_toBottomOf="@id/text_editAccountFragment_accountName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_amount"
+        app:layout_constraintBottom_toTopOf="@id/text_editAccountFragment_amount"
         android:hint="@string/placeholder_nombre"
         android:layout_margin="5dp">
 
@@ -59,25 +59,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/text_newAccountFragment_amount"
+        android:id="@+id/text_editAccountFragment_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fondos_actuales"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInput_newAccountFragment_accountName"
-        app:layout_constraintBottom_toTopOf="@id/textInput_newAccountFragment_amount"/>
+        app:layout_constraintTop_toBottomOf="@id/textInput_editAccountFragment_accountName"
+        app:layout_constraintBottom_toTopOf="@id/textInput_editAccountFragment_amount"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_newAccountFragment_amount"
+        android:id="@+id/textInput_editAccountFragment_amount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_amount"
+        app:layout_constraintTop_toBottomOf="@id/text_editAccountFragment_amount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_defaultAccount"
+        app:layout_constraintBottom_toTopOf="@id/text_editAccountFragment_defaultAccount"
         android:hint="@string/placeholder_monto"
         android:layout_margin="5dp"
         app:startIconDrawable="@drawable/ic_cash_multiple">
@@ -91,37 +91,37 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/text_newAccountFragment_defaultAccount"
+        android:id="@+id/text_editAccountFragment_defaultAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cuenta_por_defecto"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInput_newAccountFragment_amount"
-        app:layout_constraintBottom_toTopOf="@id/switch_newAccountFragment_defaultAccountSwitch"
+        app:layout_constraintTop_toBottomOf="@id/textInput_editAccountFragment_amount"
+        app:layout_constraintBottom_toTopOf="@id/switch_editAccountFragment_defaultAccountSwitch"
         />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_newAccountFragment_defaultAccountSwitch"
+        android:id="@+id/switch_editAccountFragment_defaultAccountSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_newAccountFragment_defaultAccount"
-        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_defaultDisclaimer"/>
+        app:layout_constraintTop_toBottomOf="@+id/text_editAccountFragment_defaultAccount"
+        app:layout_constraintBottom_toTopOf="@id/text_editAccountFragment_defaultDisclaimer"/>
 
     <TextView
-        android:id="@+id/text_newAccountFragment_defaultDisclaimer"
+        android:id="@+id/text_editAccountFragment_defaultDisclaimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/switch_newAccountFragment_defaultAccountSwitch"
+        app:layout_constraintTop_toBottomOf="@id/switch_editAccountFragment_defaultAccountSwitch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button_newAccountFragment_addAccountButton"
+        app:layout_constraintBottom_toTopOf="@id/button_editAccountFragment_addAccountButton"
         android:text="@string/default_account_disclaimer"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_newAccountFragment_addAccountButton"
+        android:id="@+id/button_editAccountFragment_addAccountButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -132,7 +132,7 @@
         android:textSize="25sp"
         android:textStyle="bold"
         app:cornerRadius="@dimen/button_radius"
-        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_defaultDisclaimer"
+        app:layout_constraintTop_toBottomOf="@id/text_editAccountFragment_defaultDisclaimer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

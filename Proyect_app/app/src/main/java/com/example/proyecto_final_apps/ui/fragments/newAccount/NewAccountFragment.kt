@@ -24,8 +24,8 @@ class NewAccountFragment : Fragment() {
 
     private lateinit var binding: FragmentNewAccountBinding
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
-    private val newAccountViewModel:NewAccountViewModel by viewModels()
     private val loadingViewModel:LoadingViewModel by activityViewModels()
+    private val newAccountViewModel:NewAccountViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

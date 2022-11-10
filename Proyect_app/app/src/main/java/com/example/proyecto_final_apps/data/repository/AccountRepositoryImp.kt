@@ -294,7 +294,7 @@ class AccountRepositoryImp @Inject constructor(
         ).toInt()
 
         //Si se seleccionó como cuenta default, quitar la anterior
-        database.accountDao().deselectDefaultAccount()
+        if(accountCreated.defaultAccount)database.accountDao().deselectDefaultAccount()
 
         //Subir datos a la api
         val requestResult = uploadNewAccountToApi(accountCreated)

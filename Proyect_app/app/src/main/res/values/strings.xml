@@ -106,6 +106,10 @@
     <string name="sin_resultados">Sin resultados.</string>
     <string name="no_hubo_gastos">No se encontraron\ngastos</string>
     <string name="no_hubo_ingresos">No se encontraron\ningresos</string>
+    <string name="nombre_de_la_cuenta">Nombre de la cuenta:</string>
+    <string name="fondos_actuales">Fondos actuales:</string>
+    <string name="cuenta_por_defecto">Cuenta por defecto:</string>
+    <string name="editar_cuenta">Editar cuenta</string>
 
 
 </resources>
