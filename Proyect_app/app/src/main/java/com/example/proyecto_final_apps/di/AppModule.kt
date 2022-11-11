@@ -103,8 +103,22 @@ class AppModule {
     @Singleton
     fun provideErrorParser(
         retrofit: Retrofit
-    ):ErrorParser{
+    ):ErrorParser {
         return ErrorParser(retrofit)
+    }
+
+    @Provides
+    @Singleton
+    fun provideContactRepository(
+        api: API,
+        @ApplicationContext context: Context,
+        database: Database
+    ): ContactRepository {
+        return ContactRepositoryImp(
+            api = api,
+            context = context,
+            database = database
+        )
     }
 
 }

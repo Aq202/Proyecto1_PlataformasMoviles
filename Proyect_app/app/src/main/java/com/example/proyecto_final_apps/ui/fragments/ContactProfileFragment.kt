@@ -36,6 +36,7 @@ class ContactProfileFragment : Fragment(), OperationAdapter.OperationListener {
 
     private fun showData() {
         binding.apply {
+            /*
             textViewContactProfileFragmentName.text = args.name
             textViewContactProfileFragmentAlias.text = getString(R.string.alias_format, args.alias)
             imageViewContactProfileFragmentPicture.load(args.pictureUrl) {
@@ -44,6 +45,8 @@ class ContactProfileFragment : Fragment(), OperationAdapter.OperationListener {
                 memoryCachePolicy(CachePolicy.ENABLED)
                 diskCachePolicy(CachePolicy.ENABLED)
             }
+
+             */
         }
     }
 

@@ -40,6 +40,7 @@ class UserRepositoryImp @Inject constructor(
                 val ds = MyDataStore(context)
 
                 ds.saveKeyValue("token", response!!.token)
+                ds.saveKeyValue("userId", response.userData.id)
 
                 //guardar datos del usuario
                 database.userDao().deleteAll()
@@ -59,13 +60,15 @@ class UserRepositoryImp @Inject constructor(
      * Se encarga de obtener los datos del usuario en sesión.
      * Retorna Success si se obtienen los datos o Error si no.
      */
-    override suspend fun getUserData(remote: Boolean): Resource<UserModel> {
+    override suspend fun getUserInSessionData(remote: Boolean): Resource<UserModel> {
 
         val ds = MyDataStore(context)
         val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+        val userId = ds.getValueFromKey("userId") ?: return Resource.Error("No userId")
+
 
         //get from local database
-        val storedData = database.userDao().getUser()
+        val storedData = database.userDao().getUser(userId)
 
         if (storedData != null && (!remote || !Internet.checkForInternet(context)))
             return Resource.Success(storedData)
@@ -79,7 +82,6 @@ class UserRepositoryImp @Inject constructor(
             if (result.isSuccessful) {
                 val userData = result.body()?.toUserModel()
                 if (userData != null) {
-                    database.userDao().deleteAll()
                     database.userDao().insertUser(userData)
 
                     return Resource.Success(userData)
@@ -92,6 +94,105 @@ class UserRepositoryImp @Inject constructor(
         return Resource.Error("No se obtuvieron datos locales ni remotos")
     }
 
+    override suspend fun getUserData(id: String, forceUpdate: Boolean): Resource<UserModel> {
+
+        val user = database.userDao().getUser(id)
+
+        if (user != null && !(forceUpdate && Internet.checkForInternet(context))) return Resource.Success(
+            user
+        ) //datos locales
+
+        try {
+            //search in api
+            val ds = MyDataStore(context)
+            val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+            val userRequestResult = api.getUserData(token, id)
+
+            if (userRequestResult.isSuccessful) {
+                val userData = userRequestResult.body()?.toUserModel()
+                    ?: return Resource.Error("No se obtuvieron resultados de la api.")
+
+                //guardar en la base de datos
+                database.userDao().insertUser(userData)
+                return Resource.Success(userData)
+
+            }
+
+        } catch (ex: Exception) {
+            println("Diego: ${ex.message}")
+        }
+        return Resource.Error("Ocurrió un error.")
+
+    }
+
+    override suspend fun searchUsers(query: String): Resource<Pair<List<UserModel>?, List<UserModel>?>> {
+
+        val ds = MyDataStore(context)
+
+        if (Internet.checkForInternet(context)) {
+
+            try {
+                //Buscar datos en api. Los datos no se guardan localmente.
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+                val response = api.searchUsers(token, query)
+
+                if (response.isSuccessful) {
+                    response.body()?.let { usersList ->
+                        val contacts = mutableListOf<UserModel>()
+                        val externalUsers = mutableListOf<UserModel>()
+
+                        usersList.map { user ->
+                            val userModel = user.toUserModel()
+                            //verificar si es contacto o usuario externo
+                            val contactResult =
+                                database.contactDao().getContactByUserAsContact(userModel.id)
+
+                            if (contactResult == null) externalUsers.add(userModel)
+                            else contacts.add(userModel)
+                        }
+
+                        if (contacts.isEmpty() && externalUsers.isEmpty()) return Resource.Error("No se encontraron coincidencias.")
+                        else return Resource.Success(
+                            Pair(
+                                contacts.ifEmpty { null },
+                                externalUsers.ifEmpty { null }
+                            )
+                        )
+                    }
+
+                }
+
+            } catch (ex: Exception) {
+                println("Diego: ${ex.message}")
+            }
+
+        }
+
+        //Buscar solo en usuarios guardados
+        val userId = ds.getValueFromKey("userId") ?: return Resource.Error("No userId")
+
+        val usersList = database.userDao().getAllUsers(userId)
+
+        if (usersList.isEmpty()) return Resource.Error("No se encontraron coincidencias.")
+        else {
+
+            //filtrar por nombre, apellido o alias
+            val regex = query.toRegex(RegexOption.IGNORE_CASE)
+            val filteredUsers = usersList.filter {
+                regex.containsMatchIn(it.name) || regex.containsMatchIn(it.lastName) || regex.containsMatchIn(
+                    it.alias
+                )
+            }
+
+            return if (filteredUsers.isEmpty()) Resource.Error("No se encontraron coincidencias.")
+            else Resource.Success(Pair(filteredUsers, null)) //retornar usuarios locales
+
+        }
+
+    }
+
     override suspend fun logout() {
         val ds = MyDataStore(context)
 
@@ -99,6 +200,7 @@ class UserRepositoryImp @Inject constructor(
         database.userDao().deleteAll()
         database.operationDao().deleteAllOperations()
         database.accountDao().deleteAll()
+        database.contactDao().deleteAll()
     }
 
     override suspend fun signUp(
@@ -162,5 +264,6 @@ class UserRepositoryImp @Inject constructor(
         }
 
     }
+
 
 }

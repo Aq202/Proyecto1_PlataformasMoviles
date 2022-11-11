@@ -3,6 +3,7 @@ package com.example.proyecto_final_apps.data.remote
 import com.example.proyecto_final_apps.data.remote.dto.AccountDto
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
+import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
@@ -10,6 +11,7 @@ import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
+import com.example.proyecto_final_apps.data.remote.dto.searchUsersResponse.SearchUsersDto
 import com.example.proyecto_final_apps.data.remote.dto.signUpResponse.SignUpResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -71,5 +73,22 @@ interface API {
         @Body body: UpdateAccountRequest
     ): Response<AccountDto>
 
+    @GET("/user/contactsList")
+    suspend fun getContactsList(
+        @Header("authorization") token:String
+    ):Response<ContactListResponseDto>
+
+    @GET("/user/data/{userId}")
+    suspend fun getUserData(
+        @Header("authorization") token:String,
+        @Path("userId") accountId:String,
+    ):Response<UserDto>
+
+
+    @GET("/user/search")
+    suspend fun searchUsers(
+        @Header("authorization") token:String,
+        @Query("query") query:String
+    ):Response<SearchUsersDto>
 
 }

@@ -69,6 +69,11 @@
         <action
             android:id="@+id/action_accountDetailsFragment_to_editAccountFragment"
             app:destination="@id/editAccountFragment" />
+        <action
+            android:id="@+id/action_accountDetailsFragment_to_accountsListFragment"
+            app:destination="@id/accountsListFragment"
+            app:popUpTo="@id/accountsListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/newAccountFragment"
@@ -236,31 +241,15 @@
         android:id="@+id/externalUserProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.ExternalUserProfileFragment"
         tools:layout="@layout/fragment_external_user_profile">
-        <argument
-            android:name="name"
+        <argument android:name="userId"
             app:argType="string" />
-        <argument
-            android:name="alias"
-            app:argType="string" />
-        <argument
-            android:name="pictureUrl"
-            app:argType="string"
-            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/contactProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.ContactProfileFragment"
         tools:layout="@layout/fragment_contact_profile">
-        <argument
-            android:name="name"
+        <argument android:name="contactId"
             app:argType="string" />
-        <argument
-            android:name="alias"
-            app:argType="string" />
-        <argument
-            android:name="pictureUrl"
-            app:argType="string"
-            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/pendingPaymentDetailsFragment"
@@ -301,7 +290,7 @@
         <action
             android:id="@+id/action_editAccountFragment_to_accountDetailsFragment"
             app:destination="@id/accountDetailsFragment"
-            app:popUpTo="@id/editAccountFragment"
+            app:popUpTo="@id/accountDetailsFragment"
             app:popUpToInclusive="true" />
     </fragment>
 

@@ -27,7 +27,6 @@ class EditAccountViewModel @Inject constructor(private val acRepository: Account
         accountLocalId: Int,
         title: String,
         total: Double,
-        defaultAccount: Boolean
     ): Flow<Status<AccountModel>> {
 
         return flow {
@@ -38,7 +37,7 @@ class EditAccountViewModel @Inject constructor(private val acRepository: Account
                 accountLocalId = accountLocalId,
                 title = title,
                 total = total,
-                defaultAccount = defaultAccount
+                defaultAccount = null
             )
 
             if (result is Resource.Success)

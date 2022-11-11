@@ -1,34 +1,44 @@
 package com.example.proyecto_final_apps.ui.fragments.contacts
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.Contact
-import com.example.proyecto_final_apps.data.ContactModel
+import com.example.proyecto_final_apps.data.local.entity.ContactWithUserModel
+import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.databinding.FragmentContactsBinding
 import com.example.proyecto_final_apps.helpers.Search
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
+import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.ToolbarViewModel
 import com.example.proyecto_final_apps.ui.adapters.ContactAdapter
 import com.example.proyecto_final_apps.ui.fragments.ExternalUserProfileFragmentDirections
+import com.example.proyecto_final_apps.ui.util.Status
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import java.lang.Error
 
 
-class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
+@AndroidEntryPoint
+class ContactsFragment : Fragment() {
 
     private lateinit var binding: FragmentContactsBinding
     private val toolbarViewModel: ToolbarViewModel by activityViewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
+    private val contactViewModel: ContactsViewModel by viewModels()
+    private val loadingViewModel: LoadingViewModel by activityViewModels()
 
+    private val contactsList = mutableListOf<UserModel>()
+    private val externalUsersList = mutableListOf<UserModel>()
 
-    private lateinit var contactsList: MutableList<ContactModel>
-    private lateinit var searchUsersList: MutableList<ContactModel>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,11 +54,48 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
         setUpContactsRecycler()
         setUpSearchUsersRecycler()
         setObservers()
+        setListeners()
+
+        loadingViewModel.showLoadingDialog()
+        lifecycleScope.launchWhenStarted {
+
+            loadFragmentData()
+            loadingViewModel.hideLoadingDialog()
+        }
+    }
+
+    private suspend fun loadFragmentData(forceUpdate: Boolean = false, query: String = "") {
+
+        if (query.trim().isEmpty()) {
+            contactViewModel.getContactsList(forceUpdate)
+            contactViewModel.clearExternalUsers()
+        } else
+            contactViewModel.searchUser(query.trim())
+
+    }
+
+    private fun setListeners() {
+        binding.apply {
+            swipeRefreshLayoutContactsFragment.setOnRefreshListener {
+                lifecycleScope.launchWhenStarted {
+
+                    val searchQuery = toolbarViewModel.searchFlow.value
+                    loadFragmentData(true, searchQuery)
+                    binding.swipeRefreshLayoutContactsFragment.isRefreshing = false
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         selectCurrentBottomNavigationItem()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        //Limpiar la barra de busqueda
+        //toolbarViewModel.triggerSearchFlow("")
     }
 
     private fun selectCurrentBottomNavigationItem() {
@@ -60,75 +107,143 @@ class ContactsFragment : Fragment(), ContactAdapter.ContactListener {
         lifecycleScope.launchWhenStarted {
             toolbarViewModel.searchFlow.collectLatest { query ->
 
-                //falsa busqueda
-                contactsList.clear()
-                searchUsersList.clear()
-                contactsList.addAll(Contact.contacts)
+                //evento al buscar en toolbar
+                lifecycleScope.launchWhenStarted {
+                    loadFragmentData(true, query)
 
-                if (query != "") {
-                    val nonFilteredItems = contactsList.filter { contact ->
-                        Search.hasCoincidences(
-                            query,
-                            contact.name,
-                            contact.lastName,
-                            contact.alias,
-                            contact.name + " " + contact.lastName
-                        )
-                    }
-                    contactsList.retainAll(nonFilteredItems.filter { it.isAdded })
-                    searchUsersList.addAll(nonFilteredItems.filter { !it.isAdded })
+                }
+            }
+        }
 
+        lifecycleScope.launchWhenStarted {
+            contactViewModel.contactsList.collectLatest { status ->
 
-                    binding.recyclerViewProfileUserFragmentSearchUsers.adapter!!.notifyDataSetChanged()
-
-                } else {
-                    contactsList.removeAll(contactsList.filter { !it.isAdded })
+                when (status) {
+                    is Status.Success -> addContactsList(status.value)
+                    is Status.Error -> addNoContactsState()
+                    else -> {}
                 }
 
-                binding.recyclerViewProfileUserFragmentContacts.adapter!!.notifyDataSetChanged()
+            }
+        }
 
+        lifecycleScope.launchWhenStarted {
+            contactViewModel.externalUserList.collectLatest { status ->
+                when (status) {
+                    is Status.Success -> addExternalUsersList(status.value)
+                    is Status.Error -> addNoExternalUsersState()
+                    else -> {}
+                }
             }
         }
     }
 
+
+    private fun addNoExternalUsersState() {
+        showNoContentBanner()
+        binding.apply {
+            textViewProfileUserFragmentSearchUsersTitle.visibility = View.GONE
+            recyclerViewProfileUserFragmentSearchUsers.visibility = View.GONE
+        }
+    }
+
+    private fun addNoContactsState() {
+        showNoContentBanner()
+        binding.apply {
+            textViewProfileUserFragmentContactsTitle.visibility = View.GONE
+            recyclerViewProfileUserFragmentContacts.visibility = View.GONE
+        }
+    }
+
+    private fun showNoContentBanner() {
+        val contactsList = contactViewModel.contactsList.value
+        val usersList = contactViewModel.externalUserList.value
+
+        if (contactsList is Status.Error && usersList is Status.Error)
+            binding.containerNoResultsContent.visibility = View.VISIBLE
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addContactsList(userContacts: List<UserModel>) {
+
+        contactsList.clear()
+        contactsList.addAll(userContacts)
+        binding.apply {
+            recyclerViewProfileUserFragmentContacts.adapter!!.notifyDataSetChanged()
+
+            //Mostrar recycler y ocultar banner no-content
+            textViewProfileUserFragmentContactsTitle.visibility = View.VISIBLE
+            recyclerViewProfileUserFragmentContacts.visibility = View.VISIBLE
+            containerNoResultsContent.visibility = View.GONE
+
+            //ocultar divider
+            val contactsData = contactViewModel.contactsList.value
+            if (contactsData is Status.Success) dividerContactsFragment.visibility = View.GONE
+            else dividerContactsFragment.visibility = View.GONE
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addExternalUsersList(users: List<UserModel>) {
+        externalUsersList.clear()
+        externalUsersList.addAll(users)
+        binding.apply {
+            recyclerViewProfileUserFragmentSearchUsers.adapter!!.notifyDataSetChanged()
+
+            //Mostrar recycler y ocultar banner no-content
+            textViewProfileUserFragmentSearchUsersTitle.visibility = View.VISIBLE
+            recyclerViewProfileUserFragmentSearchUsers.visibility = View.VISIBLE
+            containerNoResultsContent.visibility = View.GONE
+        }
+    }
+
+
     private fun setUpContactsRecycler() {
-        contactsList = mutableListOf()
-        val context = this
+
+
+        val listener = ContactItemListener(requireView())
+
         binding.recyclerViewProfileUserFragmentContacts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
             isNestedScrollingEnabled = false  //disable scroll
-            adapter = ContactAdapter(contactsList, context)
+            adapter = ContactAdapter(contactsList, listener)
         }
     }
 
+
     private fun setUpSearchUsersRecycler() {
-        searchUsersList = mutableListOf()
-        val context = this
+        val listener = ExternalUserItemListener(requireView())
         binding.recyclerViewProfileUserFragmentSearchUsers.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
             isNestedScrollingEnabled = false  //disable scroll
-            adapter = ContactAdapter(searchUsersList, context)
+            adapter = ContactAdapter(externalUsersList, listener)
         }
     }
 
-    override fun onItemClicked(contactData: ContactModel, position: Int) {
 
-        val name = "${contactData.name} ${contactData.lastName}"
-        var action =
-            if (!contactData.isAdded) ContactsFragmentDirections.actionContactsFragmentToExternalUserProfileFragment(
-                name,
-                contactData.alias,
-                contactData.pictureUrl
+    private class ContactItemListener(val view: View) : ContactAdapter.ContactListener {
+        override fun onItemClicked(contactData: UserModel, position: Int) {
+            val action = ContactsFragmentDirections.actionContactsFragmentToContactProfileFragment(
+                contactData.id
             )
-            else ContactsFragmentDirections.actionContactsFragmentToContactProfileFragment(
-                name,
-                contactData.alias,
-                contactData.pictureUrl
-            )
+            view.findNavController().navigate(action)
+        }
 
-        findNavController().navigate(action)
+    }
+
+
+    private class ExternalUserItemListener(val view: View) : ContactAdapter.ContactListener {
+        override fun onItemClicked(contactData: UserModel, position: Int) {
+            val action =
+                ContactsFragmentDirections.actionContactsFragmentToExternalUserProfileFragment(
+                    contactData.id
+                )
+            view.findNavController().navigate(action)
+        }
+
     }
 
 

@@ -10,17 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.ContactModel
+import com.example.proyecto_final_apps.data.local.entity.UserModel
+import com.example.proyecto_final_apps.helpers.apiUrl
 import com.google.android.material.card.MaterialCardView
 
 
 class ContactAdapter(
-    private val dataSet: MutableList<ContactModel>,
+    private val dataSet: MutableList<UserModel>,
     private val contactListener: ContactListener
 ) : RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
 
     interface ContactListener {
-        fun onItemClicked(contactData: ContactModel, position: Int)
+        fun onItemClicked(contactData: UserModel, position: Int)
     }
 
     class ViewHolder(private val view: View, private val listener: ContactListener) :
@@ -36,20 +37,19 @@ class ContactAdapter(
             view.findViewById(R.id.textView_contactItemTemplate_alias)
 
 
-        private lateinit var contactData: ContactModel
+        private lateinit var userData: UserModel
 
         @SuppressLint("SetTextI18n")
-        fun setData(contact: ContactModel) {
-            this.contactData = contact
-
-            val (alias, name, lastName, _, pictureUrl) = contact
+        fun setData(user:UserModel) {
+            this.userData = user
 
             //agregar texto del contacto
-            txtName.text = "$name $lastName"
-            txtAlias.text = alias
+            txtName.text =
+                view.context.getString(R.string.fullName_template, userData.name, userData.lastName)
+            txtAlias.text = userData.alias
 
             //agregar foto
-            imageIcon.load(pictureUrl) {
+            imageIcon.load(apiUrl + userData.imageUrl) {
                 placeholder(R.drawable.ic_loading)
                 error(R.drawable.ic_default_user) //Imagen por default
                 memoryCachePolicy(CachePolicy.ENABLED)
@@ -61,7 +61,7 @@ class ContactAdapter(
 
         private fun setListeners() {
             container.setOnClickListener {
-                listener.onItemClicked(contactData, this.adapterPosition)
+                listener.onItemClicked(userData, this.adapterPosition)
             }
         }
     }

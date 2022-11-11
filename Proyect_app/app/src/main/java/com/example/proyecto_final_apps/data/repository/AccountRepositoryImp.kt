@@ -283,13 +283,14 @@ class AccountRepositoryImp @Inject constructor(
         defaultAccount: Boolean
     ): Resource<AccountModel> {
 
+        val numberOfAccounts = database.accountDao().getNumberOfAccounts()
         val accountCreated =
             AccountModel(title = title, total = total, defaultAccount = defaultAccount)
         accountCreated.localId = database.accountDao().insertAccount(
             AccountModel(
                 title = title,
                 total = total,
-                defaultAccount = defaultAccount
+                defaultAccount = if(numberOfAccounts > 0) defaultAccount else true //Si no hay cuentas colocar true
             )
         ).toInt()
 

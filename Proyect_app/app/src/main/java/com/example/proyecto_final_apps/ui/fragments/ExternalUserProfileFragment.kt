@@ -35,7 +35,7 @@ class ExternalUserProfileFragment : Fragment() {
     private fun showData() {
 
         binding.apply {
-
+/*
         textViewExternalUserProfileName.text = args.name
         textViewExternalUserProfileAlias.text = getString(R.string.alias_format, args.alias)
         imageViewExternalUserProfilePicture.load(args.pictureUrl) {
@@ -44,6 +44,8 @@ class ExternalUserProfileFragment : Fragment() {
             memoryCachePolicy(CachePolicy.ENABLED)
             diskCachePolicy(CachePolicy.ENABLED)
         }
+
+ */
         }
     }
 }
