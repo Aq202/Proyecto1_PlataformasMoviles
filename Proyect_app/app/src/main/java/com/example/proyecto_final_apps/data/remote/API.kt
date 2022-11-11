@@ -32,8 +32,6 @@ interface API {
     ): Response<SignUpResponse>
 
 
-
-
     @GET("/operation/getAll")
     suspend fun getAllOperations(
         @Header("authorization") token:String

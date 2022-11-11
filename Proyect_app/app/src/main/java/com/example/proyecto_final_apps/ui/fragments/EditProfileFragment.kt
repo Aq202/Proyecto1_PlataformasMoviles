@@ -41,6 +41,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             datePicker.addOnPositiveButtonClickListener {
                 binding.datePickerEditProfileFragmentBirthDate.setText(datePicker.headerText)
             }
+
+            datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
         }
 
     }

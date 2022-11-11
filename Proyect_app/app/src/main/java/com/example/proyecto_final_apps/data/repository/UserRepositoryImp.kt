@@ -11,6 +11,7 @@ import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
 import com.example.proyecto_final_apps.data.remote.dto.toUserModel
 import com.example.proyecto_final_apps.helpers.Internet
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class UserRepositoryImp @Inject constructor(
@@ -98,7 +99,8 @@ override suspend fun logout() {
         birthDate: String,
         user: String,
         password: String,
-        email: String
+        email: String,
+        profilePic: MultipartBody.Part
     ): Resource<Boolean> {
 
         try{
@@ -109,7 +111,9 @@ override suspend fun logout() {
                 birthDate = birthDate,
                 user = user,
                 email = email,
-                password = password
+                password = password,
+                profilePic = profilePic
+
             ))
 
             return if (result.isSuccessful){

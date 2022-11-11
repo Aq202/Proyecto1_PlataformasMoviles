@@ -26,6 +26,12 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 @AndroidEntryPoint
@@ -129,10 +135,6 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
             }
 
-            buttonSignUpFragmentSignUp.setOnClickListener {
-                findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
-            }
-
             datePickerSignUpFragmentBirthDate.setOnClickListener {
                 val datePicker =
                     MaterialDatePicker.Builder.datePicker()
@@ -140,9 +142,11 @@ class SignUpFragment : Fragment() {
                         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                         .build()
 
-                datePicker.addOnPositiveButtonClickListener {
-                    datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
-                }
+                        datePicker.addOnPositiveButtonClickListener {
+                     datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
+                    }
+
+                datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
             }
 
             signUpFragmentUploadImageButton.setOnClickListener {
@@ -180,7 +184,8 @@ class SignUpFragment : Fragment() {
             user = user,
             email = email,
             password = password,
-            confirmPass = confirmPass
+            confirmPass = confirmPass,
+            profilePicPath = profilePicPath?: ""
         )
     }
 }

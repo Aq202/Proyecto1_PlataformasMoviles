@@ -8,6 +8,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 sealed class SignUpStatus(){
@@ -32,7 +37,8 @@ class SignUpViewModel @Inject constructor(
         user: String,
         email: String,
         password: String,
-        confirmPass: String
+        confirmPass: String,
+        profilePicPath: String
     ){
         _signUpStateFlow.value = SignUpStatus.Loading
 
@@ -40,13 +46,21 @@ class SignUpViewModel @Inject constructor(
 
             if (firstName != "" && lastName != "" && birthDate != "" && user != "" && password != "" && email != "" && confirmPass != "") {
                 if (password == confirmPass){
+
+                    //Crear multibody part con el path de la imagen de perfil
+                    val profilePicFile = File(profilePicPath)
+                    val requestBody = profilePicFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    val parts = MultipartBody.Part.createFormData("newimage", profilePicFile.name, requestBody)
+
                     when(val result = repository.signUp(
                         firstName = firstName,
                         lastName = lastName,
                         birthDate = birthDate,
                         user = user,
                         email = email,
-                        password = password)){
+                        password = password,
+                        profilePic = parts
+                    )){
                         is Resource.Success -> {
                             _signUpStateFlow.value = SignUpStatus.Registered
                         }
