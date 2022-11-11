@@ -240,7 +240,9 @@ class UserRepositoryImp @Inject constructor(
                 val response = result.body()
 
                 val ds = MyDataStore(context)
+
                 ds.saveKeyValue("token", response!!.token)
+                ds.saveKeyValue("userId", response.userData.id)
 
                 //guardar datos del usuario
                 database.userDao().insertUser(response.userData.toUserModel())
