@@ -6,18 +6,26 @@ import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.remote.API
-import com.example.proyecto_final_apps.data.remote.dto.UserDto
+import com.example.proyecto_final_apps.data.remote.ErrorParser
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
 import com.example.proyecto_final_apps.data.remote.dto.toUserModel
 import com.example.proyecto_final_apps.helpers.Internet
+import com.example.proyecto_final_apps.helpers.createPartFromString
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.ResponseBody
+import retrofit2.Converter
+import java.io.File
 import javax.inject.Inject
+
 
 class UserRepositoryImp @Inject constructor(
     val api: API,
     val context: Context,
-    val database: Database
+    val database: Database,
+    private val errorParser: ErrorParser
 ) : UserRepository {
 
 
@@ -77,63 +85,78 @@ class UserRepositoryImp @Inject constructor(
                     return Resource.Success(userData)
                 }
             }
-        }catch(ex:Exception){
+        } catch (ex: Exception) {
             println("Error de conexión.")
         }
 
         return Resource.Error("No se obtuvieron datos locales ni remotos")
-}
+    }
 
-override suspend fun logout() {
-    val ds = MyDataStore(context)
+    override suspend fun logout() {
+        val ds = MyDataStore(context)
 
-    ds.removeKey("token")
-    database.userDao().deleteAll()
-    database.operationDao().deleteAllOperations()
-    database.accountDao().deleteAll()
-}
+        ds.removeKey("token")
+        database.userDao().deleteAll()
+        database.operationDao().deleteAllOperations()
+        database.accountDao().deleteAll()
+    }
 
     override suspend fun signUp(
         firstName: String,
         lastName: String,
         birthDate: String,
         user: String,
-        password: String,
         email: String,
-        profilePic: MultipartBody.Part
+        password: String,
+        profilePicPath: String
     ): Resource<Boolean> {
 
-        try{
+        try {
 
-            val result = api.signUp(SignUpRequest(
-                firstName = firstName,
-                lastName = lastName,
-                birthDate = birthDate,
-                user = user,
-                email = email,
-                password = password,
-                profilePic = profilePic
 
-            ))
+            //crear estructura a enviar como formData
+            val dataMap: MutableMap<String, RequestBody> = mutableMapOf()
+            dataMap["name"] = firstName.createPartFromString()
+            dataMap["lastName"] = lastName.createPartFromString()
+            dataMap["email"] = email.createPartFromString()
+            dataMap["birthDate"] = birthDate.createPartFromString()
+            dataMap["alias"] = user.createPartFromString()
+            dataMap["password"] = password.createPartFromString()
 
-            return if (result.isSuccessful){
+            //Imagen en formato multipart
+
+            val file = File(profilePicPath)
+            val requestFile = file.asRequestBody("image/*".toMediaType())
+            val multipartImage: MultipartBody.Part =
+                MultipartBody.Part.createFormData("image", file.name, requestFile);
+
+
+            val result = api.signUp(dataMap, multipartImage)
+
+            return if (result.isSuccessful) {
 
                 val response = result.body()
-                val ds = MyDataStore(context)
 
+                val ds = MyDataStore(context)
                 ds.saveKeyValue("token", response!!.token)
 
                 //guardar datos del usuario
-                database.userDao().deleteAll()
                 database.userDao().insertUser(response.userData.toUserModel())
 
                 return Resource.Success(true)
 
-            } else{
-                Resource.Error("El correo electrónico o nombre de usuario ya está registrado.")
+            } else {
+
+                val errorBody = result.errorBody()
+                val error = errorParser.parseErrorObject(errorBody)
+
+                if(error != null) Resource.Error(error.err ?: "Ocurrió un error")
+                else Resource.Error("Ocurrió un error.")
+
+
             }
 
-        }catch (exception: Exception){
+        } catch (exception: Exception) {
             println(exception.message)
             return Resource.Error("Error de conexión al servidor.")
         }

@@ -5,6 +5,9 @@ import android.content.res.ColorStateList
 import com.example.proyecto_final_apps.data.CategoryModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import kotlin.math.abs
@@ -67,5 +70,9 @@ fun String.getWords(): List<String>{
     val regex = Regex("\\S*\\S")
     val result = regex.findAll(this)
     return result.toList().map{ it.value }
+}
+
+fun String.createPartFromString(): RequestBody {
+    return this.toRequestBody("text/plain".toMediaTypeOrNull())
 }
 

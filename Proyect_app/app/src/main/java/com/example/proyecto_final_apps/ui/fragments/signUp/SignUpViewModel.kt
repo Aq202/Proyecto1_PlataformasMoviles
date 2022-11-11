@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.repository.UserRepository
+import com.example.proyecto_final_apps.helpers.DateParse.getDayValue
+import com.example.proyecto_final_apps.helpers.DateParse.getMonthValue
+import com.example.proyecto_final_apps.helpers.DateParse.getYearValue
+import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +17,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 
 sealed class SignUpStatus(){
@@ -29,6 +34,14 @@ class SignUpViewModel @Inject constructor(
 
     private val _signUpStateFlow : MutableStateFlow<SignUpStatus> = MutableStateFlow(SignUpStatus.Default)
     val signUpStateFlow : StateFlow<SignUpStatus> = _signUpStateFlow
+
+    private val _birthDate:MutableStateFlow<String?> = MutableStateFlow(null)
+    val birthDate:StateFlow<String?> = _birthDate
+
+    fun setBirthDate(birthDate: Date){
+        //Lo guarda en el formato MM/DD/YYYY
+        _birthDate.value = "${birthDate.getMonthValue()}/${birthDate.getDayValue()}/${birthDate.getYearValue()}"
+    }
 
     fun signUp(
         firstName: String,
@@ -47,11 +60,6 @@ class SignUpViewModel @Inject constructor(
             if (firstName != "" && lastName != "" && birthDate != "" && user != "" && password != "" && email != "" && confirmPass != "") {
                 if (password == confirmPass){
 
-                    //Crear multibody part con el path de la imagen de perfil
-                    val profilePicFile = File(profilePicPath)
-                    val requestBody = profilePicFile.asRequestBody("image/*".toMediaTypeOrNull())
-                    val parts = MultipartBody.Part.createFormData("newimage", profilePicFile.name, requestBody)
-
                     when(val result = repository.signUp(
                         firstName = firstName,
                         lastName = lastName,
@@ -59,7 +67,7 @@ class SignUpViewModel @Inject constructor(
                         user = user,
                         email = email,
                         password = password,
-                        profilePic = parts
+                        profilePicPath = profilePicPath
                     )){
                         is Resource.Success -> {
                             _signUpStateFlow.value = SignUpStatus.Registered

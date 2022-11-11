@@ -11,6 +11,8 @@ import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountReques
 import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
 import com.example.proyecto_final_apps.data.remote.dto.signUpResponse.SignUpResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -26,9 +28,11 @@ interface API {
         @Header("authorization") token:String
     ): Response<UserDto>
 
-    @POST("/user/signUp")
+    @Multipart
+    @POST("/user/register")
     suspend fun signUp(
-        @Body body: SignUpRequest
+        @PartMap() data:MutableMap<String, RequestBody>,
+        @Part image: MultipartBody.Part
     ): Response<SignUpResponse>
 
 

@@ -8,6 +8,7 @@ import androidx.room.Room
 import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.remote.API
+import com.example.proyecto_final_apps.data.remote.ErrorParser
 import com.example.proyecto_final_apps.data.repository.*
 import com.example.proyecto_final_apps.helpers.apiUrl
 import dagger.Module
@@ -26,11 +27,19 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideApi(): API {
+    fun provideRetrofit():Retrofit{
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(apiUrl)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApi(
+        retrofit: Retrofit
+    ): API {
+        return retrofit
             .create(API::class.java)
     }
 
@@ -39,13 +48,14 @@ class AppModule {
     fun provideUserRepository(
         api: API,
         @ApplicationContext context: Context,
-        database: Database
+        database: Database,
+        errorParser: ErrorParser
     ): UserRepository {
         return UserRepositoryImp(
             api = api,
             context = context,
-            database = database
-
+            database = database,
+            errorParser = errorParser
 
         )
     }
@@ -87,6 +97,14 @@ class AppModule {
             context = context,
             database = database
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideErrorParser(
+        retrofit: Retrofit
+    ):ErrorParser{
+        return ErrorParser(retrofit)
     }
 
 }
