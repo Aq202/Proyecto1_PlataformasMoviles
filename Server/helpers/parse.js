@@ -17,15 +17,28 @@ const parseDate = date => {
 };
 
 /**
- * 
+ *
  * @param {*} number float.
  * @returns float. Two decimals number.
  */
- const twoDecimals = number => {
+const twoDecimals = number => {
 	const fixedNumber = parseFloat(number).toFixed(2);
 	return parseFloat(fixedNumber);
 };
 
+/**
+ * Función que convierte un string ('true' o 'false') a un valor booleano.
+ * @param {*} bool
+ * @returns true o false. Null si el valor no corresponde a ninguno.
+ */
+const parseBooleanStrict = bool => {
+	if (bool === true || bool === "true" || bool === 1 || bool === "1") return true;
+	else if (bool === false || bool === "false" || bool === 0 || bool === "0") return false;
+
+	return null;
+};
+
 exports.parseMongoObject = parseMongoObject;
-exports.parseDate = parseDate
-exports.twoDecimals = twoDecimals
+exports.parseDate = parseDate;
+exports.twoDecimals = twoDecimals;
+exports.parseBooleanStrict = parseBooleanStrict;

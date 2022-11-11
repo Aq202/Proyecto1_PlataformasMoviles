@@ -13,7 +13,6 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.view.children
 import androidx.navigation.findNavController
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.AccountData
 import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.databinding.FragmentEditFavouriteOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
@@ -44,9 +43,7 @@ class EditFavouriteOperationFragment : Fragment() {
     private fun setDropLists() {
         val accounts = arrayListOf<String>()
         val operationTypes = listOf("Ingreso","Egreso")
-        AccountData.accounts.forEach{
-            accounts.add(it.title)
-        }
+
         val adapterAccount = ArrayAdapter(requireContext(), R.layout.list_item, accounts)
         val adapterOperation = ArrayAdapter(requireContext(), R.layout.list_item, operationTypes)
         binding.autoCompleteViewEditFavouriteOperationFragmentSourceAccount.setAdapter(adapterAccount)

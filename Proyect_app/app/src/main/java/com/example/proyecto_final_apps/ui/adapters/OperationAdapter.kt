@@ -12,18 +12,19 @@ import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.Operation
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.data.local.entity.getCategory
 import com.example.proyecto_final_apps.helpers.format
 import com.google.android.material.card.MaterialCardView
 
 class OperationAdapter(
-    private val dataSet: MutableList<Operation>,
+    private val dataSet: MutableList<OperationModel>,
     private val operationListener: OperationListener
 ) : RecyclerView.Adapter<OperationAdapter.ViewHolder>() {
 
     interface OperationListener {
-        fun onItemClicked(operationData: Operation, position: Int)
-        fun onItemPressed(operationData: Operation, position: Int)
+        fun onItemClicked(operationData: OperationModel, position: Int)
+        fun onItemPressed(operationData: OperationModel, position: Int)
     }
 
     class ViewHolder(private val view: View, private val listener: OperationListener) :
@@ -46,35 +47,35 @@ class OperationAdapter(
         private val favouriteIcon: MaterialCardView =
             view.findViewById(R.id.cardView_operationItemTemplate_favourite)
 
-        private lateinit var operationData: Operation
+        private lateinit var operationData: OperationModel
 
-        fun setData(operation: Operation) {
+        fun setData(operation: OperationModel) {
             this.operationData = operation
 
-            val (_, title, _,category, amount, active: Boolean?, imgUrl) = operation
+            val category = operation.getCategory(view.context)
 
             //agregar texto de la operacion
             txtTitle.text = operation.title
-            txtCategory.text = operation.category?.name ?: "Sin categoria"
+            txtCategory.text = category?.name ?: "Sin categoria"
             txtAmount.text = view.context.getString(
                 R.string.operation_item_amount,
-                (if (active == true) "+" else "-"),
-                amount.format(2)
+                (if (operation.active) "+" else "-"),
+                operation.amount.format(2)
             )
 
             //modificar icono
             imageIconContainer.setCardBackgroundColor(
-                operation.category?.color ?: getColor(view.context, R.color.default_category)
+                category?.color ?: getColor(view.context, R.color.default_category)
             )
 
             //colocar icono de la categoria
             if (category?.img != null)
-                imageIcon.setImageDrawable(operation.category?.img)
+                imageIcon.setImageDrawable(category?.img)
             else {
-                if (imgUrl != null) {
+                if (operation.imgUrl != null) {
 
                     //asignar imagen de origen remoto
-                    imageIcon.load(imgUrl) {
+                    imageIcon.load(operation.imgUrl) {
                         placeholder(R.drawable.ic_loading)
                         error(R.drawable.ic_money_bag) //Imagen por default
                         memoryCachePolicy(CachePolicy.ENABLED)
@@ -125,7 +126,7 @@ class OperationAdapter(
             }
 
             //icono de operacion favorita
-            if(operation.favourite == true)
+            if(operation.favorite)
                 favouriteIcon.visibility = View.VISIBLE
 
             setListeners()

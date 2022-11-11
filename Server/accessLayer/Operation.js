@@ -38,38 +38,34 @@ class Operation {
 		return parsedObject;
 	}
 
-	static async getGeneralBallance(subjectId) {
-		const operationsList = await OperationModel.find({ subject: subjectId });
+	static async getOperationsBySubject(subjectId) {
+		const operationsList = await OperationModel.find({ subject: subjectId }).populate("account")
 
-		const sortedOperations = operationsList.sort(
-			(opA, opB) => new Date(opA.date) - new Date(opB.date)
-		);
-		const parsedOperations = operationsList.map(op => {
-			const parsedOperation = parseMongoObject(op);
-			parsedOperation.date = parseDate(parsedOperation.date);
-			return parsedOperation;
-		});
+		const parsedOperations = operationsList
+			.map(op => {
+				const parsedOperation = parseMongoObject(op);
+				parsedOperation.formattedDate = parseDate(parsedOperation.date);
+				return parsedOperation;
+			})
+			.sort((opA, opB) => new Date(opB.date) - new Date(opA.date));
 
-		//calcular balance y diferencia del mes anterior
-		let ballance = 0;
-		let lastMonthBallance = 0;
+		return parsedOperations;
+	}
 
-		sortedOperations.forEach(op => {
-			//balance actual
-			if (op.active) ballance += op.amount;
-			else ballance -= op.amount;
-
-			if (moment(op.date).isBefore(moment().startOf("month"))) {
-				if (op.active) lastMonthBallance += op.amount;
-				else lastMonthBallance -= op.amount;
-			}
-		});
-
-		return {
-			ballance:twoDecimals( ballance),
-			differenceFromPreviousMonth: twoDecimals(ballance - lastMonthBallance),
-			operations: parsedOperations,
-		};
+	/**
+	 *
+	 * @param accountId
+	 * @returns Lista de operaciones.
+	 */
+	static async getOperationsByAccount(accountId) {
+		const operations = await OperationModel.find({ account: accountId });
+		return operations
+			.map(op => {
+				const parsedOperation = parseMongoObject(op);
+				parsedOperation.formattedDate = parseDate(parsedOperation.date);
+				return parsedOperation;
+			})
+			.sort((opA, opB) => new Date(opB.date) - new Date(opA.date));
 	}
 
 	static async updateOperation(operationId, newData) {

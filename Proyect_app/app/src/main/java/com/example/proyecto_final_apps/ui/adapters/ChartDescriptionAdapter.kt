@@ -7,17 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.helpers.format
+import com.example.proyecto_final_apps.ui.Components.PieChart
 
 
 class ChartDescriptionAdapter(
-    private val dataSet: MutableList<DescriptionItem>,
+    private val dataSet: MutableList<PieChart.PieElement>,
 ) : RecyclerView.Adapter<ChartDescriptionAdapter.ViewHolder>() {
 
-    data class DescriptionItem(
-        val color:Int,
-        val title:String,
-        val amount:Double
-    )
 
     class ViewHolder(private val view: View) :
         RecyclerView.ViewHolder(view) {
@@ -28,17 +24,17 @@ class ChartDescriptionAdapter(
 
 
 
-        private lateinit var itemData:DescriptionItem
+        private lateinit var itemData:PieChart.PieElement
 
-        fun setData(item:DescriptionItem) {
+        fun setData(item:PieChart.PieElement) {
             this.itemData = item
 
-            val (color, title, amount) = item
+
 
             //agregar texto de la cuenta
-            txtTitle.text = title
-            txtAmount.text = view.context.getString(R.string.money_format, amount.format(2))
-            circle.background.setTint(color)
+            txtTitle.text = item.text
+            txtAmount.text = view.context.getString(R.string.money_format, item.amount.format(2))
+            circle.background.setTint(item.color)
 
         }
 

@@ -88,6 +88,8 @@ override suspend fun logout() {
 
     ds.removeKey("token")
     database.userDao().deleteAll()
+    database.operationDao().deleteAllOperations()
+    database.accountDao().deleteAll()
 }
 
     override suspend fun signUp(

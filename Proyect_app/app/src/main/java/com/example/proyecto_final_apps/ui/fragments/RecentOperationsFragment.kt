@@ -9,8 +9,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.Operation
-import com.example.proyecto_final_apps.data.TestOperations
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentRecentOperationsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 
@@ -18,7 +17,7 @@ class RecentOperationsFragment : Fragment(R.layout.fragment_recent_operations), 
 
     private lateinit var binding: FragmentRecentOperationsBinding
 
-    private lateinit var recentOperationsList: MutableList<Operation>
+    private lateinit var recentOperationsList: MutableList<OperationModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +34,7 @@ class RecentOperationsFragment : Fragment(R.layout.fragment_recent_operations), 
     }
 
     private fun setUpRecentOperationsRecycler() {
-        recentOperationsList =
-            TestOperations(requireContext()).getOperations().take(10) as MutableList<Operation>
+        recentOperationsList = mutableListOf()
         val context = this
         binding.recyclerViewRecentOperationsFragmentRecentOperations.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -47,12 +45,12 @@ class RecentOperationsFragment : Fragment(R.layout.fragment_recent_operations), 
         }
     }
 
-    override fun onItemClicked(operationData: Operation, position: Int) {
-        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.id)
+    override fun onItemClicked(operationData: OperationModel, position: Int) {
+        val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.localId!!)
         findNavController().navigate(action)
     }
 
-    override fun onItemPressed(operationData: Operation, position: Int) {
+    override fun onItemPressed(operationData: OperationModel, position: Int) {
         Toast.makeText(requireContext(), "PRESSED...", Toast.LENGTH_LONG).show()
     }
 

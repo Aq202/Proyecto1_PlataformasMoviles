@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.proyecto_final_apps.data.Operation
-import com.example.proyecto_final_apps.data.TestOperations
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentFavouriteOperationsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 
@@ -33,8 +32,7 @@ class FavouriteOperationsFragment : Fragment(), OperationAdapter.OperationListen
     }
 
     private fun setUpRecycler() {
-        val data =
-            TestOperations(requireContext()).getFavourites()
+        val data = mutableListOf<OperationModel>()
 
         val context = this
         binding.recyclerViewFavouriteOperationFragmentFavouriteOperations.apply {
@@ -46,11 +44,11 @@ class FavouriteOperationsFragment : Fragment(), OperationAdapter.OperationListen
         }
     }
 
-    override fun onItemClicked(operationData: Operation, position: Int) {
+    override fun onItemClicked(operationData: OperationModel, position: Int) {
         Toast.makeText(requireContext(), "${operationData.title}", Toast.LENGTH_LONG).show()
     }
 
-    override fun onItemPressed(operationData: Operation, position: Int) {
+    override fun onItemPressed(operationData: OperationModel, position: Int) {
         vibrate(100)
 
     }

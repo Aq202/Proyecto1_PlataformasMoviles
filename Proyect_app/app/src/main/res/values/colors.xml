@@ -11,7 +11,11 @@
     <!-- Categories colors -->
     <color name="food_category">#027EF8</color>
     <color name="transportation_category">#7705BC</color>
+    <color name="debts_category">#EE5007</color>
     <color name="default_category">#009688</color>
+    <color name="entretaiment_category">#850E35</color>
+    <color name="work_category">#5BB318</color>
+
 
     <color name="dark_blue">#160621</color>
     <color name="aqua">#12C09B</color>

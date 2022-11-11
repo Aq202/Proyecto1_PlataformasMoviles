@@ -25,6 +25,7 @@
     <string name="no">No</string>
     <string name="develop_user_alias">/@Aq202</string>
     <string name="money_format">Q. %s</string>
+    <string name="cents_format">.%s</string>
     <string name="registro_de_operaciones">Registro de operaciones</string>
     <string name="placeholder_nombre">Nombre</string>
     <string name="placeholder_apellido">Apellido</string>
@@ -100,5 +101,15 @@
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
     <string name="eliminar_contacto">Eliminar contacto</string>
     <string name="fullName_template">%s %s</string>
+    <string name="default_balance">Q 0.00</string>
+    <string name="no_hay_operaciones_a_mostrar">No hay operaciones a mostrar.</string>
+    <string name="sin_resultados">Sin resultados.</string>
+    <string name="no_hubo_gastos">No se encontraron\ngastos</string>
+    <string name="no_hubo_ingresos">No se encontraron\ningresos</string>
+    <string name="nombre_de_la_cuenta">Nombre de la cuenta:</string>
+    <string name="fondos_actuales">Fondos actuales:</string>
+    <string name="cuenta_por_defecto">Cuenta por defecto:</string>
+    <string name="editar_cuenta">Editar cuenta</string>
+
 
 </resources>

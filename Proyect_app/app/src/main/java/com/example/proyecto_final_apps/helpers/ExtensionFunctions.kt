@@ -5,7 +5,12 @@ import android.content.res.ColorStateList
 import com.example.proyecto_final_apps.data.CategoryModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.roundToInt
+
 
 fun Double.format(digits: Int): String {
     val number = "%.${digits}f".format(abs(this))
@@ -21,6 +26,25 @@ fun Double.addSigne(digits:Int, avoidPositive:Boolean = false):String{
     else if(!avoidPositive) "+ $result"
     else result
 }
+
+fun Double.twoDecimals():String{
+    return String.format("%.2f", this)
+}
+
+fun Double.getDecimal(numberOfDecimal:Int):Int{
+    val decimal = this % 1
+    return ( decimal * 10.0.pow(numberOfDecimal.toDouble())).toInt()
+}
+
+fun Int.twoDigits():String{
+
+    return if(this >= 0){
+        //num positivo: agregar 0 si es menor a 10
+        return if(this < 10) ("0" + this) else this.toString()
+        //num negativo: agregar "-" y parsear a dos digitos
+    }else "-" + abs(this).twoDigits();
+}
+
 
 fun ChipGroup.addChip(context: Context, category: CategoryModel, backgroundColor: ColorStateList, strokeColor: ColorStateList){
     Chip(context).apply {

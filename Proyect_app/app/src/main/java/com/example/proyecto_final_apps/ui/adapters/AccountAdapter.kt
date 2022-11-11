@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto_final_apps.R
-import com.example.proyecto_final_apps.data.AccountModel
+import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.helpers.addSigne
 import com.google.android.material.card.MaterialCardView
 
@@ -44,19 +44,18 @@ class AccountAdapter(
         fun setData(account: AccountModel) {
             this.accountData = account
 
-            val (_, title, total, default) = account
 
             //agregar texto de la cuenta
-            txtTitle.text = title
-            txtAmount.text = total.addSigne(2)
+            txtTitle.text = account.title
+            txtAmount.text = account.total.addSigne(2)
             txtDefaultLabel.text = view.context.getString(
-                R.string.default_label, if (default) view.context.getString(
+                R.string.default_label, if (account.defaultAccount) view.context.getString(
                     R.string.si
                 ) else view.context.getString(R.string.no)
             )
 
             //modificar item de cantidad
-            when (total < 0) {
+            when (account.total < 0) {
                 false -> {
                     amountContainer.setCardBackgroundColor(
                         getColor(
@@ -81,7 +80,7 @@ class AccountAdapter(
             }
 
             //ocultar estrella favorito
-            if (!default)
+            if (!account.defaultAccount)
                 imgDefaultIcon.isVisible = false
 
             setListeners()

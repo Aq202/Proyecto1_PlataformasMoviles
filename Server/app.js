@@ -2,7 +2,7 @@
 
 const express = require("express");
 const http = require("http");
-const port = require("./services/port");
+const port = process.env.PORT || require("./services/port");
 const SocketServer = require("./services/socketServer");
 const DBConnection = require("./services/DBConnection");
 const UserRoute = require("./routes/user.route");
@@ -32,6 +32,15 @@ app.use(function (req, res, next) {
 		"Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
 	);
 	next();
+});
+
+app.get("/", (req, res) => {
+	res.send({msg:"Hello World!"})
+})
+
+process.on("unhandledRejection", (error, p) => {
+	console.log("=== UNHANDLED REJECTION ===");
+	console.dir(error);
 });
 
 new SocketServer(httpServer);

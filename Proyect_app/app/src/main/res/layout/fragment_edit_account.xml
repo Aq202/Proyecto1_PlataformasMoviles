@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.editAccount.EditAccountFragment"
+    android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+    android:paddingVertical="30dp"
+    >
+
+    <TextView
+        android:id="@+id/textView_editAccountFragment_fragmentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/editar_cuenta"
+        android:textColor="@color/dark_blue"
+        android:textSize="@dimen/h3_text_size"
+        android:textStyle="bold"
+        android:layout_marginVertical="50dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/text_editAccountFragment_accountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre_de_la_cuenta"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/textInput_editAccountFragment_accountName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_editAccountFragment_fragmentTitle"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_editAccountFragment_accountName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/text_editAccountFragment_accountName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_editAccountFragment_amount"
+        android:hint="@string/placeholder_nombre"
+        android:layout_margin="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/plain_text_size"
+            app:errorEnabled="true"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_editAccountFragment_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fondos_actuales"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInput_editAccountFragment_accountName"
+        app:layout_constraintBottom_toTopOf="@id/textInput_editAccountFragment_amount"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_editAccountFragment_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/text_editAccountFragment_amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_editAccountFragment_defaultAccount"
+        android:hint="@string/placeholder_monto"
+        android:layout_margin="5dp"
+        app:startIconDrawable="@drawable/ic_cash_multiple">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/plain_text_size"
+            android:inputType="numberDecimal"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_editAccountFragment_defaultAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cuenta_por_defecto"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInput_editAccountFragment_amount"
+        app:layout_constraintBottom_toTopOf="@id/switch_editAccountFragment_defaultAccountSwitch"
+        />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_editAccountFragment_defaultAccountSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_editAccountFragment_defaultAccount"
+        app:layout_constraintBottom_toTopOf="@id/text_editAccountFragment_defaultDisclaimer"/>
+
+    <TextView
+        android:id="@+id/text_editAccountFragment_defaultDisclaimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/switch_editAccountFragment_defaultAccountSwitch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_editAccountFragment_addAccountButton"
+        android:text="@string/default_account_disclaimer"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_editAccountFragment_addAccountButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:paddingVertical="@dimen/button_vertical_padding"
+        android:text="@string/add_account"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:backgroundTint="@color/aqua"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/button_radius"
+        app:layout_constraintTop_toBottomOf="@id/text_editAccountFragment_defaultDisclaimer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
