@@ -95,7 +95,7 @@ class ContactsFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         //Limpiar la barra de busqueda
-        toolbarViewModel.triggerSearchFlow("")
+        //toolbarViewModel.triggerSearchFlow("")
     }
 
     private fun selectCurrentBottomNavigationItem() {
@@ -108,10 +108,9 @@ class ContactsFragment : Fragment() {
             toolbarViewModel.searchFlow.collectLatest { query ->
 
                 //evento al buscar en toolbar
-                loadingViewModel.showLoadingDialog()
                 lifecycleScope.launchWhenStarted {
                     loadFragmentData(true, query)
-                    loadingViewModel.hideLoadingDialog()
+
                 }
             }
         }
