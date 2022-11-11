@@ -5,6 +5,7 @@ const { UserSchema } = require("../models/user.model");
 const moment = require("moment");
 const Contact = require("./Contact");
 const { ContactSchema } = require("../models/contact.model");
+const { escapeRegExp } = require("../helpers/usefulFunctions");
 
 class User {
 	static async createUser({ name, lastName, email, birthDate, alias, passwordHash, imageUrl }) {
@@ -107,6 +108,23 @@ class User {
 
 		const contact = await Contact.createContact({localId, subject:this.id, userAsContact:targetUser})
 		return contact
+	}
+
+	async findUser(search){
+
+		let results = null;
+		if(!search) results = await UserSchema.find({_id:{$ne:this.id}})
+		else results = await UserSchema.find({_id:{$ne:this.id}, $or:[{name:new RegExp(escapeRegExp(search), "i")}, {lastName:new RegExp(escapeRegExp(search), "i")}, {alias:new RegExp(escapeRegExp(search), "i")}]})
+		
+		if(results)
+			results = results.map(user => {
+				const parsed = parseMongoObject(user)
+				delete parsed.passwordHash
+				return parsed
+			})
+		
+
+		return results
 	}
 
 

@@ -29,7 +29,7 @@ class UserViewModel @Inject constructor(
     fun getUserData(remote:Boolean){
 
         viewModelScope.launch {
-            when(val result = repository.getUserData(remote)){
+            when(val result = repository.getUserInSessionData(remote)){
                 is Resource.Success -> {
                     _userDataStateFlow.value = UserSessionStatus.Logged(result.data)
                 }

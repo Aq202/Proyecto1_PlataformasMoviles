@@ -5,6 +5,8 @@ const {
 	getSessionUserData,
 	newContact,
 	getContacts,
+	getUserData,
+	searchUser,
 } = require("../controllers/user.controller");
 const newContactSchema = require("../helpers/validationSchemas/newContactSchema");
 const userLoginSchema = require("../helpers/validationSchemas/userLoginSchema");
@@ -28,4 +30,7 @@ router.post("/login", validateBody(userLoginSchema), login);
 router.get("/sessionUserData", ensureAuth, getSessionUserData);
 router.post("/addContact", ensureAuth, validateBody(newContactSchema), newContact);
 router.get("/contactsList", ensureAuth, getContacts)
+router.get("/data/:userId", ensureAuth, getUserData)
+router.get("/search", ensureAuth, searchUser)
+
 module.exports = router;

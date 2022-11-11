@@ -209,13 +209,12 @@ class MainActivity : AppCompatActivity() {
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-
+                    toolbarViewModel.triggerSearchFlow(query ?: "")
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
 
-                    toolbarViewModel.triggerSearchFlow(newText ?: "")
                     return true
                 }
             })
@@ -247,7 +246,7 @@ class MainActivity : AppCompatActivity() {
         if(isLoading){
             //Show loading dialog
             if(loadingDialog.isAdded) loadingDialog.dismiss()
-            loadingDialog.show(supportFragmentManager, "Loading")
+            if(!loadingDialog.isAdded) loadingDialog.show(supportFragmentManager, "Loading")
         }else{
             if(loadingDialog.isAdded)loadingDialog.dismiss()
         }

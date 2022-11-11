@@ -193,6 +193,48 @@ const getContacts = async (req, res) => {
 	}
 };
 
+const getUserData = async (req, res) =>{
+	try {
+
+		const {userId} = req.params
+
+		const user = new User(userId);
+		const userData = await user.getData()
+
+		if(!userData) throw { err: "El usuario no existe.", status: 404 };
+
+		res.status(200).send(userData);
+	} catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+}
+
+const searchUser = async (req, res) => {
+
+	const searchText = req.query?.query || null
+
+	try{
+		const user = new User(req.session.id)
+		const result = await user.findUser(searchText)
+
+		if(!result) throw {err: "No se encontraron coincidencias.", status:404}
+		else res.status(200).send(result)
+
+	}catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+}
+
 exports.registerUser = registerUser;
 exports.login = login;
 exports.getSessionUserData = getSessionUserData;
@@ -200,3 +242,5 @@ exports.editUser = editUser;
 exports.deleteUser = deleteUser;
 exports.newContact = newContact;
 exports.getContacts = getContacts
+exports.getUserData = getUserData
+exports.searchUser = searchUser

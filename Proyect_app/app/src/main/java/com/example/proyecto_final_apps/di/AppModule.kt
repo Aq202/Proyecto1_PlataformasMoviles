@@ -89,6 +89,20 @@ class AppModule {
         )
     }
 
+    @Provides
+    @Singleton
+    fun provideContactRepository(
+        api: API,
+        @ApplicationContext context: Context,
+        database: Database
+    ): ContactRepository {
+        return ContactRepositoryImp(
+            api = api,
+            context = context,
+            database = database
+        )
+    }
+
 }
 
 

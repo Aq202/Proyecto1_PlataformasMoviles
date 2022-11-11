@@ -13,4 +13,6 @@ data class UserModel (
     val birthDate: String,
     val email: String,
     val imageUrl: String,
+    var deletionPending:Boolean = false,
+    var requiresUpdate: Boolean? = false,
 )
