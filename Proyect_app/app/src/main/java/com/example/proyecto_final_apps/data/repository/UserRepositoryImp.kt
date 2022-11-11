@@ -74,7 +74,6 @@ class UserRepositoryImp @Inject constructor(
             if (result.isSuccessful) {
                 val userData = result.body()?.toUserModel()
                 if (userData != null) {
-                    database.userDao().deleteAll()
                     database.userDao().insertUser(userData)
 
                     return Resource.Success(userData)
