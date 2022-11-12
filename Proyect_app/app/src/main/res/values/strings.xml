@@ -111,6 +111,8 @@
     <string name="cuenta_por_defecto">Cuenta por defecto:</string>
     <string name="editar_cuenta">Editar cuenta</string>
     <string name="no_se_encontraron_resultados">No se encontraron\nresultados</string>
-
+    <string name="active_debt_title">Deuda de %s</string>
+    <string name="passive_debt_title">Deuda con %s</string>
+    <string name="deudas_por_aceptar">Deudas por aceptar</string>
 
 </resources>

@@ -27,7 +27,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit():Retrofit{
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(apiUrl)
@@ -103,7 +103,7 @@ class AppModule {
     @Singleton
     fun provideErrorParser(
         retrofit: Retrofit
-    ):ErrorParser {
+    ): ErrorParser {
         return ErrorParser(retrofit)
     }
 
@@ -112,12 +112,14 @@ class AppModule {
     fun provideContactRepository(
         api: API,
         @ApplicationContext context: Context,
-        database: Database
+        database: Database,
+        errorParser: ErrorParser
     ): ContactRepository {
         return ContactRepositoryImp(
             api = api,
             context = context,
-            database = database
+            database = database,
+            errorParser = errorParser
         )
     }
 

@@ -137,8 +137,34 @@ const addDebtAccepted = async (req, res) => {
 	res.status(200).send({ ok: true, result: "Deuda por aceptada agregada exitosamente" });
 }
 
+const getContactData = async (req, res) => {
+
+	try{
+
+		const contactId = req.params.contactId;
+		const userId = req.session?.id
+		const contact = new Contact(contactId, userId)
+
+		const result = await contact.getData()
+
+		if(result) res.status(200).send(result)
+		else throw {err: "No se encontró el contacto.", status:404}
+
+	}catch(ex){
+
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+
+}
+
 exports.createContact = createContact;
 exports.editContact = editContact;
 exports.deleteContact = deleteContact;
 exports.addDebtToAccept = addDebtToAccept;
 exports.addDebtAccepted = addDebtAccepted;
+exports.getContactData = getContactData

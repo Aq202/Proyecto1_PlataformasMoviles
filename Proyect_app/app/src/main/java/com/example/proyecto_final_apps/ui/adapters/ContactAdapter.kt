@@ -11,7 +11,6 @@ import coil.load
 import coil.request.CachePolicy
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.UserModel
-import com.example.proyecto_final_apps.helpers.apiUrl
 import com.google.android.material.card.MaterialCardView
 
 
@@ -49,7 +48,7 @@ class ContactAdapter(
             txtAlias.text = userData.alias
 
             //agregar foto
-            imageIcon.load(apiUrl + userData.imageUrl) {
+            imageIcon.load(userData.imageUrl) {
                 placeholder(R.drawable.ic_loading)
                 error(R.drawable.ic_default_user) //Imagen por default
                 memoryCachePolicy(CachePolicy.ENABLED)

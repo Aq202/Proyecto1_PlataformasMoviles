@@ -117,6 +117,11 @@ class UserRepositoryImp @Inject constructor(
                 database.userDao().insertUser(userData)
                 return Resource.Success(userData)
 
+            }else{
+                val errorBody = userRequestResult.errorBody()
+                val error = errorParser.parseErrorObject(errorBody)
+
+                return Resource.Error(error?.err ?: "Ocurrió un error")
             }
 
         } catch (ex: Exception) {

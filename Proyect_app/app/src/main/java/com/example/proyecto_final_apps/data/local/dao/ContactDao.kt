@@ -13,7 +13,7 @@ interface ContactDao {
     @Query("SELECT COUNT(localId) FROM ContactModel WHERE deletionPending=${false}")
     suspend fun getNumberOfContacts():Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContact(contact:ContactModel)
 
     @Query("SELECT * FROM ContactModel WHERE deletionPending=${false}")

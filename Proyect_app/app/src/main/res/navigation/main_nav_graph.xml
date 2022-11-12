@@ -246,9 +246,9 @@
     </fragment>
     <fragment
         android:id="@+id/contactProfileFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.ContactProfileFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.contact_profile.ContactProfileFragment"
         tools:layout="@layout/fragment_contact_profile">
-        <argument android:name="contactId"
+        <argument android:name="userId"
             app:argType="string" />
     </fragment>
     <fragment

@@ -1,16 +1,17 @@
 const { parseMongoObject } = require("../helpers/parse");
-const { DebtSchema } = require("../models/debt.model");
+const validateId = require("../helpers/validateId");
+const { DebtModel } = require("../models/debt.model");
 
 class Debt {
 	static async createDebt({ localId, subject, accountInvolved, amount, active, userInvolved }) {
-		const debt = new DebtSchema();
+		const debt = new DebtModel();
 
-        debt.localId = localId.trim();
-        debt.subject = subject.trim();
-        debt.accountInvolved = accountInvolved.trim();
-        debt.amount = amount.trim();
-        debt.active = amount.trim();
-        debt.userInvolved = amount.trim();
+        debt.localId = localId;
+        debt.subject = validateId(subject);
+        debt.accountInvolved = validateId(accountInvolved);
+        debt.amount = amount;
+        debt.active = active;
+        debt.userInvolved = validateId(userInvolved);
 
 		const saved = await debt.save();
 		const parsedObject = parseMongoObject(saved);
@@ -18,14 +19,14 @@ class Debt {
 	}
     
     static async updateDebt(debtId, newData){
-		const updated = await DebtSchema.findByIdAndUpdate(debtId, newData, {new:true});
+		const updated = await DebtModel.findByIdAndUpdate(debtId, newData, {new:true});
 		if(!updated) return null;
 		const parsedObject = parseMongoObject(updated);
 		return parsedObject
 	}
 
 	static async deleteDebt(debtId){
-		const deleted = await DebtSchema.findByIdAndDelete(debtId);
+		const deleted = await DebtModel.findByIdAndDelete(debtId);
 		if(!deleted) return null;
 		const parsedObject = parseMongoObject(deleted);
 		return parsedObject

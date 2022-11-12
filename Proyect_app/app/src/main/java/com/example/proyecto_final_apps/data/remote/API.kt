@@ -5,6 +5,7 @@ import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
+import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.GetContactDataDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
@@ -90,5 +91,11 @@ interface API {
         @Header("authorization") token:String,
         @Query("query") query:String
     ):Response<SearchUsersDto>
+
+    @GET("/contact/data/{contactId}")
+    suspend fun getContactData(
+        @Header("authorization") token:String,
+        @Path("contactId") contactId:String,
+    ):Response<GetContactDataDto>
 
 }

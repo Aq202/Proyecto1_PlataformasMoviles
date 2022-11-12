@@ -64,7 +64,7 @@ const updateAccount = async (req, res) => {
 		}
 
 		//actualizar cuenta
-		const account = new Account(req.params?.accountId)
+		const account = new Account(req.params?.accountId, req.session.id)
 		const result = await account.updateAccount({...body, subject:req.session.id})
 
 		if(!result) throw {err:"No se completó la actualización.", status:500}
@@ -91,7 +91,7 @@ const updateAccount = async (req, res) => {
 const deleteAccount = async (req, res) => {
 	try {
 		const accountId = req.params?.accountId;
-		const account = new Account(accountId);
+		const account = new Account(accountId, req.session.id);
 
 		const newDefaultAccount=  await account.deleteAccount();
 
@@ -110,7 +110,7 @@ const deleteAccount = async (req, res) => {
 const setAsDefaultAccount = async (req, res) => {
 	try {
 		const accountId = req.params.accountId;
-		const account = new Account(accountId);
+		const account = new Account(accountId, req.session.id);
 		const result = await account.setAsDefaultAccount();
 
 		if (result?.modifiedCount > 0) res.sendStatus(200);

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.data.CategoryModel
+import com.example.proyecto_final_apps.ui.adapters.OperationItem
 import java.util.*
 
 @Entity
@@ -28,4 +29,16 @@ data class OperationModel(
 
 fun OperationModel.getCategory(context: Context):CategoryModel?{
     return Category(context).getCategory(this.category);
+}
+
+fun OperationModel.toOperationItem(context: Context):OperationItem{
+    return OperationItem(
+        localId = localId!!,
+        remoteId = remoteId,
+        title = title,
+        category= getCategory(context),
+        amount = amount,
+        active = active,
+        imgUrl = null
+    )
 }

@@ -1,136 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ContactProfileFragment"
     android:clipToPadding="false"
-    android:paddingBottom="30dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.contact_profile.ContactProfileFragment"
+    android:id="@+id/swipeResfreshLayout_contactProfileFragment"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_contactProfileFragment_headerCard"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView_contactProfileFragment_fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="@dimen/header_card_negativeMarginTop"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
 
-            android:backgroundTint="@color/dark_blue"
-            app:cardCornerRadius="@dimen/header_card_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_contactProfileFragment_pictureContainer"
-            android:layout_width="@dimen/profile_picture_size"
-            android:layout_height="@dimen/profile_picture_size"
-            android:layout_marginTop="-115dp"
-            app:cardBackgroundColor="@color/light_gray_1"
-            app:cardCornerRadius="300dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardView_contactProfileFragment_headerCard">
-
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="300dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/imageView_contactProfileFragment_picture"
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_contactProfileFragment_headerCard"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/profile_pic_1" />
+                    android:layout_height="200dp"
+                    android:layout_marginTop="@dimen/header_card_negativeMarginTop"
 
-            </androidx.cardview.widget.CardView>
+                    android:backgroundTint="@color/dark_blue"
+                    app:cardCornerRadius="@dimen/header_card_radius"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView_contactProfileFragment_pictureContainer"
+                    android:layout_width="@dimen/profile_picture_size"
+                    android:layout_height="@dimen/profile_picture_size"
+                    android:layout_marginTop="-115dp"
+                    app:cardBackgroundColor="@color/light_gray_1"
+                    app:cardCornerRadius="300dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardView_contactProfileFragment_headerCard">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        app:cardCornerRadius="300dp">
+
+                        <ImageView
+                            android:id="@+id/imageView_contactProfileFragment_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:src="@drawable/profile_pic_1" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+                    android:paddingBottom="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardView_contactProfileFragment_pictureContainer"
+                    tools:layout_editor_absoluteX="0dp">
+
+                    <TextView
+                        android:id="@+id/textView_contactProfileFragment_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/h2_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Diego Aquino"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/textView_contactProfileFragment_alias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="@dimen/h4_text_size"
+                        app:layout_constraintEnd_toEndOf="@id/textView_contactProfileFragment_name"
+                        app:layout_constraintStart_toStartOf="@id/textView_contactProfileFragment_name"
+                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_name"
+                        tools:text="@string/develop_user_alias" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_contactProfileFragment_deleteContact"
+                        android:layout_width="@dimen/button_size"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:backgroundTint="@color/red"
+                        android:paddingVertical="@dimen/button_vertical_padding"
+                        android:text="@string/eliminar_contacto"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="@dimen/button_text_size"
+                        android:textStyle="bold"
+                        app:cornerRadius="@dimen/button_radius"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_alias" />
+
+
+                    <TextView
+                        android:id="@+id/textView_contactProfileFragment_pendingDebtsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/deudas_por_aceptar"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/h5_text_size"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/button_contactProfileFragment_deleteContact" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_contactProfileFragment_pendingDebtsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:clipToPadding="false"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_pendingDebtsTitle"
+                         />
+
+                    <TextView
+                        android:id="@+id/textView_contactProfileFragment_acceptedDebtsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/deudas_realizadas"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/h5_text_size"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recyclerView_contactProfileFragment_pendingDebtsList" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_contactProfileFragment_acceptedDebtsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:clipToPadding="false"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_acceptedDebtsTitle"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_noResultsContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingHorizontal="@dimen/horizontal_fragment_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardView_contactProfileFragment_pictureContainer"
-            tools:layout_editor_absoluteX="0dp">
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            >
 
-            <TextView
-                android:id="@+id/textView_contactProfileFragment_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/develop_fullname"
-                android:textColor="@color/dark_blue"
-                android:textSize="@dimen/h2_text_size"
-                android:textStyle="bold"
+            <ImageView
+                android:id="@+id/imageView_noResultsBanner"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/ic_banner_no_data"
+                app:layout_constraintBottom_toTopOf="@id/textView_noResults"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/textView_contactProfileFragment_alias"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/develop_user_alias"
-                android:textColor="@color/dark_gray"
-                android:textSize="@dimen/h4_text_size"
-                app:layout_constraintEnd_toEndOf="@id/textView_contactProfileFragment_name"
-                app:layout_constraintStart_toStartOf="@id/textView_contactProfileFragment_name"
-                app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_name" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_contactProfileFragment_deleteContact"
-                android:layout_width="@dimen/button_size"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/red"
-                android:paddingVertical="@dimen/button_vertical_padding"
-                android:text="@string/eliminar_contacto"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="@dimen/button_text_size"
-                android:textStyle="bold"
-                app:cornerRadius="@dimen/button_radius"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_alias" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_contactProfileFragment_debtsTitle"
-                android:text="@string/deudas_realizadas"
-                android:textSize="@dimen/h5_text_size"
-                android:textStyle="bold"
-                android:textColor="@color/dark_blue"
-                android:layout_marginTop="30dp"
-                app:layout_constraintTop_toBottomOf="@id/button_contactProfileFragment_deleteContact"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/textView_noResults"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recyclerView_contactProfileFragment_debtsList"
-                app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_debtsTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="20dp"
-                android:clipToPadding="false"
-                />
-
+                android:layout_marginTop="30dp"
+                android:text="Ocurrió un error"
+                android:textAlignment="center"
+                android:textSize="@dimen/h3_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_noResultsBanner" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

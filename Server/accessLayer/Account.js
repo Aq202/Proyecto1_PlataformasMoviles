@@ -42,7 +42,7 @@ class Account {
 
 	async getData() {
 		if (!this.data) {
-			const data = await AccountModel.findById(this.id);
+			const data = await AccountModel.findOne({_id:this.id, subject:this.subject});
 
 			if (data === null) return null;
 			this.data = parseMongoObject(data);
@@ -125,8 +125,9 @@ class Account {
 		return parsedList;
 	}
 
-	constructor(accountId) {
+	constructor(accountId, subject) {
 		this.id = validateId(accountId);
+		this.subject = validateId(subject)
 	}
 }
 

@@ -15,7 +15,6 @@ import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.databinding.FragmentUserProfileBinding
 import com.example.proyecto_final_apps.helpers.DATE_FORMAT
 import com.example.proyecto_final_apps.helpers.DateParse
-import com.example.proyecto_final_apps.helpers.apiUrl
 import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -65,7 +64,7 @@ class UserProfileFragment : Fragment() {
             val date = DateParse.formatDate(data.birthDate)
             textViewProfileUserBirthday.text = DateParse.dateToWordsFormat(date)
 
-            imageViewProfileUserFragmentPicture.load(apiUrl + data.imageUrl){
+            imageViewProfileUserFragmentPicture.load( data.imageUrl){
                 placeholder(R.drawable.ic_default_user)
                 error(R.drawable.ic_default_user)
                 diskCachePolicy(CachePolicy.ENABLED)
