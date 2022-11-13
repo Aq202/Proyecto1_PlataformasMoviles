@@ -133,13 +133,14 @@ class AppModule {
         @ApplicationContext context: Context,
         database: Database,
         errorParser: ErrorParser,
-
+        operationRepository: OperationRepository
     ): DebtRepository {
         return DebtRepositoryImp(
             api = api,
             context = context,
             database = database,
-            errorParser = errorParser
+            errorParser = errorParser,
+            operationRepository = operationRepository
         )
     }
 

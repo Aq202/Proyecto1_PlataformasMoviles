@@ -193,7 +193,7 @@
         tools:layout="@layout/fragment_new_operation"/>
     <fragment
         android:id="@+id/newDebtFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.NewDebtFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.new_debt.NewDebtFragment"
         android:label="Nueva deuda"
         tools:layout="@layout/fragment_new_debt" />
 

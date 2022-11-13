@@ -2,6 +2,7 @@ package com.example.proyecto_final_apps.data.remote.dto.operationDto
 
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.dto.AccountDto
+import com.example.proyecto_final_apps.helpers.apiUrl
 
 data class OperationDto(
     val account: AccountDto,
@@ -36,6 +37,6 @@ fun OperationDto.toOperationModel(): OperationModel {
         title = this.title,
         description = this.description,
         requiresUpdate = false,
-        imgUrl = this.imgUrl
+        imgUrl = apiUrl + this.imgUrl
     )
 }

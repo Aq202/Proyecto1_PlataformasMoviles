@@ -48,7 +48,7 @@ class ContactsViewModel @Inject constructor(
                 //obtener datos de usuario
 
                 val userRequest =
-                    userRepository.getUserData(contact.userAsContact, false)
+                    userRepository.getUserData(contact.contact.userAsContact, false)
                 if (userRequest is Resource.Success) {
                     userContacts.add(
                         userRequest.data

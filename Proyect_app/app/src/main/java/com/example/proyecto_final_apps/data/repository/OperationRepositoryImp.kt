@@ -190,7 +190,8 @@ class OperationRepositoryImp @Inject constructor(
         description: String?,
         category: Int,
         favorite: Boolean,
-        date: String
+        date: String,
+        imgUrl:String?
     ): Resource<OperationModel> {
         val operationCreated =
             OperationModel(
@@ -203,7 +204,7 @@ class OperationRepositoryImp @Inject constructor(
                 date = date,
                 title = title,
                 description = description,
-                imgUrl = null
+                imgUrl = imgUrl
             )
         operationCreated.localId = database.accountDao().insertOperation(
             OperationModel(
@@ -216,7 +217,7 @@ class OperationRepositoryImp @Inject constructor(
                 date = date,
                 title = title,
                 description = description,
-                imgUrl = null
+                imgUrl = imgUrl
             )
         ).toInt()
 

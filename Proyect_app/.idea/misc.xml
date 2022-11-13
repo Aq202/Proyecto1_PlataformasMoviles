@@ -23,6 +23,7 @@
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_filled_new.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_filled_user.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1275" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_loading.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_home.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_new.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_star.xml" value="0.116" />
@@ -50,6 +51,8 @@
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_action.xml" value="0.2140625" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_debt.xml" value="0.264" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_pending_payment.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_transfer.xml" value="0.14673913043478262" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_operation_details.xml" value="0.2" />

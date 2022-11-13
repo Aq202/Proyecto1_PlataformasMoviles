@@ -28,7 +28,7 @@ data class OperationItem(
     val amount:Double,
     val active:Boolean,
     val imgUrl:String?,
-    val favorite:Boolean = false
+    val favorite:Boolean = false,
 )
 
 class OperationAdapter(
@@ -78,7 +78,7 @@ class OperationAdapter(
 
             //modificar icono
             imageIconContainer.setCardBackgroundColor(
-                operation.category?.color ?: getColor(view.context, R.color.default_category)
+                if(operation.imgUrl != null) getColor(view.context, R.color.white)  else operation.category?.color ?: getColor(view.context, R.color.default_category)
             )
 
             if (operation.imgUrl != null) {

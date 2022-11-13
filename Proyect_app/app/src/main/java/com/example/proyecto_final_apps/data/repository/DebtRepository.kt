@@ -1,5 +1,14 @@
 package com.example.proyecto_final_apps.data.repository
 
-interface DebtRepository {
+import com.example.proyecto_final_apps.data.Resource
+import com.example.proyecto_final_apps.data.local.entity.DebtAcceptedModel
 
+interface DebtRepository {
+    suspend fun createDebt(
+        contactUserId: String,
+        active: Boolean,
+        amount: Double,
+        accountLocalId: Int,
+        description: String?,
+    ): Resource<DebtAcceptedModel>
 }

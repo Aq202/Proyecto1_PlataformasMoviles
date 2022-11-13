@@ -2,6 +2,7 @@ package com.example.proyecto_final_apps.data.remote
 
 import com.example.proyecto_final_apps.data.remote.dto.AccountDto
 import com.example.proyecto_final_apps.data.remote.dto.ContactDto
+import com.example.proyecto_final_apps.data.remote.dto.DebtsAcceptedDto
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
@@ -120,5 +121,12 @@ interface API {
         @Header("authorization") token:String,
         @Path("contactId") contactId:String,
     ):Response<Void>
+
+
+    @POST("/debt/create")
+    suspend fun newDebt(
+        @Header("authorization") token:String,
+        @Body body: NewDebtRequest
+    ): Response<DebtsAcceptedDto>
 
 }

@@ -6,6 +6,7 @@ import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.ContactFullDataModel
 import com.example.proyecto_final_apps.data.local.entity.ContactModel
+import com.example.proyecto_final_apps.data.local.entity.ContactWithUserModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.ErrorParser
 import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.toContactModel
@@ -23,7 +24,7 @@ class ContactRepositoryImp @Inject constructor(
     val errorParser: ErrorParser,
     val debtRepository: DebtRepository
 ) : ContactRepository {
-    override suspend fun getContactsList(forceUpdate: Boolean): Resource<List<ContactModel>> {
+    override suspend fun getContactsList(forceUpdate: Boolean): Resource<List<ContactWithUserModel>> {
 
         uploadPendingChanges()
 
@@ -33,7 +34,11 @@ class ContactRepositoryImp @Inject constructor(
             if (numberOfContacts > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
                 //from database
                 val accountList = database.contactDao().getContactsList()
-                return Resource.Success(accountList)
+                return Resource.Success(accountList.map{ contact ->
+                    //search user
+                    val user = database.userDao().getUser(contact.userAsContact)
+                    ContactWithUserModel(contact, user!!)
+                })
 
             } else {
 
@@ -60,7 +65,10 @@ class ContactRepositoryImp @Inject constructor(
                             database.userDao().insertUser(contact.userAsContact.toUserModel())
                         }
 
-                        Resource.Success(contactsList)
+                        Resource.Success(contactsList.map{ contact ->
+                            val user = database.userDao().getUser(contact.userAsContact)
+                            ContactWithUserModel(contact, user!!)
+                        })
                     } else
                         Resource.Error("No se obtuvo ningúna cuenta.")
                 }
@@ -126,6 +134,7 @@ class ContactRepositoryImp @Inject constructor(
 
                         val contactModel = contactData.toContactModel()
                         var debtsAccepted = contactData.debtsAccepted?.map {
+
                             it.toDebtAcceptedModel()
                         }
                         if (debtsAccepted?.isEmpty() == true) debtsAccepted = null

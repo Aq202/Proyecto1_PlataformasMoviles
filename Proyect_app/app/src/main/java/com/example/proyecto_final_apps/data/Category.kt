@@ -53,7 +53,7 @@ class Category(private val context:Context) {
             "Deudas",
             CategoryTypes.DEUDAS,
             null,
-            getColor(context, R.color.white)
+            getColor(context, R.color.debts_category)
         ),
         CategoryModel(
             4,

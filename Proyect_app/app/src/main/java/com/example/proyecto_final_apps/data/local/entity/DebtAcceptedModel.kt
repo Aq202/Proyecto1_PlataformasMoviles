@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey
 @Entity
 data class DebtAcceptedModel(
     @PrimaryKey(autoGenerate = true)
-    val localId: Int? = null,
-    val accountInvolved: String,
+    var localId: Int? = null,
+    val accountInvolved: Int,
     val active: Boolean,
     val amount: Double,
-    val remoteId: String?,
+    var remoteId: String?,
+    val description:String?,
     val userInvolved: String,
     var deletionPending: Boolean = false,
     var requiresUpdate: Boolean = false,

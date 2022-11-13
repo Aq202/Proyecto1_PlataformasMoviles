@@ -1,9 +1,6 @@
 package com.example.proyecto_final_apps.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.proyecto_final_apps.data.local.entity.DebtAcceptedModel
 
 @Dao
@@ -16,7 +13,7 @@ interface DebtDao{
     suspend fun insertManyAcceptedDebts(acceptedDebts:List<DebtAcceptedModel>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAcceptedDebt(acceptedDebt: DebtAcceptedModel)
+    suspend fun insertAcceptedDebt(acceptedDebt: DebtAcceptedModel):Long
 
     @Query("DELETE FROM DebtAcceptedModel")
     suspend fun deleteAllAcceptedDebts():Int
@@ -32,5 +29,8 @@ interface DebtDao{
 
     @Query("SELECT * FROM DebtAcceptedModel WHERE deletionPending=${false} AND requiresUpdate=${true}")
     suspend fun getAllAcceptedDebtsRequiringUpdate():List<DebtAcceptedModel>
+
+    @Update
+    suspend fun updateAcceptedDebt(acceptedDebt:DebtAcceptedModel)
 
 }
