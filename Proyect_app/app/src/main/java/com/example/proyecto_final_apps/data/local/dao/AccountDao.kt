@@ -37,9 +37,6 @@ interface AccountDao {
     @Update
     suspend fun updateAccount(account:AccountModel):Int
 
-    @Update
-    suspend fun updateOperation(operation:OperationModel):Int
-
     @Delete
     suspend fun deleteAccount(account:AccountModel):Int
 

@@ -79,6 +79,7 @@ class NewAccountFragment : Fragment() {
 
     private fun createAccount() {
         if (!validateTitle() && !validateTotal()) return
+        else if(!validateTitle() || !validateTotal()) return
 
 
         val title = binding.textInputNewAccountFragmentAccountName.editText!!.text.toString()

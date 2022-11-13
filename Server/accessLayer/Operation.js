@@ -24,17 +24,17 @@ class Operation {
 		operation.title = title.trim();
 		operation.account = account.trim();
 		operation.amount = twoDecimals(amount);
-		operation.active = active.trim();
+		operation.active = active;
 		operation.date = new Date(date);
 		operation.description = description?.trim();
 		operation.category = category;
 		operation.favourite = favourite ?? false;
 		operation.imgUrl = imgUrl?.trim();
 
-		const saved = await operation.save();
+		const saved = await (await operation.save()).populate("account");
 		const parsedObject = parseMongoObject(saved);
-
-		parsedObject.date = parseDate(parsedObject.date);
+		parsedObject.account = parseMongoObject(parsedObject.account)
+		parsedObject.formattedDate = parseDate(parsedObject.date);
 		return parsedObject;
 	}
 

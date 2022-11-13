@@ -7,7 +7,7 @@ const createOperation = async (req, res) => {
 		const data = req.body;
 
 		const subject = new User(req.session.id);
-		const account = new Account(data.account);
+		const account = new Account(data.account, req.session.id);
 
 		const subjectData = await subject.getData();
 		const accountData = await account.getData();

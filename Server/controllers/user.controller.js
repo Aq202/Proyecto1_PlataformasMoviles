@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
 				error = "El alias ingresado ya ha sido ocupado por otro usuario.";
 		}
 		res.statusMessage = error;
-		res.status(status).send({ ok: false, err: error });
+		res.status(status).send({ ok: false, err: error, status });
 	}
 };
 
@@ -90,7 +90,7 @@ const editUser = async (req, res) => {
 				error = "El alias ingresado ya ha sido ocupado por otro usuario.";
 		}
 		res.statusMessage = error;
-		res.status(status).send({ ok: false, err: error });
+		res.status(status).send({ ok: false, err: error, status });
 	}
 };
 
@@ -150,7 +150,7 @@ const getSessionUserData = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 };
 
@@ -171,7 +171,7 @@ const newContact = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 };
 
@@ -189,7 +189,7 @@ const getContacts = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 };
 
@@ -210,7 +210,7 @@ const getUserData = async (req, res) =>{
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 }
 
@@ -231,7 +231,7 @@ const searchUser = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 }
 

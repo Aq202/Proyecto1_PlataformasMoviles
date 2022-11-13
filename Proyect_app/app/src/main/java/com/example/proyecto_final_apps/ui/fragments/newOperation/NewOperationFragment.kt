@@ -41,7 +41,8 @@ class NewOperationFragment : Fragment() {
     private val newOperationViewModel: NewOperationViewModel by viewModels()
     private val accountListViewModel: AccountsListViewModel by viewModels()
     private lateinit var checkedCathegory: String
-    private lateinit var selectedAccount: AccountModel
+    private var selectedAccount: AccountModel? = null
+    private val nullAccounts = "No hay cuentas disponibles"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,13 +94,13 @@ class NewOperationFragment : Fragment() {
             println("Diego: ${status.error}")
         }
     }
-
     private suspend fun getFragmentData(forceUpdate:Boolean = false) {
         accountListViewModel.getAccountList(forceUpdate)
     }
 
     private fun setDropLists() {
         val accounts = getAccountsNames()
+        if(accounts.isEmpty()) accounts.add(nullAccounts)
         val operationTypes = listOf("Ingreso","Egreso")
 
         val adapterAccount = ArrayAdapter(requireContext(), R.layout.list_item, accounts)
@@ -111,7 +112,8 @@ class NewOperationFragment : Fragment() {
     private fun getAccountsNames(): MutableList<String> {
         var accounts = mutableListOf<String>()
         accountsList.forEach { account ->
-            accounts.add(account.title)
+            if(account.editable)
+                accounts.add(account.title)
         }
         return accounts
     }
@@ -122,7 +124,9 @@ class NewOperationFragment : Fragment() {
             updateChips(chipGroup, checkedIds[0])
         }
         binding.autoCompleteViewNewOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
-            selectedAccount = getAccount(adapterView.getItemAtPosition(i).toString())!!
+            val account = adapterView.getItemAtPosition(i).toString()
+            if(account != nullAccounts)
+                selectedAccount = getAccount(account)!!
         }
         binding.buttonNewOperationFragmentAdd.setOnClickListener{
             createOperation()
@@ -151,10 +155,20 @@ class NewOperationFragment : Fragment() {
     }
     private fun validateAccount(): Boolean {
         binding.apply {
-            val name = textInputLayoutNewOperationFragmentSourceAccount.editText!!.text
-            if (name.trim().isEmpty()) {
+            val account = textInputLayoutNewOperationFragmentSourceAccount.editText!!.text
+            val amount = textInputLayoutNewOperationFragmentAmount.editText!!.text
+            if (account.trim().isEmpty()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
+                return false
+            }else if(account.toString() == nullAccounts){
+                textInputLayoutNewOperationFragmentSourceAccount.error =
+                    "Debe seleccionar una cuenta de origen."
+                return false
+            }else if (account.toString() != "Ingreso" &&
+                selectedAccount!!.total < amount.toString().toDouble()) {
+                textInputLayoutNewOperationFragmentSourceAccount.error =
+                    "La cuenta seleccionada no tiene fondos suficientes para esta operación."
                 return false
             }
             textInputLayoutNewOperationFragmentSourceAccount.error = null
@@ -211,10 +225,11 @@ class NewOperationFragment : Fragment() {
 
     private fun createOperation() {
         if (!validateTitle() && !validateAmount() && !validateAccount() && !validateOperationType() && !validateCathegory()) return
+        else if(!validateTitle() || !validateAmount() || !validateAccount() || !validateOperationType() || !validateCathegory()) return
 
         val title = binding.textInputLayoutNewOperationFragmentTitle.editText!!.text.toString()
-        val accountRemoteId = selectedAccount.remoteId
-        val accountLocalId = selectedAccount.localId
+        val accountRemoteId = selectedAccount!!.remoteId
+        val accountLocalId = selectedAccount!!.localId
         val amount = binding.textInputLayoutNewOperationFragmentAmount.editText!!.text.toString().toDouble()
         val operationType = binding.textInputLayoutNewOperationFragmentOperationType.editText!!.text.toString()
         val active = operationType == "Ingreso"
@@ -262,9 +277,16 @@ class NewOperationFragment : Fragment() {
     private fun generateChipGroup() {
         val categories = Category(requireContext()).getCategories()
         categories.forEach{ cathegory ->
-            val backgroundCSL = generateCSL(cathegory.color, true)
-            val strokeCSL = generateCSL(cathegory.color, false)
-            binding.chipGroupNewOperationFragmentCathegories.addChip(requireContext(), cathegory, backgroundCSL, strokeCSL)
+            if(cathegory.name != "Deudas") {
+                val backgroundCSL = generateCSL(cathegory.color, true)
+                val strokeCSL = generateCSL(cathegory.color, false)
+                binding.chipGroupNewOperationFragmentCathegories.addChip(
+                    requireContext(),
+                    cathegory,
+                    backgroundCSL,
+                    strokeCSL
+                )
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import com.example.proyecto_final_apps.data.remote.dto.operationDto.toOperationM
 import com.example.proyecto_final_apps.data.remote.dto.requests.NewOperationRequest
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
@@ -18,6 +19,8 @@ class OperationRepositoryImp @Inject constructor(
     val context: Context,
     private val database: Database
 ) : OperationRepository {
+
+    private val accountRepository: AccountRepository = AccountRepositoryImp(api,context,database)
 
     override suspend fun getOperations(forceUpdate: Boolean): Resource<List<OperationModel>> {
 
@@ -50,7 +53,7 @@ class OperationRepositoryImp @Inject constructor(
                         Resource.Error("No hay operaciones por mostrar.")
 
                 } else
-                    println(result.message())
+                    println("Erick: "+ result.message())
 
             }
 
@@ -222,9 +225,14 @@ class OperationRepositoryImp @Inject constructor(
         if(requestResult is Resource.Success) return requestResult
         else println("Erick: ${requestResult.message}")
 
+
+
         //Si no se completó la solicitud a la api
         operationCreated.requiresUpdate = true
-        database.accountDao().updateOperation(operationCreated)
+        database.operationDao().updateOperation(operationCreated)
+
+        //Actualizar monto de la cuenta
+
         return Resource.Success(operationCreated)
     }
 
@@ -254,16 +262,20 @@ class OperationRepositoryImp @Inject constructor(
 
                 if (requestResult.isSuccessful) {
 
+                    val account = requestResult.body()?.account
+                    val newTotal = if(operation.active) account!!.total + operation.amount else account!!.total - operation.amount
+                    accountRepository.updateAccount(account!!.localId, title = account!!.title, total = newTotal, account.defaultAccount)
+
                     requestResult.body()?.toOperationModel()?.let { operationDataFromApi ->
                         //update db data
-                        database.accountDao().updateOperation(operationDataFromApi)
+                        database.operationDao().updateOperation(operationDataFromApi)
                         return Resource.Success(operationDataFromApi)
                     }
 
 
                 } else return Resource.Error(requestResult.errorBody().toString())
             } catch (ex: Exception) {
-                return Resource.Error(ex.message ?:"")
+                return Resource.Error("Catch: "+ex.message ?:"")
             }
         }
         return Resource.Error("No internet.")

@@ -207,6 +207,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textView_neOperationFragment_cathegory"
                 app:selectionRequired="true"
                 app:singleSelection="true"
+                app:chipSpacingVertical="0dp"
                 >
 
             </com.google.android.material.chip.ChipGroup>
