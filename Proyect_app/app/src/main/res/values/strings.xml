@@ -111,6 +111,8 @@
     <string name="cuenta_por_defecto">Cuenta por defecto:</string>
     <string name="editar_cuenta">Editar cuenta</string>
     <string name="no_se_encontraron_resultados">No se encontraron\nresultados</string>
+    <string name="txt_title">Título</string>
+    <string name="hint_title">Título de la operación</string>
 
 
 </resources>

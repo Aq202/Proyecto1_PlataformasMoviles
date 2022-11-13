@@ -126,8 +126,29 @@ const setAsDefaultAccount = async (req, res) => {
 	}
 };
 
+const getAccountData = async (req, res) =>{
+	try {
+
+		const accountId = req.params?.accountId;
+		const account = new Account(accountId);
+		const accountData = await account.getData()
+
+		if(!accountData) throw { err: "La cuenta no existe.", status: 404 };
+
+		res.status(200).send(accountData);
+	} catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+}
+
 exports.createAccount = createAccount;
 exports.updateAccount = updateAccount;
 exports.deleteAccount = deleteAccount;
 exports.getAccountList = getAccountList;
 exports.setAsDefaultAccount = setAsDefaultAccount;
+exports.getAccountData = getAccountData;

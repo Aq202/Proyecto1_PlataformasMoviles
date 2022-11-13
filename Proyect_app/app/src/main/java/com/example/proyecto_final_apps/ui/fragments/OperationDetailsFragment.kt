@@ -32,7 +32,7 @@ class OperationDetailsFragment : Fragment() {
 
     private fun setListeners() {
         binding.buttonOperationDetailsFragmentEdit.setOnClickListener{
-            findNavController().navigate(R.id.action_operationDetailsFragment_to_editPendingPaymentFragment)
+
         }
     }
 

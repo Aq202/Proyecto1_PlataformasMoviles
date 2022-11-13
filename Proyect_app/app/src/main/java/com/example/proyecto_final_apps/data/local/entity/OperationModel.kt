@@ -10,7 +10,7 @@ import java.util.*
 @Entity
 data class OperationModel(
     @PrimaryKey(autoGenerate = true)
-    val localId: Int? = null,
+    var localId: Int? = null,
     val accountRemoteId: String?,
     val accountLocalId:Int,
     val active: Boolean,
@@ -18,12 +18,13 @@ data class OperationModel(
     val category: Int,
     val favorite: Boolean,
     val date: String,
-    val remoteId: String?,
-    val subject: String,
+    val remoteId: String? = null,
+    val subject: String? = null,
     val title: String,
-    val requiresUpdate: Boolean? = false,
+    val description: String?,
+    var requiresUpdate: Boolean? = false,
     val imgUrl: String?,
-    val deletionPending:Boolean = false
+    var deletionPending:Boolean = false
 )
 
 fun OperationModel.getCategory(context: Context):CategoryModel?{

@@ -11,6 +11,9 @@ interface AccountDao {
     suspend fun getNumberOfAccounts():Int
 
     @Insert
+    suspend fun insertOperation(operation:OperationModel):Long
+
+    @Insert
     suspend fun insertAccount(account:AccountModel):Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -33,6 +36,9 @@ interface AccountDao {
 
     @Update
     suspend fun updateAccount(account:AccountModel):Int
+
+    @Update
+    suspend fun updateOperation(operation:OperationModel):Int
 
     @Delete
     suspend fun deleteAccount(account:AccountModel):Int

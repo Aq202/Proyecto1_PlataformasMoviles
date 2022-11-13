@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.operationDto.toOperationModel
+import com.example.proyecto_final_apps.data.remote.dto.requests.NewOperationRequest
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
 import java.util.*
@@ -175,5 +176,96 @@ class OperationRepositoryImp @Inject constructor(
 
         //eliminar operaciones pendinetes
 
+    }
+
+    override suspend fun createOperation(
+        title: String,
+        accountRemoteId: String,
+        accountLocalId: Int,
+        amount: Double,
+        active: Boolean,
+        description: String?,
+        category: Int,
+        favorite: Boolean,
+        date: String
+    ): Resource<OperationModel> {
+        val operationCreated =
+            OperationModel(
+                accountRemoteId = accountRemoteId,
+                accountLocalId = accountLocalId,
+                active = active,
+                amount = amount,
+                category = category,
+                favorite = favorite,
+                date = date,
+                title = title,
+                description = description,
+                imgUrl = null
+            )
+        operationCreated.localId = database.accountDao().insertOperation(
+            OperationModel(
+                accountRemoteId = accountRemoteId,
+                accountLocalId = accountLocalId,
+                active = active,
+                amount = amount,
+                category = category,
+                favorite = favorite,
+                date = date,
+                title = title,
+                description = description,
+                imgUrl = null
+            )
+        ).toInt()
+
+        //Subir datos a la api
+        val requestResult = uploadNewOperationToApi(operationCreated)
+        if(requestResult is Resource.Success) return requestResult
+        else println("Erick: ${requestResult.message}")
+
+        //Si no se completó la solicitud a la api
+        operationCreated.requiresUpdate = true
+        database.accountDao().updateOperation(operationCreated)
+        return Resource.Success(operationCreated)
+    }
+
+    private suspend fun uploadNewOperationToApi(operation:OperationModel):Resource<OperationModel>{
+        if (Internet.checkForInternet(context)) {
+
+            try {
+
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+                val requestResult = api.createOperation(
+                    token,
+                    NewOperationRequest(
+                        account = operation.accountRemoteId!!,
+                        amount = operation.amount,
+                        category = operation.category,
+                        date = operation.date,
+                        favourite = operation.favorite,
+                        localId = operation.localId!!,
+                        title = operation.title,
+                        description = operation.description,
+                        imgUrl = operation.imgUrl,
+                        active = operation.active
+                    )
+                )
+
+                if (requestResult.isSuccessful) {
+
+                    requestResult.body()?.toOperationModel()?.let { operationDataFromApi ->
+                        //update db data
+                        database.accountDao().updateOperation(operationDataFromApi)
+                        return Resource.Success(operationDataFromApi)
+                    }
+
+
+                } else return Resource.Error(requestResult.errorBody().toString())
+            } catch (ex: Exception) {
+                return Resource.Error(ex.message ?:"")
+            }
+        }
+        return Resource.Error("No internet.")
     }
 }

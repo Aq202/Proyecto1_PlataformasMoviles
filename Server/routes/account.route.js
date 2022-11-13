@@ -6,6 +6,7 @@ const {
 	setAsDefaultAccount,
 	deleteAccount,
 	updateAccount,
+	getAccountData,
 } = require("../controllers/account.controller");
 const newAccountSchema = require("../helpers/validationSchemas/newAccountSchema");
 const { ensureAuth } = require("../middlewares/auth");
@@ -18,5 +19,6 @@ router.get("/list", ensureAuth, getAccountList);
 router.post("/:accountId/setAsDefault", ensureAuth, setAsDefaultAccount)
 router.delete("/:accountId", ensureAuth, deleteAccount)
 router.post("/update/:accountId", ensureAuth, updateAccount)
+router.get("/getAccount/:accountId", ensureAuth, getAccountData)
 
 module.exports = router;

@@ -7,12 +7,10 @@ import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.Conta
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
-import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.*
 import com.example.proyecto_final_apps.data.remote.dto.searchUsersResponse.SearchUsersDto
 import com.example.proyecto_final_apps.data.remote.dto.signUpResponse.SignUpResponse
+import com.example.proyecto_final_apps.data.remote.dto.operationDto.OperationDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -65,6 +63,18 @@ interface API {
         @Header("authorization") token:String,
         @Body body: NewAccountRequest
     ): Response<AccountDto>
+
+    @GET("/account/getAccount/{accountId}")
+    suspend fun getAccount(
+        @Header("authorization") token: String,
+        @Path("accountId") accountId:String
+    ): Response<AccountDto>
+
+    @POST("/operation/create")
+    suspend fun createOperation(
+        @Header("authorization") token:String,
+        @Body body: NewOperationRequest
+    ): Response<OperationDto>
 
     @POST("/account/update/{accountId}")
     suspend fun updateAccount(
