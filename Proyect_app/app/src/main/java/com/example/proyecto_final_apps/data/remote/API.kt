@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.data.remote
 
 import com.example.proyecto_final_apps.data.remote.dto.AccountDto
+import com.example.proyecto_final_apps.data.remote.dto.ContactDto
 import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
@@ -8,10 +9,7 @@ import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.Del
 import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.GetContactDataDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
-import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.NewAccountRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.SignUpRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.*
 import com.example.proyecto_final_apps.data.remote.dto.searchUsersResponse.SearchUsersDto
 import com.example.proyecto_final_apps.data.remote.dto.signUpResponse.SignUpResponse
 import okhttp3.MultipartBody
@@ -97,5 +95,17 @@ interface API {
         @Header("authorization") token:String,
         @Path("contactId") contactId:String,
     ):Response<GetContactDataDto>
+
+    @POST("/user/addContact")
+    suspend fun newContact(
+        @Header("authorization") token:String,
+        @Body body: NewContactRequest
+    ): Response<ContactDto>
+
+    @DELETE("/contact/{contactId}")
+    suspend fun deleteContact(
+        @Header("authorization") token:String,
+        @Path("contactId") contactId:String,
+    ):Response<Void>
 
 }

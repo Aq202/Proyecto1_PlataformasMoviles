@@ -25,6 +25,7 @@ import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationItem
 import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -36,6 +37,7 @@ class ContactProfileFragment : Fragment() {
     private val loadingViewModel: LoadingViewModel by activityViewModels()
 
     private val acceptedDebts = mutableListOf<OperationItem>()
+    private var blockDeleteAction = false
 
 
     override fun onCreateView(
@@ -71,7 +73,46 @@ class ContactProfileFragment : Fragment() {
                     swipeResfreshLayoutContactProfileFragment.isRefreshing = false
                 }
             }
+
+            buttonContactProfileFragmentDeleteContact.setOnClickListener {
+                handleDeleteAction()
+            }
         }
+    }
+
+    private fun handleDeleteAction() {
+
+        if (blockDeleteAction) return
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setPositiveButton("Aceptar") { _, _ ->
+
+                blockDeleteAction = true
+
+                lifecycleScope.launchWhenStarted {
+                    contactProfileViewModel.deleteContact(args.userId).collectLatest { status ->
+                        if (status is Status.Loading) loadingViewModel.showLoadingDialog()
+                        else loadingViewModel.hideLoadingDialog()
+
+                        if (status is Status.Success)
+                            findNavController().navigate(R.id.action_contactProfileFragment_to_contactsFragment)
+                        else if (status is Status.Error) {
+                            Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
+                            blockDeleteAction = false
+                        }
+
+                    }
+                }
+
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+
+            }
+            .setTitle("¿Deseas eliminar a este contacto?")
+            .setMessage("Toma en cuenta que esta acción es permanente y que eliminará todas las deudas que no hayan sido finalizadas con este usuario.")
+            .show()
+
+
     }
 
     private fun setObservers() {
@@ -123,10 +164,14 @@ class ContactProfileFragment : Fragment() {
     private fun showData(data: ContactFullDataModel) {
         binding.apply {
 
-            textViewContactProfileFragmentName.text = getString(R.string.fullName_template, data.userAsContactData.name, data.userAsContactData.lastName)
+            textViewContactProfileFragmentName.text = getString(
+                R.string.fullName_template,
+                data.userAsContactData.name,
+                data.userAsContactData.lastName
+            )
             textViewContactProfileFragmentAlias.text =
                 getString(R.string.alias_format, data.userAsContactData.alias)
-            imageViewContactProfileFragmentPicture.load( data.userAsContactData.imageUrl) {
+            imageViewContactProfileFragmentPicture.load(data.userAsContactData.imageUrl) {
                 placeholder(R.drawable.ic_loading)
                 error(R.drawable.ic_default_user) //Imagen por default
                 memoryCachePolicy(CachePolicy.ENABLED)
@@ -150,10 +195,10 @@ class ContactProfileFragment : Fragment() {
                                 data.userAsContactData.lastName
                             )
                         ),
-                        category= Category(requireContext()).getDebtsCategory(),
+                        category = Category(requireContext()).getDebtsCategory(),
                         amount = debt.amount,
                         active = debt.active,
-                        imgUrl =data.userAsContactData.imageUrl
+                        imgUrl = data.userAsContactData.imageUrl
                     )
                 })
 

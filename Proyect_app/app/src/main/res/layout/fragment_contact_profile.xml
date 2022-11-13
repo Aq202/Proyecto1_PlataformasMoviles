@@ -109,7 +109,7 @@
                         android:id="@+id/button_contactProfileFragment_deleteContact"
                         android:layout_width="@dimen/button_size"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="100dp"
                         android:backgroundTint="@color/red"
                         android:paddingVertical="@dimen/button_vertical_padding"
                         android:text="@string/eliminar_contacto"
@@ -143,8 +143,7 @@
                         android:clipToPadding="false"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_pendingDebtsTitle"
-                         />
+                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_pendingDebtsTitle" />
 
                     <TextView
                         android:id="@+id/textView_contactProfileFragment_acceptedDebtsTitle"
@@ -167,8 +166,7 @@
                         android:clipToPadding="false"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_acceptedDebtsTitle"
-                        />
+                        app:layout_constraintTop_toBottomOf="@id/textView_contactProfileFragment_acceptedDebtsTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -198,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Ocurrió un error"
+                android:text="@string/ocurrio_un_error"
                 android:textAlignment="center"
                 android:textSize="@dimen/h3_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"

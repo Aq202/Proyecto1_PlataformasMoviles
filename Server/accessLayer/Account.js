@@ -126,8 +126,8 @@ class Account {
 	}
 
 	constructor(accountId, subject) {
-		this.id = validateId(accountId);
-		this.subject = validateId(subject)
+		this.id = validateId(accountId, "Account ID.");
+		this.subject = validateId(subject, "UserID as subject in account.")
 	}
 }
 

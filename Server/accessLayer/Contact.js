@@ -1,7 +1,7 @@
-const { parseMongoObject } = require("../helpers/parse");
+const { parseMongoObject, parseUserObject } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { ContactSchema } = require("../models/contact.model");
-const { DebtSchema } = require("../models/debt.model");
+const {DebtModel } = require("../models/debt.model");
 
 class Contact {
 	static async createContact({ localId, subject, userAsContact }) {
@@ -11,8 +11,10 @@ class Contact {
 		contact.subject = subject?.trim();
 		contact.userAsContact = userAsContact?.trim();
 
-		const saved = await contact.save();
+		const saved = await (await contact.save()).populate("userAsContact")
 		const parsedObject = parseMongoObject(saved);
+		parsedObject.userAsContact = parseUserObject(parsedObject.userAsContact)
+
 		return parsedObject;
 	}
 
@@ -26,8 +28,8 @@ class Contact {
 	}
 
 	constructor(id, sessionUserId) {
-		this.id = validateId(id);
-		this.subject = validateId(sessionUserId);
+		this.id = validateId(id, "Contact Id.");
+		this.subject = validateId(sessionUserId, "User Id as subject in contact.");
 	}
 
 	async getData() {
@@ -38,7 +40,7 @@ class Contact {
 		if (!data) return null;
 
 		const contactParsed = parseMongoObject(data);
-		contactParsed.userAsContact = parseMongoObject(contactParsed.userAsContact)
+		contactParsed.userAsContact = parseUserObject(contactParsed.userAsContact)
 		contactParsed.debtsToAccept =
 			contactParsed.debtsToAccept?.map(debt => parseMongoObject(debt)) ?? [];
 		contactParsed.debtsAccepted =
@@ -64,11 +66,19 @@ class Contact {
 		return parsedObject;
 	}
 
-	static async deleteContact(contactId) {
-		const deleted = await ContactSchema.findByIdAndDelete(contactId);
-		if (!deleted) return null;
-		const parsedObject = parseMongoObject(deleted);
-		return parsedObject;
+	async deleteContact() {
+
+		const data = await this.getData()
+
+		if(!data) throw {err:"No se encontró el contacto a eliminar.", status:404}
+
+		const result = await ContactSchema.deleteOne({_id:this.id, subject:this.subject});
+		if (result?.deletedCount === 0) throw { err: "No se pudo eliminar al contacto.", status: 500 };
+		
+		//Eliminar todas las deudas
+		await DebtModel.deleteMany({subject:this.subject, userInvolved:data.userAsContact?.id})
+	
+
 	}
 
 	static async addDebtToAccept(contactId, debtId) {

@@ -113,9 +113,29 @@ class AppModule {
         api: API,
         @ApplicationContext context: Context,
         database: Database,
-        errorParser: ErrorParser
+        errorParser: ErrorParser,
+        debtRepository: DebtRepository
     ): ContactRepository {
         return ContactRepositoryImp(
+            api = api,
+            context = context,
+            database = database,
+            errorParser = errorParser,
+            debtRepository = debtRepository
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideDebtRepository(
+        api: API,
+        @ApplicationContext context: Context,
+        database: Database,
+        errorParser: ErrorParser,
+
+    ): DebtRepository {
+        return DebtRepositoryImp(
             api = api,
             context = context,
             database = database,

@@ -30,7 +30,7 @@ const createDebt = async (req, res) => {
 			accountInvolved: accountId,
 			amount,
 			active,
-			userInvolved: contactData.userAsContact,
+			userInvolved: contactData.userAsContact.id,
 		});
 
 		//añadir al contacto del usuario

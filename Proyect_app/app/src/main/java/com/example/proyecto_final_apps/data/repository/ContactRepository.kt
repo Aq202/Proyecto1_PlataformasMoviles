@@ -11,4 +11,6 @@ interface ContactRepository {
         userId: String,
         forceUpdate: Boolean
     ): Resource<ContactFullDataModel>
+    suspend fun newContact(userId: String): Resource<ContactModel>
+    suspend fun deleteContact(userId: String): Resource<Boolean>
 }

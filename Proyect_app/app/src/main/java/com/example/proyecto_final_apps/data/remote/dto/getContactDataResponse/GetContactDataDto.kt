@@ -14,5 +14,5 @@ data class GetContactDataDto(
 )
 
 fun GetContactDataDto.toContactModel():ContactModel{
-    return ContactModel(localId=localId, remoteId = id, userAsContact = userAsContact.id )
+    return ContactModel(localId =localId, remoteId = id, userAsContact = userAsContact.id )
 }

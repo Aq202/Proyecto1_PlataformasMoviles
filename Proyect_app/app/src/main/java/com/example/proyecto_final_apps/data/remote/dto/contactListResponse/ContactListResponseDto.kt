@@ -1,3 +1,5 @@
 package com.example.proyecto_final_apps.data.remote.dto.contactListResponse
 
-class ContactListResponseDto : ArrayList<ContactListResponseItem>()
+import com.example.proyecto_final_apps.data.remote.dto.ContactDto
+
+class ContactListResponseDto : ArrayList<ContactDto>()

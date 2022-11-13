@@ -114,5 +114,6 @@
     <string name="active_debt_title">Deuda de %s</string>
     <string name="passive_debt_title">Deuda con %s</string>
     <string name="deudas_por_aceptar">Deudas por aceptar</string>
+    <string name="ocurrio_un_error">Ocurrió un error</string>
 
 </resources>

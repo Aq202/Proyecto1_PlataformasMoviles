@@ -21,4 +21,16 @@ interface DebtDao{
     @Query("DELETE FROM DebtAcceptedModel")
     suspend fun deleteAllAcceptedDebts():Int
 
+    @Query("DELETE FROM DebtAcceptedModel WHERE userInvolved=:userId")
+    suspend fun deleteAllAcceptedDebtsByUser(userId:String):Int
+
+    @Query("UPDATE DebtAcceptedModel SET deletionPending=${true} WHERE userInvolved=:userId")
+    suspend fun setDeletionPendingToAcceptedDebtsByUserId(userId:String)
+
+    @Query("SELECT * FROM DebtAcceptedModel WHERE deletionPending=${true}")
+    suspend fun getAllAcceptedDebtsPendingToDelete():List<DebtAcceptedModel>
+
+    @Query("SELECT * FROM DebtAcceptedModel WHERE deletionPending=${false} AND requiresUpdate=${true}")
+    suspend fun getAllAcceptedDebtsRequiringUpdate():List<DebtAcceptedModel>
+
 }

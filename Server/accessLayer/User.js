@@ -1,4 +1,4 @@
-const { parseMongoObject, parseDate, twoDecimals } = require("../helpers/parse");
+const { parseMongoObject, parseDate, twoDecimals, parseUserObject } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { UserSchema } = require("../models/user.model");
 
@@ -9,12 +9,7 @@ const { escapeRegExp } = require("../helpers/usefulFunctions");
 
 class User {
 
-	static parseUserObject(object){
-		const parsedObject = parseMongoObject(object);
-		delete parsedObject.passwordHash;
-		parsedObject.birthDate = parseDate(parsedObject.birthDate); //parse Date
-		return parsedObject
-	}
+	
 
 	static async createUser({ name, lastName, email, birthDate, alias, passwordHash, imageUrl }) {
 		const user = new UserSchema();
@@ -28,14 +23,14 @@ class User {
 		user.imageUrl = imageUrl || null;
 
 		const saved = await user.save();
-		
-		return User.parseUserObject(saved);
+
+		return parseUserObject(saved);
 	}
 
 	static async updateUser(userId, newData) {
 		const updated = await UserSchema.findByIdAndUpdate(userId, newData, { new: true });
 		if (!updated) return null;
-		return User.parseUserObject(updated)
+		return parseUserObject(updated);
 	}
 
 	static async deleteUser(userId) {
@@ -68,11 +63,11 @@ class User {
 		});
 
 		if (!result) return null;
-		else return User.parseUserObject(result)
+		else return parseUserObject(result);
 	}
 
 	constructor(userId) {
-		this.id = validateId(userId);
+		this.id = validateId(userId, "User Id.");
 	}
 
 	async getData() {
@@ -80,46 +75,56 @@ class User {
 			const data = await UserSchema.findById(this.id);
 
 			if (data === null) return null;
-			this.data = User.parseUserObject(data)
+			this.data = parseUserObject(data);
 		}
 
 		return this.data;
 	}
 
 	async getContact(targetContactId) {
-		return await ContactSchema.findOne({subject:this.id, userAsContact:targetContactId})
+		return await ContactSchema.findOne({ subject: this.id, userAsContact: targetContactId });
 	}
 
-	async getContacts(){
-		return await Contact.getContactBySubject(this.id)
+	async getContacts() {
+		return await Contact.getContactBySubject(this.id);
 	}
 
-	async addContact({targetUser, localId}) {
+	async addContact({ targetUser, localId }) {
 		if ((await this.getContact(targetUser)) !== null)
-			throw { err: "El usuario ya se encuentra agregado. ", status: 400 };
+		throw { err: "El usuario ya se encuentra agregado. ", status: 409 };
 
 		const user = await UserSchema.findById(this.id);
 		if (!user) throw { err: "El usuario no existe.", status: 404 };
 
-		const contact = await Contact.createContact({localId, subject:this.id, userAsContact:targetUser})
-		return contact
+		const contact = await Contact.createContact({
+			localId,
+			subject: this.id,
+			userAsContact: targetUser,
+		});
+		return contact;
 	}
 
-	async findUser(search){
-
+	async findUser(search) {
 		let results = null;
-		if(!search) results = await UserSchema.find({_id:{$ne:this.id}})
-		else results = await UserSchema.find({_id:{$ne:this.id}, $or:[{name:new RegExp(escapeRegExp(search), "i")}, {lastName:new RegExp(escapeRegExp(search), "i")}, {alias:new RegExp(escapeRegExp(search), "i")}]})
-		
-		if(results)
-			results = results.map(user => {
-				const parsed = parseMongoObject(user)
-				delete parsed.passwordHash
-				return parsed
-			})
-		
+		if (!search) results = await UserSchema.find({ _id: { $ne: this.id } });
+		else
+			results = await UserSchema.find({
+				_id: { $ne: this.id },
+				$or: [
+					{ name: new RegExp(escapeRegExp(search), "i") },
+					{ lastName: new RegExp(escapeRegExp(search), "i") },
+					{ alias: new RegExp(escapeRegExp(search), "i") },
+				],
+			});
 
-		return results
+		if (results)
+			results = results.map(user => {
+				const parsed = parseMongoObject(user);
+				delete parsed.passwordHash;
+				return parsed;
+			});
+
+		return results;
 	}
 
 

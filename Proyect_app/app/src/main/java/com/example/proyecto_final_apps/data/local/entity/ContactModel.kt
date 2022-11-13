@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ContactModel (
+data class ContactModel(
     @PrimaryKey(autoGenerate = true)
     var localId: Int? = null,
-    val remoteId: String,
+    var remoteId: String?,
     val userAsContact:String,
     var deletionPending:Boolean = false,
     var requiresUpdate: Boolean? = false,
