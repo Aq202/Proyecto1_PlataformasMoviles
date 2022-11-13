@@ -1,9 +1,6 @@
 package com.example.proyecto_final_apps.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 
 @Dao
@@ -17,6 +14,9 @@ interface OperationDao {
 
     @Query("SELECT * FROM OperationModel ORDER BY date DESC")
     suspend fun getAllOperations():List<OperationModel>
+
+    @Update
+    suspend fun updateOperation(operation:OperationModel):Int
 
     @Query("SELECT * FROM OperationModel ORDER BY date DESC LIMIT :max")
     suspend fun getRecentOperations(max:Int):List<OperationModel>

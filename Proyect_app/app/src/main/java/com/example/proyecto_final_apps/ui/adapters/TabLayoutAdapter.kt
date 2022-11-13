@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.proyecto_final_apps.ui.fragments.FavouriteOperationsFragment
-import com.example.proyecto_final_apps.ui.fragments.NewOperationFragment
+import com.example.proyecto_final_apps.ui.fragments.newOperation.NewOperationFragment
 
 class TabLayoutAdapter(fragmentManager : FragmentManager, lifecycle : Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {

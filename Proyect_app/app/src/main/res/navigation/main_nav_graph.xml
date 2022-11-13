@@ -141,6 +141,9 @@
         <action
             android:id="@+id/action_tabLayoutFragment_to_editFavouriteOperationFragment"
             app:destination="@id/editFavouriteOperationFragment" />
+        <action
+            android:id="@+id/action_tabLayoutFragment_to_operationDetailsFragment"
+            app:destination="@id/operationDetailsFragment" />
     </fragment>
 
 
@@ -172,11 +175,8 @@
         android:label="Detalles de operación"
         tools:layout="@layout/fragment_operation_details">
         <argument
-            android:name="id"
+            android:name="operationId"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_operationDetailsFragment_to_editPendingPaymentFragment"
-            app:destination="@id/editPendingPaymentFragment" />
     </fragment>
 
 
@@ -188,9 +188,9 @@
         tools:layout="@layout/fragment_favourite_operations" />
     <fragment
         android:id="@+id/newOperationFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.NewOperationFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.newOperation.NewOperationFragment"
         android:label="fragment_new_operation"
-        tools:layout="@layout/fragment_new_operation" />
+        tools:layout="@layout/fragment_new_operation"/>
     <fragment
         android:id="@+id/newDebtFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.NewDebtFragment"

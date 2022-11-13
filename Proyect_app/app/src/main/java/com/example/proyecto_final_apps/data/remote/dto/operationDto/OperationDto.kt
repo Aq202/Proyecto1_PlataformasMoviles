@@ -3,7 +3,7 @@ package com.example.proyecto_final_apps.data.remote.dto.operationDto
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.dto.AccountDto
 
-data class Operation(
+data class OperationDto(
     val account: AccountDto,
     val active: Boolean,
     val amount: Double,
@@ -15,10 +15,11 @@ data class Operation(
     val localId: Int,
     val subject: String,
     val title: String,
+    val description: String?,
     val imgUrl:String?
 )
 
-fun Operation.toOperationModel(): OperationModel {
+fun OperationDto.toOperationModel(): OperationModel {
 
     return OperationModel(
 
@@ -33,6 +34,7 @@ fun Operation.toOperationModel(): OperationModel {
         remoteId = this.id,
         subject = this.subject,
         title = this.title,
+        description = this.description,
         requiresUpdate = false,
         imgUrl = this.imgUrl
     )

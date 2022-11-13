@@ -13,6 +13,7 @@
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.5" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/banner_larry_loading.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.1" />
@@ -70,7 +71,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -34,7 +34,7 @@ class Operation {
 		const saved = await (await operation.save()).populate("account");
 		const parsedObject = parseMongoObject(saved);
 		parsedObject.account = parseMongoObject(parsedObject.account)
-		parsedObject.date = parseDate(parsedObject.date);
+		parsedObject.formattedDate = parseDate(parsedObject.date);
 		return parsedObject;
 	}
 
