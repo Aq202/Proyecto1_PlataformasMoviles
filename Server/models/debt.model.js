@@ -8,7 +8,6 @@ const debtSchema = Schema({
 	amount: { type: Number, required: true, min: [0, "No se aceptan valores negativos."] },
 	active: { type: Boolean, required: true },
 	userInvolved: { type: ObjectId, ref: "user", required: true },
-	description: {type:String, default:"Sin descripción."}
 });
 
 exports.DebtModel = model("debt", debtSchema);

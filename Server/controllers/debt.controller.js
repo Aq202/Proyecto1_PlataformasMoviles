@@ -5,7 +5,7 @@ const User = require("../accessLayer/User");
 
 const createDebt = async (req, res) => {
 	try {
-		const { account: accountId, contactId, localId, amount, active, description } = req.body;
+		const { account: accountId, contactId, localId, amount, active } = req.body;
 		const sessionId = req.session?.id;
 
 		const sessionUser = new User(sessionId);
@@ -31,7 +31,6 @@ const createDebt = async (req, res) => {
 			amount,
 			active,
 			userInvolved: contactData.userAsContact.id,
-			description
 		});
 
 		//añadir al contacto del usuario
