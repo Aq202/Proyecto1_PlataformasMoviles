@@ -4,16 +4,13 @@ import android.content.Context
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.local.MyDataStore
-import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.operationDto.toOperationModel
 import com.example.proyecto_final_apps.data.remote.dto.requests.NewOperationRequest
-import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateAccountRequest
 import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateOperationRequest
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
-import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
@@ -217,14 +214,15 @@ class OperationRepositoryImp @Inject constructor(
         if (Internet.checkForInternet(context) && operation.remoteId != null) {
 
             try {
-                val result = api.deleteOperation(token, operation.remoteId)
+                val remoteId = operation.remoteId
+                val result = api.deleteOperation(token, remoteId)
                 if (result.isSuccessful) {
                     //Eliminar completamente de la bd
                     val deletedCount = database.operationDao().deleteOperation(operation)
                     if (deletedCount > 0) {
                         //Actualizar monto de la cuenta
 
-                        val account = result.body()?.operationDeleted?.account
+                        val account = result.body()?.operationDeleted!!.account
                         val newTotal = if(operation.active) account!!.total - operation.amount else account!!.total + operation.amount
                         accountRepository.updateAccount(account!!.localId, title = account!!.title, total = newTotal, account.defaultAccount)
 

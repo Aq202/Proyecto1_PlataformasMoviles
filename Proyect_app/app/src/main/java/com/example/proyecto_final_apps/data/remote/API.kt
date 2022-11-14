@@ -60,7 +60,13 @@ interface API {
     suspend fun deleteAccount(
         @Header("authorization") token:String,
         @Path("accountId") accountId:String
-    ):Response<DeleteAccountDto>
+    ): Response<DeleteAccountDto>
+
+    @DELETE("/operation/{operationId}")
+    suspend fun deleteOperation(
+        @Header("authorization") token:String,
+        @Path("operationId") operationId:String
+    ):Response<DeleteOperationDto>
 
     @POST("/account/create")
     suspend fun createAccount(
@@ -73,12 +79,6 @@ interface API {
         @Header("authorization") token: String,
         @Path("accountId") accountId:String
     ): Response<AccountDto>
-
-    @DELETE("/operation/{operationId}")
-    suspend fun deleteOperation(
-        @Header("authorization") token:String,
-        @Path("operationId") operationId:String
-    ):Response<DeleteOperationDto>
 
     @POST("/operation/create")
     suspend fun createOperation(

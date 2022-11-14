@@ -69,7 +69,7 @@ class Operation {
 	}
 
 	static async updateOperation(operationId, newData) {
-		const updated = await OperationSchema.findByIdAndUpdate(operationId, newData, { new: true });
+		const updated = await OperationModel.findByIdAndUpdate(operationId, newData, { new: true });
 		if (!updated) return null;
 		const parsedObject = parseMongoObject(updated);
 
@@ -77,7 +77,7 @@ class Operation {
 	}
 
 	static async deleteOperation(operationId) {
-		const deleted = await OperationSchema.findByIdAndDelete(operationId);
+		const deleted = await OperationModel.findByIdAndDelete(operationId);
 		if (!deleted) return null;
 		const parsedObject = parseMongoObject(deleted);
 		return parsedObject;

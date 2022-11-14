@@ -109,12 +109,12 @@ class OperationDetailsFragment : Fragment() {
     private fun setListeners() {
         binding.apply {
             buttonOperationDetailsFragmentDelete.setOnClickListener {
-                deleteOperation()
+                deleteOperationAction()
             }
         }
     }
 
-    private fun deleteOperation() {
+    private fun deleteOperationAction() {
         if (blockDeleteButton) return
 
         MaterialAlertDialogBuilder(requireContext())

@@ -39,18 +39,6 @@ class OperationDetailsViewModel @Inject constructor(
 
     }
 
-    suspend fun deleteOperation(operationLocalId:Int): Flow<Status<Boolean>> {
-        return flow{
-            emit(Status.Loading())
-
-            val resultDelete = opRepository.deleteOperation(operationLocalId)
-
-            if(resultDelete is Resource.Success)
-                emit(Status.Success(true))
-            else emit(Status.Error(resultDelete.message ?: ""))
-        }
-    }
-
     suspend fun getAccountData(localOperationId: Int, forceUpdate: Boolean) {
         var accountModel: Resource<AccountModel>
         val operation = opRepository.getOperationData(localOperationId, forceUpdate)
@@ -65,6 +53,18 @@ class OperationDetailsViewModel @Inject constructor(
         else
             _accountData.value = Status.Error(operation.message ?: "")
 
+    }
+
+    suspend fun deleteOperation(operationLocalId:Int): Flow<Status<Boolean>> {
+        return flow{
+            emit(Status.Loading())
+
+            val resultDelete = opRepository.deleteOperation(operationLocalId)
+
+            if(resultDelete is Resource.Success)
+                emit(Status.Success(true))
+            else emit(Status.Error(resultDelete.message ?: ""))
+        }
     }
 
 }
