@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
+import com.example.proyecto_final_apps.data.remote.dto.deleteOperationResponse.DeleteOperationDto
 import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.GetContactDataDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
@@ -72,6 +73,12 @@ interface API {
         @Header("authorization") token: String,
         @Path("accountId") accountId:String
     ): Response<AccountDto>
+
+    @DELETE("/operation/{operationId}")
+    suspend fun deleteOperation(
+        @Header("authorization") token:String,
+        @Path("operationId") operationId:String
+    ):Response<DeleteOperationDto>
 
     @POST("/operation/create")
     suspend fun createOperation(

@@ -25,6 +25,7 @@ class OperationRepositoryImp @Inject constructor(
     override suspend fun getOperations(forceUpdate: Boolean): Resource<List<OperationModel>> {
 
         try {
+            uploadPendingChanges()
 
             val operationsStoredNumber = database.operationDao().getOperationsStoredNumber()
             if (operationsStoredNumber > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
@@ -119,6 +120,7 @@ class OperationRepositoryImp @Inject constructor(
         operationLocalId: Int,
         forceUpdate: Boolean
     ): Resource<OperationModel> {
+
         uploadPendingChanges()
 
         val operation = database.operationDao().getOperationById(operationLocalId)
@@ -200,10 +202,80 @@ class OperationRepositoryImp @Inject constructor(
 
     }
 
+    override suspend fun deleteOperation(operationLocalId: Int): Resource<Boolean> {
+
+        val ds = MyDataStore(context)
+        val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+        val operation = database.operationDao().getOperationById(operationLocalId)
+            ?: return Resource.Error("La operación no existe.")
+
+        //delete in api
+        if (Internet.checkForInternet(context) && operation.remoteId != null) {
+
+            try {
+                val result = api.deleteOperation(token, operation.remoteId)
+                if (result.isSuccessful) {
+                    //Eliminar completamente de la bd
+                    val deletedCount = database.operationDao().deleteOperation(operation)
+                    if (deletedCount > 0) {
+                        //Actualizar monto de la cuenta
+
+                        val accountRequest = accountRepository.getAccountData(operation.accountLocalId,false)
+                        val newTotal = account.
+                        //val newTotal = if(operation.active) account!!.total + operation.amount else account!!.total - operation.amount
+                        accountRepository.updateAccount(operation.accountLocalId, title = account!!.title, total = newTotal, account.defaultAccount)
+
+                        return Resource.Success(true)
+                    }
+                }
+            } catch (ex: Exception) {
+                println("Diego: ${ex.message}")
+            }
+        }
+
+        //No se pudo eliminar en la api
+
+        //Marcar para late delete
+        account.deletionPending = true
+        database.accountDao().updateAccount(account)
+        database.operationDao().setDeletionPendingToAccountOperations(accountLocalId)
+
+        //Si la operación es la favorita, sustituirla
+        if (account.defaultAccount) {
+            deselectDefaultAccountLocally() //deseleccionar como favorita
+            val editableAccounts = database.accountDao().getEditableAccounts()
+            if (editableAccounts.isNotEmpty()) {
+                editableAccounts[0].localId?.let { setAsDefaultAccount(it) }
+            }
+        }
+
+        return Resource.Success(true)
+    }
+
     override suspend fun uploadPendingChanges() {
+        //Eliminar operaciones pendientes
+        val operationsToDelete = database.operationDao().getAllPendingToDeleteOperation()
+        if (operationsToDelete.isNotEmpty()) {
+            operationsToDelete.forEach { operation ->
+                deleteOperation(operation.localId!!)
+            }
+        }
 
+        //Operaciones pendientes
+        val accountsToUpdate = database.accountDao().getAllAccountsRequiringUpdate()
+        if(accountsToUpdate.isNotEmpty()){
 
-        //eliminar operaciones pendinetes
+            //Operaciones que no se han creado
+            accountsToUpdate.filter { it.remoteId == null }.forEach{ account ->
+                uploadNewAccountToApi(account)
+            }
+
+            //Operaciones por actualizar
+            accountsToUpdate.filter { it.remoteId != null }.forEach{account ->
+                uploadAccountUpdatesToApi(account)
+            }
+        }
 
     }
 

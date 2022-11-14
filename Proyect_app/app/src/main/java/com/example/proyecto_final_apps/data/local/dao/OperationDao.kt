@@ -19,6 +19,9 @@ interface OperationDao {
     @Update
     suspend fun updateOperation(operation:OperationModel):Int
 
+    @Delete
+    suspend fun deleteOperation(operation:OperationModel):Int
+
     @Query("SELECT * FROM OperationModel ORDER BY date DESC LIMIT :max")
     suspend fun getRecentOperations(max:Int):List<OperationModel>
 
@@ -36,4 +39,7 @@ interface OperationDao {
 
     @Query("SELECT * FROM OperationModel WHERE localId=:localId")
     suspend fun getOperationById(localId:Int): OperationModel?
+
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${true}")
+    suspend fun getAllPendingToDeleteOperation():List<OperationModel>
 }

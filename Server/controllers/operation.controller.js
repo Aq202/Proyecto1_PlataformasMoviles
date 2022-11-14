@@ -105,7 +105,7 @@ const deleteOperation = async (req, res) => {
 		return;
 	}
 
-	res.status(200).send({ ok: true, result: "Operación eliminada exitosamente" });
+	res.status(200).send({ operationDeleted });
 };
 
 const getAllOperations = async (req, res) => {

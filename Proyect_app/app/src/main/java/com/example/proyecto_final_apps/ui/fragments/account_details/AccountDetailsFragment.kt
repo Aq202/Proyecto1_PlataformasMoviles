@@ -31,7 +31,7 @@ import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.adapters.ChartDescriptionAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationItem
-import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
