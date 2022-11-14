@@ -15,4 +15,5 @@ interface OperationRepository {
     suspend fun uploadPendingChanges()
     suspend fun createOperation(title: String, accountRemoteId: String, accountLocalId: Int, amount: Double, active: Boolean, description: String?, category: Int, favorite: Boolean, date: String, imgUrl:String? = null):Resource<OperationModel>
     suspend fun deleteOperation(operationLocalId: Int): Resource<Boolean>
+    suspend fun updateOperation(operationLocalId: Int, accountLocalId: Int?, accountRemoteId: String?, active: Boolean?, amount: Double?, category: Int?, favourite: Boolean?, title: String?, description: String?, imgUrl: String?): Resource<OperationModel>
 }

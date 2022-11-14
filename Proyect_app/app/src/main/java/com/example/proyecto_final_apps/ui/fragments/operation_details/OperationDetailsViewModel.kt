@@ -8,8 +8,10 @@ import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +37,18 @@ class OperationDetailsViewModel @Inject constructor(
         else
             _operationData.value = Status.Error(result.message ?: "")
 
+    }
+
+    suspend fun deleteOperation(operationLocalId:Int): Flow<Status<Boolean>> {
+        return flow{
+            emit(Status.Loading())
+
+            val resultDelete = opRepository.deleteOperation(operationLocalId)
+
+            if(resultDelete is Resource.Success)
+                emit(Status.Success(true))
+            else emit(Status.Error(resultDelete.message ?: ""))
+        }
     }
 
     suspend fun getAccountData(localOperationId: Int, forceUpdate: Boolean) {

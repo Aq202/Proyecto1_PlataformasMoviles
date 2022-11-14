@@ -42,4 +42,7 @@ interface OperationDao {
 
     @Query("SELECT * FROM OperationModel WHERE deletionPending=${true}")
     suspend fun getAllPendingToDeleteOperation():List<OperationModel>
+
+    @Query("SELECT * FROM OperationModel WHERE requiresUpdate=${true}")
+    suspend fun getAllOperationsRequiringUpdate():List<OperationModel>
 }

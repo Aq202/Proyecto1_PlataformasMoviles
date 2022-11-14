@@ -12,19 +12,19 @@ import java.util.*
 data class OperationModel(
     @PrimaryKey(autoGenerate = true)
     var localId: Int? = null,
-    val accountRemoteId: String?,
-    val accountLocalId:Int,
-    val active: Boolean,
-    val amount: Double,
-    val category: Int,
-    val favorite: Boolean,
-    val date: String,
+    var accountRemoteId: String?,
+    var accountLocalId:Int,
+    var active: Boolean,
+    var amount: Double,
+    var category: Int,
+    var favorite: Boolean,
+    var date: String,
     val remoteId: String? = null,
     val subject: String? = null,
-    val title: String,
-    val description: String?,
+    var title: String,
+    var description: String?,
     var requiresUpdate: Boolean? = false,
-    val imgUrl: String?,
+    var imgUrl: String?,
     var deletionPending:Boolean = false
 )
 

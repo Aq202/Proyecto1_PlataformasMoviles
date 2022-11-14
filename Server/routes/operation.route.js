@@ -16,9 +16,9 @@ const router = express.Router();
 
 router.post("/create", ensureAuth, validateBody(newOperationSchema), createOperation);
 
-router.post("/editOperation", editOperation);
+router.post("/update/:operationId", ensureAuth, editOperation);
 
-router.delete("/deleteOperation", deleteOperation);
+router.delete("/:operationId", ensureAuth, deleteOperation);
 
 router.get("/getAll", ensureAuth, getAllOperations);
 

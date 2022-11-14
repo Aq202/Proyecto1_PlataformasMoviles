@@ -9,12 +9,17 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.databinding.FragmentOperationDetailsBinding
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
+import com.example.proyecto_final_apps.ui.fragments.editAccount.EditAccountFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -26,6 +31,9 @@ class OperationDetailsFragment : Fragment() {
     private val operationDetailsViewModel: OperationDetailsViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
     private val args: OperationDetailsFragmentArgs by navArgs()
+
+    private var blockDeleteButton = false
+    private var blockEditButton = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,6 +86,9 @@ class OperationDetailsFragment : Fragment() {
                             } else if (statusOp is Status.Error) {
                                 Toast.makeText(requireContext(), statusOp.error, Toast.LENGTH_LONG)
                                     .show()
+                                //Navegar al home
+                                val action = OperationDetailsFragmentDirections.actionToHome()
+                                findNavController().navigate(action)
                             }
                         }
                     }
@@ -96,8 +107,48 @@ class OperationDetailsFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.buttonOperationDetailsFragmentEdit.setOnClickListener{
+        binding.apply {
+            buttonOperationDetailsFragmentDelete.setOnClickListener {
+                deleteOperation()
+            }
         }
+    }
+
+    private fun deleteOperation() {
+        if (blockDeleteButton) return
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setPositiveButton("Aceptar") { _, _ ->
+
+                blockDeleteButton = true
+
+                lifecycleScope.launchWhenStarted {
+                    operationDetailsViewModel.deleteOperation(args.operationId).collectLatest { status ->
+                        when (status) {
+                            is Status.Loading -> loadingViewModel.showLoadingDialog()
+                            is Status.Success -> {
+                                loadingViewModel.hideLoadingDialog()
+                                val action = OperationDetailsFragmentDirections.actionToHome()
+                                findNavController().navigate(action)
+                            }
+                            is Status.Error -> {
+                                loadingViewModel.hideLoadingDialog()
+                                Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
+                            }
+                            else -> {
+                                loadingViewModel.hideLoadingDialog()
+                            }
+                        }
+                    }
+                }
+
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+
+            }
+            .setTitle("¿Deseas eliminar esta operación?")
+            .setMessage("Toma en cuenta que esta acción es permanente y no podrás recuperar la información de esta operación.")
+            .show()
     }
 
 }

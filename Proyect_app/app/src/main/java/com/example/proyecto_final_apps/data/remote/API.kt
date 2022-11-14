@@ -86,6 +86,13 @@ interface API {
         @Body body: NewOperationRequest
     ): Response<OperationDto>
 
+    @POST("/operation/update/{operationId}")
+    suspend fun updateOperation(
+        @Header("authorization") token:String,
+        @Path("operationId") operationId:String,
+        @Body body: UpdateOperationRequest
+    ): Response<OperationDto>
+
     @POST("/account/update/{accountId}")
     suspend fun updateAccount(
         @Header("authorization") token:String,
