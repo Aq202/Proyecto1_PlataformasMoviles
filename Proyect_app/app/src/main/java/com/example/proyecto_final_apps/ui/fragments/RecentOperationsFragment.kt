@@ -12,13 +12,13 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentRecentOperationsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
-import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
+import com.example.proyecto_final_apps.ui.adapters.OperationItem
 
 class RecentOperationsFragment : Fragment(R.layout.fragment_recent_operations), OperationAdapter.OperationListener {
 
     private lateinit var binding: FragmentRecentOperationsBinding
 
-    private lateinit var recentOperationsList: MutableList<OperationModel>
+    private lateinit var recentOperationsList: MutableList<OperationItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +46,12 @@ class RecentOperationsFragment : Fragment(R.layout.fragment_recent_operations), 
         }
     }
 
-    override fun onItemClicked(operationData: OperationModel, position: Int) {
+    override fun onItemClicked(operationData: OperationItem, position: Int) {
         val action = OperationDetailsFragmentDirections.actionToOperationDetails(operationData.localId!!)
         findNavController().navigate(action)
     }
 
-    override fun onItemPressed(operationData: OperationModel, position: Int) {
+    override fun onItemPressed(operationData: OperationItem, position: Int) {
         Toast.makeText(requireContext(), "PRESSED...", Toast.LENGTH_LONG).show()
     }
 

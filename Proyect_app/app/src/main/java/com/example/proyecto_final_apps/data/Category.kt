@@ -53,7 +53,7 @@ class Category(private val context:Context) {
             "Deudas",
             CategoryTypes.DEUDAS,
             null,
-            getColor(context,R.color.debts_category)
+            getColor(context, R.color.debts_category)
         ),
         CategoryModel(
             4,
@@ -75,5 +75,6 @@ class Category(private val context:Context) {
 
     fun getCategories() = categories
     fun getCategory(id:Int) = categories.find { it.id == id }
+    fun getDebtsCategory() = categories.find{ it.type == CategoryTypes.DEUDAS}
     fun getId(name:String) = (categories.find { it.name == name })!!.id
 }

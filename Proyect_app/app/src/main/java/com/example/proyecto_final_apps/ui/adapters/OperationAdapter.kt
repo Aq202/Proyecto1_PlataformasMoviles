@@ -7,24 +7,38 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.Category
+import com.example.proyecto_final_apps.data.CategoryModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.local.entity.getCategory
 import com.example.proyecto_final_apps.helpers.format
 import com.google.android.material.card.MaterialCardView
 
+data class OperationItem(
+    val localId:Int,
+    val remoteId:String ?,
+    val title:String,
+    val category:CategoryModel?,
+    val amount:Double,
+    val active:Boolean,
+    val imgUrl:String?,
+    val favorite:Boolean = false,
+)
+
 class OperationAdapter(
-    private val dataSet: MutableList<OperationModel>,
+    private val dataSet: MutableList<OperationItem>,
     private val operationListener: OperationListener
 ) : RecyclerView.Adapter<OperationAdapter.ViewHolder>() {
 
     interface OperationListener {
-        fun onItemClicked(operationData: OperationModel, position: Int)
-        fun onItemPressed(operationData: OperationModel, position: Int)
+        fun onItemClicked(operationData: OperationItem, position: Int)
+        fun onItemPressed(operationData: OperationItem, position: Int)
     }
 
     class ViewHolder(private val view: View, private val listener: OperationListener) :
@@ -47,16 +61,15 @@ class OperationAdapter(
         private val favouriteIcon: MaterialCardView =
             view.findViewById(R.id.cardView_operationItemTemplate_favourite)
 
-        private lateinit var operationData: OperationModel
+        private lateinit var operationData: OperationItem
 
-        fun setData(operation: OperationModel) {
+        fun setData(operation: OperationItem) {
             this.operationData = operation
 
-            val category = operation.getCategory(view.context)
 
             //agregar texto de la operacion
             txtTitle.text = operation.title
-            txtCategory.text = category?.name ?: "Sin categoria"
+            txtCategory.text = operation.category?.name ?: "Sin categoria"
             txtAmount.text = view.context.getString(
                 R.string.operation_item_amount,
                 (if (operation.active) "+" else "-"),
@@ -65,23 +78,24 @@ class OperationAdapter(
 
             //modificar icono
             imageIconContainer.setCardBackgroundColor(
-                category?.color ?: getColor(view.context, R.color.default_category)
+                if(operation.imgUrl != null) getColor(view.context, R.color.white)  else operation.category?.color ?: getColor(view.context, R.color.default_category)
             )
 
-            //colocar icono de la categoria
-            if (category?.img != null)
-                imageIcon.setImageDrawable(category?.img)
-            else {
-                if (operation.imgUrl != null) {
+            if (operation.imgUrl != null) {
 
-                    //asignar imagen de origen remoto
-                    imageIcon.load(operation.imgUrl) {
-                        placeholder(R.drawable.ic_loading)
-                        error(R.drawable.ic_money_bag) //Imagen por default
-                        memoryCachePolicy(CachePolicy.ENABLED)
-                        diskCachePolicy(CachePolicy.ENABLED)
-                    }
-                } else imageIcon.setImageDrawable(
+                imageIcon.setPadding(0) //retirar el padding
+
+                //asignar imagen de origen remoto
+                imageIcon.load(operation.imgUrl) {
+                    placeholder(R.drawable.ic_loading)
+                    error(R.drawable.ic_default_user) //Imagen por default
+                    memoryCachePolicy(CachePolicy.ENABLED)
+                    diskCachePolicy(CachePolicy.ENABLED)
+                }
+            }else if(operation.category?.img != null)
+                imageIcon.setImageDrawable(operation.category.img) //Imagen de categoria
+            else {
+                imageIcon.setImageDrawable(
                     //Colocar imagen por default
                     AppCompatResources.getDrawable(
                         view.context,

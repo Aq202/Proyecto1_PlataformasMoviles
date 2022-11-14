@@ -58,4 +58,9 @@ object DateParse {
         calendar.time = this
         return calendar[Calendar.YEAR]
     }
+
+    fun getCurrentDate():String{
+        val date = Date()
+        return "${date.getMonthValue()}/${date.getDayValue()}/${date.getYearValue()}"
+    }
 }

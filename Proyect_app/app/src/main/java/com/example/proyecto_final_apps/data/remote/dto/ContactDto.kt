@@ -1,9 +1,8 @@
-package com.example.proyecto_final_apps.data.remote.dto.contactListResponse
+package com.example.proyecto_final_apps.data.remote.dto
 
 import com.example.proyecto_final_apps.data.local.entity.ContactModel
-import com.example.proyecto_final_apps.data.remote.dto.UserDto
 
-data class ContactListResponseItem(
+data class ContactDto(
     val debtsAccepted: List<String>,
     val debtsToAccept: List<String>,
     val id: String,
@@ -12,6 +11,6 @@ data class ContactListResponseItem(
     val userAsContact: UserDto
 )
 
-fun ContactListResponseItem.toContactModel(): ContactModel {
+fun ContactDto.toContactModel(): ContactModel {
     return ContactModel(localId = localId, remoteId = id, userAsContact = userAsContact.id)
 }

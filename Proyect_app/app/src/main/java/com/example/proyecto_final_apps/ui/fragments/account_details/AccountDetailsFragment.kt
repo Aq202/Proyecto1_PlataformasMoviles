@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.data.local.entity.toOperationItem
 import com.example.proyecto_final_apps.databinding.FragmentAccountDetailsBinding
 import com.example.proyecto_final_apps.helpers.DATE_FORMAT
 import com.example.proyecto_final_apps.helpers.getDecimal
@@ -29,7 +30,8 @@ import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.adapters.ChartDescriptionAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
-import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
+import com.example.proyecto_final_apps.ui.adapters.OperationItem
+import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -51,7 +53,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
 
     private val pieData: MutableList<PieElement> = mutableListOf()
     private val args: AccountDetailsFragmentArgs by navArgs()
-    private val operationsRecyclerData: MutableList<OperationModel> = mutableListOf()
+    private val operationsRecyclerData: MutableList<OperationItem> = mutableListOf()
     private var blockDatePicker: Boolean = false
 
     private var blockFavoriteButton: Boolean = false
@@ -510,13 +512,13 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         }
     }
 
-    override fun onItemClicked(operationData: OperationModel, position: Int) {
+    override fun onItemClicked(operationData: OperationItem, position: Int) {
         val action =
             OperationDetailsFragmentDirections.actionToOperationDetails(operationData.localId!!)
         findNavController().navigate(action)
     }
 
-    override fun onItemPressed(operationData: OperationModel, position: Int) {
+    override fun onItemPressed(operationData: OperationItem, position: Int) {
         return
     }
 
@@ -525,7 +527,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         if (status is Status.Success) {
 
             operationsRecyclerData.clear()
-            operationsRecyclerData.addAll(status.value!!)
+            operationsRecyclerData.addAll(status.value.map{it.toOperationItem(requireContext())})
 
             binding.apply {
                 recyclerViewAccountDetailsOperations.adapter?.notifyDataSetChanged()

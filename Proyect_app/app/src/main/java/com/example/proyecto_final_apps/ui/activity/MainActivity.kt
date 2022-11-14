@@ -23,7 +23,6 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
-import com.example.proyecto_final_apps.helpers.apiUrl
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -123,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         txtName.text = getString(R.string.fullName_template, data.name, data.lastName)
         txtAlias.text = getString(R.string.alias_format, data.alias)
-        profilePic.load(apiUrl + data.imageUrl){
+        profilePic.load(data.imageUrl){
             placeholder(R.drawable.ic_default_user)
             error(R.drawable.ic_default_user)
             diskCachePolicy(CachePolicy.ENABLED)
@@ -248,7 +247,10 @@ class MainActivity : AppCompatActivity() {
             if(loadingDialog.isAdded) loadingDialog.dismiss()
             if(!loadingDialog.isAdded) loadingDialog.show(supportFragmentManager, "Loading")
         }else{
-            if(loadingDialog.isAdded)loadingDialog.dismiss()
+            lifecycleScope.launchWhenStarted {
+                delay(300)
+                if(loadingDialog.isAdded)loadingDialog.dismiss()
+            }
         }
     }
 

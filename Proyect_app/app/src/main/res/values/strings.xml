@@ -90,7 +90,7 @@
     <string name="nueva_operacion">NUEVA\nOPERACIÓN</string>
     <string name="transferir_fondos">TRANSFERIR\nFONDOS</string>
     <string name="pago_pendiente">PAGO\nPENDIENTE</string>
-    <string name="nueva_deuda">NUEVA\nDEUDA</string>
+    <string name="nueva_deuda_uppercase">NUEVA\nDEUDA</string>
     <string name="alias_format">\@%s</string>
     <string name="anadir_usuario">Añadir usuario</string>
     <string name="deudas_realizadas">Deudas realizadas</string>
@@ -111,8 +111,14 @@
     <string name="cuenta_por_defecto">Cuenta por defecto:</string>
     <string name="editar_cuenta">Editar cuenta</string>
     <string name="no_se_encontraron_resultados">No se encontraron\nresultados</string>
+    <string name="active_debt_title">Deuda de %s</string>
+    <string name="passive_debt_title">Deuda con %s</string>
+    <string name="deudas_por_aceptar">Deudas por aceptar</string>
+    <string name="ocurrio_un_error">Ocurrió un error</string>
     <string name="txt_title">Título</string>
     <string name="hint_title">Título de la operación</string>
+    <string name="nueva_deuda">Nueva Deuda</string>
+    <string name="usuario_objetivo">Usuario objetivo</string>
 
 
 </resources>

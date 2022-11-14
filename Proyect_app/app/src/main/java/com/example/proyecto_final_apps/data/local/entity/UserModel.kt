@@ -2,6 +2,7 @@ package com.example.proyecto_final_apps.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.proyecto_final_apps.helpers.apiUrl
 
 @Entity
 data class UserModel (
@@ -16,3 +17,7 @@ data class UserModel (
     var deletionPending:Boolean = false,
     var requiresUpdate: Boolean? = false,
 )
+
+fun UserModel.getRelativeImgUrl():String{
+    return imageUrl.replace(apiUrl, "")
+}

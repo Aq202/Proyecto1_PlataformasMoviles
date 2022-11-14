@@ -223,7 +223,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_newActionFragment_newDebtTitle"
-                android:text="@string/nueva_deuda"
+                android:text="@string/nueva_deuda_uppercase"
                 android:textStyle="bold"
                 android:textSize="@dimen/h6_text_size"
                 android:textAlignment="center"

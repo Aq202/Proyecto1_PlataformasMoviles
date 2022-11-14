@@ -20,7 +20,6 @@ import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.ToolbarViewModel
 import com.example.proyecto_final_apps.ui.adapters.ContactAdapter
-import com.example.proyecto_final_apps.ui.fragments.ExternalUserProfileFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -95,7 +94,7 @@ class ContactsFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         //Limpiar la barra de busqueda
-        //toolbarViewModel.triggerSearchFlow("")
+        toolbarViewModel.triggerSearchFlow("")
     }
 
     private fun selectCurrentBottomNavigationItem() {

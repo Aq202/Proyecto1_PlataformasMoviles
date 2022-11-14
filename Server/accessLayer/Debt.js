@@ -8,7 +8,15 @@ class Debt {
 		this.subject = validateId(subject, "User Id as subject in Debt.");
 	}
 
-	static async createDebt({ localId, subject, accountInvolved, amount, active, userInvolved }) {
+	static async createDebt({
+		localId,
+		subject,
+		accountInvolved,
+		amount,
+		active,
+		userInvolved,
+		description,
+	}) {
 		const debt = new DebtModel();
 
 		debt.localId = localId;
@@ -17,9 +25,11 @@ class Debt {
 		debt.amount = amount;
 		debt.active = active;
 		debt.userInvolved = validateId(userInvolved, "UserInvolved invalido.");
+		debt.description = description?.trim() || "Sin descripción.";
 
-		const saved = await debt.save();
+		const saved = await (await debt.save()).populate("accountInvolved");
 		const parsedObject = parseMongoObject(saved);
+		parsedObject.accountInvolved = parseMongoObject(parsedObject.accountInvolved)
 		return parsedObject;
 	}
 
