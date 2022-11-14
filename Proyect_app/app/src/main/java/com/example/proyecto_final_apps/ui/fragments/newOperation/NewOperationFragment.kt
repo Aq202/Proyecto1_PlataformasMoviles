@@ -157,6 +157,7 @@ class NewOperationFragment : Fragment() {
         binding.apply {
             val account = textInputLayoutNewOperationFragmentSourceAccount.editText!!.text
             val amount = textInputLayoutNewOperationFragmentAmount.editText!!.text
+            val operationType = textInputLayoutNewOperationFragmentOperationType.editText!!.text
             if (account.trim().isEmpty()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
@@ -165,7 +166,7 @@ class NewOperationFragment : Fragment() {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
                 return false
-            }else if (account.toString() != "Ingreso" &&
+            }else if (operationType.toString() != "Ingreso" &&
                 selectedAccount!!.total < amount.toString().toDouble()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "La cuenta seleccionada no tiene fondos suficientes para esta operación."

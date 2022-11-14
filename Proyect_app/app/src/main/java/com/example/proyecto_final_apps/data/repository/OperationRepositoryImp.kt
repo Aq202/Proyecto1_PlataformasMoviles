@@ -115,6 +115,32 @@ class OperationRepositoryImp @Inject constructor(
         return Resource.Success(0.00)
     }
 
+    override suspend fun getOperationData(
+        operationLocalId: Int,
+        forceUpdate: Boolean
+    ): Resource<OperationModel> {
+        uploadPendingChanges()
+
+        val operation = database.operationDao().getOperationById(operationLocalId)
+        if (!(forceUpdate && Internet.checkForInternet(context)))
+            return Resource.Success(operation!!)
+        else {
+            val operationsResult = getOperations(true)
+            return if (operationsResult is Resource.Success) {
+                val operationUpdated = database.operationDao().getOperationById(operationLocalId)
+                if (operationUpdated != null)
+                    Resource.Success(operationUpdated)
+                else Resource.Error("La operación ha sido eliminada remotamente.")
+
+            } else {
+                //no se obtuvieron resultados remotos
+                if (operation != null) Resource.Success(operation)
+                else Resource.Error("No se encontró la operation.")
+            }
+
+        }
+    }
+
     private fun filterOperationByDate(
         operations: List<OperationModel>,
         startDate: Date?,

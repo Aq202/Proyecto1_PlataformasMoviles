@@ -171,7 +171,7 @@
 
     <fragment
         android:id="@+id/operationDetailsFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragment"
         android:label="Detalles de operación"
         tools:layout="@layout/fragment_operation_details">
         <argument

@@ -26,7 +26,7 @@ import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
-import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

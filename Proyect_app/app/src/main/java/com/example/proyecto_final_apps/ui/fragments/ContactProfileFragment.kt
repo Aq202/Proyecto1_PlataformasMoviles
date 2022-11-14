@@ -14,6 +14,8 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentContactProfileBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
+
 class ContactProfileFragment : Fragment(), OperationAdapter.OperationListener {
     private lateinit var binding:FragmentContactProfileBinding
     private val args:ContactProfileFragmentArgs by navArgs()

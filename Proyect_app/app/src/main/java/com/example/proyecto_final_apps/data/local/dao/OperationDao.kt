@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.data.local.dao
 
 import androidx.room.*
+import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 
 @Dao
@@ -33,6 +34,6 @@ interface OperationDao {
     @Query("UPDATE OperationModel SET deletionPending=${true} WHERE accountLocalId=:accountLocalId")
     suspend fun setDeletionPendingToAccountOperations(accountLocalId:Int)
 
-    @Query("SELECT * FROM OperationModel WHERE deletionPending=${true}")
-    suspend fun getAllPendingToDeleteOperations():List<OperationModel>
+    @Query("SELECT * FROM OperationModel WHERE localId=:localId")
+    suspend fun getOperationById(localId:Int): OperationModel?
 }
