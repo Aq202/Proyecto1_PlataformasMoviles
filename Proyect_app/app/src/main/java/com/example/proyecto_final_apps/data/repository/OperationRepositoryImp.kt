@@ -216,15 +216,18 @@ class OperationRepositoryImp @Inject constructor(
             try {
                 val remoteId = operation.remoteId
                 val result = api.deleteOperation(token, remoteId)
-                if (result.isSuccessful) {
+                if (result.isSuccessful || result.code() == 404) {
                     //Eliminar completamente de la bd
                     val deletedCount = database.operationDao().deleteOperation(operation)
                     if (deletedCount > 0) {
                         //Actualizar monto de la cuenta
 
-                        val account = result.body()?.operationDeleted!!.account
-                        val newTotal = if(operation.active) account!!.total - operation.amount else account!!.total + operation.amount
-                        accountRepository.updateAccount(account!!.localId, title = account!!.title, total = newTotal, account.defaultAccount)
+                        val accountRequest = accountRepository.getAccountData(operation.accountLocalId,false)
+                        if(accountRequest is Resource.Success){
+                            val account = accountRequest.data
+                            val newTotal = if(operation.active) account.total - operation.amount else account.total + operation.amount
+                            accountRepository.updateAccount(account.localId!!, title = account.title, total = newTotal, account.defaultAccount)
+                        }
 
                         return Resource.Success(true)
                     }

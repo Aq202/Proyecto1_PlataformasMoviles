@@ -235,8 +235,8 @@ class NewOperationFragment : Fragment() {
         val operationType = binding.textInputLayoutNewOperationFragmentOperationType.editText!!.text.toString()
         val active = operationType == "Ingreso"
         val description = binding.textInputLayoutNewOperationFragmentDescription.editText!!.text.toString()
-        val category = Category(requireContext()).getId(checkedCathegory)
         val favourite = binding.checkBoxNewOperationFragmentFavouriteOperation.isChecked
+        val category = Category(requireContext()).getId(checkedCathegory)
 
         lifecycleScope.launchWhenStarted {
             newOperationViewModel.createOperation(

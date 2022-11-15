@@ -14,7 +14,7 @@ class Operation {
 		date,
 		description,
 		category,
-		favourite,
+		favorite,
 		imgUrl,
 	}) {
 		const operation = new OperationModel();
@@ -28,7 +28,7 @@ class Operation {
 		operation.date = new Date(date);
 		operation.description = description?.trim();
 		operation.category = category;
-		operation.favourite = favourite ?? false;
+		operation.favorite = favorite ?? false;
 		operation.imgUrl = imgUrl?.trim();
 
 		const saved = await (await operation.save()).populate("account");
