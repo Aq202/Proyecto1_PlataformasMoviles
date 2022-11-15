@@ -111,8 +111,18 @@ class OperationDetailsFragment : Fragment() {
             buttonOperationDetailsFragmentDelete.setOnClickListener {
                 deleteOperationAction()
             }
+
+            buttonOperationDetailsFragmentEdit.setOnClickListener {
+                editOperationPressed()
+            }
         }
     }
+
+    private fun editOperationPressed() {
+        val action = OperationDetailsFragmentDirections.actionOperationDetailsFragmentToEditOperationFragment(args.operationId)
+        findNavController().navigate(action)
+    }
+
 
     private fun deleteOperationAction() {
         if (blockDeleteButton) return

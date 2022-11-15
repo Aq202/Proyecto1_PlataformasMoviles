@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.EditOperationFragment"
+    tools:context=".ui.fragments.editOperation.EditOperationFragment"
     android:paddingHorizontal="@dimen/horizontal_fragment_padding">
 
     <androidx.core.widget.NestedScrollView
@@ -211,19 +211,29 @@
 
             </com.google.android.material.chip.ChipGroup>
 
+            <CheckBox
+                android:id="@+id/checkBox_editOperationFragment_favoriteOperation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chip_group_editOperationFragment_cathegories"
+
+                android:text="@string/txt_checkAsFavorite"
+                android:textStyle="bold"
+                />
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_editOperationFragment_add"
+                android:id="@+id/button_editOperationFragment_update"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_update_operation"
-                app:layout_constraintTop_toBottomOf="@id/chip_group_editOperationFragment_cathegories"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_editOperationFragment_favoriteOperation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="25sp"
                 android:backgroundTint="@color/mint_green"
                 android:textStyle="bold"
-                android:layout_marginTop="25dp"
                 app:cornerRadius="@dimen/button_radius"
                 android:paddingVertical="@dimen/button_vertical_padding"
                 />

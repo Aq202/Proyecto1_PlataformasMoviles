@@ -177,6 +177,9 @@
         <argument
             android:name="operationId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_operationDetailsFragment_to_editOperationFragment"
+            app:destination="@id/editOperationFragment" />
     </fragment>
 
 
@@ -302,6 +305,15 @@
             app:destination="@id/accountDetailsFragment"
             app:popUpTo="@id/accountDetailsFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/editOperationFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.editOperation.EditOperationFragment"
+        android:label="fragment_edit_operation"
+        tools:layout="@layout/fragment_edit_operation" >
+        <argument
+            android:name="operationId"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
