@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.EditFavouriteOperationFragment"
+    tools:context=".ui.fragments.EditOperationFragment"
     android:paddingHorizontal="@dimen/horizontal_fragment_padding">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    >
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
 
             <TextView
                 android:layout_marginTop="20dp"
-                android:id="@+id/textView_editFavouriteOperationFragment_sourceAccount"
+                android:id="@+id/textView_editOperationFragment_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -27,17 +27,48 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editFavouriteOperationFragment_sourceAccount"
-                android:text="@string/txt_source_account"
-                />
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editOperationFragment_title"
+                android:text="@string/txt_title"/>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_editFavouriteOperationFragment_sourceAccount"
+                android:id="@+id/textInputLayout_editOperationFragment_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_editFavouriteOperationFragment_sourceAccount"
-                app:layout_constraintBottom_toTopOf="@id/textView_editFavouriteOperationFragment_Amount"
+                app:layout_constraintTop_toBottomOf="@id/textView_editOperationFragment_title"
+                app:layout_constraintBottom_toTopOf="@id/textView_editOperationFragment_sourceAccount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_title"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/line_spacing"
+                android:id="@+id/textView_editOperationFragment_sourceAccount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editOperationFragment_title"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editOperationFragment_sourceAccount"
+                android:text="@string/txt_source_account"
+                />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_editOperationFragment_sourceAccount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_editOperationFragment_sourceAccount"
+                app:layout_constraintBottom_toTopOf="@id/textView_editOperationFragment_Amount"
                 app:startIconDrawable="@drawable/ic_account"
                 app:startIconTint="@color/dark_gray"
                 app:endIconMode="dropdown_menu"
@@ -46,7 +77,7 @@
                 >
 
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteView_editFavouriteOperationFragment_sourceAccount"
+                    android:id="@+id/autoCompleteView_editOperationFragment_sourceAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -54,27 +85,27 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_editFavouriteOperationFragment_Amount"
+                android:id="@+id/textView_editOperationFragment_Amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editFavouriteOperationFragment_sourceAccount"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editOperationFragment_sourceAccount"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editFavouriteOperationFragment_amount"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editOperationFragment_amount"
                 android:text="@string/txt_amount"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_editFavouriteOperationFragment_amount"
+                android:id="@+id/textInputLayout_editOperationFragment_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_editFavouriteOperationFragment_Amount"
+                app:layout_constraintTop_toBottomOf="@id/textView_editOperationFragment_Amount"
                 app:startIconDrawable="@drawable/ic_coin"
-                app:layout_constraintBottom_toTopOf="@id/textView_editFavouriteOperationFragment_operationType"
+                app:layout_constraintBottom_toTopOf="@id/textView_editOperationFragment_operationType"
                 app:startIconTint="@color/dark_gray"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/hint_amount"
@@ -88,35 +119,35 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_editFavouriteOperationFragment_operationType"
+                android:id="@+id/textView_editOperationFragment_operationType"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editFavouriteOperationFragment_amount"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editOperationFragment_amount"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editFavouriteOperationFragment_operationType"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editOperationFragment_operationType"
                 android:text="@string/txt_operation_type"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_editFavouriteOperationFragment_operationType"
+                android:id="@+id/textInputLayout_editOperationFragment_operationType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_editFavouriteOperationFragment_operationType"
+                app:layout_constraintTop_toBottomOf="@id/textView_editOperationFragment_operationType"
                 app:startIconDrawable="@drawable/ic_balance"
                 app:startIconTint="@color/dark_gray"
                 app:endIconMode="dropdown_menu"
-                app:layout_constraintBottom_toTopOf="@id/textView_editFavouriteOperationFragment_description"
+                app:layout_constraintBottom_toTopOf="@id/textView_editOperationFragment_description"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:hint="@string/hint_operation_type"
                 >
 
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteView_editFavouriteOperationFragment_operationType"
+                    android:id="@+id/autoCompleteView_editOperationFragment_operationType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -124,26 +155,26 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_editFavouriteOperationFragment_description"
+                android:id="@+id/textView_editOperationFragment_description"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editFavouriteOperationFragment_operationType"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editOperationFragment_operationType"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editFavouriteOperationFragment_description"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_editOperationFragment_description"
                 android:text="@string/txt_description"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_editFavouriteOperationFragment_description"
+                android:id="@+id/textInputLayout_editOperationFragment_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_editFavouriteOperationFragment_description"
-                app:layout_constraintBottom_toTopOf="@id/textView_editFavouriteOperationFragment_cathegory"
+                app:layout_constraintTop_toBottomOf="@id/textView_editOperationFragment_description"
+                app:layout_constraintBottom_toTopOf="@id/textView_editOperationFragment_cathegory"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/hint_description"
                 >
@@ -155,25 +186,25 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_editFavouriteOperationFragment_cathegory"
+                android:id="@+id/textView_editOperationFragment_cathegory"
                 android:layout_marginTop="@dimen/line_spacing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editFavouriteOperationFragment_description"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_editOperationFragment_description"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/txt_cathegory"
                 />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_editFavouriteOperationFragment_cathegories"
+                android:id="@+id/chip_group_editOperationFragment_cathegories"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_editFavouriteOperationFragment_cathegory"
+                app:layout_constraintTop_toBottomOf="@id/textView_editOperationFragment_cathegory"
                 app:selectionRequired="true"
                 app:singleSelection="true"
                 >
@@ -181,11 +212,11 @@
             </com.google.android.material.chip.ChipGroup>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_editFavouriteOperationFragment_add"
+                android:id="@+id/button_editOperationFragment_add"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_update_operation"
-                app:layout_constraintTop_toBottomOf="@id/chip_group_editFavouriteOperationFragment_cathegories"
+                app:layout_constraintTop_toBottomOf="@id/chip_group_editOperationFragment_cathegories"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

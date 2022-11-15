@@ -44,7 +44,7 @@
     <string name="mi_perfil">Mi Perfil</string>
     <string name="editar_perfil">Editar perfil</string>
     <string name="tab_new">Nuevo</string>
-    <string name="tab_favourites">Favoritos</string>
+    <string name="tab_favorites">Favoritos</string>
     <string name="hint_source_account">Cuenta de origen</string>
     <string name="txt_source_account">Cuenta de origen:</string>
     <string name="txt_amount">Monto:</string>
@@ -55,7 +55,7 @@
     <string name="hint_description">Descripción de la operación</string>
     <string name="txt_cathegory">Categoría:</string>
     <string name="resultados_de_busqueda">Resultados de búsqueda</string>
-    <string name="txt_checkAsFavourite">Marcar como favorito</string>
+    <string name="txt_checkAsFavorite">Marcar como favorito</string>
     <string name="btn_add_operation">Añadir</string>
     <string name="cuenta_de_origen">Cuenta de origen:</string>
     <string name="cuenta_destino">Cuenta destino:</string>

@@ -13,8 +13,15 @@
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.22826086956521738" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.5" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_favorite_operation.xml" value="0.1585144927536232" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_favourite_operation.xml" value="0.11927083333333334" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_operation.xml" value="0.22" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_favourite_operations.xml" value="0.11927083333333334" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.16" />
         <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_operation_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_recent_operations.xml" value="0.11927083333333334" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/fragment_tab_layout.xml" value="0.1" />
+        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.11927083333333334" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/banner_larry_loading.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.1" />

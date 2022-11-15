@@ -155,9 +155,9 @@
         />
     <fragment
         android:id="@+id/editFavouriteOperationFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.EditFavouriteOperationFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.EditFavoriteOperationFragment"
         android:label="Editar operación favorita"
-        tools:layout="@layout/fragment_edit_favourite_operation" />
+        tools:layout="@layout/fragment_edit_favorite_operation" />
     <fragment
         android:id="@+id/newPendingPaymentFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.NewPendingPaymentFragment"
@@ -183,9 +183,9 @@
 
     <fragment
         android:id="@+id/favouriteOperationsFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.FavouriteOperationsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.FavoriteOperationsFragment"
         android:label="fragment_favourite_operations"
-        tools:layout="@layout/fragment_favourite_operations" />
+        tools:layout="@layout/fragment_favorite_operations" />
     <fragment
         android:id="@+id/newOperationFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.newOperation.NewOperationFragment"

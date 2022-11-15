@@ -58,8 +58,8 @@ class OperationAdapter(
             view.findViewById(R.id.cardView_operationItemTemplate_amountContainer)
         private val txtAmount: TextView =
             view.findViewById(R.id.textView_operationItemTemplate_amount)
-        private val favouriteIcon: MaterialCardView =
-            view.findViewById(R.id.cardView_operationItemTemplate_favourite)
+        private val favoriteIcon: MaterialCardView =
+            view.findViewById(R.id.cardView_operationItemTemplate_favorite)
 
         private lateinit var operationData: OperationItem
 
@@ -141,7 +141,7 @@ class OperationAdapter(
 
             //icono de operacion favorita
             if(operation.favorite)
-                favouriteIcon.visibility = View.VISIBLE
+                favoriteIcon.visibility = View.VISIBLE
 
             setListeners()
         }

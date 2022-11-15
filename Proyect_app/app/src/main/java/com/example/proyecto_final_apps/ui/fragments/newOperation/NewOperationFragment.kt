@@ -235,7 +235,7 @@ class NewOperationFragment : Fragment() {
         val operationType = binding.textInputLayoutNewOperationFragmentOperationType.editText!!.text.toString()
         val active = operationType == "Ingreso"
         val description = binding.textInputLayoutNewOperationFragmentDescription.editText!!.text.toString()
-        val favourite = binding.checkBoxNewOperationFragmentFavouriteOperation.isChecked
+        val favorite = binding.checkBoxNewOperationFragmentFavoriteOperation.isChecked
         val category = Category(requireContext()).getId(checkedCathegory)
 
         lifecycleScope.launchWhenStarted {
@@ -247,7 +247,7 @@ class NewOperationFragment : Fragment() {
                 active = active,
                 description = if (description != "") description else null,
                 category = category,
-                favorite = favourite
+                favorite = favorite
             ).collectLatest { status ->
 
                 if(status is Status.Loading) loadingViewModel.showLoadingDialog()

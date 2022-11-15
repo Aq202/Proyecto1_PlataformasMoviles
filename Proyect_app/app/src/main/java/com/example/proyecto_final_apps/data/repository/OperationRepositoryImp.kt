@@ -259,7 +259,7 @@ class OperationRepositoryImp @Inject constructor(
                 val updateRequestResult = api.updateOperation(
                     token,
                     updatedOperation.remoteId,
-                    UpdateOperationRequest(active = updatedOperation.active, amount = updatedOperation.amount, category = updatedOperation.category, favourite = updatedOperation.favorite, title = updatedOperation.title, description = updatedOperation.description, imgUrl = updatedOperation.imgUrl)
+                    UpdateOperationRequest(active = updatedOperation.active, amount = updatedOperation.amount, category = updatedOperation.category, favorite = updatedOperation.favorite, title = updatedOperation.title, description = updatedOperation.description, imgUrl = updatedOperation.imgUrl)
                 )
 
                 if (updateRequestResult.isSuccessful && updatedOperation.requiresUpdate == true) {
@@ -371,7 +371,7 @@ class OperationRepositoryImp @Inject constructor(
         active: Boolean?,
         amount: Double?,
         category: Int?,
-        favourite: Boolean?,
+        favorite: Boolean?,
         title: String?,
         description: String?,
         imgUrl:String?
@@ -383,7 +383,7 @@ class OperationRepositoryImp @Inject constructor(
         var accRequest = accountRepository.getAccountData(operation.accountLocalId, false)
         val oldAccount = if(accRequest is Resource.Success) accRequest.data else null
 
-        if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favourite != null || title != null || description != null || imgUrl != null))
+        if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favorite != null || title != null || description != null || imgUrl != null))
             return Resource.Success(operation)
 
         if(accountLocalId != null) operation.accountLocalId = accountLocalId
@@ -391,7 +391,7 @@ class OperationRepositoryImp @Inject constructor(
         if(active != null) operation.active = active
         if(amount != null) operation.amount = amount
         if(category != null) operation.category = category
-        if(favourite != null) operation.favorite = favourite
+        if(favorite != null) operation.favorite = favorite
         if(title != null) operation.title = title
         if(description != null) operation.description = description
         if(imgUrl != null) operation.imgUrl = imgUrl
@@ -434,7 +434,7 @@ class OperationRepositoryImp @Inject constructor(
                         amount = operation.amount,
                         category = operation.category,
                         date = operation.date,
-                        favourite = operation.favorite,
+                        favorite = operation.favorite,
                         localId = operation.localId!!,
                         title = operation.title,
                         description = operation.description,

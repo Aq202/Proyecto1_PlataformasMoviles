@@ -5,7 +5,7 @@ data class UpdateOperationRequest(
     val active: Boolean? = null,
     val amount: Double? = null,
     val category: Int? = null,
-    val favourite: Boolean? = null,
+    val favorite: Boolean? = null,
     val title: String? = null,
     val description: String? = null,
     val imgUrl:String? = null
