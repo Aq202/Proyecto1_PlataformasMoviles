@@ -3,6 +3,7 @@ const { sha256 } = require("js-sha256");
 const fs = require("fs");
 const { generateSessionToken } = require("../services/jwt");
 const Contact = require("../accessLayer/Contact");
+const Account = require("../accessLayer/Account");
 
 const registerUser = async (req, res) => {
 	try {
@@ -15,6 +16,9 @@ const registerUser = async (req, res) => {
 
 		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ registerUser ~ data", data);
 		const result = await User.createUser(data);
+
+		//crear cuenta de deudas
+		Account.createInitialDebtsAccount(result.id)
 
 		const token = generateSessionToken(result.id);
 

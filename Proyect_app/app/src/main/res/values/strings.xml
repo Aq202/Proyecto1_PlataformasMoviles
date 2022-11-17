@@ -122,6 +122,7 @@
     <string name="no_hay_cuentas_ndisponibles">No hay cuentas \ndisponibles</string>
     <string name="ingresos">Ingresos</string>
     <string name="gastos">Gastos</string>
-
+    <string name="titulo_operacion_inicial_cuenta">Monto inicial de cuenta %s</string>
+    <string name="descripcion_operacion_inicial_cuenta">Monto inicial de la cuenta.</string>
 
 </resources>

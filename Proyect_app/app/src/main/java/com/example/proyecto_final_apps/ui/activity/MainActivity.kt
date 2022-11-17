@@ -4,16 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
-import androidx.core.view.isVisible
-import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
-import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -25,6 +22,7 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.ActivityMainBinding
+import com.example.proyecto_final_apps.databinding.NavigationDrawerHeaderBinding
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -37,6 +35,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private val loadingDialog = LoadingDialog()
+
+    //Drawer layout bindint
+    lateinit var headerView: View
+    lateinit var navigationDrawerHeaderBinding:NavigationDrawerHeaderBinding
 
     
     private val toolbarViewModel: ToolbarViewModel by viewModels()
@@ -57,6 +59,10 @@ class MainActivity : AppCompatActivity() {
         configureNavigation()
         listenToNavDrawerChanges()
         setObservers()
+
+        //Binding del drawer layout
+        headerView = binding.navView.getHeaderView(0)
+        navigationDrawerHeaderBinding =  NavigationDrawerHeaderBinding.bind(headerView)
 
     }
 
@@ -119,10 +125,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addSideBarInfo(data: UserModel) {
-        val txtName: TextView = binding.navView.findViewById(R.id.textView_sideNavBar_name)
-        val txtAlias: TextView = binding.navView.findViewById(R.id.textView_sideNavBar_alias)
-        val profilePic: ImageView =
-            binding.navView.findViewById(R.id.imageView_sideNavBar_profilePic)
+        val txtName: TextView = navigationDrawerHeaderBinding.textViewSideNavBarName
+        val txtAlias: TextView = navigationDrawerHeaderBinding.textViewSideNavBarAlias
+        val profilePic: ImageView = navigationDrawerHeaderBinding.imageViewSideNavBarProfilePic
 
         txtName.text = getString(R.string.fullName_template, data.name, data.lastName)
         txtAlias.text = getString(R.string.alias_format, data.alias)
@@ -142,12 +147,9 @@ class MainActivity : AppCompatActivity() {
                     false
                 }
                 R.id.sideNav_item_logout -> {
-                    mainUserViewModel.logout()
-                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    //Logout action
 
-                    //Moverse al otro activity
-                    val intent = Intent(this, UnloggedActivity::class.java)
-                    startActivity(intent)
+                    handleLogoutAction()
 
                     false
                 }
@@ -155,6 +157,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setListeners()
+    }
+
+    private fun handleLogoutAction() {
+        mainUserViewModel.logout()
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+
+        //Moverse al activity unlogged
+        val intent = Intent(this, UnloggedActivity::class.java)
+        startActivity(intent)
+        finish() //Finalizar el activity actual
     }
 
     private fun setListeners() {

@@ -17,10 +17,10 @@ import javax.inject.Inject
 class OperationRepositoryImp @Inject constructor(
     private val api: API,
     val context: Context,
-    private val database: Database
+    private val database: Database,
+    private val accountRepository: AccountRepository
 ) : OperationRepository {
 
-    private val accountRepository: AccountRepository = AccountRepositoryImp(api,context,database)
 
     override suspend fun getOperations(forceUpdate: Boolean): Resource<List<OperationModel>> {
 
@@ -31,7 +31,8 @@ class OperationRepositoryImp @Inject constructor(
             if (operationsStoredNumber > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
 
                 //local data
-                val operationsList = sortOperationsByDate(database.operationDao().getAllOperations())
+                val operationsList =
+                    sortOperationsByDate(database.operationDao().getAllOperations())
                 return Resource.Success(operationsList)
             } else {
 
@@ -54,7 +55,7 @@ class OperationRepositoryImp @Inject constructor(
                         Resource.Error("No hay operaciones por mostrar.")
 
                 } else
-                    println("Erick: "+ result.message())
+                    println("Erick: " + result.message())
 
             }
 
@@ -65,7 +66,7 @@ class OperationRepositoryImp @Inject constructor(
         return Resource.Error("Error al obtener operaciones.")
     }
 
-    private fun sortOperationsByDate(operations:List<OperationModel>):List<OperationModel>{
+    private fun sortOperationsByDate(operations: List<OperationModel>): List<OperationModel> {
 
         val mutableOperationsList = operations as MutableList
         mutableOperationsList.sortByDescending { DateParse.formatDate(it.date) }
@@ -222,11 +223,18 @@ class OperationRepositoryImp @Inject constructor(
                     if (deletedCount > 0) {
                         //Actualizar monto de la cuenta
 
-                        val accountRequest = accountRepository.getAccountData(operation.accountLocalId,false)
-                        if(accountRequest is Resource.Success){
+                        val accountRequest =
+                            accountRepository.getAccountData(operation.accountLocalId, false)
+                        if (accountRequest is Resource.Success) {
                             val account = accountRequest.data
-                            val newTotal = if(operation.active) account.total - operation.amount else account.total + operation.amount
-                            accountRepository.updateAccount(account.localId!!, title = account.title, total = newTotal, account.defaultAccount)
+                            val newTotal =
+                                if (operation.active) account.total - operation.amount else account.total + operation.amount
+                            accountRepository.updateAccount(
+                                account.localId!!,
+                                title = account.title,
+                                total = newTotal,
+                                account.defaultAccount
+                            )
                         }
 
                         return Resource.Success(true)
@@ -246,7 +254,7 @@ class OperationRepositoryImp @Inject constructor(
         return Resource.Success(true)
     }
 
-    private suspend fun uploadOperationUpdatesToApi(updatedOperation: OperationModel):Resource<OperationModel>{
+    private suspend fun uploadOperationUpdatesToApi(updatedOperation: OperationModel): Resource<OperationModel> {
 
         if (Internet.checkForInternet(context) && updatedOperation.remoteId != null) {
 
@@ -259,7 +267,15 @@ class OperationRepositoryImp @Inject constructor(
                 val updateRequestResult = api.updateOperation(
                     token,
                     updatedOperation.remoteId,
-                    UpdateOperationRequest(active = updatedOperation.active, amount = updatedOperation.amount, category = updatedOperation.category, favorite = updatedOperation.favorite, title = updatedOperation.title, description = updatedOperation.description, imgUrl = updatedOperation.imgUrl)
+                    UpdateOperationRequest(
+                        active = updatedOperation.active,
+                        amount = updatedOperation.amount,
+                        category = updatedOperation.category,
+                        favorite = updatedOperation.favorite,
+                        title = updatedOperation.title,
+                        description = updatedOperation.description,
+                        imgUrl = updatedOperation.imgUrl
+                    )
                 )
 
                 if (updateRequestResult.isSuccessful && updatedOperation.requiresUpdate == true) {
@@ -268,7 +284,7 @@ class OperationRepositoryImp @Inject constructor(
                     updatedOperation.requiresUpdate = false
                     database.operationDao().updateOperation(updatedOperation)
 
-                } else if(updatedOperation.requiresUpdate != true){
+                } else if (updatedOperation.requiresUpdate != true) {
                     //Si no se actualizó en la api, marcarlo
                     updatedOperation.requiresUpdate = true
                     database.operationDao().updateOperation(updatedOperation)
@@ -293,15 +309,15 @@ class OperationRepositoryImp @Inject constructor(
 
         //Operaciones pendientes
         val operationsToUpdate = database.operationDao().getAllOperationsRequiringUpdate()
-        if(operationsToUpdate.isNotEmpty()){
+        if (operationsToUpdate.isNotEmpty()) {
 
             //Operaciones que no se han creado
-            operationsToUpdate.filter { it.remoteId == null }.forEach{ operation ->
+            operationsToUpdate.filter { it.remoteId == null }.forEach { operation ->
                 uploadNewOperationToApi(operation)
             }
 
             //Operaciones por actualizar
-            operationsToUpdate.filter { it.remoteId != null }.forEach{operation ->
+            operationsToUpdate.filter { it.remoteId != null }.forEach { operation ->
                 uploadOperationUpdatesToApi(operation)
             }
         }
@@ -310,7 +326,6 @@ class OperationRepositoryImp @Inject constructor(
 
     override suspend fun createOperation(
         title: String,
-        accountRemoteId: String,
         accountLocalId: Int,
         amount: Double,
         active: Boolean,
@@ -318,11 +333,17 @@ class OperationRepositoryImp @Inject constructor(
         category: Int,
         favorite: Boolean,
         date: String,
-        imgUrl:String?
+        imgUrl: String?
     ): Resource<OperationModel> {
+
+        //obtener cuenta localmente
+        val account = database.accountDao().getAccountById(accountLocalId) ?: return Resource.Error(
+            "La cuenta no existe."
+        )
+
         val operationCreated =
             OperationModel(
-                accountRemoteId = accountRemoteId,
+                accountRemoteId = account.remoteId,
                 accountLocalId = accountLocalId,
                 active = active,
                 amount = amount,
@@ -334,25 +355,15 @@ class OperationRepositoryImp @Inject constructor(
                 imgUrl = imgUrl
             )
         operationCreated.localId = database.accountDao().insertOperation(
-            OperationModel(
-                accountRemoteId = accountRemoteId,
-                accountLocalId = accountLocalId,
-                active = active,
-                amount = amount,
-                category = category,
-                favorite = favorite,
-                date = date,
-                title = title,
-                description = description,
-                imgUrl = imgUrl
-            )
+            operationCreated
         ).toInt()
 
-        //Subir datos a la api
-        val requestResult = uploadNewOperationToApi(operationCreated)
-        if(requestResult is Resource.Success) return requestResult
-        else println("Erick: ${requestResult.message}")
-
+        //Subir datos a la api si se cuenta con el id remoto de la cuenta
+        if(account.remoteId != null) {
+            val requestResult = uploadNewOperationToApi(operationCreated)
+            if (requestResult is Resource.Success) return requestResult
+            else println("Erick: ${requestResult.message}")
+        }
 
 
         //Si no se completó la solicitud a la api
@@ -360,7 +371,6 @@ class OperationRepositoryImp @Inject constructor(
         database.operationDao().updateOperation(operationCreated)
 
         //Actualizar monto de la cuenta
-
         return Resource.Success(operationCreated)
     }
 
@@ -374,44 +384,56 @@ class OperationRepositoryImp @Inject constructor(
         favorite: Boolean?,
         title: String?,
         description: String?,
-        imgUrl:String?
+        imgUrl: String?
     ): Resource<OperationModel> {
 
         val operation = database.operationDao().getOperationById(operationLocalId)
             ?: return Resource.Error("La operación no existe.")
 
         var accRequest = accountRepository.getAccountData(operation.accountLocalId, false)
-        val oldAccount = if(accRequest is Resource.Success) accRequest.data else null
+        val oldAccount = if (accRequest is Resource.Success) accRequest.data else null
 
         if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favorite != null || title != null || description != null || imgUrl != null))
             return Resource.Success(operation)
 
-        if(accountLocalId != null) operation.accountLocalId = accountLocalId
-        if(accountRemoteId != null) operation.accountRemoteId = accountRemoteId
-        if(active != null) operation.active = active
-        if(amount != null) operation.amount = amount
-        if(category != null) operation.category = category
-        if(favorite != null) operation.favorite = favorite
-        if(title != null) operation.title = title
-        if(description != null) operation.description = description
-        if(imgUrl != null) operation.imgUrl = imgUrl
+        if (accountLocalId != null) operation.accountLocalId = accountLocalId
+        if (accountRemoteId != null) operation.accountRemoteId = accountRemoteId
+        if (active != null) operation.active = active
+        if (amount != null) operation.amount = amount
+        if (category != null) operation.category = category
+        if (favorite != null) operation.favorite = favorite
+        if (title != null) operation.title = title
+        if (description != null) operation.description = description
+        if (imgUrl != null) operation.imgUrl = imgUrl
 
         val updateRes = database.operationDao().updateOperation(operation)
         if (updateRes == 0) return Resource.Error("No se pudo actualizar localmente")
 
         val updateRequest = uploadOperationUpdatesToApi(operation)
-        if(updateRequest is Resource.Error) return updateRequest
+        if (updateRequest is Resource.Error) return updateRequest
 
-        if(accountLocalId != null && oldAccount != null){
-            val oldAccountTotal = if(operation.active) oldAccount.total - operation.amount else oldAccount.total + operation.amount
-            accountRepository.updateAccount(oldAccount.localId!!, total = oldAccountTotal, title = oldAccount.title, defaultAccount = oldAccount.defaultAccount)
+        if (accountLocalId != null && oldAccount != null) {
+            val oldAccountTotal =
+                if (operation.active) oldAccount.total - operation.amount else oldAccount.total + operation.amount
+            accountRepository.updateAccount(
+                oldAccount.localId!!,
+                total = oldAccountTotal,
+                title = oldAccount.title,
+                defaultAccount = oldAccount.defaultAccount
+            )
 
-            accRequest = accountRepository.getAccountData(accountLocalId,false)
-            val newAccount = if(accRequest is Resource.Success) accRequest.data else null
-            if(active != null && newAccount != null){
-                val newAmount = if(amount != null) amount else operation.amount
-                val newAccountTotal = if(active) newAccount.total + newAmount else newAccount.total - newAmount
-                accountRepository.updateAccount(newAccount.localId!!, total = newAccountTotal, title=newAccount.title, defaultAccount = newAccount.defaultAccount)
+            accRequest = accountRepository.getAccountData(accountLocalId, false)
+            val newAccount = if (accRequest is Resource.Success) accRequest.data else null
+            if (active != null && newAccount != null) {
+                val newAmount = if (amount != null) amount else operation.amount
+                val newAccountTotal =
+                    if (active) newAccount.total + newAmount else newAccount.total - newAmount
+                accountRepository.updateAccount(
+                    newAccount.localId!!,
+                    total = newAccountTotal,
+                    title = newAccount.title,
+                    defaultAccount = newAccount.defaultAccount
+                )
             }
         }
 
@@ -419,8 +441,8 @@ class OperationRepositoryImp @Inject constructor(
 
     }
 
-    private suspend fun uploadNewOperationToApi(operation:OperationModel):Resource<OperationModel>{
-        if (Internet.checkForInternet(context)) {
+    private suspend fun uploadNewOperationToApi(operation: OperationModel): Resource<OperationModel> {
+        if (Internet.checkForInternet(context) && operation.accountRemoteId != null) {
 
             try {
 
@@ -446,8 +468,14 @@ class OperationRepositoryImp @Inject constructor(
                 if (requestResult.isSuccessful) {
 
                     val account = requestResult.body()?.account
-                    val newTotal = if(operation.active) account!!.total + operation.amount else account!!.total - operation.amount
-                    accountRepository.updateAccount(account!!.localId, title = account!!.title, total = newTotal, account.defaultAccount)
+                    val newTotal =
+                        if (operation.active) account!!.total + operation.amount else account!!.total - operation.amount
+                    accountRepository.updateAccount(
+                        account!!.localId,
+                        title = account!!.title,
+                        total = newTotal,
+                        account.defaultAccount
+                    )
 
                     requestResult.body()?.toOperationModel()?.let { operationDataFromApi ->
                         //update db data
@@ -458,7 +486,7 @@ class OperationRepositoryImp @Inject constructor(
 
                 } else return Resource.Error(requestResult.errorBody().toString())
             } catch (ex: Exception) {
-                return Resource.Error("Catch: "+ex.message ?:"")
+                return Resource.Error("Catch: " + ex.message ?: "")
             }
         }
         return Resource.Error("No internet.")

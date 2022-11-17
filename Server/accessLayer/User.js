@@ -24,6 +24,8 @@ class User {
 
 		const saved = await user.save();
 
+		if(!saved) throw {err: "No se pudo guardar el usuario. ", status:500}
+
 		return parseUserObject(saved);
 	}
 

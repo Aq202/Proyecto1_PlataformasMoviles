@@ -17,7 +17,7 @@ import javax.inject.Inject
 class AccountRepositoryImp @Inject constructor(
     val api: API,
     val context: Context,
-    val database: Database
+    val database: Database,
 ) : AccountRepository {
 
     override suspend fun getAccountList(forceUpdate: Boolean): Resource<List<AccountModel>> {
@@ -283,7 +283,7 @@ class AccountRepositoryImp @Inject constructor(
         defaultAccount: Boolean
     ): Resource<AccountModel> {
 
-        val numberOfAccounts = database.accountDao().getNumberOfAccounts()
+        val numberOfAccounts = database.accountDao().getNumberOfEditableAccounts()
         val accountCreated =
             AccountModel(
                 title = title,
@@ -297,6 +297,7 @@ class AccountRepositoryImp @Inject constructor(
 
         //Subir datos a la api
         val requestResult = uploadNewAccountToApi(accountCreated)
+
         if (requestResult is Resource.Success) return requestResult
         else println("Diego: ${requestResult.message}")
 
@@ -305,6 +306,11 @@ class AccountRepositoryImp @Inject constructor(
         database.accountDao().updateAccount(accountCreated)
         return Resource.Success(accountCreated)
     }
+
+    private suspend fun createInitialAccountOperation(account:AccountModel){
+
+    }
+
 
     private suspend fun uploadNewAccountToApi(account: AccountModel): Resource<AccountModel> {
         if (Internet.checkForInternet(context)) {

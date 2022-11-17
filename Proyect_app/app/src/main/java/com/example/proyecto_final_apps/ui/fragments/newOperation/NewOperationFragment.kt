@@ -229,7 +229,6 @@ class NewOperationFragment : Fragment() {
         else if(!validateTitle() || !validateAmount() || !validateAccount() || !validateOperationType() || !validateCathegory()) return
 
         val title = binding.textInputLayoutNewOperationFragmentTitle.editText!!.text.toString()
-        val accountRemoteId = selectedAccount!!.remoteId
         val accountLocalId = selectedAccount!!.localId
         val amount = binding.textInputLayoutNewOperationFragmentAmount.editText!!.text.toString().toDouble()
         val operationType = binding.textInputLayoutNewOperationFragmentOperationType.editText!!.text.toString()
@@ -241,7 +240,6 @@ class NewOperationFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             newOperationViewModel.createOperation(
                 title = title,
-                accountRemoteId = accountRemoteId!!,
                 accountLocalId = accountLocalId!!,
                 amount = amount,
                 active = active,

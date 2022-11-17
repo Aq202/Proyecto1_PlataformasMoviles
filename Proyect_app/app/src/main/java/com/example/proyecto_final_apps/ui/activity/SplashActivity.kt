@@ -43,10 +43,12 @@ class SplashActivity : AppCompatActivity() {
                     is UserSessionStatus.Logged -> {
                         val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                     is UserSessionStatus.NotLogged -> {
                         val intent = Intent(context, UnloggedActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                     else -> {}
                 }

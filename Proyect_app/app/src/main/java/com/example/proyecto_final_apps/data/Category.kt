@@ -77,4 +77,5 @@ class Category(private val context:Context) {
     fun getCategory(id:Int) = categories.find { it.id == id }
     fun getDebtsCategory() = categories.find{ it.type == CategoryTypes.DEUDAS}
     fun getId(name:String) = (categories.find { it.name == name })!!.id
+    fun getCategoryByType(type:CategoryTypes) = categories.find {it.type == type}
 }

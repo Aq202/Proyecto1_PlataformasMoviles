@@ -10,6 +10,9 @@ interface AccountDao {
     @Query("SELECT COUNT(localId) FROM AccountModel WHERE deletionPending=${false}")
     suspend fun getNumberOfAccounts():Int
 
+    @Query("SELECT COUNT(localId) FROM AccountModel WHERE editable=${true} AND deletionPending=${false}")
+    suspend fun getNumberOfEditableAccounts():Int
+
     @Insert
     suspend fun insertOperation(operation:OperationModel):Long
 

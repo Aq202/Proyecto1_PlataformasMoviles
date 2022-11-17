@@ -22,7 +22,6 @@ class NewOperationViewModel @Inject constructor(private val opRepository: Operat
 
     fun createOperation(
         title: String,
-        accountRemoteId: String,
         accountLocalId: Int,
         amount: Double,
         active: Boolean,
@@ -38,7 +37,6 @@ class NewOperationViewModel @Inject constructor(private val opRepository: Operat
 
             val result = opRepository.createOperation(
                 title = title,
-                accountRemoteId = accountRemoteId,
                 accountLocalId = accountLocalId,
                 amount = amount,
                 active = active,

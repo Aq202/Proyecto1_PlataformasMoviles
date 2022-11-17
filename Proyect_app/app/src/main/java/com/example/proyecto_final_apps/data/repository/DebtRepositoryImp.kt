@@ -155,7 +155,6 @@ class DebtRepositoryImp(
         val user = database.userDao().getUser(contactUserId)
             ?: return Resource.Error("No se encontró al usuario.")
 
-        if (account.remoteId == null) return Resource.Error("No se tiene le id remoto de la cuenta.")
 
         val title = if (active) context.getString(
             R.string.active_debt_title,
@@ -166,7 +165,6 @@ class DebtRepositoryImp(
 
         return operationRepository.createOperation(
             title = title,
-            accountRemoteId = account.remoteId,
             accountLocalId = account.localId!!,
             amount = amount,
             active = active,

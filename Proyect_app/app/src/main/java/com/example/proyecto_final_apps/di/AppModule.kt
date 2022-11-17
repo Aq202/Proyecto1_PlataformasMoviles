@@ -1,15 +1,13 @@
 package com.example.proyecto_final_apps.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.example.proyecto_final_apps.data.local.Database
-import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.ErrorParser
 import com.example.proyecto_final_apps.data.repository.*
+import com.example.proyecto_final_apps.domain.AccountDomain
+import com.example.proyecto_final_apps.domain.AccountDomainImp
 import com.example.proyecto_final_apps.helpers.apiUrl
 import dagger.Module
 import dagger.Provides
@@ -18,7 +16,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -76,12 +73,14 @@ class AppModule {
     fun provideOperationRepository(
         api: API,
         @ApplicationContext context: Context,
-        database: Database
+        database: Database,
+        accountRepository: AccountRepository
     ): OperationRepository {
         return OperationRepositoryImp(
             api = api,
             context = context,
-            database = database
+            database = database,
+            accountRepository = accountRepository
         )
     }
 
@@ -142,6 +141,16 @@ class AppModule {
             errorParser = errorParser,
             operationRepository = operationRepository
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providesAccountDomainClass(
+        @ApplicationContext context: Context,
+        accountRepository: AccountRepository,
+        operationRepository: OperationRepository
+    ): AccountDomain {
+        return AccountDomainImp(context, accountRepository, operationRepository)
     }
 
 }
