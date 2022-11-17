@@ -37,6 +37,6 @@ fun OperationDto.toOperationModel(): OperationModel {
         title = this.title,
         description = this.description,
         requiresUpdate = false,
-        imgUrl = apiUrl + this.imgUrl
+        imgUrl = if(this.imgUrl != null) (apiUrl + this.imgUrl) else null
     )
 }
