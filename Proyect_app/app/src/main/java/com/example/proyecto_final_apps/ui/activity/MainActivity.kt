@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+        supportActionBar!!.setDisplayShowTitleEnabled(false) //Ocultar titulo en toolbar
 
         configureNavigation()
         listenToNavDrawerChanges()

@@ -45,7 +45,8 @@ class AccountDomainImp @Inject constructor(
                 description = context.getString(R.string.descripcion_operacion_inicial_cuenta),
                 category = Category(context).getCategoryByType(CategoryTypes.DEFAULT)!!.id,
                 favorite = false,
-                date = DateParse.getCurrentDate()
+                date = DateParse.getCurrentDate(),
+                updateAccountTotal = false //No actualizar el monto inicial de la cuenta
             )
         }
 
