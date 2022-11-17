@@ -216,15 +216,15 @@ class AccountRepositoryImp @Inject constructor(
 
         //Operaciones pendientes
         val accountsToUpdate = database.accountDao().getAllAccountsRequiringUpdate()
-        if(accountsToUpdate.isNotEmpty()){
+        if (accountsToUpdate.isNotEmpty()) {
 
             //Operaciones que no se han creado
-            accountsToUpdate.filter { it.remoteId == null }.forEach{ account ->
+            accountsToUpdate.filter { it.remoteId == null }.forEach { account ->
                 uploadNewAccountToApi(account)
             }
 
             //Operaciones por actualizar
-            accountsToUpdate.filter { it.remoteId != null }.forEach{account ->
+            accountsToUpdate.filter { it.remoteId != null }.forEach { account ->
                 uploadAccountUpdatesToApi(account)
             }
         }
@@ -285,21 +285,19 @@ class AccountRepositoryImp @Inject constructor(
 
         val numberOfAccounts = database.accountDao().getNumberOfAccounts()
         val accountCreated =
-            AccountModel(title = title, total = total, defaultAccount = defaultAccount)
-        accountCreated.localId = database.accountDao().insertAccount(
             AccountModel(
                 title = title,
                 total = total,
-                defaultAccount = if(numberOfAccounts > 0) defaultAccount else true //Si no hay cuentas colocar true
+                defaultAccount = if (numberOfAccounts > 0) defaultAccount else true //Si no hay cuentas colocar true)
             )
-        ).toInt()
+        accountCreated.localId = database.accountDao().insertAccount(accountCreated).toInt()
 
         //Si se seleccionó como cuenta default, quitar la anterior
-        if(accountCreated.defaultAccount)database.accountDao().deselectDefaultAccount()
+        if (accountCreated.defaultAccount) database.accountDao().deselectDefaultAccount()
 
         //Subir datos a la api
         val requestResult = uploadNewAccountToApi(accountCreated)
-        if(requestResult is Resource.Success) return requestResult
+        if (requestResult is Resource.Success) return requestResult
         else println("Diego: ${requestResult.message}")
 
         //Si no se completó la solicitud a la api
@@ -308,7 +306,7 @@ class AccountRepositoryImp @Inject constructor(
         return Resource.Success(accountCreated)
     }
 
-    private suspend fun uploadNewAccountToApi(account:AccountModel):Resource<AccountModel>{
+    private suspend fun uploadNewAccountToApi(account: AccountModel): Resource<AccountModel> {
         if (Internet.checkForInternet(context)) {
 
             try {
@@ -337,7 +335,7 @@ class AccountRepositoryImp @Inject constructor(
 
                 } else return Resource.Error(requestResult.errorBody().toString())
             } catch (ex: Exception) {
-                return Resource.Error(ex.message ?:"")
+                return Resource.Error(ex.message ?: "")
             }
         }
         return Resource.Error("No internet.")
@@ -357,21 +355,21 @@ class AccountRepositoryImp @Inject constructor(
         if (!(title != null || total != null || defaultAccount != null))
             return Resource.Success(account)
 
-            if (title != null) account.title = title
-            if (total != null) account.total = total
-            if (defaultAccount != null) account.defaultAccount = defaultAccount
+        if (title != null) account.title = title
+        if (total != null) account.total = total
+        if (defaultAccount != null) account.defaultAccount = defaultAccount
 
-            val updateRes = database.accountDao().updateAccount(account)
-            if (updateRes == 0) return Resource.Error("No se pudo actualizar localmente")
+        val updateRes = database.accountDao().updateAccount(account)
+        if (updateRes == 0) return Resource.Error("No se pudo actualizar localmente")
 
-            val updateRequest = uploadAccountUpdatesToApi(account)
-            if(updateRequest is Resource.Error) return updateRequest
+        val updateRequest = uploadAccountUpdatesToApi(account)
+        if (updateRequest is Resource.Error) return updateRequest
 
         return Resource.Success(account)
 
     }
 
-    private suspend fun uploadAccountUpdatesToApi(updatedAccount:AccountModel):Resource<AccountModel>{
+    private suspend fun uploadAccountUpdatesToApi(updatedAccount: AccountModel): Resource<AccountModel> {
 
         if (Internet.checkForInternet(context) && updatedAccount.remoteId != null) {
 
@@ -384,7 +382,11 @@ class AccountRepositoryImp @Inject constructor(
                 val updateRequestResult = api.updateAccount(
                     token,
                     updatedAccount.remoteId,
-                    UpdateAccountRequest(updatedAccount.title, updatedAccount.total, updatedAccount.defaultAccount)
+                    UpdateAccountRequest(
+                        updatedAccount.title,
+                        updatedAccount.total,
+                        updatedAccount.defaultAccount
+                    )
                 )
 
                 if (updateRequestResult.isSuccessful && updatedAccount.requiresUpdate == true) {
@@ -393,7 +395,7 @@ class AccountRepositoryImp @Inject constructor(
                     updatedAccount.requiresUpdate = false
                     database.accountDao().updateAccount(updatedAccount)
 
-                } else if(updatedAccount.requiresUpdate != true){
+                } else if (updatedAccount.requiresUpdate != true) {
                     //Si no se actualizó en la api, marcarlo
                     updatedAccount.requiresUpdate = true
                     database.accountDao().updateAccount(updatedAccount)
