@@ -6,7 +6,7 @@ data class NewOperationRequest(
     val amount: Double,
     val category: Int,
     val date: String,
-    val favourite: Boolean,
+    val favorite: Boolean,
     val localId: Int,
     val title: String,
     val description: String?,

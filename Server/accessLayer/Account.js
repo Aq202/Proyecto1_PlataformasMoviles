@@ -108,12 +108,11 @@ class Account {
 		if (data.defaultAccount === true) {
 			//Asignar una cuenta arbitraria como default
 			const randomAccount = await AccountModel.findOne({ editable: true, subject: data.subject });
-			if (randomAccount) {
+			if (randomAccount && randomAccount != null) {
 				randomAccount.defaultAccount = true;
 				randomAccount.save();
 				return parseMongoObject(randomAccount);
 			}
-
 		}
 
 		return null;

@@ -13,6 +13,7 @@ import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentRecentOperationsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationItem
+import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
 
 class RecentOperationsFragment : Fragment(R.layout.fragment_recent_operations), OperationAdapter.OperationListener {
 

@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
+import com.example.proyecto_final_apps.data.remote.dto.deleteOperationResponse.DeleteOperationDto
 import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.GetContactDataDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
@@ -59,7 +60,13 @@ interface API {
     suspend fun deleteAccount(
         @Header("authorization") token:String,
         @Path("accountId") accountId:String
-    ):Response<DeleteAccountDto>
+    ): Response<DeleteAccountDto>
+
+    @DELETE("/operation/{operationId}")
+    suspend fun deleteOperation(
+        @Header("authorization") token:String,
+        @Path("operationId") operationId:String
+    ):Response<DeleteOperationDto>
 
     @POST("/account/create")
     suspend fun createAccount(
@@ -77,6 +84,13 @@ interface API {
     suspend fun createOperation(
         @Header("authorization") token:String,
         @Body body: NewOperationRequest
+    ): Response<OperationDto>
+
+    @POST("/operation/update/{operationId}")
+    suspend fun updateOperation(
+        @Header("authorization") token:String,
+        @Path("operationId") operationId:String,
+        @Body body: UpdateOperationRequest
     ): Response<OperationDto>
 
     @POST("/account/update/{accountId}")

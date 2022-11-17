@@ -157,6 +157,7 @@ class NewOperationFragment : Fragment() {
         binding.apply {
             val account = textInputLayoutNewOperationFragmentSourceAccount.editText!!.text
             val amount = textInputLayoutNewOperationFragmentAmount.editText!!.text
+            val operationType = textInputLayoutNewOperationFragmentOperationType.editText!!.text
             if (account.trim().isEmpty()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
@@ -165,7 +166,7 @@ class NewOperationFragment : Fragment() {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
                 return false
-            }else if (account.toString() != "Ingreso" &&
+            }else if (operationType.toString() != "Ingreso" &&
                 selectedAccount!!.total < amount.toString().toDouble()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "La cuenta seleccionada no tiene fondos suficientes para esta operación."
@@ -234,8 +235,8 @@ class NewOperationFragment : Fragment() {
         val operationType = binding.textInputLayoutNewOperationFragmentOperationType.editText!!.text.toString()
         val active = operationType == "Ingreso"
         val description = binding.textInputLayoutNewOperationFragmentDescription.editText!!.text.toString()
+        val favorite = binding.checkBoxNewOperationFragmentFavoriteOperation.isChecked
         val category = Category(requireContext()).getId(checkedCathegory)
-        val favourite = binding.checkBoxNewOperationFragmentFavouriteOperation.isChecked
 
         lifecycleScope.launchWhenStarted {
             newOperationViewModel.createOperation(
@@ -246,7 +247,7 @@ class NewOperationFragment : Fragment() {
                 active = active,
                 description = if (description != "") description else null,
                 category = category,
-                favorite = favourite
+                favorite = favorite
             ).collectLatest { status ->
 
                 if(status is Status.Loading) loadingViewModel.showLoadingDialog()

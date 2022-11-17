@@ -23,7 +23,6 @@ import com.example.proyecto_final_apps.databinding.FragmentContactProfileBinding
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationItem
-import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
