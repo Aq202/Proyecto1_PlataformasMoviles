@@ -31,7 +31,7 @@ class Category(private val context:Context) {
             0,
             "Otros",
             CategoryTypes.DEFAULT,
-            null,
+            getDrawable(context, R.drawable.ic_money_bag),
             getColor(context,R.color.default_category)
         ),
         CategoryModel(

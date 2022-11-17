@@ -121,6 +121,8 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             }
         }
 
+        //Obtener operaciones de la cuenta y actualizar grafico
+
         lifecycleScope.launchWhenStarted {
             accountDetailsViewModel.initialAccountOperations.collectLatest { status ->
                 if (status is Status.Success) {
@@ -129,6 +131,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
                         pieChartAccountDetailsFragment.visibility = View.VISIBLE
                         recyclerViewAccountDetailsPieCategories.visibility = View.VISIBLE
                         textViewAccountDetailsFragmentExpensesNoContent.visibility = View.GONE
+                        imageViewAccountDetailsNoChartBanner.visibility = View.GONE
                     }
                 } else if (status is Status.Error) {
                     println("Diego: ${status.error}")
@@ -136,15 +139,16 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
                         pieChartAccountDetailsFragment.visibility = View.GONE
                         recyclerViewAccountDetailsPieCategories.visibility = View.GONE
                         textViewAccountDetailsFragmentExpensesNoContent.visibility = View.VISIBLE
-
+                        imageViewAccountDetailsNoChartBanner.visibility = View.VISIBLE
                     }
                 }
             }
         }
 
+        //Cambiar entre gastos e ingresos en el pie
         lifecycleScope.launchWhenStarted {
             accountDetailsViewModel.expensesSelected.collectLatest { value ->
-                if (value is Status.Success) changePieDataType(value.value!!)
+                if (value is Status.Success) changePieDataType(value.value)
             }
         }
 
@@ -154,10 +158,11 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             }
         }
 
+        //Añadir informacion de la cuenta en encabezado
         lifecycleScope.launchWhenStarted {
             accountDetailsViewModel.accountData.collect { status ->
                 if (status is Status.Success) {
-                    binding.textViewAccountDetailsFragmentAccountName.text = status.value!!.title
+                    binding.textViewAccountDetailsFragmentAccountName.text = status.value.title
                     //agregar icono de favorito
                     if (status.value.defaultAccount) binding.imageViewAccountDetailsFavoriteIcon.setImageDrawable(
                         AppCompatResources.getDrawable(requireContext(), R.drawable.ic_star),
@@ -168,9 +173,27 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             }
         }
 
+        //Añadir el balance de la cuenta
         lifecycleScope.launchWhenStarted {
             accountDetailsViewModel.accountBalanceData.collectLatest { status ->
                 if (status is Status.Success) changeBalanceData(status.value)
+            }
+        }
+
+        //Mostrar contenido de fragment cuando ha cargado
+        lifecycleScope.launchWhenStarted {
+            accountDetailsViewModel.fragmentState.collectLatest { status ->
+                if(status is Status.Success){
+                    binding.apply {
+                        accountDetailsFragmentFragmentContentContainer.visibility = View.VISIBLE
+                        containerNoResultsContent.visibility = View.GONE
+                    }
+                }else if (status is Status.Error){
+                    binding.apply {
+                        accountDetailsFragmentFragmentContentContainer.visibility = View.GONE
+                        containerNoResultsContent.visibility = View.VISIBLE
+                    }
+                }
             }
         }
     }

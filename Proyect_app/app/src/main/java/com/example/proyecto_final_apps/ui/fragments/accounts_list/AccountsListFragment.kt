@@ -82,6 +82,28 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
                 addBalanceData(status)
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            accountListViewModel.fragmentState.collectLatest { status ->
+                if(status is Status.Success){
+                    binding.apply {
+                        coordinatorLayoutAccountsListFragmentFragmentContainer.visibility = View.VISIBLE
+                        nestedScrollViewAccountsLitFragmentAccountsContentFragment.visibility = View.VISIBLE
+                        containerNoResultsContent.visibility = View.GONE
+                    }
+                }else if(status is Status.Error){
+                    binding.apply {
+                        coordinatorLayoutAccountsListFragmentFragmentContainer.visibility = View.VISIBLE
+                        nestedScrollViewAccountsLitFragmentAccountsContentFragment.visibility = View.GONE
+                        containerNoResultsContent.visibility = View.VISIBLE
+                    }
+                }else if (status is Status.Loading){
+                    binding.apply {
+                        coordinatorLayoutAccountsListFragmentFragmentContainer.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     private fun addBalanceData(status: Status<Pair<Double, Double>>) {

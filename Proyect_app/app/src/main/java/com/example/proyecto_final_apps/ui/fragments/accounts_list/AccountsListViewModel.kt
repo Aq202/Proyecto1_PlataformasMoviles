@@ -15,7 +15,11 @@ import javax.inject.Inject
 class AccountsListViewModel @Inject constructor(
     private val acRepository: AccountRepository,
     private val opRepository: OperationRepository
-):ViewModel() {
+) : ViewModel() {
+
+    private val _fragmentState: MutableStateFlow<Status<Boolean>> =
+        MutableStateFlow(Status.Loading())
+    val fragmentState: StateFlow<Status<Boolean>> = _fragmentState
 
     private val _accountList: MutableStateFlow<Status<List<AccountModel>>> =
         MutableStateFlow(Status.Default())
@@ -31,9 +35,11 @@ class AccountsListViewModel @Inject constructor(
         when (val accountList = acRepository.getAccountList(forceUpdate)) {
             is Resource.Success -> {
                 _accountList.value = Status.Success(accountList.data)
+
             }
             else -> {
                 _accountList.value = Status.Error(accountList.message ?: "")
+
             }
         }
     }
@@ -43,14 +49,18 @@ class AccountsListViewModel @Inject constructor(
         val generalBalanceResult = opRepository.getGeneralBalance()
         val balanceMovementResult = opRepository.getBalanceMovement()
 
-        if(generalBalanceResult is Resource.Success && balanceMovementResult is Resource.Success){
+        if (generalBalanceResult is Resource.Success && balanceMovementResult is Resource.Success) {
 
-            _balanceData.value = Status.Success(Pair(generalBalanceResult.data, balanceMovementResult.data))
-
-        }else if(generalBalanceResult is Resource.Success)
+            _balanceData.value =
+                Status.Success(Pair(generalBalanceResult.data, balanceMovementResult.data))
+            _fragmentState.value = Status.Success(true)
+        } else if (generalBalanceResult is Resource.Success) {
             _balanceData.value = Status.Error(balanceMovementResult.message ?: "")
-        else
+            _fragmentState.value = Status.Error("")
+        } else {
             _balanceData.value = Status.Error(generalBalanceResult.message ?: "")
+            _fragmentState.value = Status.Error("")
+        }
 
     }
 

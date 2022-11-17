@@ -27,6 +27,11 @@ class AccountDetailsViewModel @Inject constructor(
         object EmptyFilter : Filter()
     }
 
+    private val _fragmentState: MutableStateFlow<Status<Boolean>> =
+        MutableStateFlow(Status.Loading())
+    val fragmentState: StateFlow<Status<Boolean>> = _fragmentState
+
+    private var successesCount = 0;
 
     private val _dateFilterFlow: MutableStateFlow<Filter> = MutableStateFlow(Filter.EmptyFilter)
     val dateFilterFlow: MutableStateFlow<Filter> = _dateFilterFlow
@@ -78,11 +83,14 @@ class AccountDetailsViewModel @Inject constructor(
                         expensesSelectedState.value != it.active
                     else
                         !it.active //gastos por default
+
+
                 }
 
                 _initialAccountOperations.value =
                     if (expenses.isNotEmpty()) Status.Success(expenses)
                     else Status.Error("No hay gastos/ingresos en la cuenta.")
+
             }
             else -> {
                 _initialAccountOperations.value = Status.Error(operationsResult.message ?: "")
@@ -136,10 +144,17 @@ class AccountDetailsViewModel @Inject constructor(
             _accountBalanceData.value =
                 Status.Success(Pair(balanceResult.data, movementResult.data))
 
-        } else if (balanceResult is Resource.Success)
+            setFragmentSuccessState() //Aumentar el contador para llegar al estado success
+
+        } else if (balanceResult is Resource.Success){
             _accountBalanceData.value = Status.Error(balanceResult.message ?: "")
-        else
+            setFragmentFailureState() //Estado fallido
+        }
+
+        else{
             _accountBalanceData.value = Status.Error(movementResult.message ?: "")
+            setFragmentFailureState() //Estado fallido
+        }
 
 
     }
@@ -147,10 +162,14 @@ class AccountDetailsViewModel @Inject constructor(
     suspend fun getAccountData(localAccountId: Int, forceUpdate: Boolean) {
         val result = acRepository.getAccountData(localAccountId, forceUpdate)
 
-        if (result is Resource.Success)
+        if (result is Resource.Success){
             _accountData.value = Status.Success(result.data)
-        else
+            setFragmentSuccessState() //Aumentar el contador para llegar al estado success
+        }
+        else{
             _accountData.value = Status.Error(result.message ?: "")
+            setFragmentFailureState() //Estado fallido
+        }
 
     }
 
@@ -169,16 +188,31 @@ class AccountDetailsViewModel @Inject constructor(
 
     }
 
-    suspend fun deleteAccount(accountLocalId:Int):Flow<Status<Boolean>>{
-        return flow{
+    suspend fun deleteAccount(accountLocalId: Int): Flow<Status<Boolean>> {
+        return flow {
             emit(Status.Loading())
 
             val resultDelete = acRepository.deleteAccount(accountLocalId)
 
-            if(resultDelete is Resource.Success)
+            if (resultDelete is Resource.Success)
                 emit(Status.Success(true))
             else emit(Status.Error(resultDelete.message ?: ""))
         }
+    }
+
+    private fun setFragmentSuccessState() {
+        successesCount++
+        if (successesCount >= 2){  //Dos operaciones a completar
+            _fragmentState.value = Status.Success(true)
+            successesCount = 0
+        }
+    }
+
+    private fun setFragmentFailureState(){
+        if(successesCount >= 0) successesCount = 0;
+        //Si la otra operación aún no se ha completado, para que el contador quede en cero
+        else successesCount = -1
+        _fragmentState.value = Status.Error("")
     }
 
 

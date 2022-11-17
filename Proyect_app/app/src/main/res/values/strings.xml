@@ -119,6 +119,9 @@
     <string name="hint_title">Título de la operación</string>
     <string name="nueva_deuda">Nueva Deuda</string>
     <string name="usuario_objetivo">Usuario objetivo</string>
+    <string name="no_hay_cuentas_ndisponibles">No hay cuentas \ndisponibles</string>
+    <string name="ingresos">Ingresos</string>
+    <string name="gastos">Gastos</string>
 
 
 </resources>

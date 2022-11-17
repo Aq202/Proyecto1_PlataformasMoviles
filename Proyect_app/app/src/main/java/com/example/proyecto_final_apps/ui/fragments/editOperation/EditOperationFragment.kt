@@ -142,8 +142,8 @@ class EditOperationFragment : Fragment() {
         }
         binding.autoCompleteViewEditOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
             val account = adapterView.getItemAtPosition(i).toString()
-            if(account != nullAccounts)
-                selectedAccount = getAccount(account)!!
+            /*if(account != nullAccounts)
+                selectedAccount = getAccount(account)!!*/
         }
 
         binding.autoCompleteViewEditOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
