@@ -223,25 +223,9 @@ class OperationRepositoryImp @Inject constructor(
                 if (result.isSuccessful || result.code() == 404) {
                     //Eliminar completamente de la bd
                     val deletedCount = database.operationDao().deleteOperation(operation)
-                    if (deletedCount > 0) {
-                        //Actualizar monto de la cuenta
-
-                        val accountRequest =
-                            accountRepository.getAccountData(operation.accountLocalId, false)
-                        if (accountRequest is Resource.Success) {
-                            val account = accountRequest.data
-                            val newTotal =
-                                if (operation.active) account.total - operation.amount else account.total + operation.amount
-                            accountRepository.updateAccount(
-                                account.localId!!,
-                                title = account.title,
-                                total = newTotal,
-                                account.defaultAccount
-                            )
-                        }
-
+                    if (deletedCount > 0)
                         return Resource.Success(true)
-                    }
+
                 }
             } catch (ex: Exception) {
                 println("Diego: ${ex.message}")
@@ -337,7 +321,6 @@ class OperationRepositoryImp @Inject constructor(
         favorite: Boolean,
         date: String,
         imgUrl: String?, //Default es null
-        updateAccountTotal: Boolean  //Default es true
     ): Resource<OperationModel> {
 
         //obtener cuenta localmente
@@ -361,18 +344,6 @@ class OperationRepositoryImp @Inject constructor(
         operationCreated.localId = database.accountDao().insertOperation(
             operationCreated
         ).toInt()
-
-        //Actualizar monto de la cuenta
-        if (updateAccountTotal) {
-            val newTotal =
-                if (active) account.total + amount else account.total - amount
-            accountRepository.updateAccount(
-                accountLocalId = account.localId!!,
-                total = newTotal,
-                title = null,
-                defaultAccount = null
-            )
-        }
 
 
         //Subir datos a la api si se cuenta con el id remoto de la cuenta
@@ -428,30 +399,6 @@ class OperationRepositoryImp @Inject constructor(
         val updateRequest = uploadOperationUpdatesToApi(operation)
         if (updateRequest is Resource.Error) return updateRequest
 
-        if (accountLocalId != null && oldAccount != null) {
-            val oldAccountTotal =
-                if (operation.active) oldAccount.total - operation.amount else oldAccount.total + operation.amount
-            accountRepository.updateAccount(
-                oldAccount.localId!!,
-                total = oldAccountTotal,
-                title = oldAccount.title,
-                defaultAccount = oldAccount.defaultAccount
-            )
-
-            accRequest = accountRepository.getAccountData(accountLocalId, false)
-            val newAccount = if (accRequest is Resource.Success) accRequest.data else null
-            if (active != null && newAccount != null) {
-                val newAmount = if (amount != null) amount else operation.amount
-                val newAccountTotal =
-                    if (active) newAccount.total + newAmount else newAccount.total - newAmount
-                accountRepository.updateAccount(
-                    newAccount.localId!!,
-                    total = newAccountTotal,
-                    title = newAccount.title,
-                    defaultAccount = newAccount.defaultAccount
-                )
-            }
-        }
 
         return Resource.Success(operation)
 

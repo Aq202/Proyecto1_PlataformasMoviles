@@ -21,7 +21,6 @@ class Account {
 		account.subject = subject?.trim();
 		account.title = title?.trim();
 		account.defaultAccount = defaultAccount ?? false;
-		account.total = total;
 		account.allowNegativeValues = allowNegativeValues ?? false;
 		account.editable = editable ?? true;
 
@@ -85,8 +84,6 @@ class Account {
 					await Account.uncheckDefaultAccounts(subject);
 			}
 		}
-
-		if (total !== null && total !== undefined) account.total = total;
 
 		const saved = await account.save();
 		const parsedObject = parseMongoObject(saved);

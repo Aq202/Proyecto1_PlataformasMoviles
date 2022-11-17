@@ -50,9 +50,9 @@ class AccountDetailsViewModel @Inject constructor(
     val accountOperations: StateFlow<Status<List<OperationModel>>> =
         _accountOperations
 
-    private val _accountBalanceData: MutableStateFlow<Status<Pair<Double, Double>>> =
+    private val _accountBalanceMovement: MutableStateFlow<Status<Double>> =
         MutableStateFlow(Status.Default())
-    val accountBalanceData: StateFlow<Status<Pair<Double, Double>>> = _accountBalanceData
+    val accountBalanceMovement: StateFlow<Status<Double>> = _accountBalanceMovement
 
     private val _accountData: MutableStateFlow<Status<AccountModel>> =
         MutableStateFlow(Status.Default())
@@ -134,25 +134,19 @@ class AccountDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getBalanceDescription(localAccountId: Int) {
+    suspend fun getBalanceMovement(localAccountId: Int) {
 
-        val balanceResult = acRepository.getAccountBalance(localAccountId)
         val movementResult = acRepository.getAccountBalanceMovement(localAccountId)
 
-        if (balanceResult is Resource.Success && movementResult is Resource.Success) {
+        if (movementResult is Resource.Success) {
 
-            _accountBalanceData.value =
-                Status.Success(Pair(balanceResult.data, movementResult.data))
+            _accountBalanceMovement.value =
+                Status.Success(movementResult.data)
 
             setFragmentSuccessState() //Aumentar el contador para llegar al estado success
 
-        } else if (balanceResult is Resource.Success){
-            _accountBalanceData.value = Status.Error(balanceResult.message ?: "")
-            setFragmentFailureState() //Estado fallido
-        }
-
-        else{
-            _accountBalanceData.value = Status.Error(movementResult.message ?: "")
+        } else {
+            _accountBalanceMovement.value = Status.Error(movementResult.message ?: "")
             setFragmentFailureState() //Estado fallido
         }
 
@@ -162,11 +156,10 @@ class AccountDetailsViewModel @Inject constructor(
     suspend fun getAccountData(localAccountId: Int, forceUpdate: Boolean) {
         val result = acRepository.getAccountData(localAccountId, forceUpdate)
 
-        if (result is Resource.Success){
+        if (result is Resource.Success) {
             _accountData.value = Status.Success(result.data)
             setFragmentSuccessState() //Aumentar el contador para llegar al estado success
-        }
-        else{
+        } else {
             _accountData.value = Status.Error(result.message ?: "")
             setFragmentFailureState() //Estado fallido
         }
@@ -202,14 +195,14 @@ class AccountDetailsViewModel @Inject constructor(
 
     private fun setFragmentSuccessState() {
         successesCount++
-        if (successesCount >= 2){  //Dos operaciones a completar
+        if (successesCount >= 2) {  //Dos operaciones a completar
             _fragmentState.value = Status.Success(true)
             successesCount = 0
         }
     }
 
-    private fun setFragmentFailureState(){
-        if(successesCount >= 0) successesCount = 0;
+    private fun setFragmentFailureState() {
+        if (successesCount >= 0) successesCount = 0;
         //Si la otra operación aún no se ha completado, para que el contador quede en cero
         else successesCount = -1
         _fragmentState.value = Status.Error("")

@@ -96,7 +96,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         accountDetailsViewModel.getAccountData(args.accountId, forceUpdate)
         accountDetailsViewModel.getAccountExpenses(args.accountId, forceUpdate)
         accountDetailsViewModel.getAccountOperations(args.accountId, forceUpdate)
-        accountDetailsViewModel.getBalanceDescription(args.accountId)
+        accountDetailsViewModel.getBalanceMovement(args.accountId)
     }
 
 
@@ -162,12 +162,18 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         lifecycleScope.launchWhenStarted {
             accountDetailsViewModel.accountData.collect { status ->
                 if (status is Status.Success) {
+                    //Titulo de la cuenta
                     binding.textViewAccountDetailsFragmentAccountName.text = status.value.title
+
+                    //balance de la cuenta
+                    changeAccountBalanceData(status.value.total)
+
                     //agregar icono de favorito
                     if (status.value.defaultAccount) binding.imageViewAccountDetailsFavoriteIcon.setImageDrawable(
                         AppCompatResources.getDrawable(requireContext(), R.drawable.ic_star),
                     )
 
+                    //Manejar si es editable
                     if (!status.value.editable) disableHeaderButtons()
                 }
             }
@@ -175,8 +181,8 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
 
         //Añadir el balance de la cuenta
         lifecycleScope.launchWhenStarted {
-            accountDetailsViewModel.accountBalanceData.collectLatest { status ->
-                if (status is Status.Success) changeBalanceData(status.value)
+            accountDetailsViewModel.accountBalanceMovement.collectLatest { status ->
+                if (status is Status.Success) changeBalanceMovementData(status.value)
             }
         }
 
@@ -210,19 +216,24 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         }
     }
 
-
-    private fun changeBalanceData(balanceData: Pair<Double, Double>?) {
+    private fun changeAccountBalanceData(generalBalance:Double){
         binding.apply {
-            val generalBalance = balanceData!!.first
-            val balanceMovement = balanceData.second
+            //add values
+            textViewAccountDetailsFragmentAccountBalance.text =
+                getString(R.string.money_format, generalBalance.toInt().twoDigits())
+            textViewAccountDetailsFragmentAccountlBalanceCents.text =
+                getString(R.string.cents_format, generalBalance.getDecimal(2).twoDigits())
+
+        }
+    }
+
+
+    private fun changeBalanceMovementData(balanceMovement: Double) {
+
 
             binding.apply {
 
-                //add values
-                textViewAccountDetailsFragmentAccountBalance.text =
-                    getString(R.string.money_format, generalBalance.toInt().twoDigits())
-                textViewAccountDetailsFragmentAccountlBalanceCents.text =
-                    getString(R.string.cents_format, generalBalance.getDecimal(2).twoDigits())
+                //add number text
                 textViewAccountDetailsFragmentAccountMovement.text =
                     getString(R.string.money_format, abs(balanceMovement).toInt().twoDigits())
                 textViewAccountDetailsFragmentAccountMovementCents.text =
@@ -245,7 +256,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
                     )
                 }
             }
-        }
+
     }
 
     private fun changePieDataType(value: Boolean) {
