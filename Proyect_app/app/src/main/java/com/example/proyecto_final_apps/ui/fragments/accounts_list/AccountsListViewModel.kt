@@ -53,13 +53,13 @@ class AccountsListViewModel @Inject constructor(
 
             _balanceData.value =
                 Status.Success(Pair(generalBalanceResult.data, balanceMovementResult.data))
-            _fragmentState.value = Status.Success(true)
+            _fragmentState.value = Status.Success(true) //Asignar estado exitoso del fragment
         } else if (generalBalanceResult is Resource.Success) {
             _balanceData.value = Status.Error(balanceMovementResult.message ?: "")
-            _fragmentState.value = Status.Error("")
+            _fragmentState.value = Status.Error("") //Asignar estado fallido del fragment
         } else {
             _balanceData.value = Status.Error(generalBalanceResult.message ?: "")
-            _fragmentState.value = Status.Error("")
+            _fragmentState.value = Status.Error("") //Asignar estado fallido del fragment
         }
 
     }

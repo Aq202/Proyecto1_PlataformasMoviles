@@ -2,17 +2,19 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeResfreshLayout_listAccountsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipeResfreshLayout_listAccountsFragment"
     tools:context=".ui.fragments.accounts_list.AccountsListFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/coordinatorLayout_accountsListFragment_fragmentContainer"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -102,9 +104,9 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.core.widget.NestedScrollView
+                        android:id="@+id/nestedScrollView_accountsLitFragment_accountsContentFragment"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:id="@+id/nestedScrollView_accountsLitFragment_accountsContentFragment"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard">
@@ -140,9 +142,9 @@
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/container_noAccountResults"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:id="@+id/container_noResultsContent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cardView_accountDetailsFragment_headerCard"
@@ -154,12 +156,11 @@
                             android:layout_width="300dp"
                             android:layout_height="300dp"
                             android:src="@drawable/banner_money"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toTopOf="@id/textView_contactsFragment_noResults"
-                            app:layout_constraintVertical_chainStyle="packed"
-                            />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
 
                         <TextView
                             android:id="@+id/textView_contactsFragment_noResults"
@@ -189,5 +190,37 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_errorFragmentMessageContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_noResultsBanner"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/ic_banner_error"
+                app:layout_constraintBottom_toTopOf="@id/textView_noResults"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/textView_noResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/ocurrio_un_error"
+                android:textAlignment="center"
+                android:textSize="@dimen/h3_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_noResultsBanner" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
