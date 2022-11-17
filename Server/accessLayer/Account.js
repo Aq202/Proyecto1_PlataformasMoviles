@@ -111,9 +111,9 @@ class Account {
 			if (randomAccount) {
 				randomAccount.defaultAccount = true;
 				randomAccount.save();
+				return parseMongoObject(randomAccount);
 			}
 
-			return parseMongoObject(randomAccount);
 		}
 
 		return null;

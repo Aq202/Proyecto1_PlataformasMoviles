@@ -72,8 +72,9 @@ class HomeFragment : Fragment() {
         loadingViewModel.showLoadingDialog()
         lifecycleScope.launchWhenStarted {
 
-            loadFragmentData() //load data
+            loadFragmentData() //load fragment data
             loadingViewModel.hideLoadingDialog()
+            homeViewModel.setSuccessFragmentStatus()
 
         }
 
@@ -82,6 +83,7 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun loadFragmentData(forceUpdate: Boolean = false) {
+        userViewModel.getUserData(forceUpdate)
         homeViewModel.getRecentOperations(forceUpdate)
         homeViewModel.getGeneralBalance()
 
@@ -123,6 +125,14 @@ class HomeFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             homeViewModel.pendingOperations.collectLatest { status ->
                 addPendingOperationsData(status)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            homeViewModel.fragmentState.collectLatest { status->
+                if(status is Status.Success){
+                    binding.swipeResfreshLayoutHomeFragment.visibility = View.VISIBLE
+                }
             }
         }
 

@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/swipeResfreshLayout_homeFragment"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        >
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView_fragmentHome_container"

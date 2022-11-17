@@ -1,5 +1,6 @@
 package com.example.proyecto_final_apps.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -36,15 +38,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val loadingDialog = LoadingDialog()
 
-
-
+    
     private val toolbarViewModel: ToolbarViewModel by viewModels()
-    private val bottomNavigationViewModel:BottomNavigationViewModel by viewModels()
-    private val mainUserViewModel:UserViewModel by viewModels()
-    private val loadingViewModel:LoadingViewModel by viewModels()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
+    private val mainUserViewModel: UserViewModel by viewModels()
+    private val loadingViewModel: LoadingViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -52,15 +54,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-
-        //configuar toolbar
         configureNavigation()
-        listenToNavGraphChanges()
         listenToNavDrawerChanges()
         setObservers()
 
-
-        pruebasSocket()
     }
 
     private fun configureNavigation() {
@@ -69,7 +66,13 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         val appbarConfig =
-            AppBarConfiguration(setOf(R.id.loginFragment, R.id.homeFragment, R.id.newActionFragment, R.id.contactsFragment), binding.drawerLayout)
+            AppBarConfiguration(
+                setOf(
+                    R.id.homeFragment,
+                    R.id.newActionFragment,
+                    R.id.contactsFragment
+                ), binding.drawerLayout
+            )
         binding.toolbar.setupWithNavController(navController, appbarConfig)
         binding.navView.setupWithNavController(navController)
     }
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
         val mSocket = SocketClient.getSocket()
 
-        mSocket.on("global"){
+        mSocket.on("global") {
             println("socket message received ${it[0]}")
         }
 
@@ -98,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
 
             mainUserViewModel.userDataStateFlow.collectLatest { status ->
-                when(status){
+                when (status) {
                     is UserSessionStatus.Logged -> {
                         addSideBarInfo(status.data)
                     }
@@ -115,14 +118,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addSideBarInfo(data:UserModel) {
-        val txtName:TextView = binding.navView.findViewById(R.id.textView_sideNavBar_name)
-        val txtAlias:TextView = binding.navView.findViewById(R.id.textView_sideNavBar_alias)
-        val profilePic:ImageView = binding.navView.findViewById(R.id.imageView_sideNavBar_profilePic)
+    private fun addSideBarInfo(data: UserModel) {
+        val txtName: TextView = binding.navView.findViewById(R.id.textView_sideNavBar_name)
+        val txtAlias: TextView = binding.navView.findViewById(R.id.textView_sideNavBar_alias)
+        val profilePic: ImageView =
+            binding.navView.findViewById(R.id.imageView_sideNavBar_profilePic)
 
         txtName.text = getString(R.string.fullName_template, data.name, data.lastName)
         txtAlias.text = getString(R.string.alias_format, data.alias)
-        profilePic.load(data.imageUrl){
+        profilePic.load(data.imageUrl) {
             placeholder(R.drawable.ic_default_user)
             error(R.drawable.ic_default_user)
             diskCachePolicy(CachePolicy.ENABLED)
@@ -139,8 +143,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.sideNav_item_logout -> {
                     mainUserViewModel.logout()
-                    navController.navigate(R.id.action_toLoginFragment)
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
+
+                    //Moverse al otro activity
+                    val intent = Intent(this, UnloggedActivity::class.java)
+                    startActivity(intent)
+
                     false
                 }
                 else -> false
@@ -160,32 +168,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun listenToNavGraphChanges() {
-        navController.currentDestination
-        //Detectar cambios en la navegación
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-
-            binding.apply {
-                //mostrar y ocultar el toolbar y bottomNavBar
-                if (destination.id in setOf(R.id.loginFragment, R.id.signUpFragment)) {
-                    toolbar.isVisible = false
-                    bottomNavigationBar.isVisible = false
-                    binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
-                } else {
-                    toolbar.isVisible = true
-                    bottomNavigationBar.isVisible = true
-                    binding.drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
-
-                }
-
-                //ejecuta onCreateMenuItems
-                invalidateOptionsMenu()
-
-            }
-        }
-
-    }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         return super.onPrepareOptionsMenu(menu)
@@ -241,21 +223,18 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun manageLoadingComponent(isLoading:Boolean) {
-        if(isLoading){
+    private fun manageLoadingComponent(isLoading: Boolean) {
+        if (isLoading) {
             //Show loading dialog
-            if(loadingDialog.isAdded) loadingDialog.dismiss()
-            if(!loadingDialog.isAdded) loadingDialog.show(supportFragmentManager, "Loading")
-        }else{
+            if (loadingDialog.isAdded) loadingDialog.dismiss()
+            if (!loadingDialog.isAdded) loadingDialog.show(supportFragmentManager, "Loading")
+        } else {
             lifecycleScope.launchWhenStarted {
                 delay(300)
-                if(loadingDialog.isAdded)loadingDialog.dismiss()
+                if (loadingDialog.isAdded) loadingDialog.dismiss()
             }
         }
     }
-
-
-
 
 
 }

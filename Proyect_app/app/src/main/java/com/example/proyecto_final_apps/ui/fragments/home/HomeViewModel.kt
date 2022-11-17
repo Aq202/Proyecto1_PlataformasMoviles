@@ -18,7 +18,8 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-
+    private val _fragmentState:MutableStateFlow<Status<Boolean>> = MutableStateFlow(Status.Loading())
+    val fragmentState:StateFlow<Status<Boolean>> = _fragmentState
 
     private val _generalBalance:MutableStateFlow<Status<Double>> = MutableStateFlow(Status.Default())
     val generalBalance:StateFlow<Status<Double>> = _generalBalance
@@ -54,6 +55,10 @@ class HomeViewModel @Inject constructor(
                 _recentOperations.value = Status.Error(result.message ?: "")
             }
         }
+    }
+
+    fun setSuccessFragmentStatus(){
+        _fragmentState.value = Status.Success(true)
     }
 
 

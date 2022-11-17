@@ -31,7 +31,7 @@ class SplashScreenFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        userViewModel.getUserData(true)
+        userViewModel.getUserData(false)
         setObservers()
     }
 
@@ -40,10 +40,10 @@ class SplashScreenFragment : Fragment() {
             userViewModel.userDataStateFlow.collectLatest { state ->
                 when(state){
                     is UserSessionStatus.Logged -> {
-                        findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+                        //findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
                     }
                     is UserSessionStatus.NotLogged -> {
-                        findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment)
+                        //findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment)
                     }
                     else -> {}
                 }

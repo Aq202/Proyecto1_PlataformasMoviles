@@ -1,5 +1,6 @@
 package com.example.proyecto_final_apps.ui.fragments.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.socket.SocketClient
 import com.example.proyecto_final_apps.databinding.FragmentLoginBinding
 import com.example.proyecto_final_apps.helpers.Internet
+import com.example.proyecto_final_apps.ui.activity.MainActivity
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -56,7 +58,12 @@ class LoginFragment : Fragment() {
                     is LoginStatus.Logged -> {
 
                             userViewModel.getUserData(false)
-                        requireView().findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+                        //Navigate to mainActivity
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
+
+                        requireActivity().finish()
 
                     }
                     is LoginStatus.Error -> {
@@ -82,7 +89,7 @@ class LoginFragment : Fragment() {
             }
 
             textViewLoginFragmentRegisterLabel.setOnClickListener{
-                requireView().findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+                requireView().findNavController().navigate(R.id.action_loginFragment2_to_signUpFragment2)
             }
 
             //Eliminar, es prueba de sockets nada más

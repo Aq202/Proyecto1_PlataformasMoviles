@@ -134,7 +134,7 @@ class SignUpFragment : Fragment() {
         binding.apply {
 
             textViewSignUpFragmentLoginLabel.setOnClickListener{
-                findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_signUpFragment2_to_loginFragment2)
             }
 
             datePickerSignUpFragmentBirthDate.setOnClickListener {
