@@ -30,7 +30,15 @@ class AccountRepositoryImp @Inject constructor(
             if (numberOfAccounts > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
                 //from database
                 val accountList = database.accountDao().getAccounts()
-                return Resource.Success(accountList)
+
+                //agregar balance de cuenta
+                val accountListWithBalance =
+                    accountList.map { ac ->
+                        ac.total = getAccountBalance(ac.localId!!)
+                        ac
+                    }
+
+                return Resource.Success(accountListWithBalance)
 
             } else {
 
@@ -50,7 +58,14 @@ class AccountRepositoryImp @Inject constructor(
                         database.accountDao().deleteAll()
                         database.accountDao().insertManyAccounts(accountList)
 
-                        Resource.Success(accountList)
+                        //agregar balance de cuenta
+                        val accountListWithBalance =
+                            accountList.map { ac ->
+                                ac.total = getAccountBalance(ac.localId!!)
+                                ac
+                            }
+
+                        Resource.Success(accountListWithBalance)
                     } else
                         Resource.Error("No se obtuvo ningúna cuenta.")
                 }
@@ -69,19 +84,31 @@ class AccountRepositoryImp @Inject constructor(
         uploadPendingChanges()  //actualizar cambios locales en api
 
         val account = database.accountDao().getAccountById(accountLocalId)
-        if (!(forceUpdate && Internet.checkForInternet(context)))
-            return Resource.Success(account!!)
+        if (!(forceUpdate && Internet.checkForInternet(context)) && account != null) {
+            //agregar balance de cuenta
+            account.total = getAccountBalance(account.localId!!)
+            return Resource.Success(account)
+        }
         else {
             val accountsResult = getAccountList(true)
             return if (accountsResult is Resource.Success) {
                 val accountUpdated = database.accountDao().getAccountById(accountLocalId)
-                if (accountUpdated != null)
+                if (accountUpdated != null){
+                    //agregar balance de cuenta
+                    accountUpdated.total = getAccountBalance(accountUpdated.localId!!)
+
                     Resource.Success(accountUpdated)
+                }
                 else Resource.Error("La cuenta ha sido eliminada remotamente.")
 
             } else {
                 //no se obtuvieron resultados remotos
-                if (account != null) Resource.Success(account)
+                if (account != null) {
+                    //agregar balance de cuenta
+                    account.total = getAccountBalance(account.localId!!)
+
+                    Resource.Success(account)
+                }
                 else Resource.Error("No se encontró la cuenta.")
             }
 
@@ -233,29 +260,25 @@ class AccountRepositoryImp @Inject constructor(
     }
 
 
-    override suspend fun getAccountBalance(accountLocalId: Int): Resource<Double> {
+    private suspend fun getAccountBalance(accountLocalId: Int): Double {
         var ballance = 0.0
         val operationsList = database.operationDao().getAccountOperations(accountLocalId)
-
-        if (operationsList.isEmpty())
-            return Resource.Success(0.00)
 
         operationsList.forEach { operation ->
             if (operation.active) ballance += operation.amount
             else ballance -= operation.amount
         }
 
-        return Resource.Success(ballance)
+        return ballance
     }
 
 
     override suspend fun getAccountBalanceMovement(accountLocalId: Int): Resource<Double> {
 
-        val balanceResult = getAccountBalance(accountLocalId)
+        val currentBalance = getAccountBalance(accountLocalId)
         val operationsList = database.operationDao().getAccountOperations(accountLocalId)
 
-        if (balanceResult is Resource.Success && operationsList.isNotEmpty()) {
-            val currentBalance = balanceResult.data
+        if (operationsList.isNotEmpty()) {
             var lastBalance = 0.0
 
 
@@ -279,7 +302,6 @@ class AccountRepositoryImp @Inject constructor(
 
     override suspend fun createAccount(
         title: String,
-        total: Double,
         defaultAccount: Boolean
     ): Resource<AccountModel> {
 
@@ -287,7 +309,6 @@ class AccountRepositoryImp @Inject constructor(
         val accountCreated =
             AccountModel(
                 title = title,
-                total = total,
                 defaultAccount = if (numberOfAccounts > 0) defaultAccount else true //Si no hay cuentas colocar true)
             )
         accountCreated.localId = database.accountDao().insertAccount(accountCreated).toInt()
@@ -307,7 +328,7 @@ class AccountRepositoryImp @Inject constructor(
         return Resource.Success(accountCreated)
     }
 
-    private suspend fun createInitialAccountOperation(account:AccountModel){
+    private suspend fun createInitialAccountOperation(account: AccountModel) {
 
     }
 
@@ -325,7 +346,6 @@ class AccountRepositoryImp @Inject constructor(
                     NewAccountRequest(
                         localId = account.localId!!,
                         title = account.title,
-                        total = account.total,
                         defaultAccount = account.defaultAccount
                     )
                 )
@@ -350,7 +370,6 @@ class AccountRepositoryImp @Inject constructor(
     override suspend fun updateAccount(
         accountLocalId: Int,
         title: String?,
-        total: Double?,
         defaultAccount: Boolean?
     ): Resource<AccountModel> {
 
@@ -358,11 +377,10 @@ class AccountRepositoryImp @Inject constructor(
         val account = database.accountDao().getAccountById(accountLocalId)
             ?: return Resource.Error("La cuenta no existe.")
 
-        if (!(title != null || total != null || defaultAccount != null))
+        if (!(title != null || defaultAccount != null))
             return Resource.Success(account)
 
         if (title != null) account.title = title
-        if (total != null) account.total = total
         if (defaultAccount != null) account.defaultAccount = defaultAccount
 
         val updateRes = database.accountDao().updateAccount(account)
@@ -390,7 +408,6 @@ class AccountRepositoryImp @Inject constructor(
                     updatedAccount.remoteId,
                     UpdateAccountRequest(
                         updatedAccount.title,
-                        updatedAccount.total,
                         updatedAccount.defaultAccount
                     )
                 )
@@ -414,5 +431,6 @@ class AccountRepositoryImp @Inject constructor(
         return Resource.Success(updatedAccount)
 
     }
+
 
 }

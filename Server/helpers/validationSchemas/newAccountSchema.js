@@ -7,6 +7,5 @@ module.exports = yup.object().shape({
 		.bool()
 		.typeError("La propiedad 'defaultAccount' debe ser un  valor booleano.")
 		.required("La propiedad 'defaultAccount' es requerida."),
-    total: yup.number().nullable().typeError("La propiedad 'total' debe ser un numero").min(0, "El valor minimo es 0.").required("La propiedad 'total' es requerida.")
 
 });

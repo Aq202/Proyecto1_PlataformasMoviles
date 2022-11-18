@@ -36,7 +36,6 @@ class EditAccountViewModel @Inject constructor(private val acRepository: Account
             val result = acRepository.updateAccount(
                 accountLocalId = accountLocalId,
                 title = title,
-                total = total,
                 defaultAccount = null
             )
 

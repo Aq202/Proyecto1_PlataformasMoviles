@@ -10,7 +10,6 @@ data class AccountDto(
     val localId: Int,
     val subject: String,
     val title: String,
-    val total: Double
 )
 
 fun AccountDto.toAccountModel():AccountModel{
@@ -22,6 +21,5 @@ fun AccountDto.toAccountModel():AccountModel{
         editable = editable,
         subject = subject,
         title = title,
-        total = total
     )
 }

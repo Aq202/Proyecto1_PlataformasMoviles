@@ -26,7 +26,6 @@ class AccountDomainImp @Inject constructor(
         //crear cuenta
         val result = accountRepository.createAccount(
             title = title,
-            total = total,
             defaultAccount = defaultAccount
         )
 
@@ -45,7 +44,7 @@ class AccountDomainImp @Inject constructor(
                 description = context.getString(R.string.descripcion_operacion_inicial_cuenta),
                 category = Category(context).getCategoryByType(CategoryTypes.DEFAULT)!!.id,
                 favorite = false,
-                date = DateParse.getCurrentDate()
+                date = DateParse.getCurrentDate(),
             )
         }
 

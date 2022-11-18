@@ -251,8 +251,8 @@ class NewOperationFragment : Fragment() {
                 if(status is Status.Loading) loadingViewModel.showLoadingDialog()
                 else loadingViewModel.hideLoadingDialog()
 
-                if(status is Status.Success && status.value != null){
-                    System.out.println(status.value.localId!!)
+                if(status is Status.Success){
+                    println(status.value.localId!!)
                     val action = TabLayoutFragmentDirections.actionTabLayoutFragmentToOperationDetailsFragment(status.value.localId!!)
                     findNavController().navigate(action)
                 }else if(status is Status.Error && status.error.isNotEmpty())
