@@ -14,13 +14,13 @@ import androidx.core.view.children
 import androidx.navigation.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
-import com.example.proyecto_final_apps.databinding.FragmentNewOperationBinding
+import com.example.proyecto_final_apps.databinding.FragmentEditFavoriteOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-class NewOperationFragment : Fragment() {
-    private lateinit var binding: FragmentNewOperationBinding
+class EditFavoriteOperationFragment : Fragment() {
+    private lateinit var binding: FragmentEditFavoriteOperationBinding
     private lateinit var checkedCathegory: String
 
     override fun onCreateView(
@@ -28,7 +28,7 @@ class NewOperationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNewOperationBinding.inflate(inflater, container, false)
+        binding = FragmentEditFavoriteOperationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,25 +46,25 @@ class NewOperationFragment : Fragment() {
 
         val adapterAccount = ArrayAdapter(requireContext(), R.layout.list_item, accounts)
         val adapterOperation = ArrayAdapter(requireContext(), R.layout.list_item, operationTypes)
-        binding.autoCompleteViewNewOperationFragmentSourceAccount.setAdapter(adapterAccount)
-        binding.autoCompleteViewNewOperationFragmentOperationType.setAdapter(adapterOperation)
+        binding.autoCompleteViewEditFavoriteOperationFragmentSourceAccount.setAdapter(adapterAccount)
+        binding.autoCompleteViewEditFavoriteOperationFragmentOperationType.setAdapter(adapterOperation)
     }
 
     private fun setListeners() {
-        val chipGroup = binding.chipGroupNewOperationFragmentCathegories
+        val chipGroup = binding.chipGroupEditFavoriteOperationFragmentCathegories
         chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
             updateChips(chipGroup, checkedIds[0])
             Toast.makeText(requireContext(), "Categoria seleccionada: $checkedCathegory", Toast.LENGTH_SHORT).show()
         }
-        binding.autoCompleteViewNewOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoCompleteViewEditFavoriteOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
             var cuenta = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $cuenta", Toast.LENGTH_SHORT).show()
         }
-        binding.autoCompleteViewNewOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
+
+        binding.autoCompleteViewEditFavoriteOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
             var operationType = adapterView.getItemAtPosition(i).toString()
             Toast.makeText(requireContext(), "Cuenta: $operationType", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun updateChips(chipGroup: ChipGroup, checkedChip: Int) {
@@ -84,7 +84,7 @@ class NewOperationFragment : Fragment() {
         categories.forEach{ cathegory ->
             val backgroundCSL = generateCSL(cathegory.color, true)
             val strokeCSL = generateCSL(cathegory.color, false)
-            binding.chipGroupNewOperationFragmentCathegories.addChip(requireContext(), cathegory, backgroundCSL, strokeCSL)
+            binding.chipGroupEditFavoriteOperationFragmentCathegories.addChip(requireContext(), cathegory, backgroundCSL, strokeCSL)
         }
     }
 

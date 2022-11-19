@@ -1,109 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout_externalUserProfileFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:paddingBottom="30dp"
-    tools:context=".ui.fragments.ExternalUserProfileFragment">
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_externalUserProfile_headerCard"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="@dimen/header_card_negativeMarginTop"
-
-        android:backgroundTint="@color/dark_blue"
-        app:cardCornerRadius="@dimen/header_card_radius"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_externalUserProfile_pictureContainer"
-        android:layout_width="@dimen/profile_picture_size"
-        android:layout_height="@dimen/profile_picture_size"
-        android:layout_marginTop="-115dp"
-        app:cardBackgroundColor="@color/light_gray_1"
-        app:cardCornerRadius="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView_externalUserProfile_headerCard">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="300dp">
-
-            <ImageView
-                android:id="@+id/imageView_externalUserProfile_picture"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/profile_pic_1" />
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.cardview.widget.CardView>
-
+    tools:context=".ui.fragments.external_user_profile.ExternalUserProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="@dimen/horizontal_fragment_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView_externalUserProfile_pictureContainer"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView_externalUserProfile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/develop_fullname"
-            android:textColor="@color/dark_blue"
-            android:textSize="@dimen/h2_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_externalUserProfileFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="30dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
 
-        <TextView
-            android:id="@+id/textView_externalUserProfile_alias"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/develop_user_alias"
-            android:textColor="@color/dark_gray"
-            android:textSize="@dimen/h4_text_size"
-            app:layout_constraintEnd_toEndOf="@id/textView_externalUserProfile_name"
-            app:layout_constraintStart_toStartOf="@id/textView_externalUserProfile_name"
-            app:layout_constraintTop_toBottomOf="@id/textView_externalUserProfile_name" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_externalUserProfile_headerCard"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="@dimen/header_card_negativeMarginTop"
+
+                android:backgroundTint="@color/dark_blue"
+                app:cardCornerRadius="@dimen/header_card_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_externalUserProfile_pictureContainer"
+                android:layout_width="@dimen/profile_picture_size"
+                android:layout_height="@dimen/profile_picture_size"
+                android:layout_marginTop="-115dp"
+                app:cardBackgroundColor="@color/light_gray_1"
+                app:cardCornerRadius="300dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_externalUserProfile_headerCard">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    app:cardCornerRadius="300dp">
+
+                    <ImageView
+                        android:id="@+id/imageView_externalUserProfile_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:src="@drawable/profile_pic_1" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.cardview.widget.CardView>
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_externalUserProfile_addUser"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/aqua"
-            android:paddingVertical="@dimen/button_vertical_padding"
-            android:text="@string/anadir_usuario"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="@dimen/button_text_size"
-            android:textStyle="bold"
-            app:cornerRadius="@dimen/button_radius"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_externalUserProfile_alias" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_externalUserProfile_pictureContainer"
+                tools:layout_editor_absoluteX="0dp">
+
+                <TextView
+                    android:id="@+id/textView_externalUserProfile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    tools:text="@string/develop_fullname"
+                    android:textAlignment="center"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/h2_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView_externalUserProfile_alias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/develop_user_alias"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="@dimen/h4_text_size"
+                    app:layout_constraintEnd_toEndOf="@id/textView_externalUserProfile_name"
+                    app:layout_constraintStart_toStartOf="@id/textView_externalUserProfile_name"
+                    app:layout_constraintTop_toBottomOf="@id/textView_externalUserProfile_name" />
 
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_externalUserProfile_addUser"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:backgroundTint="@color/aqua"
+                    android:paddingVertical="@dimen/button_vertical_padding"
+                    android:text="@string/anadir_usuario"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="@dimen/button_text_size"
+                    android:textStyle="bold"
+                    app:cornerRadius="@dimen/button_radius"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView_externalUserProfile_alias" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_noResultsContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView_noResultsBanner"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/ic_banner_no_data"
+                app:layout_constraintBottom_toTopOf="@id/textView_noResults"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/textView_noResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/ocurrio_un_error"
+                android:textAlignment="center"
+                android:textSize="@dimen/h3_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_noResultsBanner" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

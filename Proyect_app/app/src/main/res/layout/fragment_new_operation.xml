@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.NewOperationFragment"
+    tools:context=".ui.fragments.newOperation.NewOperationFragment"
     android:paddingHorizontal="@dimen/horizontal_fragment_padding"
     >
 
@@ -19,12 +19,43 @@
 
             <TextView
                 android:layout_marginTop="20dp"
-                android:id="@+id/textView_neOperationFragment_sourceAccount"
+                android:id="@+id/textView_neOperationFragment_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayout_newOperationFragment_title"
+                android:text="@string/txt_title"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_newOperationFragment_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_neOperationFragment_title"
+                app:layout_constraintBottom_toTopOf="@id/textView_neOperationFragment_sourceAccount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="@string/hint_title"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/line_spacing"
+                android:id="@+id/textView_neOperationFragment_sourceAccount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_newOperationFragment_title"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@id/textInputLayout_newOperationFragment_sourceAccount"
@@ -176,18 +207,19 @@
                 app:layout_constraintTop_toBottomOf="@id/textView_neOperationFragment_cathegory"
                 app:selectionRequired="true"
                 app:singleSelection="true"
+                app:chipSpacingVertical="0dp"
                 >
 
             </com.google.android.material.chip.ChipGroup>
 
             <CheckBox
-                android:id="@+id/checkBox_newOperationFragment"
+                android:id="@+id/checkBox_newOperationFragment_favoriteOperation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chip_group_newOperationFragment_cathegories"
 
-                android:text="@string/txt_checkAsFavourite"
+                android:text="@string/txt_checkAsFavorite"
                 android:textStyle="bold"
                 />
 
@@ -196,7 +228,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_add_operation"
-                app:layout_constraintTop_toBottomOf="@id/checkBox_newOperationFragment"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_newOperationFragment_favoriteOperation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

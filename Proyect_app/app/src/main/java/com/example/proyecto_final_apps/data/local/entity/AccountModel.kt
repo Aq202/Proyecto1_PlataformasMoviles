@@ -1,5 +1,6 @@
 package com.example.proyecto_final_apps.data.local.entity
 
+import androidx.room.Database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -13,7 +14,8 @@ data class AccountModel(
     val editable: Boolean = true,
     val subject: String? = null,
     var title: String,
-    var total: Double,
+    var total: Double = 0.0,
     var deletionPending:Boolean = false,
     var requiresUpdate: Boolean? = false,
 )
+

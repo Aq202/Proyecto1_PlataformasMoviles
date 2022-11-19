@@ -17,7 +17,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.data.local.entity.getCategory
+import com.example.proyecto_final_apps.data.local.entity.toOperationItem
 import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
 import com.example.proyecto_final_apps.helpers.twoDecimals
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
@@ -25,8 +28,9 @@ import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.adapters.OperationItem
 import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
-import com.example.proyecto_final_apps.ui.fragments.OperationDetailsFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -44,8 +48,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private val loadingViewModel: LoadingViewModel by activityViewModels()
 
-    private var recentOperationsList: MutableList<OperationModel> = mutableListOf()
-    private var pendingOperationsList: MutableList<OperationModel> = mutableListOf()
+    private var recentOperationsList: MutableList<OperationItem> = mutableListOf()
+    private var pendingOperationsList: MutableList<OperationItem> = mutableListOf()
 
 
     override fun onCreateView(
@@ -68,8 +72,9 @@ class HomeFragment : Fragment() {
         loadingViewModel.showLoadingDialog()
         lifecycleScope.launchWhenStarted {
 
-            loadFragmentData() //load data
+            loadFragmentData() //load fragment data
             loadingViewModel.hideLoadingDialog()
+            homeViewModel.setSuccessFragmentStatus()
 
         }
 
@@ -78,6 +83,7 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun loadFragmentData(forceUpdate: Boolean = false) {
+        userViewModel.getUserData(forceUpdate)
         homeViewModel.getRecentOperations(forceUpdate)
         homeViewModel.getGeneralBalance()
 
@@ -122,6 +128,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            homeViewModel.fragmentState.collectLatest { status->
+                if(status is Status.Success){
+                    binding.swipeResfreshLayoutHomeFragment.visibility = View.VISIBLE
+                }
+            }
+        }
+
 
 
     }
@@ -148,7 +162,9 @@ class HomeFragment : Fragment() {
         when (status) {
             is Status.Success -> {
                 recentOperationsList.clear()
-                recentOperationsList.addAll(status.value!!)
+                recentOperationsList.addAll(status.value.map{
+                    it.toOperationItem(requireContext())
+                })
 
                 binding.apply {
                     recyclerViewHomeFragmentRecentOperations.adapter!!.notifyDataSetChanged()
@@ -195,24 +211,24 @@ class HomeFragment : Fragment() {
 
     private class RecentOperationsListener(val navController: NavController) :
         OperationAdapter.OperationListener {
-        override fun onItemClicked(operationData: OperationModel, position: Int) {
+        override fun onItemClicked(operationData: OperationItem, position: Int) {
             val action =
                 OperationDetailsFragmentDirections.actionToOperationDetails(operationData.localId!!)
             navController.navigate(action)
         }
 
-        override fun onItemPressed(operationData: OperationModel, position: Int) {
+        override fun onItemPressed(operationData: OperationItem, position: Int) {
         }
 
     }
 
     private class PendingPaymentsListener(val navController: NavController) :
         OperationAdapter.OperationListener {
-        override fun onItemClicked(operationData: OperationModel, position: Int) {
+        override fun onItemClicked(operationData: OperationItem, position: Int) {
             navController.navigate(R.id.action_toPendingPaymentDetailsFragment)
         }
 
-        override fun onItemPressed(operationData: OperationModel, position: Int) {
+        override fun onItemPressed(operationData: OperationItem, position: Int) {
 
         }
 

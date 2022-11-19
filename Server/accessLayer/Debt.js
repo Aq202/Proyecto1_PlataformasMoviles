@@ -1,34 +1,50 @@
 const { parseMongoObject } = require("../helpers/parse");
-const { DebtSchema } = require("../models/debt.model");
+const validateId = require("../helpers/validateId");
+const { DebtModel } = require("../models/debt.model");
 
 class Debt {
-	static async createDebt({ localId, subject, accountInvolved, amount, active, userInvolved }) {
-		const debt = new DebtSchema();
+	constructor(id, subject) {
+		this.id = validateId(id, "Debt Id.");
+		this.subject = validateId(subject, "User Id as subject in Debt.");
+	}
 
-        debt.localId = localId.trim();
-        debt.subject = subject.trim();
-        debt.accountInvolved = accountInvolved.trim();
-        debt.amount = amount.trim();
-        debt.active = amount.trim();
-        debt.userInvolved = amount.trim();
+	static async createDebt({
+		localId,
+		subject,
+		accountInvolved,
+		amount,
+		active,
+		userInvolved,
+		description,
+	}) {
+		const debt = new DebtModel();
 
-		const saved = await debt.save();
+		debt.localId = localId;
+		debt.subject = validateId(subject, "Subject invalido.");
+		debt.accountInvolved = validateId(accountInvolved, "accountInvolved inválido.");
+		debt.amount = amount;
+		debt.active = active;
+		debt.userInvolved = validateId(userInvolved, "UserInvolved invalido.");
+		debt.description = description?.trim() || "Sin descripción.";
+
+		const saved = await (await debt.save()).populate("accountInvolved");
 		const parsedObject = parseMongoObject(saved);
-		return parsedObject
-	}
-    
-    static async updateDebt(debtId, newData){
-		const updated = await DebtSchema.findByIdAndUpdate(debtId, newData, {new:true});
-		if(!updated) return null;
-		const parsedObject = parseMongoObject(updated);
-		return parsedObject
+		parsedObject.accountInvolved = parseMongoObject(parsedObject.accountInvolved)
+		return parsedObject;
 	}
 
-	static async deleteDebt(debtId){
-		const deleted = await DebtSchema.findByIdAndDelete(debtId);
-		if(!deleted) return null;
+	static async updateDebt(debtId, newData) {
+		const updated = await DebtModel.findByIdAndUpdate(debtId, newData, { new: true });
+		if (!updated) return null;
+		const parsedObject = parseMongoObject(updated);
+		return parsedObject;
+	}
+
+	static async deleteDebt() {
+		const deleted = await DebtModel.deleteOne({ subject: this.subject, _id: this.id });
+		if (!deleted) return null;
 		const parsedObject = parseMongoObject(deleted);
-		return parsedObject
+		return parsedObject;
 	}
 }
 

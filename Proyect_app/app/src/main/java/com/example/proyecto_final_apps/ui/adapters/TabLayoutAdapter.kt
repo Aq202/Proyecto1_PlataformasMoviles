@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.proyecto_final_apps.ui.fragments.FavouriteOperationsFragment
-import com.example.proyecto_final_apps.ui.fragments.NewOperationFragment
+import com.example.proyecto_final_apps.ui.fragments.FavoriteOperationsFragment
+import com.example.proyecto_final_apps.ui.fragments.newOperation.NewOperationFragment
 
 class TabLayoutAdapter(fragmentManager : FragmentManager, lifecycle : Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
@@ -15,7 +15,7 @@ class TabLayoutAdapter(fragmentManager : FragmentManager, lifecycle : Lifecycle)
     override fun createFragment(position: Int): Fragment {
         when(position){
             0 -> return NewOperationFragment()
-            else -> return FavouriteOperationsFragment()
+            else -> return FavoriteOperationsFragment()
         }
     }
 }

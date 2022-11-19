@@ -8,6 +8,9 @@ const DBConnection = require("./services/DBConnection");
 const UserRoute = require("./routes/user.route");
 const OperationRoute = require("./routes/operation.route");
 const AccountRoute = require("./routes/account.route");
+const ContactRoute = require("./routes/contact.route");
+const DebtRoute = require("./routes/debt.route");
+
 
 
 const app = express();
@@ -22,6 +25,9 @@ app.use(express.static(__dirname + "/public"));
 app.use("/user", UserRoute);
 app.use("/operation", OperationRoute);
 app.use("/account", AccountRoute)
+app.use("/contact", ContactRoute)
+app.use("/debt", DebtRoute)
+
 
 app.use(function (req, res, next) {
 	res.setHeader("Access-Control-Allow-Origin", "*");

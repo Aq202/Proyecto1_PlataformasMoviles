@@ -2,6 +2,7 @@ package com.example.proyecto_final_apps.helpers
 
 import android.content.Context
 import android.content.res.ColorStateList
+import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.CategoryModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -59,6 +60,8 @@ fun ChipGroup.addChip(context: Context, category: CategoryModel, backgroundColor
         chipStrokeColor = strokeColor
         isCheckable = true
         chipIconTint = strokeColor
+        setChipIconSizeResource(R.dimen.chip_icon_size)
+        setIconStartPaddingResource(R.dimen.chip_icon_start_padding)
         isChecked = false
         isCheckedIconVisible = false
         isClickable = true

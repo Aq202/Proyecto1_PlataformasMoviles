@@ -20,10 +20,9 @@ class Account {
 		account.localId = localId;
 		account.subject = subject?.trim();
 		account.title = title?.trim();
-		account.defaultAccount = defaultAccount || false;
-		account.total = total;
-		account.allowNegativeValues = allowNegativeValues || false;
-		account.editable = editable || true;
+		account.defaultAccount = defaultAccount ?? false;
+		account.allowNegativeValues = allowNegativeValues ?? false;
+		account.editable = editable ?? true;
 
 		//Desmarcar cuentas por default
 		if (parseBooleanStrict(defaultAccount) === true) await this.uncheckDefaultAccounts(subject);
@@ -42,7 +41,7 @@ class Account {
 
 	async getData() {
 		if (!this.data) {
-			const data = await AccountModel.findById(this.id);
+			const data = await AccountModel.findOne({ _id: this.id, subject: this.subject });
 
 			if (data === null) return null;
 			this.data = parseMongoObject(data);
@@ -68,21 +67,22 @@ class Account {
 		const account = await AccountModel.findOne({ _id: this.id, subject });
 
 		if (account == null) throw { err: "La cuenta proporcionada no existe.", status: 400 };
-		if (parseBooleanStrict(account.editable) !== true)
-			throw { err: "La cuenta no es editable.", status: 409 };
 
-		if (title) account.title = title?.trim();
-		if (total !== null && total !== undefined) account.total = total;
+		//Titulo y valor default solo pueden cambiarse para cuentas editables
+		if (parseBooleanStrict(account.editable) === true) {
+			if (title) account.title = title?.trim();
 
-		//verificar si el valor de cuenta por defaultCambió
-		if (
-			defaultAccount !== null &&
-			defaultAccount !== undefined &&
-			account.defaultAccount !== parseBooleanStrict(defaultAccount)
-		) {
-			account.defaultAccount = defaultAccount;
-			//Desmarcar cuentas por default
-			if (parseBooleanStrict(defaultAccount) === true) await Account.uncheckDefaultAccounts(subject);
+			//verificar si el valor de cuenta por defaultCambió
+			if (
+				defaultAccount !== null &&
+				defaultAccount !== undefined &&
+				account.defaultAccount !== parseBooleanStrict(defaultAccount)
+			) {
+				account.defaultAccount = defaultAccount;
+				//Desmarcar cuentas por default
+				if (parseBooleanStrict(defaultAccount) === true)
+					await Account.uncheckDefaultAccounts(subject);
+			}
 		}
 
 		const saved = await account.save();
@@ -108,12 +108,11 @@ class Account {
 		if (data.defaultAccount === true) {
 			//Asignar una cuenta arbitraria como default
 			const randomAccount = await AccountModel.findOne({ editable: true, subject: data.subject });
-			if (randomAccount) {
+			if (randomAccount && randomAccount != null) {
 				randomAccount.defaultAccount = true;
 				randomAccount.save();
+				return parseMongoObject(randomAccount);
 			}
-
-			return parseMongoObject(randomAccount);
 		}
 
 		return null;
@@ -125,8 +124,21 @@ class Account {
 		return parsedList;
 	}
 
-	constructor(accountId) {
-		this.id = validateId(accountId);
+	constructor(accountId, subject) {
+		this.id = validateId(accountId, "Account ID.");
+		this.subject = validateId(subject, "UserID as subject in account.");
+	}
+
+	static async createInitialDebtsAccount(subjectId) {
+		Account.createAccount({
+			localId: 1,
+			subject: validateId(subjectId, "Id del usuario creado inválido."),
+			title: "Deudas",
+			defaultAccount: false,
+			total: 0,
+			allowNegativeValues: true,
+			editable: false,
+		});
 	}
 }
 

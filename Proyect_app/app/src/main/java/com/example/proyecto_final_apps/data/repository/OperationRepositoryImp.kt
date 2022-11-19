@@ -7,6 +7,8 @@ import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.dto.operationDto.toOperationModel
+import com.example.proyecto_final_apps.data.remote.dto.requests.NewOperationRequest
+import com.example.proyecto_final_apps.data.remote.dto.requests.UpdateOperationRequest
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
 import java.util.*
@@ -15,18 +17,22 @@ import javax.inject.Inject
 class OperationRepositoryImp @Inject constructor(
     private val api: API,
     val context: Context,
-    private val database: Database
+    private val database: Database,
+    private val accountRepository: AccountRepository
 ) : OperationRepository {
+
 
     override suspend fun getOperations(forceUpdate: Boolean): Resource<List<OperationModel>> {
 
         try {
+            uploadPendingChanges()
 
             val operationsStoredNumber = database.operationDao().getOperationsStoredNumber()
             if (operationsStoredNumber > 0 && !(forceUpdate && Internet.checkForInternet(context))) {
 
                 //local data
-                val operationsList = sortOperationsByDate(database.operationDao().getAllOperations())
+                val operationsList =
+                    sortOperationsByDate(database.operationDao().getAllOperations())
                 return Resource.Success(operationsList)
             } else {
 
@@ -38,10 +44,13 @@ class OperationRepositoryImp @Inject constructor(
 
                 if (result.isSuccessful) {
                     val operationsList = result.body()?.operations?.map { it.toOperationModel() }
+
+                    //Delete all operations stored in db
+                    database.operationDao().deleteAllOperations()
+
                     return if (operationsList != null && operationsList.isNotEmpty()) {
 
                         //store in db
-                        database.operationDao().deleteAllOperations()
                         database.operationDao().insertMany(operationsList)
 
                         Resource.Success(sortOperationsByDate(operationsList))
@@ -49,7 +58,7 @@ class OperationRepositoryImp @Inject constructor(
                         Resource.Error("No hay operaciones por mostrar.")
 
                 } else
-                    println(result.message())
+                    println("Erick: " + result.message())
 
             }
 
@@ -60,7 +69,7 @@ class OperationRepositoryImp @Inject constructor(
         return Resource.Error("Error al obtener operaciones.")
     }
 
-    private fun sortOperationsByDate(operations:List<OperationModel>):List<OperationModel>{
+    private fun sortOperationsByDate(operations: List<OperationModel>): List<OperationModel> {
 
         val mutableOperationsList = operations as MutableList
         mutableOperationsList.sortByDescending { DateParse.formatDate(it.date) }
@@ -109,6 +118,33 @@ class OperationRepositoryImp @Inject constructor(
         }
 
         return Resource.Success(0.00)
+    }
+
+    override suspend fun getOperationData(
+        operationLocalId: Int,
+        forceUpdate: Boolean
+    ): Resource<OperationModel> {
+
+        uploadPendingChanges()
+
+        val operation = database.operationDao().getOperationById(operationLocalId)
+        if (!(forceUpdate && Internet.checkForInternet(context)))
+            return Resource.Success(operation!!)
+        else {
+            val operationsResult = getOperations(true)
+            return if (operationsResult is Resource.Success) {
+                val operationUpdated = database.operationDao().getOperationById(operationLocalId)
+                if (operationUpdated != null)
+                    Resource.Success(operationUpdated)
+                else Resource.Error("La operación ha sido eliminada remotamente.")
+
+            } else {
+                //no se obtuvieron resultados remotos
+                if (operation != null) Resource.Success(operation)
+                else Resource.Error("No se encontró la operation.")
+            }
+
+        }
     }
 
     private fun filterOperationByDate(
@@ -170,10 +206,242 @@ class OperationRepositoryImp @Inject constructor(
 
     }
 
+    override suspend fun deleteOperation(operationLocalId: Int): Resource<Boolean> {
+
+        val ds = MyDataStore(context)
+        val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+        val operation = database.operationDao().getOperationById(operationLocalId)
+            ?: return Resource.Error("La operación no existe.")
+
+        //delete in api
+        if (Internet.checkForInternet(context) && operation.remoteId != null) {
+
+            try {
+                val remoteId = operation.remoteId
+                val result = api.deleteOperation(token, remoteId)
+                if (result.isSuccessful || result.code() == 404) {
+                    //Eliminar completamente de la bd
+                    val deletedCount = database.operationDao().deleteOperation(operation)
+                    if (deletedCount > 0)
+                        return Resource.Success(true)
+
+                }
+            } catch (ex: Exception) {
+                println("Diego: ${ex.message}")
+            }
+        }
+
+        //No se pudo eliminar en la api
+
+        //Marcar para late delete
+        operation.deletionPending = true
+        database.operationDao().updateOperation(operation)
+
+        return Resource.Success(true)
+    }
+
+    private suspend fun uploadOperationUpdatesToApi(updatedOperation: OperationModel): Resource<OperationModel> {
+
+        if (Internet.checkForInternet(context) && updatedOperation.remoteId != null) {
+
+            try {
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+
+                //terminar el actualizar operación remotamente
+                val updateRequestResult = api.updateOperation(
+                    token,
+                    updatedOperation.remoteId,
+                    UpdateOperationRequest(
+                        active = updatedOperation.active,
+                        amount = updatedOperation.amount,
+                        category = updatedOperation.category,
+                        favorite = updatedOperation.favorite,
+                        title = updatedOperation.title,
+                        description = updatedOperation.description,
+                        imgUrl = updatedOperation.imgUrl
+                    )
+                )
+
+                if (updateRequestResult.isSuccessful && updatedOperation.requiresUpdate == true) {
+
+                    //Retirar la marca de requiresUpdate
+                    updatedOperation.requiresUpdate = false
+                    database.operationDao().updateOperation(updatedOperation)
+
+                } else if (updatedOperation.requiresUpdate != true) {
+                    //Si no se actualizó en la api, marcarlo
+                    updatedOperation.requiresUpdate = true
+                    database.operationDao().updateOperation(updatedOperation)
+                }
+            } catch (ex: Exception) {
+                println("Diego: ${ex.message}")
+                return Resource.Error(ex.message ?: "")
+            }
+        }
+        return Resource.Success(updatedOperation)
+
+    }
+
     override suspend fun uploadPendingChanges() {
+        //Eliminar operaciones pendientes
+        val operationsToDelete = database.operationDao().getAllPendingToDeleteOperation()
+        if (operationsToDelete.isNotEmpty()) {
+            operationsToDelete.forEach { operation ->
+                deleteOperation(operation.localId!!)
+            }
+        }
+
+        //Operaciones pendientes
+        val operationsToUpdate = database.operationDao().getAllOperationsRequiringUpdate()
+        if (operationsToUpdate.isNotEmpty()) {
+
+            //Operaciones que no se han creado
+            operationsToUpdate.filter { it.remoteId == null }.forEach { operation ->
+                uploadNewOperationToApi(operation)
+            }
+
+            //Operaciones por actualizar
+            operationsToUpdate.filter { it.remoteId != null }.forEach { operation ->
+                uploadOperationUpdatesToApi(operation)
+            }
+        }
+
+    }
+
+    override suspend fun createOperation(
+        title: String,
+        accountLocalId: Int,
+        amount: Double,
+        active: Boolean,
+        description: String?,
+        category: Int,
+        favorite: Boolean,
+        date: String,
+        imgUrl: String?, //Default es null
+    ): Resource<OperationModel> {
+
+        //obtener cuenta localmente
+        val account = database.accountDao().getAccountById(accountLocalId) ?: return Resource.Error(
+            "La cuenta no existe."
+        )
+
+        val operationCreated =
+            OperationModel(
+                accountRemoteId = account.remoteId,
+                accountLocalId = accountLocalId,
+                active = active,
+                amount = amount,
+                category = category,
+                favorite = favorite,
+                date = date,
+                title = title,
+                description = description,
+                imgUrl = imgUrl
+            )
+        operationCreated.localId = database.accountDao().insertOperation(
+            operationCreated
+        ).toInt()
 
 
-        //eliminar operaciones pendinetes
+        //Subir datos a la api si se cuenta con el id remoto de la cuenta
+        if (account.remoteId != null) {
+            val requestResult = uploadNewOperationToApi(operationCreated)
+            if (requestResult is Resource.Success) return requestResult
+            else println("Erick: ${requestResult.message}")
+        }
 
+        //Si no se completó la solicitud a la api
+        operationCreated.requiresUpdate = true
+        database.operationDao().updateOperation(operationCreated)
+
+        //Actualizar monto de la cuenta
+        return Resource.Success(operationCreated)
+    }
+
+    override suspend fun updateOperation(
+        operationLocalId: Int,
+        accountLocalId: Int?,
+        accountRemoteId: String?,
+        active: Boolean?,
+        amount: Double?,
+        category: Int?,
+        favourite: Boolean?,
+        title: String?,
+        description: String?,
+        imgUrl: String?
+    ): Resource<OperationModel> {
+
+        val operation = database.operationDao().getOperationById(operationLocalId)
+            ?: return Resource.Error("La operación no existe.")
+
+        var accRequest = accountRepository.getAccountData(operation.accountLocalId, false)
+        val oldAccount = if (accRequest is Resource.Success) accRequest.data else null
+
+        if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favourite != null || title != null || description != null || imgUrl != null))
+            return Resource.Success(operation)
+
+        if (accountLocalId != null) operation.accountLocalId = accountLocalId
+        if (accountRemoteId != null) operation.accountRemoteId = accountRemoteId
+        if (active != null) operation.active = active
+        if (amount != null) operation.amount = amount
+        if (category != null) operation.category = category
+        if (favourite != null) operation.favorite = favourite
+        if (title != null) operation.title = title
+        if (description != null) operation.description = description
+        if (imgUrl != null) operation.imgUrl = imgUrl
+
+        val updateRes = database.operationDao().updateOperation(operation)
+        if (updateRes == 0) return Resource.Error("No se pudo actualizar localmente")
+
+        val updateRequest = uploadOperationUpdatesToApi(operation)
+        if (updateRequest is Resource.Error) return updateRequest
+
+
+        return Resource.Success(operation)
+
+    }
+
+    private suspend fun uploadNewOperationToApi(operation: OperationModel): Resource<OperationModel> {
+        if (Internet.checkForInternet(context) && operation.accountRemoteId != null) {
+
+            try {
+
+                val ds = MyDataStore(context)
+                val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+                val requestResult = api.createOperation(
+                    token,
+                    NewOperationRequest(
+                        account = operation.accountRemoteId!!,
+                        amount = operation.amount,
+                        category = operation.category,
+                        date = operation.date,
+                        favorite = operation.favorite,
+                        localId = operation.localId!!,
+                        title = operation.title,
+                        description = operation.description,
+                        imgUrl = operation.imgUrl,
+                        active = operation.active
+                    )
+                )
+
+                if (requestResult.isSuccessful) {
+
+                    requestResult.body()?.toOperationModel()?.let { operationDataFromApi ->
+                        //update db data
+                        database.operationDao().updateOperation(operationDataFromApi)
+                        return Resource.Success(operationDataFromApi)
+                    }
+
+
+                } else return Resource.Error(requestResult.errorBody().toString())
+            } catch (ex: Exception) {
+                return Resource.Error("Catch: " + ex.message ?: "")
+            }
+        }
+        return Resource.Error("No internet.")
     }
 }

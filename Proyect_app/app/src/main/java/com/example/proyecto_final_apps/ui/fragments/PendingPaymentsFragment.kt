@@ -13,12 +13,13 @@ import com.example.proyecto_final_apps.data.CategoryTypes
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.databinding.FragmentPendingPaymentsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.adapters.OperationItem
 
 class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
 
     private lateinit var binding: FragmentPendingPaymentsBinding
 
-    private lateinit var pendingPaymentsList: MutableList<OperationModel>
+    private lateinit var pendingPaymentsList: MutableList<OperationItem>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -46,11 +47,11 @@ class PendingPaymentsFragment : Fragment(), OperationAdapter.OperationListener {
         }
     }
 
-    override fun onItemClicked(operationData: OperationModel, position: Int) {
+    override fun onItemClicked(operationData: OperationItem, position: Int) {
         findNavController().navigate(R.id.action_toPendingPaymentDetailsFragment)
     }
 
-    override fun onItemPressed(operationData: OperationModel, position: Int) {
+    override fun onItemPressed(operationData: OperationItem, position: Int) {
         Toast.makeText(requireContext(), "PRESSED...", Toast.LENGTH_LONG).show()
     }
 }

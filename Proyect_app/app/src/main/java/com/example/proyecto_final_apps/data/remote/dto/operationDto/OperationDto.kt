@@ -1,9 +1,11 @@
 package com.example.proyecto_final_apps.data.remote.dto.operationDto
 
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.data.remote.dto.AccountDto
+import com.example.proyecto_final_apps.helpers.apiUrl
 
-data class Operation(
-    val account: Account,
+data class OperationDto(
+    val account: AccountDto,
     val active: Boolean,
     val amount: Double,
     val category: Int,
@@ -14,16 +16,17 @@ data class Operation(
     val localId: Int,
     val subject: String,
     val title: String,
+    val description: String?,
     val imgUrl:String?
 )
 
-fun Operation.toOperationModel(): OperationModel {
+fun OperationDto.toOperationModel(): OperationModel {
 
     return OperationModel(
 
         localId = this.localId,
         accountLocalId = this.account.localId,
-        accountRemoteId = this.account._id,
+        accountRemoteId = this.account.id,
         active = this.active,
         amount = this.amount,
         category = this.category,
@@ -32,7 +35,8 @@ fun Operation.toOperationModel(): OperationModel {
         remoteId = this.id,
         subject = this.subject,
         title = this.title,
+        description = this.description,
         requiresUpdate = false,
-        imgUrl = this.imgUrl
+        imgUrl = if(this.imgUrl != null) (apiUrl + this.imgUrl) else null
     )
 }

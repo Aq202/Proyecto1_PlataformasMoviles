@@ -7,7 +7,7 @@ const createOperation = async (req, res) => {
 		const data = req.body;
 
 		const subject = new User(req.session.id);
-		const account = new Account(data.account);
+		const account = new Account(data.account, req.session.id);
 
 		const subjectData = await subject.getData();
 		const accountData = await account.getData();
@@ -105,7 +105,7 @@ const deleteOperation = async (req, res) => {
 		return;
 	}
 
-	res.status(200).send({ ok: true, result: "Operación eliminada exitosamente" });
+	res.status(200).send({ok: true, result:"Operación eliminada"});
 };
 
 const getAllOperations = async (req, res) => {

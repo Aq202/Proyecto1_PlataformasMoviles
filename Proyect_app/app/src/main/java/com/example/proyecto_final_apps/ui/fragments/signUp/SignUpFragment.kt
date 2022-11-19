@@ -21,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentSignUpBinding
+import com.example.proyecto_final_apps.ui.activity.MainActivity
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -112,8 +113,9 @@ class SignUpFragment : Fragment() {
                         }
                     }
                     is SignUpStatus.Registered -> {
-                        userViewModel.getUserData(false)
-                        requireView().findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
+
+                        handleStartMainActivityAction()
+
                     }
                     is SignUpStatus.Error -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
@@ -129,12 +131,18 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun handleStartMainActivityAction() {
+        val intent = Intent(context, MainActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish() //finalizar activity unlogged
+    }
+
     private fun initEvents(){
 
         binding.apply {
 
             textViewSignUpFragmentLoginLabel.setOnClickListener{
-                findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_signUpFragment2_to_loginFragment2)
             }
 
             datePickerSignUpFragmentBirthDate.setOnClickListener {

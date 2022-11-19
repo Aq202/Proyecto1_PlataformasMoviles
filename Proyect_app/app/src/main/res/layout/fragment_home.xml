@@ -7,9 +7,10 @@
     tools:context=".ui.fragments.home.HomeFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeResfreshLayout_homeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/swipeResfreshLayout_homeFragment"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView

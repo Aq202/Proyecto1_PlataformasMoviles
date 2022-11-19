@@ -6,8 +6,8 @@ const contactSchema = Schema({
     localId: { type: Number, required: true },
 	subject: {  type: ObjectId, ref: "user", required: true },
     userAsContact: { type: ObjectId, ref: "user", required: true },
-	debtsToAccept: {type: Array},
-    debtsAccepted: {type:Array}
+	debtsToAccept: [{type:ObjectId, ref:"debt"}],
+    debtsAccepted: [{type:ObjectId, ref:"debt"}]
 });
 
 exports.ContactSchema = model("contact", contactSchema);

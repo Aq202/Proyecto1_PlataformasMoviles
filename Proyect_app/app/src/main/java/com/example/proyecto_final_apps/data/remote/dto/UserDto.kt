@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.data.remote.dto
 
 import com.example.proyecto_final_apps.data.local.entity.UserModel
+import com.example.proyecto_final_apps.helpers.apiUrl
 
 data class UserDto(
     val alias: String,
@@ -20,6 +21,6 @@ fun UserDto.toUserModel(): UserModel {
     birthDate = this.birthDate,
     email = this.email,
     id = this.id,
-    imageUrl = this.imageUrl,
+    imageUrl = apiUrl + this.imageUrl,
     )
 }

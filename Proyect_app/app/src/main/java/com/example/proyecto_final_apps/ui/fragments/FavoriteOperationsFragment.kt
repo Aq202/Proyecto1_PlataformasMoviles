@@ -9,19 +9,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
-import com.example.proyecto_final_apps.databinding.FragmentFavouriteOperationsBinding
+import com.example.proyecto_final_apps.databinding.FragmentFavoriteOperationsBinding
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
+import com.example.proyecto_final_apps.ui.adapters.OperationItem
 
 
-class FavouriteOperationsFragment : Fragment(), OperationAdapter.OperationListener {
-    private lateinit var binding : FragmentFavouriteOperationsBinding
+class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListener {
+    private lateinit var binding : FragmentFavoriteOperationsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavouriteOperationsBinding.inflate(inflater, container, false)
+        binding = FragmentFavoriteOperationsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -32,10 +33,10 @@ class FavouriteOperationsFragment : Fragment(), OperationAdapter.OperationListen
     }
 
     private fun setUpRecycler() {
-        val data = mutableListOf<OperationModel>()
+        val data = mutableListOf<OperationItem>()
 
         val context = this
-        binding.recyclerViewFavouriteOperationFragmentFavouriteOperations.apply {
+        binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
             isNestedScrollingEnabled = false  //disable scroll
@@ -44,11 +45,11 @@ class FavouriteOperationsFragment : Fragment(), OperationAdapter.OperationListen
         }
     }
 
-    override fun onItemClicked(operationData: OperationModel, position: Int) {
+    override fun onItemClicked(operationData: OperationItem, position: Int) {
         Toast.makeText(requireContext(), "${operationData.title}", Toast.LENGTH_LONG).show()
     }
 
-    override fun onItemPressed(operationData: OperationModel, position: Int) {
+    override fun onItemPressed(operationData: OperationItem, position: Int) {
         vibrate(100)
 
     }

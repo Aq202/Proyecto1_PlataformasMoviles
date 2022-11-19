@@ -3,6 +3,7 @@ const { sha256 } = require("js-sha256");
 const fs = require("fs");
 const { generateSessionToken } = require("../services/jwt");
 const Contact = require("../accessLayer/Contact");
+const Account = require("../accessLayer/Account");
 
 const registerUser = async (req, res) => {
 	try {
@@ -15,6 +16,9 @@ const registerUser = async (req, res) => {
 
 		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ registerUser ~ data", data);
 		const result = await User.createUser(data);
+
+		//crear cuenta de deudas
+		Account.createInitialDebtsAccount(result.id)
 
 		const token = generateSessionToken(result.id);
 
@@ -41,7 +45,7 @@ const registerUser = async (req, res) => {
 				error = "El alias ingresado ya ha sido ocupado por otro usuario.";
 		}
 		res.statusMessage = error;
-		res.status(status).send({ ok: false, err: error });
+		res.status(status).send({ ok: false, err: error, status });
 	}
 };
 
@@ -90,7 +94,7 @@ const editUser = async (req, res) => {
 				error = "El alias ingresado ya ha sido ocupado por otro usuario.";
 		}
 		res.statusMessage = error;
-		res.status(status).send({ ok: false, err: error });
+		res.status(status).send({ ok: false, err: error, status });
 	}
 };
 
@@ -150,7 +154,7 @@ const getSessionUserData = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 };
 
@@ -171,7 +175,7 @@ const newContact = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 };
 
@@ -189,7 +193,7 @@ const getContacts = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 };
 
@@ -210,7 +214,7 @@ const getUserData = async (req, res) =>{
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 }
 
@@ -231,7 +235,7 @@ const searchUser = async (req, res) => {
 		let status = ex?.status ?? 500;
 
 		res.statusMessage = error;
-		res.status(status).send({ err: error });
+		res.status(status).send({ err: error, status });
 	}
 }
 

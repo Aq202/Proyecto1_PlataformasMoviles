@@ -33,11 +33,10 @@ import kotlin.math.abs
 class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
 
     private lateinit var binding: FragmentAccountsListBinding
-    private var accountsList : MutableList<AccountModel> = mutableListOf()
-    private val bottomNavigationViewModel:BottomNavigationViewModel by activityViewModels()
-    private val accountListViewModel:AccountsListViewModel by viewModels()
+    private var accountsList: MutableList<AccountModel> = mutableListOf()
+    private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
+    private val accountListViewModel: AccountsListViewModel by viewModels()
     private val loadingViewModel: LoadingViewModel by activityViewModels()
-
 
 
     override fun onCreateView(
@@ -64,13 +63,14 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
     }
 
 
-
     override fun onResume() {
         super.onResume()
         selectCurrentBottomNavigationItem()
     }
 
     private fun setObservers() {
+
+        //Añadir lista de cuentas
         lifecycleScope.launchWhenStarted {
             accountListViewModel.accountList.collectLatest { status ->
                 addAccountsList(status)
@@ -82,10 +82,35 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
                 addBalanceData(status)
             }
         }
+
+        //Manejar estados del fragment
+        lifecycleScope.launchWhenStarted {
+            accountListViewModel.fragmentState.collectLatest { status ->
+                if (status is Status.Success) {
+                    binding.apply {
+                        coordinatorLayoutAccountsListFragmentFragmentContainer.visibility =
+                            View.VISIBLE
+                        containerErrorFragmentMessageContent.visibility = View.GONE
+                    }
+                } else if (status is Status.Error) {
+                    binding.apply {
+                        coordinatorLayoutAccountsListFragmentFragmentContainer.visibility =
+                            View.GONE
+                        containerErrorFragmentMessageContent.visibility = View.VISIBLE
+                    }
+                } else if (status is Status.Loading) {
+                    binding.apply {
+                        coordinatorLayoutAccountsListFragmentFragmentContainer.visibility =
+                            View.GONE
+                        containerErrorFragmentMessageContent.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     private fun addBalanceData(status: Status<Pair<Double, Double>>) {
-        if(status is Status.Success){
+        if (status is Status.Success) {
 
             val generalBalance = status.value!!.first
             val balanceMovement = status.value!!.second
@@ -93,20 +118,24 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
             binding.apply {
 
                 //add values
-                textViewAccountDetailsFragmentAccountBalance.text = getString(R.string.money_format, generalBalance.toInt().twoDigits())
-                textViewAccountDetailsFragmentAccountlBalanceCents.text = getString(R.string.cents_format, generalBalance.getDecimal(2).twoDigits())
-                textViewAccountDetailsFragmentAccountMovement.text = getString(R.string.money_format, abs(balanceMovement).toInt().twoDigits())
-                textViewAccountDetailsFragmentAccountMovementCents.text = getString(R.string.cents_format,balanceMovement.getDecimal(2).twoDigits())
+                textViewAccountDetailsFragmentAccountBalance.text =
+                    getString(R.string.money_format, generalBalance.toInt().twoDigits())
+                textViewAccountDetailsFragmentAccountlBalanceCents.text =
+                    getString(R.string.cents_format, generalBalance.getDecimal(2).twoDigits())
+                textViewAccountDetailsFragmentAccountMovement.text =
+                    getString(R.string.money_format, abs(balanceMovement).toInt().twoDigits())
+                textViewAccountDetailsFragmentAccountMovementCents.text =
+                    getString(R.string.cents_format, balanceMovement.getDecimal(2).twoDigits())
 
                 //change movement text color
-                if(balanceMovement >= 0){
+                if (balanceMovement >= 0) {
                     textViewAccountDetailsFragmentAccountMovement.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.light_green_2)
                     )
                     textViewAccountDetailsFragmentAccountMovementCents.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.light_green_2)
                     )
-                }else{
+                } else {
                     textViewAccountDetailsFragmentAccountMovement.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.red)
                     )
@@ -115,40 +144,60 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
                     )
                 }
             }
-        }else if(status is Status.Error){
+        } else if (status is Status.Error) {
             println("Diego: ${status.error}")
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun addAccountsList(status: Status<List<AccountModel>>) {
-        if(status is Status.Success){
+        if (status is Status.Success) {
 
-                accountsList.clear()
-                accountsList.addAll(status.value!!)
-                accountsList.sortBy { !it.defaultAccount }
+            accountsList.clear()
+            accountsList.addAll(status.value!!)
+            accountsList.sortBy { !it.defaultAccount }
 
-                binding.apply {
-                    recyclerViewAccountsFragment.adapter?.notifyDataSetChanged()
+            binding.apply {
+
+                recyclerViewAccountsFragment.adapter?.notifyDataSetChanged()
+
+                //Mostrar lista y ocultar mensaje de no hay cuentas
+                if (accountsList.isNotEmpty()) {
+                    nestedScrollViewAccountsLitFragmentAccountsContentFragment.visibility =
+                        View.VISIBLE
+                    containerNoAccountResults.visibility = View.GONE
+
+                    return
                 }
 
-        }else if(status is Status.Error){
+            }
+
+        } else if (status is Status.Error)
             println("Diego: ${status.error}")
+
+        //Si hay error o si está vacía la lista: mostrar mensaje de no hay cuentas
+        binding.apply {
+            nestedScrollViewAccountsLitFragmentAccountsContentFragment.visibility =
+                View.GONE //ocultar contenido
+            containerNoAccountResults.visibility = View.VISIBLE
+
         }
+
+
     }
 
-    private suspend fun getFragmentData(forceUpdate:Boolean = false){
+    private suspend fun getFragmentData(forceUpdate: Boolean = false) {
         accountListViewModel.getAccountList(forceUpdate)
         accountListViewModel.getGeneralDescription()
     }
 
-    private fun selectCurrentBottomNavigationItem(){
+    private fun selectCurrentBottomNavigationItem() {
         bottomNavigationViewModel.setSelectedItem(BottomNavigationViewModel.BottomNavigationItem.HOME)
     }
 
     private fun setListeners() {
         binding.apply {
-            fabAccountsListFragmentCreateAccount.setOnClickListener{
+            fabAccountsListFragmentCreateAccount.setOnClickListener {
                 findNavController().navigate(R.id.action_accountsListFragment_to_newAccountFragment)
             }
 
@@ -173,7 +222,10 @@ class AccountsListFragment : Fragment(), AccountAdapter.AccountListener {
     }
 
     override fun onItemClicked(operationData: AccountModel, position: Int) {
-        val action = AccountsListFragmentDirections.actionAccountsListFragmentToAccountDetailsFragment(accountId = operationData.localId!!)
+        val action =
+            AccountsListFragmentDirections.actionAccountsListFragmentToAccountDetailsFragment(
+                accountId = operationData.localId!!
+            )
         findNavController().navigate(action)
     }
 

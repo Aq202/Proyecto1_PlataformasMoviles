@@ -49,10 +49,8 @@ const editContact = async (req, res) => {
 
 		var subject = "";
 		var userAsContact = "";
-		if(data.subject)
-			subject = await User.getUser(data.subject);
-		if(data.userAsContact)
-			userAsContact = await User.getUser(data.userAsContact);
+		if (data.subject) subject = await User.getUser(data.subject);
+		if (data.userAsContact) userAsContact = await User.getUser(data.userAsContact);
 		if (subject === null || userAsContact === null) {
 			var error;
 			if (subject === null)
@@ -93,18 +91,21 @@ const editContact = async (req, res) => {
 };
 
 const deleteContact = async (req, res) => {
-	const contactId = req.params.contactId;
+	try {
+		const { contactId } = req.params;
 
-	const contactDeleted = await Contact.deleteContact(contactId);
+		const contact = new Contact(contactId, req.session?.id);
+		await contact.deleteContact();
 
-	if (contactDeleted === null) {
-		const error = "No se han encontrado contactos con el ID proporcionado.";
+		res.sendStatus(200);
+	} catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
 		res.statusMessage = error;
-		res.status(404).send({ ok: false, err: error });
-		return;
+		res.status(status).send({ err: error, status });
 	}
-
-	res.status(200).send({ ok: true, result: "Contacto eliminado exitosamente" });
 };
 
 const addDebtToAccept = async (req, res) => {
@@ -112,33 +113,54 @@ const addDebtToAccept = async (req, res) => {
 	const debtId = req.body.debtId;
 
 	const updatedContact = await Contact.addDebtToAccept(contactId, debtId);
-	
-	if(updatedContact === null){
+
+	if (updatedContact === null) {
 		const error = "El ID proporcionado para el contacto o la deuda no es válido.";
 		res.statusMessage = error;
 		res.status(404).send({ ok: false, err: error });
 		return;
 	}
 	res.status(200).send({ ok: true, result: "Deuda por aceptar agregada exitosamente" });
-}
+};
 
 const addDebtAccepted = async (req, res) => {
 	const contactId = req.params.contactId;
 	const debtId = req.body.debtId;
 
 	const updatedContact = await Contact.addDebtAccepted(contactId, debtId);
-	
-	if(updatedContact === null){
+
+	if (updatedContact === null) {
 		const error = "El ID proporcionado para el contacto o la deuda no es válido.";
 		res.statusMessage = error;
 		res.status(404).send({ ok: false, err: error });
 		return;
 	}
 	res.status(200).send({ ok: true, result: "Deuda por aceptada agregada exitosamente" });
-}
+};
+
+const getContactData = async (req, res) => {
+	try {
+		const contactId = req.params.contactId;
+		const userId = req.session?.id;
+		const contact = new Contact(contactId, userId);
+
+		const result = await contact.getData();
+
+		if (result) res.status(200).send(result);
+		else throw { err: "No se encontró el contacto.", status: 404 };
+	} catch (ex) {
+		console.log("ERROR IMPRESO: ", ex);
+		let error = ex?.err ?? "Ocurrio un error";
+		let status = ex?.status ?? 500;
+
+		res.statusMessage = error;
+		res.status(status).send({ err: error });
+	}
+};
 
 exports.createContact = createContact;
 exports.editContact = editContact;
 exports.deleteContact = deleteContact;
 exports.addDebtToAccept = addDebtToAccept;
 exports.addDebtAccepted = addDebtAccepted;
+exports.getContactData = getContactData;

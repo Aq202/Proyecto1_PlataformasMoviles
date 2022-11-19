@@ -14,7 +14,7 @@ class Operation {
 		date,
 		description,
 		category,
-		favourite,
+		favorite,
 		imgUrl,
 	}) {
 		const operation = new OperationModel();
@@ -24,17 +24,17 @@ class Operation {
 		operation.title = title.trim();
 		operation.account = account.trim();
 		operation.amount = twoDecimals(amount);
-		operation.active = active.trim();
+		operation.active = active;
 		operation.date = new Date(date);
 		operation.description = description?.trim();
 		operation.category = category;
-		operation.favourite = favourite ?? false;
+		operation.favorite = favorite ?? false;
 		operation.imgUrl = imgUrl?.trim();
 
-		const saved = await operation.save();
+		const saved = await (await operation.save()).populate("account");
 		const parsedObject = parseMongoObject(saved);
-
-		parsedObject.date = parseDate(parsedObject.date);
+		parsedObject.account = parseMongoObject(parsedObject.account)
+		parsedObject.formattedDate = parseDate(parsedObject.date);
 		return parsedObject;
 	}
 
@@ -69,7 +69,7 @@ class Operation {
 	}
 
 	static async updateOperation(operationId, newData) {
-		const updated = await OperationSchema.findByIdAndUpdate(operationId, newData, { new: true });
+		const updated = await OperationModel.findByIdAndUpdate(operationId, newData, { new: true });
 		if (!updated) return null;
 		const parsedObject = parseMongoObject(updated);
 
@@ -77,7 +77,7 @@ class Operation {
 	}
 
 	static async deleteOperation(operationId) {
-		const deleted = await OperationSchema.findByIdAndDelete(operationId);
+		const deleted = await OperationModel.findByIdAndDelete(operationId);
 		if (!deleted) return null;
 		const parsedObject = parseMongoObject(deleted);
 		return parsedObject;

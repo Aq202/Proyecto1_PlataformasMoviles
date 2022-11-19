@@ -111,7 +111,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView_operationItemTemplate_favourite"
+                android:id="@+id/cardView_operationItemTemplate_favorite"
                 android:layout_width="@dimen/small_icon_size"
                 android:layout_height="@dimen/small_icon_size"
                 app:cardCornerRadius="@dimen/small_icon_size"
@@ -126,7 +126,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_favourite"
+                    android:src="@drawable/ic_favorite"
                      app:tint="@color/yellow"
                     android:background="@color/white"
                     />
