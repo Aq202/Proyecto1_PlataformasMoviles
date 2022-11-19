@@ -14,11 +14,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.example.proyecto_final_apps.R
+import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.databinding.FragmentEditProfileBinding
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
+import com.example.proyecto_final_apps.ui.util.Status
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.flow.collectLatest
@@ -70,27 +73,42 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.getUserData(false)
-        val sessionStatus = userViewModel.userDataStateFlow.value
+        setListeners()
+        setObservers()
+        loadingViewModel.showLoadingDialog()
+        lifecycleScope.launchWhenStarted {
+            editProfileViewModel.loadCurrentUserData()
+            loadingViewModel.hideLoadingDialog()
+        }
 
-        if (sessionStatus is UserSessionStatus.Logged){
-            val currentUserData = sessionStatus.data
+    }
+
+    private suspend fun showUserData(status: Status<UserModel>) {
+
+        if (status is Status.Success){
+            val currentUserData = status.value
             binding.apply {
                 textFieldEditProfileFragmentFirstName.editText!!.setText(currentUserData.name)
                 textFieldEditProfileFragmentLastName.editText!!.setText(currentUserData.lastName)
                 textFieldEditProfileFragmentBirthDate.editText!!.setText(currentUserData.birthDate)
                 textFieldEditProfileFragmentUser.editText!!.setText(currentUserData.alias)
                 textFieldEditProfileFragmentEmail.editText!!.setText(currentUserData.email)
+                imageViewEditProfileFragmentPicture.load(currentUserData.imageUrl)
 
             }
         }
-
-        setListeners()
-        setObservers()
-
     }
 
     private fun setObservers() {
+
+        //Cargar datos del usuario
+        lifecycleScope.launchWhenStarted {
+            editProfileViewModel.userData.collectLatest { status ->
+                showUserData(status)
+            }
+        }
+
+        //Estados del fragment
         lifecycleScope.launchWhenStarted {
             editProfileViewModel.editProfileStateFlow.collectLatest { result->
                 when(result) {
@@ -101,6 +119,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         }
                     }
                     is EditProfileStatus.Error -> {
+                        binding.apply {
+                            coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.GONE
+                            containerErrorFragmentMessageContent.visibility = View.VISIBLE
+                        }
+                    }
+                    is EditProfileStatus.Success -> {
+                        binding.apply {
+                            coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.VISIBLE
+                            containerErrorFragmentMessageContent.visibility = View.GONE
+                        }
+                    }
+                    is EditProfileStatus.UpdatingError -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.apply {
                             buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE

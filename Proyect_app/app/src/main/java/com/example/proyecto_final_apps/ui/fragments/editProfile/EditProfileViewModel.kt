@@ -11,6 +11,8 @@ import com.example.proyecto_final_apps.helpers.DateParse.getMonthValue
 import com.example.proyecto_final_apps.helpers.DateParse.getYearValue
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import androidx.fragment.app.activityViewModels
+import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
+import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,26 +24,40 @@ sealed class EditProfileStatus(){
     object Default: EditProfileStatus()
     object Loading: EditProfileStatus()
     object Updated: EditProfileStatus()
+    object Success: EditProfileStatus()
     class Error(val error: String): EditProfileStatus()
+    class UpdatingError(val error: String): EditProfileStatus()
 }
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val repository: UserRepository
-): ViewModel(){
+): ViewModel() {
 
 
+    private val _editProfileStateFlow: MutableStateFlow<EditProfileStatus> =
+        MutableStateFlow(EditProfileStatus.Default)
+    val editProfileStateFlow: StateFlow<EditProfileStatus> = _editProfileStateFlow
 
-    private val _editProfileStateFlow: MutableStateFlow<EditProfileStatus> = MutableStateFlow(EditProfileStatus.Default)
-    val editProfileStateFlow : StateFlow<EditProfileStatus> = _editProfileStateFlow
+    private val _birthDate: MutableStateFlow<String?> = MutableStateFlow(null)
+    val birthDate: StateFlow<String?> = _birthDate
 
-    private val _birthDate:MutableStateFlow<String?> = MutableStateFlow(null)
-    val birthDate:StateFlow<String?> = _birthDate
+    private val _userData: MutableStateFlow<Status<UserModel>> = MutableStateFlow(Status.Default())
+    val userData: StateFlow<Status<UserModel>> = _userData
 
-    fun loadCurrentUserData(): UserModel{
+    suspend fun loadCurrentUserData() {
         _editProfileStateFlow.value = EditProfileStatus.Loading
-        user =
+        val userDataResult = repository.getUserInSessionData(true)
+
+        if (userDataResult is Resource.Success) { //Se obtienen los datos actuales exitosamente
+            _userData.value = Status.Success(userDataResult.data)
+            _editProfileStateFlow.value = EditProfileStatus.Success
+        } else {
+            _userData.value = Status.Error(userDataResult.message ?: "Ocurrió un error al obtener los datos actuales")
+            _editProfileStateFlow.value = EditProfileStatus.Error("")
+        }
     }
+
 
     fun setBirthDate(birthDate: Date){
         //Lo guarda en el formato MM/DD/YYYY
@@ -52,17 +68,17 @@ class EditProfileViewModel @Inject constructor(
         _editProfileStateFlow.value = EditProfileStatus.Loading
 
         viewModelScope.launch {
-            when(val result = repository.getUserData()){
+            when(val result = repository.getUserInSessionData(true)){
                 is Resource.Success -> {
                     _editProfileStateFlow.value = EditProfileStatus.Updated
                 }
                 else -> {
-                    _editProfileStateFlow.value = EditProfileStatus.Error(result.message ?: "Ocurrió un error.")
+                    _editProfileStateFlow.value = EditProfileStatus.UpdatingError(result.message ?: "Ocurrió un error.")
 
                 }
             }
         }
-        }
+    }
 
     fun editProfile(
         firstName: String,
