@@ -45,4 +45,7 @@ interface OperationDao {
 
     @Query("SELECT * FROM OperationModel WHERE requiresUpdate=${true}")
     suspend fun getAllOperationsRequiringUpdate():List<OperationModel>
+
+    @Query("UPDATE OPERATIONMODEL SET accountRemoteId=:accountRemoteId WHERE accountLocalId=:accountLocalId")
+    suspend fun setAccountRemoteIdToAccountOperations(accountLocalId: Int, accountRemoteId:String)
 }

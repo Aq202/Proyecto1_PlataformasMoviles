@@ -6,6 +6,7 @@ import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
+import com.example.proyecto_final_apps.domain.OperationDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OperationDetailsViewModel @Inject constructor(
     private val opRepository: OperationRepository,
-    private val acRepository: AccountRepository
+    private val acRepository: AccountRepository,
+    private val opDomain:OperationDomain
     ) :
     ViewModel() {
 
@@ -30,7 +32,7 @@ class OperationDetailsViewModel @Inject constructor(
     val accountData: StateFlow<Status<AccountModel>> = _accountData
 
     suspend fun getOperationData(localOperationId: Int, forceUpdate: Boolean) {
-        val result = opRepository.getOperationData(localOperationId, forceUpdate)
+        val result = opDomain.getOperationData(localOperationId, forceUpdate)
 
         if (result is Resource.Success)
             _operationData.value = Status.Success(result.data)
@@ -41,7 +43,7 @@ class OperationDetailsViewModel @Inject constructor(
 
     suspend fun getAccountData(localOperationId: Int, forceUpdate: Boolean) {
         var accountModel: Resource<AccountModel>
-        val operation = opRepository.getOperationData(localOperationId, forceUpdate)
+        val operation = opDomain.getOperationData(localOperationId, forceUpdate)
 
         if (operation is Resource.Success){
             accountModel = acRepository.getAccountData(operation.data.accountLocalId, forceUpdate)

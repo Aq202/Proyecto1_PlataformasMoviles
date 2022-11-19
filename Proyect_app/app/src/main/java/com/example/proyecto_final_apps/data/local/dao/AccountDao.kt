@@ -58,4 +58,7 @@ interface AccountDao {
     @Query("SELECT * FROM AccountModel WHERE requiresUpdate=${true}")
     suspend fun getAllAccountsRequiringUpdate():List<AccountModel>
 
+    @Query("SELECT * FROM AccountModel WHERE editable=${false} LIMIT 1")
+    suspend fun getDebtsAccount():AccountModel?
+
 }

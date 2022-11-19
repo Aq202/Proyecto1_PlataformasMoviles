@@ -61,6 +61,8 @@ class DebtRepositoryImp(
         val localId = database.debtDao().insertAcceptedDebt(acceptedDebt)
         acceptedDebt.localId = localId.toInt()
 
+        //Agregar operación a cuenta de deudas
+
         //Subir a la api
         val result = uploadNewAcceptedDebtToApi(acceptedDebt, contact, account)
 
@@ -163,6 +165,24 @@ class DebtRepositoryImp(
 
         val category = Category(context).getDebtsCategory()!!
 
+        //crear operacion en cuenta de deudas
+        val debtAccount = database.accountDao().getDebtsAccount() ?: return Resource.Error("No se encontró la cuenta de deudas.")
+
+        val debtOperationResult = operationRepository.createOperation(
+            title = title,
+            accountLocalId = debtAccount.localId!!,
+            amount = amount,
+            active = !active, //Operación contraria a la de la cuenta objetivo
+            description = description,
+            category = category.id,
+            favorite = false,
+            date = DateParse.getCurrentDate(),
+            imgUrl = user.getRelativeImgUrl()
+        )
+
+        if(debtOperationResult is Resource.Error) return debtOperationResult
+
+        //crear operación en cuenta objetivo
         return operationRepository.createOperation(
             title = title,
             accountLocalId = account.localId!!,

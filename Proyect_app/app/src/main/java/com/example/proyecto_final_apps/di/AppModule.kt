@@ -8,6 +8,8 @@ import com.example.proyecto_final_apps.data.remote.ErrorParser
 import com.example.proyecto_final_apps.data.repository.*
 import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.domain.AccountDomainImp
+import com.example.proyecto_final_apps.domain.OperationDomain
+import com.example.proyecto_final_apps.domain.OperationDomainImp
 import com.example.proyecto_final_apps.helpers.apiUrl
 import dagger.Module
 import dagger.Provides
@@ -151,6 +153,16 @@ class AppModule {
         operationRepository: OperationRepository
     ): AccountDomain {
         return AccountDomainImp(context, accountRepository, operationRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesOperationDomainClass(
+        accountRepository: AccountRepository,
+        operationRepository: OperationRepository
+    ): OperationDomain
+    {
+        return OperationDomainImp(accountRepository, operationRepository)
     }
 
 }

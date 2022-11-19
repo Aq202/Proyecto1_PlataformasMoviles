@@ -88,18 +88,16 @@ class AccountRepositoryImp @Inject constructor(
             //agregar balance de cuenta
             account.total = getAccountBalance(account.localId!!)
             return Resource.Success(account)
-        }
-        else {
+        } else {
             val accountsResult = getAccountList(true)
             return if (accountsResult is Resource.Success) {
                 val accountUpdated = database.accountDao().getAccountById(accountLocalId)
-                if (accountUpdated != null){
+                if (accountUpdated != null) {
                     //agregar balance de cuenta
                     accountUpdated.total = getAccountBalance(accountUpdated.localId!!)
 
                     Resource.Success(accountUpdated)
-                }
-                else Resource.Error("La cuenta ha sido eliminada remotamente.")
+                } else Resource.Error("La cuenta ha sido eliminada remotamente.")
 
             } else {
                 //no se obtuvieron resultados remotos
@@ -108,8 +106,7 @@ class AccountRepositoryImp @Inject constructor(
                     account.total = getAccountBalance(account.localId!!)
 
                     Resource.Success(account)
-                }
-                else Resource.Error("No se encontró la cuenta.")
+                } else Resource.Error("No se encontró la cuenta.")
             }
 
         }
@@ -180,6 +177,8 @@ class AccountRepositoryImp @Inject constructor(
 
         if (!account.editable) return Resource.Error("La cuenta no puede ser eliminada.")
 
+        //Eliminar operaciones relacionadas
+        database.operationDao().deleteAllAccountOperations(accountLocalId)
 
         //delete in api
         if (Internet.checkForInternet(context) && account.remoteId != null) {
@@ -190,8 +189,6 @@ class AccountRepositoryImp @Inject constructor(
                     //Eliminar completamente de la bd
                     val deletedCount = database.accountDao().deleteAccount(account)
                     if (deletedCount > 0) {
-                        //Eliminar operaciones relacionadas
-                        database.operationDao().deleteAllAccountOperations(accountLocalId)
 
                         //Marcar nueva cuenta favorita en caso de haberse modificado
                         if (result.body()?.newDefaultAccount != null) {
@@ -212,12 +209,22 @@ class AccountRepositoryImp @Inject constructor(
             }
         }
 
-        //No se pudo eliminar en la api
+        //No se eliminó en la api
 
-        //Marcar para late delete
-        account.deletionPending = true
-        database.accountDao().updateAccount(account)
-        database.operationDao().setDeletionPendingToAccountOperations(accountLocalId)
+        //Si la cuenta ya fue subida a la api
+        if (account.remoteId != null) {
+            //Marcar para late delete
+            account.deletionPending = true
+            database.accountDao().updateAccount(account)
+            database.operationDao().setDeletionPendingToAccountOperations(accountLocalId)
+        } else {
+            //Solo existe localmente, eliminar de la bd
+            val deletedCount = database.accountDao().deleteAccount(account)
+            if (deletedCount > 0) {
+                //Eliminar operaciones relacionadas
+                database.operationDao().deleteAllAccountOperations(accountLocalId)
+            }
+        }
 
         //Si la operación es la favorita, sustituirla
         if (account.defaultAccount) {
@@ -328,10 +335,6 @@ class AccountRepositoryImp @Inject constructor(
         return Resource.Success(accountCreated)
     }
 
-    private suspend fun createInitialAccountOperation(account: AccountModel) {
-
-    }
-
 
     private suspend fun uploadNewAccountToApi(account: AccountModel): Resource<AccountModel> {
         if (Internet.checkForInternet(context)) {
@@ -355,6 +358,10 @@ class AccountRepositoryImp @Inject constructor(
                     requestResult.body()?.toAccountModel()?.let { accountDataFromApi ->
                         //update db data
                         database.accountDao().updateAccount(accountDataFromApi)
+
+                        //Actualizar remote id de las operaciones
+                        database.operationDao().setAccountRemoteIdToAccountOperations(account.localId!!, accountDataFromApi.remoteId!!)
+
                         return Resource.Success(accountDataFromApi)
                     }
 
