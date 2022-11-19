@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.fragments.EditProfileFragment"
+    tools:context=".ui.fragments.editProfile.EditProfileFragment"
     android:clipToPadding="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -213,7 +213,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressIndicator_fragmentEditProfile"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="@id/button_editProfileFragment_saveChanges"
+            app:layout_constraintBottom_toBottomOf="@id/button_editProfileFragment_saveChanges"
+            app:layout_constraintStart_toStartOf="@id/button_editProfileFragment_saveChanges"
+            app:layout_constraintEnd_toEndOf="@id/button_editProfileFragment_saveChanges"
+            android:visibility="gone"
+            />
 
         <ImageView
             android:layout_width="50dp"

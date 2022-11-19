@@ -3,6 +3,7 @@ package com.example.proyecto_final_apps.ui.fragments.signUp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyecto_final_apps.data.Resource
+import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.repository.UserRepository
 import com.example.proyecto_final_apps.helpers.DateParse.getDayValue
 import com.example.proyecto_final_apps.helpers.DateParse.getMonthValue

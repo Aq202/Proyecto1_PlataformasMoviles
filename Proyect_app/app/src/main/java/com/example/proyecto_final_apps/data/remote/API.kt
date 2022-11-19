@@ -5,6 +5,7 @@ import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
+import com.example.proyecto_final_apps.data.remote.dto.editProfileResponse.EditProfileResponse
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
 import com.example.proyecto_final_apps.data.remote.dto.loginResponse.LoginResponse
 import com.example.proyecto_final_apps.data.remote.dto.requests.LoginRequest
@@ -36,6 +37,13 @@ interface API {
         @PartMap() data:MutableMap<String, RequestBody>,
         @Part image: MultipartBody.Part
     ): Response<SignUpResponse>
+
+    @Multipart
+    @PUT("/user/editProfile")
+    suspend fun editProfile(
+        @PartMap() data:MutableMap<String, RequestBody>,
+        @Part image: MultipartBody.Part
+    ): Response<EditProfileResponse>
 
 
     @GET("/operation/getAll")

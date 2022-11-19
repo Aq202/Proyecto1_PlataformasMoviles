@@ -180,8 +180,6 @@ class SignUpFragment : Fragment() {
         val user = binding.textFieldSignUpFragmentUser.editText!!.text.toString()
         val birthDate = signUpViewModel.birthDate.value!! //HACER VALIDACIÓN Y VERIFICAR QUE NO SEA NULL
 
-        println("DIEGO BIRTHDATE: $birthDate")
-
         signUpViewModel.signUp(
             firstName = firstName,
             lastName = lastName,
