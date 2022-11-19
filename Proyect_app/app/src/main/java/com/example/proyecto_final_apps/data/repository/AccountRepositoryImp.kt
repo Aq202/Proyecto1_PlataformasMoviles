@@ -377,7 +377,7 @@ class AccountRepositoryImp @Inject constructor(
         val account = database.accountDao().getAccountById(accountLocalId)
             ?: return Resource.Error("La cuenta no existe.")
 
-        if (!(title != null || defaultAccount != null))
+        if (title == null && defaultAccount == null)
             return Resource.Success(account)
 
         if (title != null) account.title = title

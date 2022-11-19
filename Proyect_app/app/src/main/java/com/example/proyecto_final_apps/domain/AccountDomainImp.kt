@@ -29,7 +29,7 @@ class AccountDomainImp @Inject constructor(
             defaultAccount = defaultAccount
         )
 
-        if(result is Resource.Success){
+        if (result is Resource.Success) {
             val account = result.data
 
             //crear operación inicial
@@ -46,6 +46,49 @@ class AccountDomainImp @Inject constructor(
                 favorite = false,
                 date = DateParse.getCurrentDate(),
             )
+        }
+
+        return result
+    }
+
+    override suspend fun updateAccount(
+        accountLocalId: Int,
+        title: String?,
+        defaultAccount: Boolean?,
+        total: Double
+    ): Resource<AccountModel> {
+
+        //Actualizar cuenta
+        val result = accountRepository.updateAccount(accountLocalId, title, defaultAccount)
+
+        if (result is Resource.Success) {
+
+            //Obtener balance de cuenta
+            val accountResult =
+                accountRepository.getAccountData(accountLocalId, true) //Forzar actualización
+
+            if (accountResult is Resource.Success) {
+                val account = accountResult.data
+                //crear operación para ajustar total
+                if (total != account.total){
+                    val difference = if(total > account.total) total -account.total else account.total - total
+
+                    operationRepository.createOperation(
+                        title = context.getString(R.string.account_update_operation_title),
+                        accountLocalId = accountLocalId,
+                        amount = difference,
+                        active = total > account.total,
+                        category = Category(context).getCategoryByType(CategoryTypes.DEFAULT)!!.id,
+                        date = DateParse.getCurrentDate(),
+                        description = null,
+                        favorite = false
+                    )
+                }
+
+
+            } else
+                return Resource.Error("No se pudo actualizar el total de la cuenta.")
+
         }
 
         return result

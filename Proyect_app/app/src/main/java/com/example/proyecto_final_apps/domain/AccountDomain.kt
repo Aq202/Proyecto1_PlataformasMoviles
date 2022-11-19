@@ -10,4 +10,8 @@ interface AccountDomain {
         total: Double,
         defaultAccount: Boolean
     ): Resource<AccountModel>
+
+    suspend fun updateAccount(
+        accountLocalId: Int, title: String?, defaultAccount: Boolean?, total: Double
+    ):Resource<AccountModel>
 }
