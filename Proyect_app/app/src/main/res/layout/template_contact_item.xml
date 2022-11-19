@@ -62,7 +62,7 @@
                 tools:text="@tools:sample/lorem/random"
                 android:scrollHorizontally="true"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="2"
                 />
 
             <TextView
