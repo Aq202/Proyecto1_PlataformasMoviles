@@ -53,6 +53,7 @@ class OperationDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             getFragmentData()
             loadingViewModel.hideLoadingDialog() //hide loading
+            operationDetailsViewModel.setSuccessFragmentStatus()
         }
     }
 
@@ -75,6 +76,7 @@ class OperationDetailsFragment : Fragment() {
                             if (statusOp is Status.Success) {
                                 statusOp.value?.let { operation ->
                                     binding.apply {
+                                        textViewOperationDetailsFragmentTitleName.text = operation.title
                                         textViewOperationDetailsFragmentOriginAccountName.text = account.title
                                         textViewOperationDetailsFragmentAmount.text = "Q${operation.amount.toString()}"
                                         textViewOperationDetailsFragmentOperationType.text = if (operation.active) "Ingreso" else "Egreso"
@@ -99,6 +101,13 @@ class OperationDetailsFragment : Fragment() {
 
             }
         }
+        lifecycleScope.launchWhenStarted {
+            operationDetailsViewModel.fragmentState.collectLatest { status->
+                if(status is Status.Success){
+                    binding.swipeResfreshLayoutOperationDetailsFragment.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private suspend fun getFragmentData(forceUpdate: Boolean = false) {
@@ -114,6 +123,15 @@ class OperationDetailsFragment : Fragment() {
 
             buttonOperationDetailsFragmentEdit.setOnClickListener {
                 editOperationPressed()
+            }
+
+            swipeResfreshLayoutOperationDetailsFragment.setOnRefreshListener {
+                println("REFRESHING...")
+                lifecycleScope.launchWhenStarted {
+                    getFragmentData(true)
+                    binding.swipeResfreshLayoutOperationDetailsFragment.isRefreshing = false
+                }
+
             }
         }
     }

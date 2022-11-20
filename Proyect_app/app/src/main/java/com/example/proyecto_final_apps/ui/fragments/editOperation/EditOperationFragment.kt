@@ -1,5 +1,6 @@
 package com.example.proyecto_final_apps.ui.fragments.editOperation
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,21 +24,27 @@ import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.databinding.FragmentEditOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
+import com.example.proyecto_final_apps.ui.fragments.TabLayoutFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListViewModel
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import java.lang.NumberFormatException
 
 @AndroidEntryPoint
 class EditOperationFragment : Fragment() {
     private lateinit var binding: FragmentEditOperationBinding
     private val editOperationViewModel: EditOperationViewModel by viewModels()
     private val loadingViewModel: LoadingViewModel by activityViewModels()
+    private val accountListViewModel: AccountsListViewModel by viewModels()
     private var accountsList : MutableList<AccountModel> = mutableListOf()
     private var selectedAccount: AccountModel? = null
+    private lateinit var checkedCathegory: String
     private val args: EditOperationFragmentArgs by navArgs()
     private val nullAccounts = "No hay cuentas disponibles"
+    private var operationImgUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,15 +66,29 @@ class EditOperationFragment : Fragment() {
             getFragmentData()
             setDropLists()
             loadingViewModel.hideLoadingDialog() //hide loading
+            editOperationViewModel.setSuccessFragmentStatus()
         }
     }
 
     private suspend fun getFragmentData(forceUpdate: Boolean = false) {
+        accountListViewModel.getAccountList(forceUpdate)
         editOperationViewModel.getOperationData(args.operationId, forceUpdate)
         editOperationViewModel.getAccountData(args.operationId,forceUpdate)
     }
 
     private fun setObservers() {
+        lifecycleScope.launchWhenStarted {
+            accountListViewModel.accountList.collectLatest { status ->
+                addAccountsList(status)
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            editOperationViewModel.fragmentState.collectLatest { status->
+                if(status is Status.Success){
+                    binding.swipeResfreshLayoutEditOperationFragment.visibility = View.VISIBLE
+                }
+            }
+        }
         lifecycleScope.launchWhenStarted {
             editOperationViewModel.accountData.collectLatest { status ->
 
@@ -76,6 +97,8 @@ class EditOperationFragment : Fragment() {
                         editOperationViewModel.operationData.collectLatest { statusOp ->
                             if (statusOp is Status.Success) {
                                 statusOp.value?.let { operation ->
+                                    operationImgUrl = operation.imgUrl
+                                    selectedAccount = getAccount(account.title)
                                     binding.apply {
                                         textInputLayoutEditOperationFragmentTitle.editText!!.setText(
                                             operation.title
@@ -90,7 +113,7 @@ class EditOperationFragment : Fragment() {
                                             if (operation.active) "Ingreso" else "Egreso"
                                         )
                                         textInputLayoutEditOperationFragmentDescription.editText!!.setText(
-                                            operation.description ?: "Sin descripción"
+                                            operation.description
                                         )
                                         chipGroupEditOperationFragmentCathegories.check(operation.category)
                                         checkBoxEditOperationFragmentFavoriteOperation.isChecked =
@@ -112,6 +135,19 @@ class EditOperationFragment : Fragment() {
                 }
 
             }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addAccountsList(status: Status<List<AccountModel>>) {
+        if(status is Status.Success){
+
+            accountsList.clear()
+            accountsList.addAll(status.value!!)
+            accountsList.sortBy { !it.defaultAccount }
+
+        }else if(status is Status.Error){
+            println("Diego: ${status.error}")
         }
     }
 
@@ -142,12 +178,151 @@ class EditOperationFragment : Fragment() {
         }
         binding.autoCompleteViewEditOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
             val account = adapterView.getItemAtPosition(i).toString()
-            /*if(account != nullAccounts)
-                selectedAccount = getAccount(account)!!*/
+            if(account != nullAccounts)
+                selectedAccount = getAccount(account)!!
         }
 
-        binding.autoCompleteViewEditOperationFragmentOperationType.setOnItemClickListener { adapterView, view, i, l ->
+        binding.buttonEditOperationFragmentUpdate.setOnClickListener{
+            updateOperation()
+        }
 
+        binding.swipeResfreshLayoutEditOperationFragment.setOnRefreshListener {
+            println("REFRESHING...")
+            lifecycleScope.launchWhenStarted {
+                getFragmentData(true)
+                binding.swipeResfreshLayoutEditOperationFragment.isRefreshing = false
+            }
+
+        }
+    }
+
+    private fun getAccount(title: String): AccountModel? {
+        accountsList.forEach { account ->
+            if (account.title == title)
+                return account
+        }
+        return null
+    }
+
+    private fun validateTitle(): Boolean {
+        binding.apply {
+            val name = textInputLayoutEditOperationFragmentTitle.editText!!.text
+            if (name.trim().isEmpty()) {
+                textInputLayoutEditOperationFragmentTitle.error =
+                    "El título de la operación es obligatorio."
+                return false
+            }
+            textInputLayoutEditOperationFragmentTitle.error = null
+            return true
+        }
+    }
+    private fun validateAccount(): Boolean {
+        binding.apply {
+            val account = textInputLayoutEditOperationFragmentSourceAccount.editText!!.text
+            val amount = textInputLayoutEditOperationFragmentAmount.editText!!.text
+            val operationType = textInputLayoutEditOperationFragmentOperationType.editText!!.text
+            if (account.trim().isEmpty()) {
+                textInputLayoutEditOperationFragmentSourceAccount.error =
+                    "Debe seleccionar una cuenta de origen."
+                return false
+            }else if(account.toString() == nullAccounts){
+                textInputLayoutEditOperationFragmentSourceAccount.error =
+                    "Debe seleccionar una cuenta de origen."
+                return false
+            }else if (operationType.toString() != "Ingreso" &&
+                selectedAccount!!.total < amount.toString().toDouble()) {
+                textInputLayoutEditOperationFragmentSourceAccount.error =
+                    "La cuenta seleccionada no tiene fondos suficientes para esta operación."
+                return false
+            }
+            textInputLayoutEditOperationFragmentSourceAccount.error = null
+            return true
+        }
+    }
+    private fun validateOperationType(): Boolean {
+        binding.apply {
+            val name = textInputLayoutEditOperationFragmentOperationType.editText!!.text
+            if (name.trim().isEmpty()) {
+                textInputLayoutEditOperationFragmentOperationType.error =
+                    "Debe especificar el tipo de operación."
+                return false
+            }
+            textInputLayoutEditOperationFragmentOperationType.error = null
+            return true
+        }
+    }
+
+    private fun validateAmount(): Boolean {
+        binding.apply {
+            try {
+                val amount =
+                    textInputLayoutEditOperationFragmentAmount.editText!!.text.toString().toDouble()
+
+                if (amount < 0) textInputLayoutEditOperationFragmentAmount.error =
+                    "El monto de la operación debe ser mayor a cero."
+                else {
+                    textInputLayoutEditOperationFragmentAmount.error = null
+                    return true
+                }
+            } catch (ex: NumberFormatException) {
+                textInputLayoutEditOperationFragmentAmount.error =
+                    "El monto de la operación es obligatorio."
+            }
+
+        }
+
+        return false
+    }
+
+    private fun validateCathegory(): Boolean{
+        binding.apply {
+            if (chipGroupEditOperationFragmentCathegories.checkedChipIds.isEmpty()){
+                textViewEditOperationFragmentCathegory.error =
+                    "Debe seleccionar una categoría."
+                return false
+            }else{
+                textViewEditOperationFragmentCathegory.error = null
+                return true
+            }
+        }
+    }
+
+    private fun updateOperation() {
+        if (!validateTitle() && !validateAmount() && !validateAccount() && !validateOperationType() && !validateCathegory()) return
+        else if(!validateTitle() || !validateAmount() || !validateAccount() || !validateOperationType() || !validateCathegory()) return
+
+        val title = binding.textInputLayoutEditOperationFragmentTitle.editText!!.text.toString()
+        val accountLocalId = selectedAccount!!.localId
+        val amount = binding.textInputLayoutEditOperationFragmentAmount.editText!!.text.toString().toDouble()
+        val operationType = binding.textInputLayoutEditOperationFragmentOperationType.editText!!.text.toString()
+        val active = operationType == "Ingreso"
+        val description = binding.textInputLayoutEditOperationFragmentDescription.editText!!.text.toString()
+        val favorite = binding.checkBoxEditOperationFragmentFavoriteOperation.isChecked
+        val category = Category(requireContext()).getId(checkedCathegory)
+
+        lifecycleScope.launchWhenStarted {
+            editOperationViewModel.updateOperation(
+                operationLocalId = args.operationId,
+                title = title,
+                accountLocalId = accountLocalId!!,
+                amount = amount,
+                active = active,
+                description = if (description != "") description else null,
+                category = category,
+                favorite = favorite,
+                imgUrl = operationImgUrl
+            ).collectLatest { status ->
+
+                if(status is Status.Loading) loadingViewModel.showLoadingDialog()
+                else loadingViewModel.hideLoadingDialog()
+
+                if(status is Status.Success){
+                    println(status.value.localId!!)
+                    val action = EditOperationFragmentDirections.actionToOperationDetails(status.value.localId!!)
+                    findNavController().navigate(action)
+                }else if(status is Status.Error && status.error.isNotEmpty())
+                    Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -156,6 +331,7 @@ class EditOperationFragment : Fragment() {
             chip as Chip
             if(chip.id == checkedChip){
                 chip.chipStrokeWidth = 1F
+                checkedCathegory = chip.text.toString()
             }
             else
                 chip.chipStrokeWidth = 0F
