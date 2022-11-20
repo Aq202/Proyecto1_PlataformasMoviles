@@ -276,5 +276,17 @@
             android:name="operationId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/debtDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.debt_detail.DebtDetailsFragment"
+        android:label="Detalles de deuda" >
+        <argument
+            android:name="debtId"
+            app:argType="integer" />
+
+    </fragment>
+    <action
+        android:id="@+id/action_toDebtDetailsFragment"
+        app:destination="@+id/debtDetailsFragment"/>
 
 </navigation>

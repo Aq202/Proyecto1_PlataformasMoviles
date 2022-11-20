@@ -128,5 +128,9 @@
     <string name="active_debt_finalization_title">Deuda de %s finalizada</string>
     <string name="passive_debt_finalization_title">Deuda con %s finalizada</string>
     <string name="debt_finalization_description">Finalización de la deuda.</string>
+    <string name="contacto_placeholder">Contacto</string>
+    <string name="completar_deuda">Completar</string>
+    <string name="olvidar_deuda">Olvidar</string>
+    <string name="debt_disclaimer">Al completar la deuda se realizará el pago o depósito (según corresponda) en la cuenta especificada.</string>
 
 </resources>
