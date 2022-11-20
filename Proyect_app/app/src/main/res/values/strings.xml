@@ -124,5 +124,6 @@
     <string name="gastos">Gastos</string>
     <string name="titulo_operacion_inicial_cuenta">Monto inicial de cuenta %s</string>
     <string name="descripcion_operacion_inicial_cuenta">Monto inicial de la cuenta.</string>
+    <string name="placeholder_titulo">Título</string>
 
 </resources>
