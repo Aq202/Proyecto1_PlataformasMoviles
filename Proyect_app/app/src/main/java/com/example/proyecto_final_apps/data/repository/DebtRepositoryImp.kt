@@ -9,7 +9,9 @@ import com.example.proyecto_final_apps.data.local.MyDataStore
 import com.example.proyecto_final_apps.data.local.entity.*
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.ErrorParser
+import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.toContactModel
 import com.example.proyecto_final_apps.data.remote.dto.requests.NewDebtRequest
+import com.example.proyecto_final_apps.data.remote.dto.toDebtAcceptedModel
 import com.example.proyecto_final_apps.helpers.DateParse
 import com.example.proyecto_final_apps.helpers.Internet
 
@@ -252,7 +254,7 @@ class DebtRepositoryImp(
 
     override suspend fun getAcceptedDebtData(acceptedDebtLocalId: Int):Resource<DebtWithContactModel> {
 
-        //Las deudas se descargan al obtener la información del contacto
+        //Las deudas se descargan con el getDebtList
         //Solo obtener de la BD
 
         val debt = database.debtDao().getAcceptedDebt(acceptedDebtLocalId) ?: return Resource.Error("La deuda no existe")
@@ -261,6 +263,58 @@ class DebtRepositoryImp(
         return Resource.Success(DebtWithContactModel(contact, debt))
 
 
+
+    }
+
+    override suspend fun getDebtList(forceUpdate: Boolean): Resource<List<DebtAcceptedModel>> {
+
+        val ds = MyDataStore(context)
+        val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+
+        if (forceUpdate && Internet.checkForInternet(context)) {
+
+            //Descargar data de api
+
+            try {
+
+                val requestResult = api.getDebtsList(token)
+
+                if (requestResult.isSuccessful) {
+
+                    val debtList= requestResult.body()
+
+                    if (debtList?.isNotEmpty() == true) {
+
+                        val debtsModelList = debtList.map{ it.toDebtAcceptedModel()}
+
+                        //Eliminar datos de la bd local
+                        database.debtDao().deleteAllAcceptedDebts()
+
+                        //guardar datos
+                        database.debtDao().insertManyAcceptedDebts(debtsModelList)
+
+                        return Resource.Success(debtsModelList)
+                    }
+
+                } else {
+
+                    val errorBody = requestResult.errorBody()
+                    val error = errorParser.parseErrorObject(errorBody)
+                    println("DIEGO: ${error?.err}")
+
+                }
+            } catch (ex: Exception) {
+                println("DIEGO: ${ex.message}")
+            }
+
+        }
+
+        //Cant get data from api
+        //Return data from db
+
+        val debts = database.debtDao().getAcceptedDebts()
+        return if(debts.isNotEmpty())  Resource.Success(debts) else Resource.Error("No se encontraron deudas.")
 
     }
 

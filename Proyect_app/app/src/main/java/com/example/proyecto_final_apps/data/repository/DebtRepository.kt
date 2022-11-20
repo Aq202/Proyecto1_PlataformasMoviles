@@ -21,4 +21,8 @@ interface DebtRepository {
     suspend fun getAcceptedDebtData(
         acceptedDebtLocalId:Int
     ):Resource<DebtWithContactModel>
+
+    suspend fun getDebtList(
+        forceUpdate:Boolean
+    ):Resource<List<DebtAcceptedModel>>
 }

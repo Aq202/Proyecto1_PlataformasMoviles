@@ -4,13 +4,15 @@ import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.ContactRepository
+import com.example.proyecto_final_apps.data.repository.DebtRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
 import javax.inject.Inject
 
 class OperationDomainImp @Inject constructor(
     private val accountRepository: AccountRepository,
     private val operationRepository: OperationRepository,
-    private val contactRepository: ContactRepository
+    private val contactRepository: ContactRepository,
+    private val debtRepository: DebtRepository
 ) : OperationDomain {
 
     /*
@@ -22,6 +24,7 @@ class OperationDomainImp @Inject constructor(
         if(forceUpdate){
             accountRepository.getAccountList(true)
             contactRepository.getContactsList(true)
+            debtRepository.getDebtList(true)
         }
 
         return operationRepository.getOperations(forceUpdate)
@@ -40,6 +43,7 @@ class OperationDomainImp @Inject constructor(
         if(forceUpdate) {
             accountRepository.getAccountList(true)
             contactRepository.getContactsList(true)
+            debtRepository.getDebtList(true)
         }
 
         return operationRepository.getOperationData(operationLocalId, forceUpdate)

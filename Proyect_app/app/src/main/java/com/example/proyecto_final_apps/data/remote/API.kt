@@ -149,4 +149,8 @@ interface API {
         @Path("debtId") debtId:String,
     ):Response<Void>
 
+    @GET("/debt/list")
+    suspend fun getDebtsList(
+        @Header("authorization") token:String,
+    ):Response<List<DebtsAcceptedDto>>
 }
