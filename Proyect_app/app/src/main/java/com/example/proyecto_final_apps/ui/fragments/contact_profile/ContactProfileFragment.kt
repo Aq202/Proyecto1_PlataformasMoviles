@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -228,6 +229,8 @@ class ContactProfileFragment : Fragment() {
     private class AcceptedOperationListener(val view: View) : OperationAdapter.OperationListener {
         override fun onItemClicked(operationData: OperationItem, position: Int) {
 
+            val action = ContactProfileFragmentDirections.actionToDebtDetailsFragment(operationData.localId)
+            view.findNavController().navigate(action)
         }
 
         override fun onItemPressed(operationData: OperationItem, position: Int) {

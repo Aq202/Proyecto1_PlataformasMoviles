@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ui.fragments.PendingPaymentDetailsFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="40dp"
+            >
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_debtDetailsFragment_contactContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/light_gray_1"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toTopOf="@id/cardView_debtDetailsFragment_amountContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="@dimen/operationItem_verticalPadding">
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_contactTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:layout_marginBottom="3dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingEnd="15dp"
+                        android:scrollHorizontally="true"
+                        android:text="@string/contacto_placeholder"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/plain_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textView_debtDetailsFragment_contact"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="@dimen/small_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_debtDetailsFragment_contactTitle"
+                        tools:text="Q.0.00" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_debtDetailsFragment_amountContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/light_gray_1"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toTopOf="@id/cardView_debtDetailsFragment_type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_debtDetailsFragment_contactContainer">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="@dimen/operationItem_verticalPadding">
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_amountTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:layout_marginBottom="3dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingEnd="15dp"
+                        android:scrollHorizontally="true"
+                        android:text="@string/monto"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/plain_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textView_debtDetailsFragment_amount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="@dimen/small_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_debtDetailsFragment_amountTitle"
+                        tools:text="Descripción del pago" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_debtDetailsFragment_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/light_gray_1"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toTopOf="@id/cardView_debtDetailsFragment_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_debtDetailsFragment_amountContainer">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="@dimen/operationItem_verticalPadding">
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_typeTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:layout_marginBottom="3dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingEnd="15dp"
+                        android:scrollHorizontally="true"
+                        android:text="@string/placeholder_category"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/plain_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textView_debtDetailsFragment_type"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="@dimen/small_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_debtDetailsFragment_typeTitle"
+                        tools:text="Categoría del pago" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView_debtDetailsFragment_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/light_gray_1"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:layout_constraintBottom_toTopOf="@id/text_pendingPaymentDetailsFragment_accountDisclaimer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_debtDetailsFragment_type">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="@dimen/operationItem_verticalPadding">
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_descriptionTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:layout_marginBottom="3dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingEnd="15dp"
+                        android:scrollHorizontally="true"
+                        android:text="@string/description"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/plain_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textView_debtDetailsFragment_description"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/textView_debtDetailsFragment_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/operationItem_horizontalPadding"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="@dimen/small_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView_debtDetailsFragment_descriptionTitle"
+                        tools:text="Descripción" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/text_pendingPaymentDetailsFragment_accountDisclaimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/debt_disclaimer"
+                app:layout_constraintBottom_toTopOf="@id/text_pendingPaymentDetailsFragment_originAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_debtDetailsFragment_description" />
+
+            <TextView
+                android:id="@+id/text_pendingPaymentDetailsFragment_originAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/cuenta_de_origen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textInput_pendingPaymentDetailsFragment_originAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_pendingPaymentDetailsFragment_accountDisclaimer" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_pendingPaymentDetailsFragment_originAccount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="@string/placeholder_cuenta_de_origen"
+                app:endIconDrawable="@drawable/ic_menu_down"
+                app:endIconMode="custom"
+                app:layout_constraintBottom_toTopOf="@id/button_debtDetailsFragment_markAsCompleted"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_pendingPaymentDetailsFragment_originAccount"
+                app:startIconDrawable="@drawable/ic_folder_upload_outline">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_debtDetailsFragment_markAsCompleted"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:backgroundTint="@color/aqua"
+                android:paddingVertical="@dimen/button_vertical_padding"
+                android:text="@string/completar_deuda"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/button_radius"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInput_pendingPaymentDetailsFragment_originAccount"
+                app:layout_constraintEnd_toStartOf="@id/button_debtDetailsFragment_forgetDebt"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_debtDetailsFragment_forgetDebt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:paddingVertical="@dimen/button_vertical_padding"
+                android:text="@string/olvidar_deuda"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/button_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_debtDetailsFragment_markAsCompleted"
+                app:layout_constraintTop_toTopOf="@+id/button_debtDetailsFragment_markAsCompleted" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

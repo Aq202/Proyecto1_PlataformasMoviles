@@ -53,13 +53,15 @@ class DebtRepositoryImp(
         val acceptedDebt = DebtAcceptedModel(
             remoteId = null,
             accountInvolved = accountLocalId,
-            active = active,
+            active = !active,  //Cuando se obtiene ingresos de una deuda, esta es negativa y viceversa
             amount = amount,
             userInvolved = contactUserId,
             description = description
         )
         val localId = database.debtDao().insertAcceptedDebt(acceptedDebt)
         acceptedDebt.localId = localId.toInt()
+
+        //Agregar operación a cuenta de deudas
 
         //Subir a la api
         val result = uploadNewAcceptedDebtToApi(acceptedDebt, contact, account)
@@ -74,6 +76,7 @@ class DebtRepositoryImp(
         }
 
     }
+
 
     private suspend fun uploadNewAcceptedDebtToApi(
         debt: DebtAcceptedModel,
@@ -156,13 +159,32 @@ class DebtRepositoryImp(
             ?: return Resource.Error("No se encontró al usuario.")
 
 
-        val title = if (active) context.getString(
+        val title = if (!active) context.getString(
             R.string.active_debt_title,
             user.name
         ) else context.getString(R.string.passive_debt_title, user.name)
 
         val category = Category(context).getDebtsCategory()!!
 
+        //crear operacion en cuenta de deudas
+        val debtAccount = database.accountDao().getDebtsAccount()
+            ?: return Resource.Error("No se encontró la cuenta de deudas.")
+
+        val debtOperationResult = operationRepository.createOperation(
+            title = title,
+            accountLocalId = debtAccount.localId!!,
+            amount = amount,
+            active = !active, //Operación contraria a la de la cuenta objetivo
+            description = description,
+            category = category.id,
+            favorite = false,
+            date = DateParse.getCurrentDate(),
+            imgUrl = user.getRelativeImgUrl()
+        )
+
+        if (debtOperationResult is Resource.Error) return debtOperationResult
+
+        //crear operación en cuenta objetivo
         return operationRepository.createOperation(
             title = title,
             accountLocalId = account.localId!!,
@@ -176,5 +198,85 @@ class DebtRepositoryImp(
         )
 
 
+    }
+
+    override suspend fun finalizeDebt(debtLocalID: Int, updateRemotely:Boolean): Resource<Boolean> {
+
+        val debt = database.debtDao().getAcceptedDebt(debtLocalID)
+            ?: return Resource.Error("La deuda no existe.")
+
+        val userInvolved = database.userDao().getUser(debt.userInvolved)
+            ?: return Resource.Error("No se encontró al usuario objetivo.")
+
+        val debtAccount = database.accountDao().getDebtsAccount() ?: return Resource.Error("La cuenta de deudas no existe.")
+
+        if (debt.remoteId == null || !updateRemotely) {
+            //No existe remotamente o no se desea actualizar, eliminar de la db
+            database.debtDao().deleteAcceptedDebt(debt)
+        } else {
+            val deleteResult = finalizeDebtInApi(debt)
+
+            if (deleteResult is Resource.Error && !debt.deletionPending) {
+                //No se logró actualizar en la api
+                //Marcar como pendiente de eliminación
+                debt.deletionPending = true
+                database.debtDao().updateAcceptedDebt(debt)
+
+            }
+
+        }
+
+        val title = if (debt.active) context.getString(
+            R.string.passive_debt_finalization_title,
+            userInvolved.name
+        ) else context.getString(R.string.active_debt_finalization_title, userInvolved.name)
+
+        val debtCategory = Category(context).getDebtsCategory()!!
+
+        //Injectar operación contraria en cuenta de deudas
+        operationRepository.createOperation(
+            title = title,
+            accountLocalId = debtAccount.localId!!,
+            amount = debt.amount,
+            active = !debt.active, //Operación contraria a la de la cuenta objetivo
+            description = context.getString(R.string.debt_finalization_description),
+            category = debtCategory.id,
+            favorite = false,
+            date = DateParse.getCurrentDate(),
+            imgUrl = userInvolved.getRelativeImgUrl()
+        )
+
+        return Resource.Success(true)
+
+    }
+
+
+    private suspend fun finalizeDebtInApi(debt: DebtAcceptedModel): Resource<Boolean> {
+
+        val ds = MyDataStore(context)
+        val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+        if (!Internet.checkForInternet(context)) return Resource.Error("No hay internet.")
+        if (debt.remoteId == null) return Resource.Error("La deuda no posee un id remoto.")
+
+        try {
+            //Actualizar en la api
+            val deleteResult = api.deleteDebt(token, debt.remoteId!!)
+
+            return if (deleteResult.isSuccessful || deleteResult.code() == 404) {
+                //Eliminar de la base de datos
+                database.debtDao().deleteAcceptedDebt(debt)
+                Resource.Success(true)
+            } else {
+                val errorBody = deleteResult.errorBody()
+                val error = errorParser.parseErrorObject(errorBody)
+                println("DIEGO: ${error?.err}")
+
+                Resource.Error(error?.err ?: "No se eliminó en la api.")
+            }
+        } catch (ex: Exception) {
+            println("DIEGO: ${ex.message}")
+            return Resource.Error("Ocurrió un error.")
+        }
     }
 }

@@ -47,10 +47,11 @@
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_accounts_list.xml" value="0.2" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_contact_profile.xml" value="0.16" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_contacts.xml" value="0.144" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_debt_details.xml" value="0.23072916666666668" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_account.xml" value="0.176" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_favourite_operation.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_pending_payment.xml" value="0.234375" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_profile.xml" value="0.22552083333333334" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_profile.xml" value="0.264" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_external_user_profile.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_login.xml" value="0.4" />
@@ -59,9 +60,10 @@
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_action.xml" value="0.2140625" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_debt.xml" value="0.264" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.25" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_pending_payment.xml" value="0.234375" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_pending_payment.xml" value="0.2928759894459103" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_transfer.xml" value="0.14673913043478262" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_operation_details.xml" value="0.2" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_pending_payment_details.xml" value="0.19519927536231885" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_pending_payments.xml" value="0.2140625" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_recent_operations.xml" value="0.1140625" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />

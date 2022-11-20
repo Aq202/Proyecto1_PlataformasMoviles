@@ -8,9 +8,6 @@ const { ContactSchema } = require("../models/contact.model");
 const { escapeRegExp } = require("../helpers/usefulFunctions");
 
 class User {
-
-	
-
 	static async createUser({ name, lastName, email, birthDate, alias, passwordHash, imageUrl }) {
 		const user = new UserSchema();
 
@@ -24,14 +21,27 @@ class User {
 
 		const saved = await user.save();
 
-		if(!saved) throw {err: "No se pudo guardar el usuario. ", status:500}
+		if (!saved) throw { err: "No se pudo guardar el usuario. ", status: 500 };
 
 		return parseUserObject(saved);
 	}
 
-	static async updateUser(userId, newData) {
-		const updated = await UserSchema.findByIdAndUpdate(userId, newData, { new: true });
-		if (!updated) return null;
+	async updateUser({ name, lastName, email, birthDate, alias, passwordHash, imageUrl }) {
+		const user = await UserSchema.findById(this.id);
+		if (!user) return { err: "No se encontró el usuario a actualizar.", status: 404 };
+
+		if (name?.trim()) user.name = name.trim();
+		if (lastName?.trim()) user.lastName = lastName.trim();
+		if(email?.trim())user.email = email.trim();
+		if(birthDate) user.birthDate = new Date(birthDate);
+		if(alias?.trim()) user.alias = alias.trim();
+		if(passwordHash) user.passwordHash = passwordHash;
+		if(imageUrl) user.imageUrl = imageUrl;
+
+		const updated = await user.save()
+
+		if (!updated) throw { err: "No se pudo actualizar el usuario. ", status: 500 };
+
 		return parseUserObject(updated);
 	}
 
@@ -93,7 +103,7 @@ class User {
 
 	async addContact({ targetUser, localId }) {
 		if ((await this.getContact(targetUser)) !== null)
-		throw { err: "El usuario ya se encuentra agregado. ", status: 409 };
+			throw { err: "El usuario ya se encuentra agregado. ", status: 409 };
 
 		const user = await UserSchema.findById(this.id);
 		if (!user) throw { err: "El usuario no existe.", status: 404 };
@@ -128,8 +138,6 @@ class User {
 
 		return results;
 	}
-
-
 }
 
 module.exports = User;

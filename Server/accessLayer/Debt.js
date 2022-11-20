@@ -1,4 +1,4 @@
-const { parseMongoObject } = require("../helpers/parse");
+const { parseMongoObject, parseDebtObject } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { DebtModel } = require("../models/debt.model");
 
@@ -7,6 +7,17 @@ class Debt {
 		this.id = validateId(id, "Debt Id.");
 		this.subject = validateId(subject, "User Id as subject in Debt.");
 	}
+
+	async getData() {
+		if (!this.data) {
+			const data = await DebtModel.findOne({ _id: this.id, subject: this.subject }).populate("accountInvolved");
+
+			if (data === null) return null;
+			this.data = parseDebtObject(data)
+		}
+		return this.data;
+	}
+
 
 	static async createDebt({
 		localId,
@@ -28,9 +39,7 @@ class Debt {
 		debt.description = description?.trim() || "Sin descripción.";
 
 		const saved = await (await debt.save()).populate("accountInvolved");
-		const parsedObject = parseMongoObject(saved);
-		parsedObject.accountInvolved = parseMongoObject(parsedObject.accountInvolved)
-		return parsedObject;
+		return parseDebtObject(saved)
 	}
 
 	static async updateDebt(debtId, newData) {
@@ -40,11 +49,27 @@ class Debt {
 		return parsedObject;
 	}
 
-	static async deleteDebt() {
-		const deleted = await DebtModel.deleteOne({ subject: this.subject, _id: this.id });
-		if (!deleted) return null;
-		const parsedObject = parseMongoObject(deleted);
-		return parsedObject;
+	async deleteDebt() {
+		
+
+		const data = await this.getData();
+
+		if (!data) throw { err: "No se encontró la cuenta.", status: 404 };
+
+		//Eliminar
+		const result = await DebtModel.deleteOne({ _id: this.id, subject: data.subject });
+
+		if (result?.deletedCount === 0) throw { err: "No se pudo eliminar la deuda.", status: 500 };
+	}
+
+	static async getDebtsListBySubject(subjectId){
+		
+		const result = await DebtModel.find({subject:subjectId}).populate("accountInvolved");
+
+		const parsedList = result.map(debt => parseDebtObject(debt))
+
+		return parsedList
+
 	}
 }
 

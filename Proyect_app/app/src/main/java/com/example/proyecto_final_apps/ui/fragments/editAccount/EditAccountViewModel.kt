@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
+import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EditAccountViewModel @Inject constructor(private val acRepository: AccountRepository) :
+class EditAccountViewModel @Inject constructor(
+    private val accountDomain: AccountDomain,
+) :
     ViewModel() {
 
     private val _accountData: MutableStateFlow<Status<AccountModel>> =
@@ -33,9 +36,10 @@ class EditAccountViewModel @Inject constructor(private val acRepository: Account
 
             emit(Status.Loading())
 
-            val result = acRepository.updateAccount(
+            val result = accountDomain.updateAccount(
                 accountLocalId = accountLocalId,
                 title = title,
+                total = total,
                 defaultAccount = null
             )
 
@@ -51,7 +55,7 @@ class EditAccountViewModel @Inject constructor(private val acRepository: Account
 
             _accountData.value = Status.Loading()
 
-            val result = acRepository.getAccountData(localAccountId, false)
+            val result = accountDomain.getAccountData(localAccountId, false)
 
             if (result is Resource.Success)
                 _accountData.value = Status.Success(result.data)

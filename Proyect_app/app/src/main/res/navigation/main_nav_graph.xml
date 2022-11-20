@@ -232,7 +232,9 @@
     <fragment
         android:id="@+id/contactProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.contact_profile.ContactProfileFragment"
-        tools:layout="@layout/fragment_contact_profile">
+        tools:layout="@layout/fragment_contact_profile"
+        android:label=""
+        >
         <argument android:name="userId"
             app:argType="string" />
         <action
@@ -251,7 +253,7 @@
         app:destination="@id/pendingPaymentDetailsFragment" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.EditProfileFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.EditProfileFragment"
         android:label="Editar perfil"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
@@ -276,5 +278,17 @@
             android:name="operationId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/debtDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.debt_detail.DebtDetailsFragment"
+        android:label="Detalles de deuda" >
+        <argument
+            android:name="debtId"
+            app:argType="integer" />
+
+    </fragment>
+    <action
+        android:id="@+id/action_toDebtDetailsFragment"
+        app:destination="@+id/debtDetailsFragment"/>
 
 </navigation>

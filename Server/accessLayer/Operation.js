@@ -47,7 +47,7 @@ class Operation {
 				parsedOperation.formattedDate = parseDate(parsedOperation.date);
 				return parsedOperation;
 			})
-			.sort((opA, opB) => new Date(opB.date) - new Date(opA.date));
+			.sort((opA, opB) => new Date(opA.date) - new Date(opB.date));
 
 		return parsedOperations;
 	}
@@ -65,7 +65,7 @@ class Operation {
 				parsedOperation.formattedDate = parseDate(parsedOperation.date);
 				return parsedOperation;
 			})
-			.sort((opA, opB) => new Date(opB.date) - new Date(opA.date));
+			.sort((opA, opB) => new Date(opA.date) - new Date(opB.date)  );
 	}
 
 	static async updateOperation(operationId, newData) {

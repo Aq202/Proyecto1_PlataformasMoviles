@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.local.entity.ContactFullDataModel
 import com.example.proyecto_final_apps.data.local.entity.ContactModel
 import com.example.proyecto_final_apps.data.repository.ContactRepository
 import com.example.proyecto_final_apps.data.repository.UserRepository
+import com.example.proyecto_final_apps.domain.ContactDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ContactProfileViewModel @Inject constructor(private val contactRepository: ContactRepository) :
+class ContactProfileViewModel @Inject constructor(private val contactRepository: ContactRepository, private val contactDomain: ContactDomain) :
     ViewModel() {
 
     private val _contactData = MutableStateFlow<Status<ContactFullDataModel>>(Status.Default())
@@ -37,7 +38,7 @@ class ContactProfileViewModel @Inject constructor(private val contactRepository:
 
     suspend fun getContactData(localContactId: String, forceUpdate: Boolean) {
 
-        val result = contactRepository.getContactData(localContactId, forceUpdate)
+        val result = contactDomain.getContactData(localContactId, forceUpdate)
         if (result is Resource.Success)
             _contactData.value = Status.Success(result.data)
         else

@@ -3,7 +3,9 @@ package com.example.proyecto_final_apps.ui.fragments.home
 import androidx.lifecycle.ViewModel
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
+import com.example.proyecto_final_apps.domain.OperationDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +16,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val opRepository :OperationRepository
-) : ViewModel() {
+    private val opRepository :OperationRepository,
+    private val acRepository: AccountRepository,
+    private val opDomain:OperationDomain
+    ) : ViewModel() {
 
 
     private val _fragmentState:MutableStateFlow<Status<Boolean>> = MutableStateFlow(Status.Loading())
@@ -47,7 +51,7 @@ class HomeViewModel @Inject constructor(
 
     suspend fun getRecentOperations(forceUpdate:Boolean){
 
-        when(val result = opRepository.getOperations(forceUpdate)){
+        when(val result = opDomain.getOperations(forceUpdate)){
             is Resource.Success -> {
                 _recentOperations.value = Status.Success(result.data.take(3))
             }

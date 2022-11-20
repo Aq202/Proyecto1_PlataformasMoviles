@@ -44,7 +44,7 @@
                 android:paddingEnd="15dp"
                 android:scrollHorizontally="true"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="2"
                 tools:ignore="RtlSymmetry"
                 android:layout_marginStart="@dimen/operationItem_horizontalPadding"
                 />
