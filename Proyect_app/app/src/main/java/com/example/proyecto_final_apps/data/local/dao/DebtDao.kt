@@ -6,6 +6,9 @@ import com.example.proyecto_final_apps.data.local.entity.DebtAcceptedModel
 @Dao
 interface DebtDao{
 
+    @Query("SELECT * FROM DebtAcceptedModel WHERE localId=:localAcceptedDebtId AND deletionPending=${false}")
+    suspend fun getAcceptedDebt(localAcceptedDebtId:Int):DebtAcceptedModel?
+
     @Query("SELECT * FROM DebtAcceptedModel WHERE userInvolved=:userId AND deletionPending=${false}")
     suspend fun getAcceptedDebtsByUser(userId:String):List<DebtAcceptedModel>
 
@@ -32,5 +35,8 @@ interface DebtDao{
 
     @Update
     suspend fun updateAcceptedDebt(acceptedDebt:DebtAcceptedModel)
+
+    @Delete
+    suspend fun deleteAcceptedDebt(acceptedDebt: DebtAcceptedModel)
 
 }

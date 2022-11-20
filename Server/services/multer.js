@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
 		let newFilename = Date.now() + "-" + file.originalname;
 		callback(null, newFilename);
 		req.body.imageUrl = req.imagesPath + newFilename;
+		req.body.imageCreated = true
 	},
 });
 

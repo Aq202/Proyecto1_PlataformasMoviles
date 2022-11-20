@@ -38,15 +38,22 @@ const parseBooleanStrict = bool => {
 	return null;
 };
 
-const parseUserObject = (object) => {
+const parseUserObject = object => {
 	const parsedObject = parseMongoObject(object);
 	delete parsedObject.passwordHash;
 	parsedObject.birthDate = parseDate(parsedObject.birthDate); //parse Date
 	return parsedObject;
-}
+};
+
+const parseDebtObject = object => {
+	const parsedObject = parseMongoObject(object);
+	parsedObject.accountInvolved = parseMongoObject(parsedObject.accountInvolved);
+	return parsedObject;
+};
 
 exports.parseMongoObject = parseMongoObject;
 exports.parseDate = parseDate;
 exports.twoDecimals = twoDecimals;
 exports.parseBooleanStrict = parseBooleanStrict;
-exports.parseUserObject = parseUserObject
+exports.parseUserObject = parseUserObject;
+exports.parseDebtObject = parseDebtObject;

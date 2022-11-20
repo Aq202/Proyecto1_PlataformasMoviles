@@ -143,4 +143,10 @@ interface API {
         @Body body: NewDebtRequest
     ): Response<DebtsAcceptedDto>
 
+    @DELETE("/debt/{debtId}")
+    suspend fun deleteDebt(
+        @Header("authorization") token:String,
+        @Path("debtId") debtId:String,
+    ):Response<Void>
+
 }

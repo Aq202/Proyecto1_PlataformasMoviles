@@ -11,4 +11,9 @@ interface DebtRepository {
         accountLocalId: Int,
         description: String?,
     ): Resource<DebtAcceptedModel>
+
+    suspend fun finalizeDebt(
+        debtLocalID:Int,
+        updateRemotely:Boolean = true
+    ):Resource<Boolean>
 }

@@ -234,9 +234,12 @@ class OperationRepositoryImp @Inject constructor(
 
         //No se pudo eliminar en la api
 
-        //Marcar para late delete
-        operation.deletionPending = true
-        database.operationDao().updateOperation(operation)
+        if (operation.remoteId != null && !operation.deletionPending) {
+            //Ya fue creada en la api y falló la eliminación
+            //Marcar para late delete
+            operation.deletionPending = true
+            database.operationDao().updateOperation(operation)
+        } else database.operationDao().deleteOperation(operation) //Eliminar localmente
 
         return Resource.Success(true)
     }

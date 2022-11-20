@@ -7,13 +7,13 @@ import com.example.proyecto_final_apps.data.local.entity.OperationModel
 @Dao
 interface OperationDao {
 
-    @Query("SELECT COUNT(localId) FROM OperationModel")
+    @Query("SELECT COUNT(localId) FROM OperationModel WHERE deletionPending=${false}")
     suspend fun getOperationsStoredNumber():Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMany(operations:List<OperationModel>)
 
-    @Query("SELECT * FROM OperationModel ORDER BY date DESC")
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} ORDER BY date DESC")
     suspend fun getAllOperations():List<OperationModel>
 
     @Update
@@ -22,13 +22,13 @@ interface OperationDao {
     @Delete
     suspend fun deleteOperation(operation:OperationModel):Int
 
-    @Query("SELECT * FROM OperationModel ORDER BY date DESC LIMIT :max")
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} ORDER BY date DESC LIMIT :max")
     suspend fun getRecentOperations(max:Int):List<OperationModel>
 
     @Query("DELETE FROM OperationModel")
     suspend fun deleteAllOperations()
 
-    @Query("SELECT * FROM OperationModel WHERE accountLocalId=:accountLocalId")
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} AND accountLocalId=:accountLocalId")
     suspend fun getAccountOperations(accountLocalId:Int):List<OperationModel>
 
     @Query("DELETE FROM OperationModel WHERE accountLocalId=:accountLocalId")
@@ -37,7 +37,7 @@ interface OperationDao {
     @Query("UPDATE OperationModel SET deletionPending=${true} WHERE accountLocalId=:accountLocalId")
     suspend fun setDeletionPendingToAccountOperations(accountLocalId:Int)
 
-    @Query("SELECT * FROM OperationModel WHERE localId=:localId")
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} AND localId=:localId")
     suspend fun getOperationById(localId:Int): OperationModel?
 
     @Query("SELECT * FROM OperationModel WHERE deletionPending=${true}")
@@ -46,6 +46,6 @@ interface OperationDao {
     @Query("SELECT * FROM OperationModel WHERE requiresUpdate=${true}")
     suspend fun getAllOperationsRequiringUpdate():List<OperationModel>
 
-    @Query("UPDATE OPERATIONMODEL SET accountRemoteId=:accountRemoteId WHERE accountLocalId=:accountLocalId")
+    @Query("UPDATE OperationModel SET accountRemoteId=:accountRemoteId WHERE accountLocalId=:accountLocalId")
     suspend fun setAccountRemoteIdToAccountOperations(accountLocalId: Int, accountRemoteId:String)
 }

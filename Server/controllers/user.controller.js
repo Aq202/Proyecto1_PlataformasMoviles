@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
 		const result = await User.createUser(data);
 
 		//crear cuenta de deudas
-		Account.createInitialDebtsAccount(result.id)
+		Account.createInitialDebtsAccount(result.id);
 
 		const token = generateSessionToken(result.id);
 
@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
 		res.statusMessage = message;
 		res.status(200).send({ token, userData: result });
 	} catch (ex) {
-		console.log(ex);
+		console.log("🚀 ~ file: user.controller.js ~ line 29 ~ registerUser ~ ex", ex);
 
 		//delete profile image if exists
 		if (req.body.imageUrl)
@@ -51,7 +51,7 @@ const registerUser = async (req, res) => {
 
 const editUser = async (req, res) => {
 	try {
-		const userId = req.params.userId;
+		const userId = req.session?.id;
 		const data = req.body;
 
 		//encriptar contraseña
@@ -59,10 +59,10 @@ const editUser = async (req, res) => {
 			const passwordHash = sha256(data.password);
 			delete data.password;
 			data.passwordHash = passwordHash;
-		}
+		} else delete data.passwordHash;
 
-		console.log("🚀 ~ file: user.controller.js ~ line 7 ~ editUser ~ data", data);
-		const result = await User.editUser(userId, data);
+		const userObj = new User(userId);
+		const result = await userObj.updateUser(data);
 
 		if (result === null) {
 			const error = "No se han encontrado usuarios con el ID proporcionado.";
@@ -71,20 +71,18 @@ const editUser = async (req, res) => {
 			return;
 		}
 
-		let message = "User updated succesfully!";
-		res.statusMessage = message;
-		res.status(200).send({ ok: true, status: 200, message, result });
+		res.status(200).send(result);
 	} catch (ex) {
-		console.log(ex);
+		console.log("🚀 ~ file: user.controller.js ~ line 77 ~ editUser ~ ex", ex);
 
-		//delete profile image if exists
-		if (req.body.imageUrl)
+		//delete profile image that has been created
+		if (req.body.imageUrl && req.body.imageCreated === true)
 			fs.unlink(`./public${req.body.imageUrl}`, err => {
 				if (!err) console.log("File deleted! ");
 			});
 
-		let error = "Ocurrió un error.",
-			status = 500;
+		let error = ex.err ?? "Ocurrió un error.",
+			status = ex.status ?? 500;
 
 		if (ex.code === 11000) {
 			status = 400;
@@ -181,11 +179,10 @@ const newContact = async (req, res) => {
 
 const getContacts = async (req, res) => {
 	try {
-
 		const user = new User(req.session?.id);
 		if (!(await user.getData())) throw { err: "El usuario no existe.", status: 404 };
 
-		const result = await user.getContacts()
+		const result = await user.getContacts();
 		res.status(200).send(result);
 	} catch (ex) {
 		console.log("ERROR IMPRESO: ", ex);
@@ -197,15 +194,14 @@ const getContacts = async (req, res) => {
 	}
 };
 
-const getUserData = async (req, res) =>{
+const getUserData = async (req, res) => {
 	try {
-
-		const {userId} = req.params
+		const { userId } = req.params;
 
 		const user = new User(userId);
-		const userData = await user.getData()
+		const userData = await user.getData();
 
-		if(!userData) throw { err: "El usuario no existe.", status: 404 };
+		if (!userData) throw { err: "El usuario no existe.", status: 404 };
 
 		res.status(200).send(userData);
 	} catch (ex) {
@@ -216,20 +212,18 @@ const getUserData = async (req, res) =>{
 		res.statusMessage = error;
 		res.status(status).send({ err: error, status });
 	}
-}
+};
 
 const searchUser = async (req, res) => {
+	const searchText = req.query?.query || null;
 
-	const searchText = req.query?.query || null
+	try {
+		const user = new User(req.session.id);
+		const result = await user.findUser(searchText);
 
-	try{
-		const user = new User(req.session.id)
-		const result = await user.findUser(searchText)
-
-		if(!result) throw {err: "No se encontraron coincidencias.", status:404}
-		else res.status(200).send(result)
-
-	}catch (ex) {
+		if (!result) throw { err: "No se encontraron coincidencias.", status: 404 };
+		else res.status(200).send(result);
+	} catch (ex) {
 		console.log("ERROR IMPRESO: ", ex);
 		let error = ex?.err ?? "Ocurrio un error";
 		let status = ex?.status ?? 500;
@@ -237,7 +231,7 @@ const searchUser = async (req, res) => {
 		res.statusMessage = error;
 		res.status(status).send({ err: error, status });
 	}
-}
+};
 
 exports.registerUser = registerUser;
 exports.login = login;
@@ -245,6 +239,6 @@ exports.getSessionUserData = getSessionUserData;
 exports.editUser = editUser;
 exports.deleteUser = deleteUser;
 exports.newContact = newContact;
-exports.getContacts = getContacts
-exports.getUserData = getUserData
-exports.searchUser = searchUser
+exports.getContacts = getContacts;
+exports.getUserData = getUserData;
+exports.searchUser = searchUser;

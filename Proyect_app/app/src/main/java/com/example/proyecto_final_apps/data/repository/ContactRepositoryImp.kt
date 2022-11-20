@@ -265,8 +265,11 @@ class ContactRepositoryImp @Inject constructor(
             ?: return Resource.Error("No se encontró el contacto.")
 
         //La eliminación del contacto ejecuta implicitamente la eliminación de sus deudas en la API
-        //Da lo mismo eliminarlas localmente
-        database.debtDao().deleteAllAcceptedDebtsByUser(contact.userAsContact)
+        //Da lo mismo eliminarlas solo localmente
+        val debts = database.debtDao().getAcceptedDebtsByUser(userId)
+        debts.forEach { debt ->
+            debtRepository.finalizeDebt(debt.localId!!, false) //No actualizar en api
+        }
 
         //si solo esta guardada localmente, eliminar de la bd
         if (contact.remoteId == null) {

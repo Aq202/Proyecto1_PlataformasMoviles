@@ -251,7 +251,7 @@
         app:destination="@id/pendingPaymentDetailsFragment" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.example.proyecto_final_apps.presentation.fragments.EditProfileFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.EditProfileFragment"
         android:label="Editar perfil"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment

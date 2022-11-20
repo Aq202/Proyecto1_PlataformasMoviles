@@ -207,23 +207,20 @@ class AccountRepositoryImp @Inject constructor(
             } catch (ex: Exception) {
                 println("Diego: ${ex.message}")
             }
+        }else if (account.remoteId == null){
+            //No existe remotamente, eliminar de la bd
+            database.accountDao().deleteAccount(account)
+            return Resource.Success(true)
         }
 
         //No se eliminó en la api
 
         //Si la cuenta ya fue subida a la api
-        if (account.remoteId != null) {
+        if (!account.deletionPending) {
             //Marcar para late delete
             account.deletionPending = true
             database.accountDao().updateAccount(account)
             database.operationDao().setDeletionPendingToAccountOperations(accountLocalId)
-        } else {
-            //Solo existe localmente, eliminar de la bd
-            val deletedCount = database.accountDao().deleteAccount(account)
-            if (deletedCount > 0) {
-                //Eliminar operaciones relacionadas
-                database.operationDao().deleteAllAccountOperations(accountLocalId)
-            }
         }
 
         //Si la operación es la favorita, sustituirla

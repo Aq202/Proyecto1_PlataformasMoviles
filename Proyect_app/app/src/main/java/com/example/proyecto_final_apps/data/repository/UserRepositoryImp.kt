@@ -206,6 +206,7 @@ class UserRepositoryImp @Inject constructor(
         database.operationDao().deleteAllOperations()
         database.accountDao().deleteAll()
         database.contactDao().deleteAll()
+        database.debtDao().deleteAllAcceptedDebts()
     }
 
     override suspend fun signUp(
