@@ -35,9 +35,7 @@ class DebtDetailViewModel @Inject constructor(
     val debtData: StateFlow<Status<DebtWithContactModel>> = _debtData
 
 
-    fun getFragmentData(debtAcceptedLocalId: Int, forceUpdate: Boolean = false) {
-
-        viewModelScope.launch {
+    suspend fun getFragmentData(debtAcceptedLocalId: Int, forceUpdate: Boolean = false) {
 
             val accountListResult = accountDomain.getAccountList(forceUpdate)
             val debtDataResult = debtDomain.getAcceptedDebtData(
@@ -59,7 +57,6 @@ class DebtDetailViewModel @Inject constructor(
                     _accountList.value = Status.Error(accountListResult.message ?: "Ocurrió un error al obtener cuentas.")
             }
 
-        }
 
     }
 

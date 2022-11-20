@@ -50,7 +50,9 @@ class DebtDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        debtDetailViewModel.getFragmentData(args.debtId)
+        lifecycleScope.launchWhenStarted {
+            debtDetailViewModel.getFragmentData(args.debtId)
+        }
 
         setObservers()
         setListeners()
@@ -65,10 +67,21 @@ class DebtDetailsFragment : Fragment() {
             buttonDebtDetailsFragmentForgetDebt.setOnClickListener {
                 handleFinalizeDebt()
             }
+
+            swipeToRefreshDebtDetailsFragment.setOnRefreshListener {
+
+                lifecycleScope.launchWhenStarted {
+                    debtDetailViewModel.getFragmentData(args.debtId, true)
+                    binding.swipeToRefreshDebtDetailsFragment.isRefreshing = false
+                }
+
+            }
+
         }
 
 
     }
+
 
     private fun handleFinalizeDebt() {
 

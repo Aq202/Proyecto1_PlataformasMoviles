@@ -52,8 +52,9 @@ class ContactRepositoryImp @Inject constructor(
                     val contactsDto = result.body()
                     val contactsList = contactsDto?.map { it.toContactModel() }
 
-                    //delete all contacts in db
+                    //delete all contacts and debts in db
                     database.contactDao().deleteAll()
+                    database.debtDao().deleteAllAcceptedDebts()
 
                     return if (contactsList != null && contactsList.isNotEmpty()) {
 
