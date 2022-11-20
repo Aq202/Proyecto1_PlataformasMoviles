@@ -14,4 +14,9 @@ interface AccountDomain {
     suspend fun updateAccount(
         accountLocalId: Int, title: String?, defaultAccount: Boolean?, total: Double
     ):Resource<AccountModel>
+
+    suspend fun getAccountList(forceUpdate:Boolean):Resource<List<AccountModel>>
+
+    suspend fun getAccountData(accountLocalId:Int, forceUpdate: Boolean):Resource<AccountModel>
+
 }

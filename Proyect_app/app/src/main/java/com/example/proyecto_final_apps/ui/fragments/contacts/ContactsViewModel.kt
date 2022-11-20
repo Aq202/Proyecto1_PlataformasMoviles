@@ -8,6 +8,7 @@ import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.ContactRepository
 import com.example.proyecto_final_apps.data.repository.UserRepository
+import com.example.proyecto_final_apps.domain.ContactDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val contactRepository: ContactRepository
+    private val contactDomain: ContactDomain
 ) : ViewModel() {
 
     private val _contactsList: MutableStateFlow<Status<List<UserModel>>> =
@@ -36,7 +37,7 @@ class ContactsViewModel @Inject constructor(
 
         _contactsList.value = Status.Loading()
 
-        val result = contactRepository.getContactsList(forceUpdate)
+        val result = contactDomain.getContactsList(forceUpdate)
         if (result is Resource.Success) {
             val userContacts = mutableListOf<UserModel>()
             val contactsList = result.data

@@ -10,6 +10,8 @@ import com.example.proyecto_final_apps.data.local.entity.DebtAcceptedModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.ContactRepository
 import com.example.proyecto_final_apps.data.repository.DebtRepository
+import com.example.proyecto_final_apps.domain.AccountDomain
+import com.example.proyecto_final_apps.domain.ContactDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NewDebtViewModel @Inject constructor(
     private val debtRepository: DebtRepository,
-    private val accountRepository: AccountRepository,
-    private val contactRepository: ContactRepository
+    private val accountDomain: AccountDomain,
+    private val contactDomain: ContactDomain
 ) : ViewModel() {
 
     private val _fragmentState = MutableStateFlow<Status<Boolean>>(Status.Loading())
@@ -40,12 +42,12 @@ class NewDebtViewModel @Inject constructor(
     fun getFormData() {
         viewModelScope.launch {
             //get contacts
-            val contactResult = contactRepository.getContactsList(true)
+            val contactResult = contactDomain.getContactsList(true)
             if (contactResult is Resource.Success) _contactsList.value =
                 Status.Success(contactResult.data)
             else _fragmentState.value = Status.Error(contactResult.message ?: "")
 
-            val accountResult = accountRepository.getAccountList(true)
+            val accountResult = accountDomain.getAccountList(true)
             if (accountResult is Resource.Success) _accountsList.value =
                 Status.Success(accountResult.data)
             else _fragmentState.value = Status.Error(accountResult.message ?: "")

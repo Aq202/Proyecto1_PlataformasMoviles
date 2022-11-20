@@ -6,6 +6,7 @@ import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
+import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountDetailsViewModel @Inject constructor(
     private val opRepository: OperationRepository,
-    private val acRepository: AccountRepository
+    private val acRepository: AccountRepository,
+    private val accountDomain: AccountDomain
 
 ) : ViewModel() {
 
@@ -154,7 +156,7 @@ class AccountDetailsViewModel @Inject constructor(
     }
 
     suspend fun getAccountData(localAccountId: Int, forceUpdate: Boolean) {
-        val result = acRepository.getAccountData(localAccountId, forceUpdate)
+        val result = accountDomain.getAccountData(localAccountId, forceUpdate)
 
         if (result is Resource.Success) {
             _accountData.value = Status.Success(result.data)

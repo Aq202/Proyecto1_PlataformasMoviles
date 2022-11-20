@@ -232,7 +232,9 @@
     <fragment
         android:id="@+id/contactProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.contact_profile.ContactProfileFragment"
-        tools:layout="@layout/fragment_contact_profile">
+        tools:layout="@layout/fragment_contact_profile"
+        android:label=""
+        >
         <argument android:name="userId"
             app:argType="string" />
         <action

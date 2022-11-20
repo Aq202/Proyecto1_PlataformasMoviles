@@ -6,10 +6,7 @@ import com.example.proyecto_final_apps.data.local.Database
 import com.example.proyecto_final_apps.data.remote.API
 import com.example.proyecto_final_apps.data.remote.ErrorParser
 import com.example.proyecto_final_apps.data.repository.*
-import com.example.proyecto_final_apps.domain.AccountDomain
-import com.example.proyecto_final_apps.domain.AccountDomainImp
-import com.example.proyecto_final_apps.domain.OperationDomain
-import com.example.proyecto_final_apps.domain.OperationDomainImp
+import com.example.proyecto_final_apps.domain.*
 import com.example.proyecto_final_apps.helpers.apiUrl
 import dagger.Module
 import dagger.Provides
@@ -150,19 +147,30 @@ class AppModule {
     fun providesAccountDomainClass(
         @ApplicationContext context: Context,
         accountRepository: AccountRepository,
-        operationRepository: OperationRepository
+        operationRepository: OperationRepository,
+        contactRepository: ContactRepository
     ): AccountDomain {
-        return AccountDomainImp(context, accountRepository, operationRepository)
+        return AccountDomainImp(context, accountRepository, operationRepository, contactRepository)
     }
 
     @Provides
     @Singleton
     fun providesOperationDomainClass(
         accountRepository: AccountRepository,
-        operationRepository: OperationRepository
-    ): OperationDomain
-    {
-        return OperationDomainImp(accountRepository, operationRepository)
+        operationRepository: OperationRepository,
+        contactRepository: ContactRepository
+    ): OperationDomain {
+        return OperationDomainImp(accountRepository, operationRepository, contactRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesContactDomainClass(
+        accountRepository: AccountRepository,
+        operationRepository: OperationRepository,
+        contactRepository: ContactRepository
+    ): ContactDomain {
+        return ContactDomainImp(accountRepository, contactRepository, operationRepository)
     }
 
 }

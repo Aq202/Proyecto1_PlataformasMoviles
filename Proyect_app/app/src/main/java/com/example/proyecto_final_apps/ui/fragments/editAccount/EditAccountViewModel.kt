@@ -18,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class EditAccountViewModel @Inject constructor(
     private val accountDomain: AccountDomain,
-    private val acRepository: AccountRepository
 ) :
     ViewModel() {
 
@@ -56,7 +55,7 @@ class EditAccountViewModel @Inject constructor(
 
             _accountData.value = Status.Loading()
 
-            val result = acRepository.getAccountData(localAccountId, false)
+            val result = accountDomain.getAccountData(localAccountId, false)
 
             if (result is Resource.Success)
                 _accountData.value = Status.Success(result.data)

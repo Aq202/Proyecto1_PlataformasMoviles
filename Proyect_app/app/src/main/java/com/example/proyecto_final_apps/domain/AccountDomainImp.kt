@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.CategoryTypes
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
+import com.example.proyecto_final_apps.data.repository.ContactRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
 import com.example.proyecto_final_apps.helpers.DateParse
 import javax.inject.Inject
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class AccountDomainImp @Inject constructor(
     private val context: Context,
     private val accountRepository: AccountRepository,
-    private val operationRepository: OperationRepository
+    private val operationRepository: OperationRepository,
+    private val contactRepository: ContactRepository
 ) : AccountDomain {
 
     override suspend fun createAccount(
@@ -91,6 +93,31 @@ class AccountDomainImp @Inject constructor(
 
         }
 
+        return result
+    }
+
+    override suspend fun getAccountList(forceUpdate: Boolean): Resource<List<AccountModel>> {
+        val result = accountRepository.getAccountList(forceUpdate)
+
+        if(forceUpdate){
+            operationRepository.getOperations(true)
+            contactRepository.getContactsList(true)
+        }
+
+        return result
+    }
+
+    override suspend fun getAccountData(
+        accountLocalId: Int,
+        forceUpdate: Boolean
+    ): Resource<AccountModel> {
+
+        val result = accountRepository.getAccountData(accountLocalId, forceUpdate)
+
+        if(forceUpdate){
+            operationRepository.getOperations(true)
+            contactRepository.getContactsList(true)
+        }
         return result
     }
 

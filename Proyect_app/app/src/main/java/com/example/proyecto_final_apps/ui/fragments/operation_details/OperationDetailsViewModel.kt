@@ -6,6 +6,7 @@ import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
+import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.domain.OperationDomain
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OperationDetailsViewModel @Inject constructor(
     private val opRepository: OperationRepository,
-    private val acRepository: AccountRepository,
-    private val opDomain:OperationDomain
+    private val opDomain:OperationDomain,
+    private val accountDomain: AccountDomain
     ) :
     ViewModel() {
 
@@ -46,7 +47,7 @@ class OperationDetailsViewModel @Inject constructor(
         val operation = opDomain.getOperationData(localOperationId, forceUpdate)
 
         if (operation is Resource.Success){
-            accountModel = acRepository.getAccountData(operation.data.accountLocalId, forceUpdate)
+            accountModel = accountDomain.getAccountData(operation.data.accountLocalId, forceUpdate)
             if(accountModel is Resource.Success)
                 _accountData.value = Status.Success(accountModel.data)
             else
