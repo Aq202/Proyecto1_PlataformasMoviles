@@ -2,6 +2,7 @@ package com.example.proyecto_final_apps.data.repository
 
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.DebtAcceptedModel
+import com.example.proyecto_final_apps.data.local.entity.DebtWithContactModel
 
 interface DebtRepository {
     suspend fun createDebt(
@@ -16,4 +17,8 @@ interface DebtRepository {
         debtLocalID:Int,
         updateRemotely:Boolean = true
     ):Resource<Boolean>
+
+    suspend fun getAcceptedDebtData(
+        acceptedDebtLocalId:Int
+    ):Resource<DebtWithContactModel>
 }

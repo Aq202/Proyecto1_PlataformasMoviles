@@ -250,6 +250,20 @@ class DebtRepositoryImp(
 
     }
 
+    override suspend fun getAcceptedDebtData(acceptedDebtLocalId: Int):Resource<DebtWithContactModel> {
+
+        //Las deudas se descargan al obtener la información del contacto
+        //Solo obtener de la BD
+
+        val debt = database.debtDao().getAcceptedDebt(acceptedDebtLocalId) ?: return Resource.Error("La deuda no existe")
+        val contact = database.userDao().getUser(debt.userInvolved) ?: return Resource.Error("No se encontró al contacto.")
+
+        return Resource.Success(DebtWithContactModel(contact, debt))
+
+
+
+    }
+
 
     private suspend fun finalizeDebtInApi(debt: DebtAcceptedModel): Resource<Boolean> {
 

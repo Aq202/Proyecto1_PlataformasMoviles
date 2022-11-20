@@ -173,6 +173,17 @@ class AppModule {
         return ContactDomainImp(accountRepository, contactRepository, operationRepository)
     }
 
+    @Provides
+    @Singleton
+    fun providesDebtDomainClass(
+        accountRepository: AccountRepository,
+        operationRepository: OperationRepository,
+        contactRepository: ContactRepository,
+         debtRepository: DebtRepository
+    ): DebtDomain {
+        return DebtDomainImp(accountRepository, operationRepository, contactRepository, debtRepository)
+    }
+
 }
 
 

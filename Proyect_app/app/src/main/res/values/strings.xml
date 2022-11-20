@@ -132,5 +132,6 @@
     <string name="completar_deuda">Completar</string>
     <string name="olvidar_deuda">Olvidar</string>
     <string name="debt_disclaimer">Al completar la deuda se realizará el pago o depósito (según corresponda) en la cuenta especificada.</string>
+    <string name="hint_seleccionar_cuenta">Seleccionar cuenta</string>
 
 </resources>

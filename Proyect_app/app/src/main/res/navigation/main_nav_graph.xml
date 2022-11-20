@@ -280,11 +280,16 @@
     </fragment>
     <fragment
         android:id="@+id/debtDetailsFragment"
-        android:name="com.example.proyecto_final_apps.ui.debt_detail.DebtDetailsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.debt_detail.DebtDetailsFragment"
         android:label="Detalles de deuda" >
         <argument
             android:name="debtId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_debtDetailsFragment_to_contactProfileFragment"
+            app:destination="@id/contactProfileFragment"
+            app:popUpTo="@id/debtDetailsFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
     <action

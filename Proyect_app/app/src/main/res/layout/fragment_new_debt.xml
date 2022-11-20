@@ -130,8 +130,8 @@
                 app:startIconDrawable="@drawable/ic_balance"
                 app:startIconTint="@color/dark_gray"
                 app:endIconMode="dropdown_menu"
-                app:layout_constraintBottom_toTopOf="@id/textView_newDebtFragment_Amount"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:layout_constraintBottom_toTopOf="@id/textView_newDebtFragment_Amount"
                 android:hint="@string/hint_operation_type"
                 >
 

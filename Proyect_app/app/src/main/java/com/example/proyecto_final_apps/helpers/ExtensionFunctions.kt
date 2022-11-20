@@ -2,6 +2,9 @@ package com.example.proyecto_final_apps.helpers
 
 import android.content.Context
 import android.content.res.ColorStateList
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.CategoryModel
 import com.google.android.material.chip.Chip
@@ -77,5 +80,9 @@ fun String.getWords(): List<String>{
 
 fun String.createPartFromString(): RequestBody {
     return this.toRequestBody("text/plain".toMediaTypeOrNull())
+}
+
+fun NavController.checkIfIsPreviousBackStackEntry(fragmentId:Int):Boolean{
+    return this.previousBackStackEntry?.destination?.id == fragmentId
 }
 
