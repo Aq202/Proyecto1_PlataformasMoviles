@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
@@ -31,7 +32,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView_homeFragment_headerCard"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/header_card_negativeMarginTop"
                     android:backgroundTint="@color/dark_blue"
                     app:cardCornerRadius="@dimen/header_card_radius"
@@ -43,7 +44,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="35dp">
+                        android:layout_marginTop="35dp"
+                        android:layout_marginBottom="125dp">
 
                         <TextView
                             android:id="@+id/textView_homeFragment_accountName"
@@ -64,10 +66,16 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/h2_text_size"
                             android:textStyle="bold"
+                            android:paddingHorizontal="20dp"
+                            android:textAlignment="center"
                             app:layout_constraintEnd_toEndOf="@id/textView_homeFragment_accountName"
                             app:layout_constraintStart_toStartOf="@id/textView_homeFragment_accountName"
                             app:layout_constraintTop_toBottomOf="@id/textView_homeFragment_accountName"
-                            tools:text="@string/develop_fullname" />
+                            tools:text="Christopher Emeraldo Canes Ruiz de la cruz"
+                            android:scrollHorizontally="true"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 

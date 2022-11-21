@@ -192,6 +192,7 @@
         tools:layout="@layout/fragment_pending_payments" />
     <fragment
         android:id="@+id/newActionFragment"
+        android:label=""
         android:name="com.example.proyecto_final_apps.ui.fragments.NewActionFragment"
         tools:layout="@layout/fragment_new_action">
         <action
