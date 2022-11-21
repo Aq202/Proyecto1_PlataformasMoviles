@@ -8,14 +8,17 @@
     tools:context=".ui.fragments.editProfile.EditProfileFragment"
     android:clipToPadding="false">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout_editProfileFragment_fragmentContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/coordinatorLayout_editProfileFragment_fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_editProfile_pictureContainer"
@@ -231,6 +234,7 @@
                 />
 
             <ImageView
+                android:id="@+id/editProfileFragment_uploadImage_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/background_round"
@@ -245,35 +249,35 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container_errorFragmentMessageContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/imageView_noResultsBanner"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:src="@drawable/ic_banner_error"
-            app:layout_constraintBottom_toTopOf="@id/textView_noResults"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/textView_noResults"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_errorFragmentMessageContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/ocurrio_un_error"
-            android:textAlignment="center"
-            android:textSize="@dimen/h3_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_noResultsBanner" />
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView_noResultsBanner"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/ic_banner_error"
+                app:layout_constraintBottom_toTopOf="@id/textView_noResults"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/textView_noResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/ocurrio_un_error"
+                android:textAlignment="center"
+                android:textSize="@dimen/h3_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_noResultsBanner" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

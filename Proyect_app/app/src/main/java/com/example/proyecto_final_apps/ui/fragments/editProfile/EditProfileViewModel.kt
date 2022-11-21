@@ -52,6 +52,9 @@ class EditProfileViewModel @Inject constructor(
         if (userDataResult is Resource.Success) { //Se obtienen los datos actuales exitosamente
             _userData.value = Status.Success(userDataResult.data)
             _editProfileStateFlow.value = EditProfileStatus.Success
+            val currentBirthDate = userDataResult.data.birthDate
+            _birthDate.value = "${currentBirthDate[3]}${currentBirthDate[4]}/${currentBirthDate[0]}${currentBirthDate[1]}/${currentBirthDate[6]}${currentBirthDate[7]}${currentBirthDate[8]}${currentBirthDate[9]}"
+
         } else {
             _userData.value = Status.Error(userDataResult.message ?: "Ocurrió un error al obtener los datos actuales")
             _editProfileStateFlow.value = EditProfileStatus.Error("")
@@ -88,7 +91,8 @@ class EditProfileViewModel @Inject constructor(
         email: String,
         password: String,
         confirmPass: String,
-        profilePicPath: String
+        imageUrl: String?,
+        profilePicPath: String?
     ){
         _editProfileStateFlow.value = EditProfileStatus.Loading
 
@@ -104,6 +108,7 @@ class EditProfileViewModel @Inject constructor(
                         user = user,
                         email = email,
                         password = password,
+                        imageUrl = imageUrl,
                         profilePicPath = profilePicPath
                     )){
                         is Resource.Success -> {
@@ -116,11 +121,11 @@ class EditProfileViewModel @Inject constructor(
                     }
                 }
                 else{
-                    _editProfileStateFlow.value = EditProfileStatus.Error("Las contraseñas ingresadas no coinciden.")
+                    _editProfileStateFlow.value = EditProfileStatus.UpdatingError("Las contraseñas ingresadas no coinciden.")
                 }
             }
             else{
-                _editProfileStateFlow.value = EditProfileStatus.Error("Es necesario completar todos los campos.")
+                _editProfileStateFlow.value = EditProfileStatus.UpdatingError("Es necesario completar todos los campos.")
             }
         }
     }

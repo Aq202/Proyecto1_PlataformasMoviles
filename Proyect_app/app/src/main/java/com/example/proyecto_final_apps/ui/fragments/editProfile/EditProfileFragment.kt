@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.ui.fragments.editProfile
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,15 +20,15 @@ import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.databinding.FragmentEditProfileBinding
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
-import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.util.Status
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.util.*
 
-
+@AndroidEntryPoint
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private lateinit var binding: FragmentEditProfileBinding
@@ -35,6 +36,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val editProfileViewModel: EditProfileViewModel by viewModels()
     private val userViewModel: UserViewModel by activityViewModels()
     private val loadingViewModel: LoadingViewModel by activityViewModels()
+    private  lateinit var currentUserData: UserModel
     private var profilePicPath: String? = ""
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result: ActivityResult ->
@@ -83,10 +85,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     }
 
-    private suspend fun showUserData(status: Status<UserModel>) {
+    private fun showUserData(status: Status<UserModel>) {
 
         if (status is Status.Success){
-            val currentUserData = status.value
+            currentUserData = status.value
             binding.apply {
                 textFieldEditProfileFragmentFirstName.editText!!.setText(currentUserData.name)
                 textFieldEditProfileFragmentLastName.editText!!.setText(currentUserData.lastName)
@@ -123,22 +125,28 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                             coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.GONE
                             containerErrorFragmentMessageContent.visibility = View.VISIBLE
                         }
+                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
+                        println(result.error)
                     }
                     is EditProfileStatus.Success -> {
                         binding.apply {
                             coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.VISIBLE
                             containerErrorFragmentMessageContent.visibility = View.GONE
+                            buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE
+                            progressIndicatorFragmentEditProfile.visibility = View.GONE
                         }
                     }
                     is EditProfileStatus.UpdatingError -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.apply {
                             buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE
-                            buttonEditProfileFragmentSaveChanges.visibility = View.GONE
+                            progressIndicatorFragmentEditProfile.visibility = View.GONE
                         }
+                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                     }
                     is EditProfileStatus.Updated -> {
                         userViewModel.getUserData(true)
+                        Toast.makeText(requireContext(), "Perfil actualizado exitosamente", Toast.LENGTH_LONG).show()
                         requireView().findNavController().navigate(R.id.action_toUserProfile)
                     }
                     else -> {}
@@ -166,6 +174,16 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
             }
 
+            editProfileFragmentUploadImageButton.setOnClickListener {
+                ImagePicker.with(this@EditProfileFragment)
+                    .compress(1024)         //Final image size will be less than 1 MB(Optional)
+                    .maxResultSize(150,150)
+                    .cropSquare()
+                    .createIntent { intent: Intent ->
+                        galleryLauncher.launch(intent)
+                    }
+            }
+
             buttonEditProfileFragmentSaveChanges.setOnClickListener {
                 saveChanges()
             }
@@ -181,6 +199,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         val confirmPass = binding.textFieldEditProfileFragmentConfirmPassword.editText!!.text.toString()
         val username = binding.textFieldEditProfileFragmentUser.editText!!.text.toString()
         val birthDate = editProfileViewModel.birthDate.value!!
+        var imageUrl: String? = null
+        if (profilePicPath == "")
+            imageUrl = currentUserData.imageUrl
 
         editProfileViewModel.editProfile(
             firstName = firstName,
@@ -190,7 +211,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             email = email,
             password = password,
             confirmPass = confirmPass,
-            profilePicPath = profilePicPath?: ""
+            imageUrl = imageUrl,
+            profilePicPath = profilePicPath
         )
     }
 

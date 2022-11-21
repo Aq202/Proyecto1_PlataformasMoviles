@@ -41,10 +41,11 @@ interface API {
     ): Response<SignUpResponse>
 
     @Multipart
-    @PUT("/user/editProfile")
+    @POST("/user/edit")
     suspend fun editProfile(
+        @Header("authorization") token:String,
         @PartMap() data:MutableMap<String, RequestBody>,
-        @Part image: MultipartBody.Part
+        @Part image: MultipartBody.Part?
     ): Response<EditProfileResponse>
 
 

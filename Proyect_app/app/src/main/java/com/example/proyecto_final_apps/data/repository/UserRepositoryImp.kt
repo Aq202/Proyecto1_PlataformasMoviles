@@ -220,7 +220,6 @@ class UserRepositoryImp @Inject constructor(
 
         try {
 
-
             //crear estructura a enviar como formData
             val dataMap: MutableMap<String, RequestBody> = mutableMapOf()
             dataMap["name"] = firstName.createPartFromString()
@@ -266,7 +265,7 @@ class UserRepositoryImp @Inject constructor(
             }
 
         } catch (exception: Exception) {
-            println(exception.message)
+            println("Pablo: ${exception.message}")
             return Resource.Error("Error de conexión al servidor.")
         }
 
@@ -279,11 +278,14 @@ class UserRepositoryImp @Inject constructor(
         user: String,
         email: String,
         password: String,
-        profilePicPath: String
+        imageUrl: String?,
+        profilePicPath: String?
     ): Resource<Boolean> {
 
         try {
 
+            val ds = MyDataStore(context)
+            val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
 
             //crear estructura a enviar como formData
             val dataMap: MutableMap<String, RequestBody> = mutableMapOf()
@@ -294,27 +296,30 @@ class UserRepositoryImp @Inject constructor(
             dataMap["alias"] = user.createPartFromString()
             dataMap["password"] = password.createPartFromString()
 
+            //Verificar si se cambió la imagen de perfil
+            if (imageUrl != null){
+                dataMap["imageUrl"] = imageUrl.createPartFromString()
+            }
+
             //Imagen en formato multipart
 
-            val file = File(profilePicPath)
-            val requestFile = file.asRequestBody("image/*".toMediaType())
-            val multipartImage: MultipartBody.Part =
-                MultipartBody.Part.createFormData("image", file.name, requestFile);
+            var multipartImage: MultipartBody.Part? = null
+
+            if (profilePicPath != ""){
+                val file = File(profilePicPath)
+                val requestFile = file.asRequestBody("image/*".toMediaType())
+                multipartImage = MultipartBody.Part.createFormData("image", file.name, requestFile);
+            }
 
 
-            val result = api.signUp(dataMap, multipartImage)
+            val result = api.editProfile(token, dataMap, multipartImage)
 
             return if (result.isSuccessful) {
 
                 val response = result.body()
 
-                val ds = MyDataStore(context)
-
-                ds.saveKeyValue("token", response!!.token)
-                ds.saveKeyValue("userId", response.userData.id)
-
                 //guardar datos del usuario
-                database.userDao().insertUser(response.userData.toUserModel())
+                database.userDao().insertUser(response!!.userData.toUserModel())
 
                 return Resource.Success(true)
 
