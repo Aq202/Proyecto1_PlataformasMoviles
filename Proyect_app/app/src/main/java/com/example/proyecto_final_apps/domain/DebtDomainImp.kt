@@ -3,6 +3,8 @@ package com.example.proyecto_final_apps.domain
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.DebtAcceptedModel
 import com.example.proyecto_final_apps.data.local.entity.DebtWithContactModel
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
+import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.ContactRepository
 import com.example.proyecto_final_apps.data.repository.DebtRepository
@@ -39,7 +41,7 @@ class DebtDomainImp @Inject constructor(
         return debtRepository.finalizeDebt(debtLocalID)
     }
 
-    override suspend fun getDebtList(forceUpdate: Boolean): Resource<List<DebtAcceptedModel>> {
+    override suspend fun getDebtList(forceUpdate: Boolean): Resource<List<Pair<DebtAcceptedModel, UserModel>>> {
         if (forceUpdate) {
             accountRepository.getAccountList(true)
             operationRepository.getOperations(true)
@@ -47,6 +49,10 @@ class DebtDomainImp @Inject constructor(
         }
         return debtRepository.getDebtList(forceUpdate)
 
+    }
+
+    override suspend fun completeDebt(debtLocalId:Int, targetAccountId:Int):Resource<OperationModel>{
+        return debtRepository.completeDebt(debtLocalId, targetAccountId)
     }
 
 }

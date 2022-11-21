@@ -257,14 +257,14 @@
                     android:layout_marginTop="20dp"
                     android:text="@string/cuenta_de_origen"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/textInput_pendingPaymentDetailsFragment_originAccount"
+                    app:layout_constraintBottom_toTopOf="@id/textInput_debtDetailsFragment_originAccount"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_pendingPaymentDetailsFragment_accountDisclaimer" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textInput_pendingPaymentDetailsFragment_originAccount"
+                    android:id="@+id/textInput_debtDetailsFragment_originAccount"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_pendingPaymentDetailsFragment_originAccount"
@@ -302,7 +302,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/button_debtDetailsFragment_forgetDebt"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textInput_pendingPaymentDetailsFragment_originAccount" />
+                    app:layout_constraintTop_toBottomOf="@id/textInput_debtDetailsFragment_originAccount" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_debtDetailsFragment_forgetDebt"

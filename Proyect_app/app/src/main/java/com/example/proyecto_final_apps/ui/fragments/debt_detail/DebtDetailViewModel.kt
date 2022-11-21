@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.proyecto_final_apps.data.Resource
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.DebtWithContactModel
+import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.domain.DebtDomain
 import com.example.proyecto_final_apps.ui.util.ErrorType
@@ -68,6 +69,17 @@ class DebtDetailViewModel @Inject constructor(
             val result = debtDomain.finalizeDebt(debtLocalId)
 
             if(result is Resource.Success) emit(Status.Success(true))
+            else emit(Status.Error(result.message ?: "Ocurrió un error."))
+        }
+    }
+
+    fun completeDebt(debtLocalId: Int, targetAccountId:Int) : Flow<Status<OperationModel>>{
+        return flow {
+            emit(Status.Loading())
+
+            val result = debtDomain.completeDebt(debtLocalId, targetAccountId)
+
+            if(result is Resource.Success) emit(Status.Success(result.data))
             else emit(Status.Error(result.message ?: "Ocurrió un error."))
         }
     }

@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -18,9 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
-import com.example.proyecto_final_apps.data.local.entity.OperationModel
-import com.example.proyecto_final_apps.data.local.entity.getCategory
-import com.example.proyecto_final_apps.data.local.entity.toOperationItem
+import com.example.proyecto_final_apps.data.local.entity.*
 import com.example.proyecto_final_apps.databinding.FragmentHomeBinding
 import com.example.proyecto_final_apps.helpers.twoDecimals
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
@@ -29,14 +25,10 @@ import com.example.proyecto_final_apps.ui.activity.UserSessionStatus
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.example.proyecto_final_apps.ui.adapters.OperationAdapter
 import com.example.proyecto_final_apps.ui.adapters.OperationItem
-import com.example.proyecto_final_apps.ui.dialogs.LoadingDialog
 import com.example.proyecto_final_apps.ui.fragments.operation_details.OperationDetailsFragmentDirections
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -49,7 +41,7 @@ class HomeFragment : Fragment() {
     private val loadingViewModel: LoadingViewModel by activityViewModels()
 
     private var recentOperationsList: MutableList<OperationItem> = mutableListOf()
-    private var pendingOperationsList: MutableList<OperationItem> = mutableListOf()
+    private var acceptedDebtsList: MutableList<OperationItem> = mutableListOf()
 
 
     override fun onCreateView(
@@ -79,13 +71,13 @@ class HomeFragment : Fragment() {
         }
 
 
-
     }
 
     private suspend fun loadFragmentData(forceUpdate: Boolean = false) {
         userViewModel.getUserData(forceUpdate)
         homeViewModel.getRecentOperations(forceUpdate)
         homeViewModel.getGeneralBalance()
+        homeViewModel.getAcceptedDebts(false) //Se actualiza al obtener operaciones
 
     }
 
@@ -123,32 +115,64 @@ class HomeFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            homeViewModel.pendingOperations.collectLatest { status ->
-                addPendingOperationsData(status)
+            homeViewModel.acceptedDebts.collectLatest { status ->
+                addAcceptedDebtsData(status)
             }
         }
 
         lifecycleScope.launchWhenStarted {
-            homeViewModel.fragmentState.collectLatest { status->
-                if(status is Status.Success){
+            homeViewModel.fragmentState.collectLatest { status ->
+                if (status is Status.Success) {
                     binding.swipeResfreshLayoutHomeFragment.visibility = View.VISIBLE
                 }
             }
         }
 
 
-
     }
 
 
-    private fun addPendingOperationsData(status: Status<List<OperationModel>>) {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addAcceptedDebtsData(status: Status<List<Pair<DebtAcceptedModel, UserModel>>>) {
         when (status) {
             is Status.Success -> {
 
 
+                acceptedDebtsList.clear()
+                acceptedDebtsList.addAll(status.value.map {
+                    val debt = it.first
+                    val user = it.second
+
+                    val title = getString(
+                        if (debt.active)
+                            R.string.passive_debt_title
+                        else
+                            R.string.active_debt_title,
+                        getString(R.string.alias_format, user.alias)
+                    )
+
+                    OperationItem(
+                        localId = debt.localId!!,
+                        remoteId = debt.remoteId,
+                        title = title,
+                        category = Category(requireContext()).getDebtsCategory(),
+                        amount = debt.amount,
+                        active = debt.active,
+                        imgUrl = user.imageUrl
+                    )
+                })
+
+                //Mostrar datos
+                binding.apply {
+                    recyclerViewHomeFragmentPendingPayments.adapter!!.notifyDataSetChanged()
+                    recyclerViewHomeFragmentPendingPayments.visibility = View.VISIBLE
+                    textViewHomeFragmentPendingPaymentsNoContent.visibility = View.GONE
+
+                }
             }
             else -> {
                 binding.apply {
+
                     recyclerViewHomeFragmentPendingPayments.visibility = View.GONE
                     textViewHomeFragmentPendingPaymentsNoContent.visibility = View.VISIBLE
                 }
@@ -162,7 +186,7 @@ class HomeFragment : Fragment() {
         when (status) {
             is Status.Success -> {
                 recentOperationsList.clear()
-                recentOperationsList.addAll(status.value.map{
+                recentOperationsList.addAll(status.value.map {
                     it.toOperationItem(requireContext())
                 })
 
@@ -185,7 +209,7 @@ class HomeFragment : Fragment() {
     private fun showGeneralBalance(status: Status<Double>) {
         if (status is Status.Success) {
             val balance = status.value
-            if (balance!! >= 0.0)
+            if (balance >= 0.0)
                 binding.textViewHomeFragmentGeneralBalanceAmount.setTextColor(
                     ContextCompat.getColor(requireContext(), R.color.light_green_2)
                 )
@@ -225,7 +249,8 @@ class HomeFragment : Fragment() {
     private class PendingPaymentsListener(val navController: NavController) :
         OperationAdapter.OperationListener {
         override fun onItemClicked(operationData: OperationItem, position: Int) {
-            navController.navigate(R.id.action_toPendingPaymentDetailsFragment)
+            val action = HomeFragmentDirections.actionToDebtDetailsFragment(operationData.localId)
+            navController.navigate(action)
         }
 
         override fun onItemPressed(operationData: OperationItem, position: Int) {
@@ -288,7 +313,7 @@ class HomeFragment : Fragment() {
             isNestedScrollingEnabled = false  //disable scroll
 
             adapter =
-                OperationAdapter(pendingOperationsList, PendingPaymentsListener(findNavController()))
+                OperationAdapter(acceptedDebtsList, PendingPaymentsListener(findNavController()))
         }
 
     }

@@ -222,7 +222,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             textViewAccountDetailsFragmentAccountBalance.text =
                 getString(R.string.money_format, generalBalance.toInt().twoDigits())
             textViewAccountDetailsFragmentAccountlBalanceCents.text =
-                getString(R.string.cents_format, generalBalance.getDecimal(2).twoDigits())
+                getString(R.string.cents_format, abs(generalBalance).getDecimal(2).twoDigits())
 
         }
     }
@@ -237,7 +237,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
                 textViewAccountDetailsFragmentAccountMovement.text =
                     getString(R.string.money_format, abs(balanceMovement).toInt().twoDigits())
                 textViewAccountDetailsFragmentAccountMovementCents.text =
-                    getString(R.string.cents_format, balanceMovement.getDecimal(2).twoDigits())
+                    getString(R.string.cents_format, abs(balanceMovement).getDecimal(2).twoDigits())
 
                 //change movement text color
                 if (balanceMovement >= 0) {

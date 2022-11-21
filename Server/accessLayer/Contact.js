@@ -22,7 +22,7 @@ class Contact {
 		const result = await ContactSchema.find({ subject: subjectId }).populate("userAsContact");
 		return result.map(contact => {
 			const parsed = parseMongoObject(contact);
-			parsed.userAsContact = parseMongoObject(parsed.userAsContact);
+			parsed.userAsContact = parseUserObject(parsed.userAsContact);
 			return parsed;
 		});
 	}
@@ -42,9 +42,21 @@ class Contact {
 				} 
 			 })
 			 .populate({ 
+				path: 'debtsAccepted',
+				populate: {
+				  path: 'userInvolved',
+				} 
+			 })
+			 .populate({ 
 				path: 'debtsToAccept',
 				populate: {
 				  path: 'accountInvolved',
+				} 
+			 })
+			 .populate({ 
+				path: 'debtsToAccept',
+				populate: {
+				  path: 'userInvolved',
 				} 
 			 })
 			

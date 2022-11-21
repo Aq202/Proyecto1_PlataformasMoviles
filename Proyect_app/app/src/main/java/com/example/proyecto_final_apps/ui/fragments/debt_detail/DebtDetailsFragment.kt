@@ -37,7 +37,7 @@ class DebtDetailsFragment : Fragment() {
     private lateinit var accountsList: List<AccountModel>
     private lateinit var debtData: DebtWithContactModel
 
-    private var blockFinalize = false
+    private var blockButtonsAction = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,6 +77,11 @@ class DebtDetailsFragment : Fragment() {
 
             }
 
+            //Complete button
+            buttonDebtDetailsFragmentMarkAsCompleted.setOnClickListener {
+                sendCompleteDebtAction()
+            }
+
         }
 
 
@@ -85,12 +90,12 @@ class DebtDetailsFragment : Fragment() {
 
     private fun handleFinalizeDebt() {
 
-        if (blockFinalize) return
+        if (blockButtonsAction) return
 
         MaterialAlertDialogBuilder(requireContext())
             .setPositiveButton("Finalizar") { _, _ ->
 
-                blockFinalize = true
+                blockButtonsAction = true
 
                 //Finalizar deuda
                 lifecycleScope.launchWhenStarted {
@@ -101,7 +106,7 @@ class DebtDetailsFragment : Fragment() {
 
             }
             .setNegativeButton("Cancelar") { _, _ ->
-                blockFinalize = false
+                blockButtonsAction = false
             }
             .setTitle("¿Deseas finalizar esta deuda?")
             .setMessage("Toma en cuenta que no podrás recuperar el contenido de esta y que se realizará la operación correspondiente (ingreso/egreso) en tu cuenta de deudas sin reflejar modificaciones en tus otras cuentas.")
@@ -122,7 +127,7 @@ class DebtDetailsFragment : Fragment() {
                     )
                 findNavController().navigate(action)
             }
-        }else if (status is Status.Error) blockFinalize = false
+        } else if (status is Status.Error) blockButtonsAction = false
 
     }
 
@@ -174,14 +179,14 @@ class DebtDetailsFragment : Fragment() {
 
     private fun enableAccountFunctions() {
         binding.apply {
-            textInputPendingPaymentDetailsFragmentOriginAccount.isEnabled = true
+            textInputDebtDetailsFragmentOriginAccount.isEnabled = true
             buttonDebtDetailsFragmentMarkAsCompleted.isEnabled = true
         }
     }
 
     private fun disableAccountFunctions() {
         binding.apply {
-            textInputPendingPaymentDetailsFragmentOriginAccount.isEnabled = false
+            textInputDebtDetailsFragmentOriginAccount.isEnabled = false
             buttonDebtDetailsFragmentMarkAsCompleted.isEnabled = false
         }
     }
@@ -238,4 +243,54 @@ class DebtDetailsFragment : Fragment() {
             }
         }
     }
+
+    private fun getAndValidateAccount(): AccountModel? {
+        binding.apply {
+            if (accountSelectedIndex == null) {
+                textInputDebtDetailsFragmentOriginAccount.error =
+                    "Debe especificar la cuenta objetivo."
+                return null
+            } else {
+                val account = accountsList[accountSelectedIndex!!]
+
+                //Si la cuenta requiere retirar fondos, validar que tenga suficientes
+                if (!debtData.acceptedDebt.active && account.total < debtData.acceptedDebt.amount) {
+                    textInputDebtDetailsFragmentOriginAccount.error =
+                        "La cuenta seleccionada no cuenta con fondos suficientes."
+                    return null
+                }
+                textInputDebtDetailsFragmentOriginAccount.error = null
+                return account
+            }
+        }
+    }
+
+    private fun sendCompleteDebtAction() {
+
+        if (blockButtonsAction) return
+
+        val account = getAndValidateAccount() ?: return
+        blockButtonsAction = true
+
+        lifecycleScope.launchWhenStarted {
+            debtDetailViewModel.completeDebt(debtData.acceptedDebt.localId!!, account.localId!!)
+                .collectLatest { status ->
+                    if (status is Status.Loading) loadingViewModel.showLoadingDialog()
+                    else loadingViewModel.hideLoadingDialog()
+
+                    if (status is Status.Success) {
+                        //Navegar a detalle de operación creada
+                        val action =
+                            DebtDetailsFragmentDirections.actionDebtDetailsFragmentToOperationDetailsFragment(
+                                status.value.localId!!
+                            )
+                        findNavController().navigate(action)
+                    } else if (status is Status.Error)
+                        Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
+                    blockButtonsAction = false //Desbloquear botones
+                }
+        }
+    }
+
+
 }

@@ -290,6 +290,11 @@
             app:destination="@id/contactProfileFragment"
             app:popUpTo="@id/debtDetailsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_debtDetailsFragment_to_operationDetailsFragment"
+            app:destination="@id/operationDetailsFragment"
+            app:popUpTo="@id/debtDetailsFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
     <action

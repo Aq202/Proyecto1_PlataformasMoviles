@@ -95,7 +95,7 @@ class ContactRepositoryImp @Inject constructor(
             }
         }
 
-        //Deudas por crear
+        //Contacto por crear
         val contactsToUpdate = database.contactDao().getAllContactsRequiringUpdate()
         contactsToUpdate.forEach {
             if (it.remoteId == null) {
