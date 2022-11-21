@@ -182,8 +182,8 @@
         app:destination="@id/operationDetailsFragment" />
     <fragment
         android:id="@+id/recentOperationsFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.RecentOperationsFragment"
-        android:label="Operaciones recientes"
+        android:name="com.example.proyecto_final_apps.ui.fragments.recent_operations.RecentOperationsFragment"
+        android:label=""
         tools:layout="@layout/fragment_recent_operations" />
     <fragment
         android:id="@+id/pendingPaymentsFragment"
