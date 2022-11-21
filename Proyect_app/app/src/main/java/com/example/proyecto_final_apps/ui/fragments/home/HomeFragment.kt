@@ -144,7 +144,7 @@ class HomeFragment : Fragment() {
                     val user = it.second
 
                     val title = getString(
-                        if (debt.active)
+                        if (!debt.active)
                             R.string.passive_debt_title
                         else
                             R.string.active_debt_title,

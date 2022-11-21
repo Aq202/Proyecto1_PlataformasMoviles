@@ -187,8 +187,8 @@
         tools:layout="@layout/fragment_recent_operations" />
     <fragment
         android:id="@+id/pendingPaymentsFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.PendingPaymentsFragment"
-        android:label="Pagos pendientes"
+        android:name="com.example.proyecto_final_apps.ui.fragments.pending_payments.PendingPaymentsFragment"
+        android:label=""
         tools:layout="@layout/fragment_pending_payments" />
     <fragment
         android:id="@+id/newActionFragment"
