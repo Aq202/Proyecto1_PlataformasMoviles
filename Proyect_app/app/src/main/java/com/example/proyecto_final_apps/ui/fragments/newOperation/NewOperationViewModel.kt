@@ -17,8 +17,13 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class NewOperationViewModel @Inject constructor(private val opRepository: OperationRepository) :
+class NewOperationViewModel @Inject constructor(
+    private val opRepository: OperationRepository
+    ) :
     ViewModel() {
+
+    private val _fragmentState:MutableStateFlow<Status<Boolean>> = MutableStateFlow(Status.Loading())
+    val fragmentState:StateFlow<Status<Boolean>> = _fragmentState
 
     fun createOperation(
         title: String,
@@ -50,6 +55,10 @@ class NewOperationViewModel @Inject constructor(private val opRepository: Operat
                 emit(Status.Success(result.data))
             else emit(Status.Error(result.message ?: ""))
         }
+    }
+
+    fun setSuccessFragmentStatus(){
+        _fragmentState.value = Status.Success(true)
     }
 
 }

@@ -8,18 +8,28 @@ import com.example.proyecto_final_apps.data.repository.AccountRepository
 import com.example.proyecto_final_apps.data.repository.OperationRepository
 import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.domain.OperationDomain
+import com.example.proyecto_final_apps.helpers.DateParse.getDayValue
+import com.example.proyecto_final_apps.helpers.DateParse.getMonthValue
+import com.example.proyecto_final_apps.helpers.DateParse.getYearValue
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class EditOperationViewModel @Inject constructor(
     private val opDomain:OperationDomain,
+    private val opRepository: OperationRepository,
     private val accountDomain:AccountDomain
     ) :
     ViewModel() {
+
+    private val _fragmentState:MutableStateFlow<Status<Boolean>> = MutableStateFlow(Status.Loading())
+    val fragmentState:StateFlow<Status<Boolean>> = _fragmentState
 
     private val _operationData: MutableStateFlow<Status<OperationModel>> =
         MutableStateFlow(Status.Default())
@@ -53,5 +63,43 @@ class EditOperationViewModel @Inject constructor(
         else
             _accountData.value = Status.Error(operation.message ?: "")
 
+    }
+
+    fun updateOperation(
+        operationLocalId: Int,
+        title: String,
+        accountLocalId: Int,
+        amount: Double,
+        active: Boolean,
+        description: String?,
+        category: Int,
+        favorite: Boolean,
+        imgUrl: String?,
+    ): Flow<Status<OperationModel>> {
+
+        return flow {
+
+            emit(Status.Loading())
+
+            val result = opRepository.updateOperation(
+                operationLocalId = operationLocalId,
+                title = title,
+                accountLocalId = accountLocalId,
+                amount = amount,
+                active = active,
+                description = description,
+                category = category,
+                favorite = favorite,
+                imgUrl = imgUrl
+            )
+
+            if(result is Resource.Success)
+                emit(Status.Success(result.data))
+            else emit(Status.Error(result.message ?: ""))
+        }
+    }
+
+    fun setSuccessFragmentStatus(){
+        _fragmentState.value = Status.Success(true)
     }
 }

@@ -124,6 +124,7 @@
     <string name="gastos">Gastos</string>
     <string name="titulo_operacion_inicial_cuenta">Monto inicial de cuenta %s</string>
     <string name="descripcion_operacion_inicial_cuenta">Monto inicial de la cuenta.</string>
+    <string name="placeholder_titulo">Título</string>
     <string name="account_update_operation_title">Actualización del monto de la cuenta.</string>
     <string name="active_debt_finalization_title">Deuda finalizada de %s </string>
     <string name="passive_debt_finalization_title">Deuda finalizada con %s </string>

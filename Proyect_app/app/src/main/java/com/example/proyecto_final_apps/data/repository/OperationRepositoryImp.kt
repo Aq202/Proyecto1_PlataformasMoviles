@@ -367,11 +367,10 @@ class OperationRepositoryImp @Inject constructor(
     override suspend fun updateOperation(
         operationLocalId: Int,
         accountLocalId: Int?,
-        accountRemoteId: String?,
         active: Boolean?,
         amount: Double?,
         category: Int?,
-        favourite: Boolean?,
+        favorite: Boolean?,
         title: String?,
         description: String?,
         imgUrl: String?
@@ -381,9 +380,9 @@ class OperationRepositoryImp @Inject constructor(
             ?: return Resource.Error("La operación no existe.")
 
         var accRequest = accountRepository.getAccountData(operation.accountLocalId, false)
-        val oldAccount = if (accRequest is Resource.Success) accRequest.data else null
+        val accountRemoteId = if (accRequest is Resource.Success) accRequest.data.remoteId else return Resource.Error("La cuenta indicada no se ha encontrado remotamente.")
 
-        if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favourite != null || title != null || description != null || imgUrl != null))
+        if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favorite != null || title != null || description != null || imgUrl != null))
             return Resource.Success(operation)
 
         if (accountLocalId != null) operation.accountLocalId = accountLocalId
@@ -391,7 +390,7 @@ class OperationRepositoryImp @Inject constructor(
         if (active != null) operation.active = active
         if (amount != null) operation.amount = amount
         if (category != null) operation.category = category
-        if (favourite != null) operation.favorite = favourite
+        if (favorite != null) operation.favorite = favorite
         if (title != null) operation.title = title
         if (description != null) operation.description = description
         if (imgUrl != null) operation.imgUrl = imgUrl

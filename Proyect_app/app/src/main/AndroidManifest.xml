@@ -37,7 +37,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"
-
+            android:label=""
             android:theme="@style/Theme.Proyecto_final_apps"
             >
             <meta-data

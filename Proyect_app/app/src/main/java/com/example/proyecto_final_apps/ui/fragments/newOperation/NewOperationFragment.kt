@@ -68,9 +68,12 @@ class NewOperationFragment : Fragment() {
         generateChipGroup()
         setListeners()
         setObservers()
+        loadingViewModel.showLoadingDialog() //show loading
         lifecycleScope.launchWhenStarted {
             getFragmentData()
             setDropLists()
+            loadingViewModel.hideLoadingDialog() //hide loading
+            newOperationViewModel.setSuccessFragmentStatus()
         }
     }
 
@@ -78,6 +81,13 @@ class NewOperationFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             accountListViewModel.accountList.collectLatest { status ->
                 addAccountsList(status)
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            newOperationViewModel.fragmentState.collectLatest { status->
+                if(status is Status.Success){
+                    binding.swipeResfreshLayoutNewOperationFragment.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -94,6 +104,7 @@ class NewOperationFragment : Fragment() {
             println("Diego: ${status.error}")
         }
     }
+
     private suspend fun getFragmentData(forceUpdate:Boolean = false) {
         accountListViewModel.getAccountList(forceUpdate)
     }
@@ -130,6 +141,14 @@ class NewOperationFragment : Fragment() {
         }
         binding.buttonNewOperationFragmentAdd.setOnClickListener{
             createOperation()
+        }
+        binding.swipeResfreshLayoutNewOperationFragment.setOnRefreshListener {
+            println("REFRESHING...")
+            lifecycleScope.launchWhenStarted {
+                getFragmentData(true)
+                binding.swipeResfreshLayoutNewOperationFragment.isRefreshing = false
+            }
+
         }
     }
 

@@ -24,6 +24,9 @@ class OperationDetailsViewModel @Inject constructor(
     ) :
     ViewModel() {
 
+    private val _fragmentState:MutableStateFlow<Status<Boolean>> = MutableStateFlow(Status.Loading())
+    val fragmentState:StateFlow<Status<Boolean>> = _fragmentState
+
     private val _operationData: MutableStateFlow<Status<OperationModel>> =
         MutableStateFlow(Status.Default())
     val operationData: StateFlow<Status<OperationModel>> = _operationData
@@ -68,6 +71,10 @@ class OperationDetailsViewModel @Inject constructor(
                 emit(Status.Success(true))
             else emit(Status.Error(resultDelete.message ?: ""))
         }
+    }
+
+    fun setSuccessFragmentStatus(){
+        _fragmentState.value = Status.Success(true)
     }
 
 }
