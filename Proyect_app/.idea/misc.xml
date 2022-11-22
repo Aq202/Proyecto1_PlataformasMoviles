@@ -3,43 +3,49 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.131" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.124" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic__0.xml" value="0.131" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_banner_error.xml" value="0.1" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_banner_login.xml" value="0.2085" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_filled_new.xml" value="0.2085" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_filled_user.xml" value="0.2085" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.131" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_logo.xml" value="0.131" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/drawable/ic_money_bag.xml" value="0.15" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_accounts_list.xml" value="0.2" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.2" />
-        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.22826086956521738" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.25416666666666665" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_new_transfer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.264" />
         <entry key="..\:/Apps/Proyecto/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.22826086956521738" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/drawable/ic_delete.xml" value="0.1295" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Documentos/UVG/Cuarto Semestre/Programacion de plataformas moviles/Proyecto/Proyect_app/app/src/main/res/layout/dropout_menu_item.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/banner_larry_loading.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/home_item_selector.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_banner_login.xml" value="0.1275" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_default_user.xml" value="0.125" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_filled_home.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_filled_new.xml" value="0.1275" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_filled_user.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1275" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_loading.xml" value="0.1" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_home.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_new.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_star.xml" value="0.116" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_outline_user.xml" value="0.1275" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/ic_star.xml" value="0.116" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/new_operation_item_selector.xml" value="0.1275" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/shape_circle.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/side_nav_bar.xml" value="0.116" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/drawable/user_item_selector.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/content_menu_activity_example.xml" value="0.22644927536231885" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/dialog_loading.xml" value="0.264" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_account_details.xml" value="0.128" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_accounts_list.xml" value="0.2" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_contact_profile.xml" value="0.16" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/dropout_menu_item.xml" value="0.14673913043478262" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_account_details.xml" value="0.176" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_accounts_list.xml" value="0.1" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_contact_profile.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_contacts.xml" value="0.144" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_account.xml" value="0.176" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_favourite_operation.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_pending_payment.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_edit_profile.xml" value="0.22552083333333334" />
@@ -49,19 +55,19 @@
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_account.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_action.xml" value="0.2140625" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_operation.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_pending_payment.xml" value="0.234375" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_new_transfer.xml" value="0.14673913043478262" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_operation_details.xml" value="0.2" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_pending_payments.xml" value="0.2140625" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_recent_operations.xml" value="0.1140625" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_splash_screen.xml" value="0.2391304347826087" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/fragment_user_profile.xml" value="0.264" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/navigation_drawer_header.xml" value="0.4" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_account_item.xml" value="0.23148148148148148" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_contact_item.xml" value="0.1528436018957346" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_operation.xml" value="0.39253539253539255" />
-        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.3264150943396226" />
+        <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_operation_item.xml" value="0.5026548672566372" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/layout/template_piechart_item.xml" value="0.264" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
         <entry key="..\:/ProyectosPrograMovil/Proyecto_final_apps/Proyect_app/app/src/main/res/menu/navigation_drawer_menu.xml" value="0.13229166666666667" />
@@ -81,13 +87,6 @@
       <set>
         <option value="Proyecto_final_apps.app" />
       </set>
-    </option>
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.1" />
-      </ProjectState>
     </option>
   </component>
 </project>

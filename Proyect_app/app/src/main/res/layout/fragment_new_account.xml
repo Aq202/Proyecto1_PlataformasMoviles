@@ -80,7 +80,7 @@
         app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_defaultAccount"
         android:hint="@string/placeholder_monto"
         android:layout_margin="5dp"
-        app:startIconDrawable="@drawable/ic_cash_multiple">
+        app:startIconDrawable="@drawable/ic_coin">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
