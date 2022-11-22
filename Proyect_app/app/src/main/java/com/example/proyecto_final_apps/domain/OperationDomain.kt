@@ -12,4 +12,6 @@ interface OperationDomain {
         forceUpdate: Boolean
     ): Resource<OperationModel>
 
+    suspend fun removeFavoriteOperation(operationLocalId: Int):
+            Resource<OperationModel>
 }

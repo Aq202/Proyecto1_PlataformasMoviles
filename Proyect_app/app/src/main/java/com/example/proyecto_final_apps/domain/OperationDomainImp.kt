@@ -21,7 +21,7 @@ class OperationDomainImp @Inject constructor(
     override suspend fun getOperations(forceUpdate: Boolean): Resource<List<OperationModel>> {
 
         //Download account data
-        if(forceUpdate){
+        if (forceUpdate) {
             accountRepository.getAccountList(true)
             contactRepository.getContactsList(true)
             debtRepository.getDebtList(true)
@@ -40,12 +40,28 @@ class OperationDomainImp @Inject constructor(
     ): Resource<OperationModel> {
 
         //Download account data
-        if(forceUpdate) {
+        if (forceUpdate) {
             accountRepository.getAccountList(true)
             contactRepository.getContactsList(true)
             debtRepository.getDebtList(true)
         }
 
         return operationRepository.getOperationData(operationLocalId, forceUpdate)
+    }
+
+    override suspend fun removeFavoriteOperation(operationLocalId: Int):
+            Resource<OperationModel> {
+
+        return operationRepository.updateOperation(
+            operationLocalId,
+            favorite = false,  //Elimnar de favoritos
+            accountLocalId = null,
+            active = null,
+            amount = null,
+            category = null,
+            description = null,
+            imgUrl = null,
+            title = null
+        )
     }
 }
