@@ -148,8 +148,6 @@ class SignUpFragment : Fragment() {
 
             signUpFragmentUploadImageButton.setOnClickListener {
                 ImagePicker.with(this@SignUpFragment)
-                    .compress(1024)         //Final image size will be less than 1 MB(Optional)
-                    .maxResultSize(150,150)
                     .cropSquare()
                     .createIntent { intent: Intent ->
                         galleryLauncher.launch(intent)

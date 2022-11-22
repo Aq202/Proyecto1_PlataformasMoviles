@@ -191,8 +191,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
             editProfileFragmentUploadImageButton.setOnClickListener {
                 ImagePicker.with(this@EditProfileFragment)
-                    .compress(1024)         //Final image size will be less than 1 MB(Optional)
-                    .maxResultSize(150,150)
                     .cropSquare()
                     .createIntent { intent: Intent ->
                         galleryLauncher.launch(intent)
