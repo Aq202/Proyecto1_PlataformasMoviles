@@ -32,9 +32,9 @@ class User {
 
 		if (name?.trim()) user.name = name.trim();
 		if (lastName?.trim()) user.lastName = lastName.trim();
-		if(email?.trim())user.email = email.trim();
+		if(email?.trim() && email?.trim() !== user.email) user.email = email.trim();
 		if(birthDate) user.birthDate = new Date(birthDate);
-		if(alias?.trim()) user.alias = alias.trim();
+		if(alias?.trim() && alias?.trim() !== user.alias) user.alias = alias.trim();
 		if(passwordHash) user.passwordHash = passwordHash;
 		if(imageUrl) user.imageUrl = imageUrl;
 
