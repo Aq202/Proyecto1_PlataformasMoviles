@@ -221,7 +221,7 @@ class EditOperationFragment : Fragment() {
     private fun validateAccount(): Boolean {
         binding.apply {
             val account = textInputLayoutEditOperationFragmentSourceAccount.editText!!.text
-            var amount = textInputLayoutEditOperationFragmentSourceAccount.editText!!.text.toString()
+            var amount = textInputLayoutEditOperationFragmentAmount.editText!!.text.toString()
             amount = if(amount == "") "0" else amount
             val operationType = textInputLayoutEditOperationFragmentOperationType.editText!!.text
             if (account.trim().isEmpty()) {

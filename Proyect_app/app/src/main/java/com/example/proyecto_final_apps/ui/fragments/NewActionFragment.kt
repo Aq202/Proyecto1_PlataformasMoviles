@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentNewActionBinding
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class NewActionFragment : Fragment() {
 
@@ -63,7 +65,13 @@ class NewActionFragment : Fragment() {
             }
 
             cardViewNewActionFragmentPendingOperationCard.setOnClickListener{
-                findNavController().navigate(R.id.action_newActionFragment_to_newPendingPaymentFragment)
+                Snackbar.make(
+                    requireView(),
+                    "Esta funcionalidad extra no fue implementada como parte del proyecto.",
+                    Snackbar.LENGTH_INDEFINITE
+                ).setAction("Ok"){
+                    Toast.makeText(requireContext(), "Gracias por tu comprensión. ", Toast.LENGTH_LONG).show()
+                }.show()
             }
         }
     }
