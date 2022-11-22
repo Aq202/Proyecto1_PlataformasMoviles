@@ -52,8 +52,14 @@ const editOperation = async (req, res) => {
 
 		var subject = "";
 		var account = "";
-		if (data.subject) subject = await User.getUser(data.subject);
-		if (data.account) account = await Account.getAccount(data.account);
+		if (data.subject){
+			const userObj = new User(data.subject)
+			subject = await userObj.getData()
+		}
+		if (data.account) {
+			const acObj = new Account(data.account, req.session?.id)
+			account = await acObj.getData()
+		}
 		if (subject === null || account === null) {
 			var error;
 			if (subject === null)

@@ -214,7 +214,7 @@ class NewOperationFragment : Fragment() {
                 val amount =
                     textInputLayoutNewOperationFragmentAmount.editText!!.text.toString().toDouble()
 
-                if (amount < 0) textInputLayoutNewOperationFragmentAmount.error =
+                if (amount <= 0) textInputLayoutNewOperationFragmentAmount.error =
                     "El monto de la operación debe ser mayor a cero."
                 else {
                     textInputLayoutNewOperationFragmentAmount.error = null

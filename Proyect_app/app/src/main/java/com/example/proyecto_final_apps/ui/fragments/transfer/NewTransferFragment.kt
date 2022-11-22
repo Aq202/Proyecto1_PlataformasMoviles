@@ -217,7 +217,7 @@ class NewTransferFragment : Fragment() {
                 if (status is Status.Success) {
                     //Navegar a detalles de operación
                     val action =
-                        NewTransferFragmentDirections.actionToOperationDetails(status.value.localId!!)
+                        NewTransferFragmentDirections.actionNewTransferFragmentToOperationDetailsFragment(status.value.localId!!)
                     findNavController().navigate(action)
                 } else if (status is Status.Error) {
                     blockAction = false

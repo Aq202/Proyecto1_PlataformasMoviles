@@ -8,5 +8,5 @@ data class UpdateOperationRequest(
     val favorite: Boolean? = null,
     val title: String? = null,
     val description: String? = null,
-    val imgUrl:String? = null
+    val imgUrl:String? = null,
 )
