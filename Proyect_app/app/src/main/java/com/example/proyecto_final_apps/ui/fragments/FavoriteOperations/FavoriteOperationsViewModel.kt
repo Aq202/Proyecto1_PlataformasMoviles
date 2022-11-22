@@ -80,7 +80,7 @@ class FavoriteOperationsViewModel @Inject constructor(
             emit(Status.Loading())
 
             _selectedOperations.value.forEach { operationId ->
-                val resultDelete = opRepository.deleteOperation(operationId)
+                val resultDelete = opDomain.removeFavoriteOperation(operationId)
 
                 if(resultDelete is Resource.Error)
                     emit(Status.Error(resultDelete.message ?: ""))

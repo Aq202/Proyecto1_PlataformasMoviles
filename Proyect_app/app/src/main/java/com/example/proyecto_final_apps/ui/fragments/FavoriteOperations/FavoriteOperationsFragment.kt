@@ -33,8 +33,6 @@ import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_tab_layout.*
-import kotlinx.android.synthetic.main.fragment_tab_layout.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -206,8 +204,8 @@ class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListene
             .setNegativeButton("Cancelar") { _, _ ->
 
             }
-            .setTitle("¿Deseas eliminar las operaciones seleccionadas?")
-            .setMessage("Toma en cuenta que esta acción es permanente y no podrás recuperar la información de estas operaciones.")
+            .setTitle("¿Deseas retirar esta operación de tus favoritas?")
+            .setMessage("Toma en cuenta que esta acción no elimina por completo la operación, únicamente la retira de la sección de favoritas.")
             .show()
     }
 
