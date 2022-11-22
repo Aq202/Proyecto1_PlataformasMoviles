@@ -83,6 +83,10 @@ class OperationDetailsFragment : Fragment() {
                                         textViewOperationDetailsFragmentDescription.text = operation.description ?: "Sin descripción"
                                         textViewOperationDetailsFragmentCategory.text = Category(requireContext()).getCategory(operation.category)?.name
                                         textViewOperationDetailsFragmentDate.text = operation.date
+
+                                        //Si es una operación de tipo deuda, bloquear botón de editar
+                                        if(operation.category == Category(requireContext()).getDebtsCategory()?.id)
+                                            buttonOperationDetailsFragmentEdit.isEnabled = false
                                     }
                                 }
                             } else if (statusOp is Status.Error) {

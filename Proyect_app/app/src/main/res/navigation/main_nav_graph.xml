@@ -291,12 +291,12 @@
     <fragment
         android:id="@+id/editOperationFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.editOperation.EditOperationFragment"
-        android:label="fragment_edit_operation"
+        android:label="Editar operación"
         tools:layout="@layout/fragment_edit_operation" >
         <argument
             android:name="operationId"
             app:argType="integer" />
-        <action
+         <action
             android:id="@+id/action_editOperationFragment_to_operationDetailsFragment"
             app:destination="@id/operationDetailsFragment"
             app:popUpTo="@id/operationDetailsFragment"
