@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
+import com.example.proyecto_final_apps.data.CategoryTypes
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.local.entity.toOperationItem
 import com.example.proyecto_final_apps.databinding.FragmentAccountDetailsBinding
@@ -222,7 +223,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             textViewAccountDetailsFragmentAccountBalance.text =
                 getString(R.string.money_format, generalBalance.toInt().twoDigits())
             textViewAccountDetailsFragmentAccountlBalanceCents.text =
-                getString(R.string.cents_format, generalBalance.getDecimal(2).twoDigits())
+                getString(R.string.cents_format, abs(generalBalance).getDecimal(2).twoDigits())
 
         }
     }
@@ -237,7 +238,7 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
                 textViewAccountDetailsFragmentAccountMovement.text =
                     getString(R.string.money_format, abs(balanceMovement).toInt().twoDigits())
                 textViewAccountDetailsFragmentAccountMovementCents.text =
-                    getString(R.string.cents_format, balanceMovement.getDecimal(2).twoDigits())
+                    getString(R.string.cents_format, abs(balanceMovement).getDecimal(2).twoDigits())
 
                 //change movement text color
                 if (balanceMovement >= 0) {
@@ -299,14 +300,22 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
         pieData.clear() //limpiar datos anteriores
 
         val categoriesMap = mutableMapOf<Int, PieElement>()
+        val defaultCategory = Category(requireContext()).getCategoryByType(CategoryTypes.DEFAULT)!!
+
+        var othersAmount = 0.0 //Total para item otros en grafico
 
         //agrupar gastos por categoria
         expenses?.forEach { op ->
             if (!categoriesMap.containsKey(op.category)) {
                 val category = Category(requireContext()).getCategory(op.category)
                 if (category != null) {
-                    categoriesMap[op.category] =
-                        PieElement(category.color, abs(op.amount), category.name)
+
+                    //Si es la categoria default, sumar a othersAmount
+                    if(category.id == defaultCategory.id)
+                        othersAmount += op.amount
+                    else
+                        categoriesMap[op.category] =
+                            PieElement(category.color, abs(op.amount), category.name)
                 }
             } else {
                 categoriesMap[op.category]!!.amount += op.amount
@@ -324,14 +333,15 @@ class AccountDetailsFragment : Fragment(), OperationAdapter.OperationListener {
             val lastCategories = categoriesList.takeLast(categoriesList.size - categoriesToKeep)
             pieData.addAll(categoriesList.take(categoriesToKeep)) //mantiene solo n primeras categorias
 
-            //agregar categoria 'otros'
-            var othersAmount = 0.0
-            val defaultCategory = Category(requireContext()).getCategory(0)
+            //agregar montos a categoria 'otros'
             lastCategories.forEach { othersAmount += it.amount }
-            pieData.add(PieElement(defaultCategory!!.color, othersAmount, defaultCategory.name))
 
         } else
             pieData.addAll(categoriesList)
+
+        //Añadig categoría otros si el monto es mayor a 0
+        if(othersAmount > 0)
+            pieData.add(PieElement(defaultCategory!!.color, othersAmount, defaultCategory.name))
 
         //actualizar grafico y descripcion
         setUpPieChart()

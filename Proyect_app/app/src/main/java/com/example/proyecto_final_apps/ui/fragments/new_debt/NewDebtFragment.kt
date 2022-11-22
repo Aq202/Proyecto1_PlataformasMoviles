@@ -1,5 +1,6 @@
 package com.example.proyecto_final_apps.ui.fragments.new_debt
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -53,28 +55,16 @@ class NewDebtFragment : Fragment() {
         setListeners()
         setObservers()
 
-        newDebtViewModel.getFormData()
+        lifecycleScope.launchWhenStarted {
+            newDebtViewModel.getFormData()
+        }
     }
 
     private fun setObservers() {
         lifecycleScope.launchWhenStarted {
 
             newDebtViewModel.fragmentState.collectLatest { state ->
-                if (state is Status.Loading) loadingViewModel.showLoadingDialog()
-                else loadingViewModel.hideLoadingDialog()
-
-                if (state is Status.Success) {
-                    binding.apply {
-                        newDebtFragmentContainer.visibility = View.VISIBLE
-                        containerNoResultsContent.visibility = View.GONE
-                    }
-                } else if (state is Status.Error) {
-                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
-                    binding.apply {
-                        newDebtFragmentContainer.visibility = View.GONE
-                        containerNoResultsContent.visibility = View.VISIBLE
-                    }
-                }
+                handleFragmentState(state)
             }
         }
         lifecycleScope.launchWhenStarted {
@@ -93,6 +83,46 @@ class NewDebtFragment : Fragment() {
                     accountsList = status.value
                 }
             }
+        }
+    }
+
+    private fun handleFragmentState(state: Status<Boolean>) {
+        if (state is Status.Loading) loadingViewModel.showLoadingDialog()
+        else loadingViewModel.hideLoadingDialog()
+
+        if (state is Status.Success) {
+            binding.apply {
+                newDebtFragmentContainer.visibility = View.VISIBLE
+                containerNoResultsContent.visibility = View.GONE
+            }
+        } else if (state is Status.Error) {
+            binding.apply {
+
+                //cambiar mensaje e imagen de error
+
+                val image = if (state.errorType == NewDebtViewModel.NewDebtErrors.NO_CONTACT)
+                    R.drawable.banner_contacts
+                else
+                    R.drawable.banner_money
+
+                val errorMessage =
+                    if (state.errorType == NewDebtViewModel.NewDebtErrors.NO_CONTACT)
+                        "No hay contactos disponibles"
+                    else "No hay cuentas disponibles"
+
+                imageViewNoResultsBanner.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                        requireContext(),
+                        image
+                    )
+                )
+                textViewNoResults.text = errorMessage
+
+                //mostrar contenido
+                newDebtFragmentContainer.visibility = View.GONE
+                containerNoResultsContent.visibility = View.VISIBLE
+            }
+            Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -131,16 +161,26 @@ class NewDebtFragment : Fragment() {
 
     private fun setListeners() {
         //Cambiar indice seleccionado en autocompletes
-        binding.autoCompleteViewNewDebtFragmentSourceAccount.setOnItemClickListener { _, _, index, _ ->
-            accountSelectedIndex = index;
-        }
-        binding.autoCompleteViewNewDebtFragmentContact.setOnItemClickListener { _, _, index, _ ->
-            contactSelectedIndex = index
-        }
+        binding.apply {
+            autoCompleteViewNewDebtFragmentSourceAccount.setOnItemClickListener { _, _, index, _ ->
+                accountSelectedIndex = index;
+            }
+            autoCompleteViewNewDebtFragmentContact.setOnItemClickListener { _, _, index, _ ->
+                contactSelectedIndex = index
+            }
 
-        //send button
-        binding.buttonNewDebtFragmentAdd.setOnClickListener {
-            sendForm()
+            //send button
+            buttonNewDebtFragmentAdd.setOnClickListener {
+                sendForm()
+            }
+
+            //loading
+            swipeRefreshLayoutNewDebtFragment.setOnRefreshListener {
+                lifecycleScope.launchWhenStarted {
+                    newDebtViewModel.getFormData(true)
+                    binding.swipeRefreshLayoutNewDebtFragment.isRefreshing = false
+                }
+            }
         }
     }
 

@@ -13,7 +13,7 @@ interface OperationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMany(operations:List<OperationModel>)
 
-    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} ORDER BY date DESC")
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} ORDER BY localId DESC")
     suspend fun getAllOperations():List<OperationModel>
 
     @Update
@@ -22,7 +22,7 @@ interface OperationDao {
     @Delete
     suspend fun deleteOperation(operation:OperationModel):Int
 
-    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} ORDER BY date DESC LIMIT :max")
+    @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} ORDER BY localId DESC LIMIT :max")
     suspend fun getRecentOperations(max:Int):List<OperationModel>
 
     @Query("DELETE FROM OperationModel")
@@ -39,6 +39,9 @@ interface OperationDao {
 
     @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} AND localId=:localId")
     suspend fun getOperationById(localId:Int): OperationModel?
+
+    @Query("SELECT * FROM OperationModel WHERE localId=:localId")
+    suspend fun getOperationByIdIgnoringDeleteMark(localId:Int): OperationModel?
 
     @Query("SELECT * FROM OperationModel WHERE deletionPending=${true}")
     suspend fun getAllPendingToDeleteOperation():List<OperationModel>

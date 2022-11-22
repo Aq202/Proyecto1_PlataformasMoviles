@@ -3,6 +3,7 @@ package com.example.proyecto_final_apps.ui.fragments.signUp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyecto_final_apps.data.Resource
+import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.data.repository.UserRepository
 import com.example.proyecto_final_apps.helpers.DateParse.getDayValue
 import com.example.proyecto_final_apps.helpers.DateParse.getMonthValue
@@ -40,13 +41,32 @@ class SignUpViewModel @Inject constructor(
 
     fun setBirthDate(birthDate: Date){
         //Lo guarda en el formato MM/DD/YYYY
-        _birthDate.value = "${birthDate.getMonthValue()}/${birthDate.getDayValue()}/${birthDate.getYearValue()}"
+        var correctDay = birthDate.getDayValue()+1
+        var correctMonth = birthDate.getMonthValue()
+        var correctYear = birthDate.getYearValue()
+        if (birthDate.getDayValue() == 31){
+            correctDay = 1
+            correctMonth += 1
+            if (birthDate.getMonthValue() == 12){
+                correctMonth = 1
+                correctYear += 1
+            }
+        }
+        if (birthDate.getDayValue() == 30 && (birthDate.getMonthValue() == 11 || birthDate.getMonthValue() == 4 || birthDate.getMonthValue() == 6 || birthDate.getMonthValue() == 9)){
+            correctDay = 1
+            correctMonth += 1
+        }
+        if (birthDate.getDayValue() == 28 && (birthDate.getMonthValue() == 2)){
+            correctDay = 1
+            correctMonth += 1
+        }
+        _birthDate.value = "${correctMonth}/${correctDay}/${correctYear}"
     }
 
     fun signUp(
         firstName: String,
         lastName: String,
-        birthDate: String,
+        birthDate: String?,
         user: String,
         email: String,
         password: String,
@@ -57,30 +77,36 @@ class SignUpViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            if (firstName != "" && lastName != "" && birthDate != "" && user != "" && password != "" && email != "" && confirmPass != "") {
-                if (password == confirmPass){
+            if (firstName != "" && lastName != "" && birthDate != null && user != "" && password != "" && email != "" && confirmPass != "") {
+                if (profilePicPath != ""){
+                    if (password == confirmPass){
 
-                    when(val result = repository.signUp(
-                        firstName = firstName,
-                        lastName = lastName,
-                        birthDate = birthDate,
-                        user = user,
-                        email = email,
-                        password = password,
-                        profilePicPath = profilePicPath
-                    )){
-                        is Resource.Success -> {
-                            _signUpStateFlow.value = SignUpStatus.Registered
-                        }
-                        else -> {
-                            _signUpStateFlow.value = SignUpStatus.Error(result.message ?: "Ocurrió un error.")
+                        when(val result = repository.signUp(
+                            firstName = firstName,
+                            lastName = lastName,
+                            birthDate = birthDate,
+                            user = user,
+                            email = email,
+                            password = password,
+                            profilePicPath = profilePicPath
+                        )){
+                            is Resource.Success -> {
+                                _signUpStateFlow.value = SignUpStatus.Registered
+                            }
+                            else -> {
+                                _signUpStateFlow.value = SignUpStatus.Error(result.message ?: "Ocurrió un error.")
 
+                            }
                         }
+                    }
+                    else{
+                        _signUpStateFlow.value = SignUpStatus.Error("Las contraseñas ingresadas no coinciden.")
                     }
                 }
                 else{
-                    _signUpStateFlow.value = SignUpStatus.Error("Las contraseñas ingresadas no coinciden.")
+                    _signUpStateFlow.value = SignUpStatus.Error("Es necesario elegir una foto de perfil.")
                 }
+
             }
             else{
                 _signUpStateFlow.value = SignUpStatus.Error("Es necesario completar todos los campos.")

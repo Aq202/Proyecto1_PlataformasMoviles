@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun performLogin() {
-        val user = binding.textFieldLoginFragmentUser.editText!!.text.toString()
+        val user = binding.textFieldLoginFragmentUser.editText!!.text.toString().trim()
         val password = binding.textFieldLoginFragmentPassword.editText!!.text.toString()
 
         println("DIEGO: ${Internet.checkForInternet(requireContext())}")

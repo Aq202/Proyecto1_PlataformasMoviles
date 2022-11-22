@@ -148,9 +148,11 @@ class AppModule {
         @ApplicationContext context: Context,
         accountRepository: AccountRepository,
         operationRepository: OperationRepository,
-        contactRepository: ContactRepository
+        contactRepository: ContactRepository,
+        debtRepository: DebtRepository
+
     ): AccountDomain {
-        return AccountDomainImp(context, accountRepository, operationRepository, contactRepository)
+        return AccountDomainImp(context, accountRepository, operationRepository, contactRepository, debtRepository)
     }
 
     @Provides
@@ -158,9 +160,11 @@ class AppModule {
     fun providesOperationDomainClass(
         accountRepository: AccountRepository,
         operationRepository: OperationRepository,
-        contactRepository: ContactRepository
+        contactRepository: ContactRepository,
+        debtRepository: DebtRepository
+
     ): OperationDomain {
-        return OperationDomainImp(accountRepository, operationRepository, contactRepository)
+        return OperationDomainImp(accountRepository, operationRepository, contactRepository, debtRepository)
     }
 
     @Provides
@@ -168,9 +172,22 @@ class AppModule {
     fun providesContactDomainClass(
         accountRepository: AccountRepository,
         operationRepository: OperationRepository,
-        contactRepository: ContactRepository
+        contactRepository: ContactRepository,
+        debtRepository: DebtRepository
+
     ): ContactDomain {
-        return ContactDomainImp(accountRepository, contactRepository, operationRepository)
+        return ContactDomainImp(accountRepository, contactRepository, operationRepository, debtRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDebtDomainClass(
+        accountRepository: AccountRepository,
+        operationRepository: OperationRepository,
+        contactRepository: ContactRepository,
+         debtRepository: DebtRepository
+    ): DebtDomain {
+        return DebtDomainImp(accountRepository, operationRepository, contactRepository, debtRepository)
     }
 
 }

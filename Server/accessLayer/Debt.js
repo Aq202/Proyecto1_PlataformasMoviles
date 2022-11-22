@@ -10,7 +10,9 @@ class Debt {
 
 	async getData() {
 		if (!this.data) {
-			const data = await DebtModel.findOne({ _id: this.id, subject: this.subject }).populate("accountInvolved");
+			const data = await DebtModel.findOne({ _id: this.id, subject: this.subject })
+			.populate("accountInvolved")
+			.populate("userInvolved")
 
 			if (data === null) return null;
 			this.data = parseDebtObject(data)
@@ -38,8 +40,10 @@ class Debt {
 		debt.userInvolved = validateId(userInvolved, "UserInvolved invalido.");
 		debt.description = description?.trim() || "Sin descripción.";
 
-		const saved = await (await debt.save()).populate("accountInvolved");
-		return parseDebtObject(saved)
+		const saved = await debt.save()
+		
+		const debtObj = new Debt(saved._id, subject)
+		return await debtObj.getData()
 	}
 
 	static async updateDebt(debtId, newData) {
@@ -64,7 +68,9 @@ class Debt {
 
 	static async getDebtsListBySubject(subjectId){
 		
-		const result = await DebtModel.find({subject:subjectId}).populate("accountInvolved");
+		const result = await DebtModel.find({subject:subjectId})
+		.populate("accountInvolved")
+		.populate("userInvolved")
 
 		const parsedList = result.map(debt => parseDebtObject(debt))
 

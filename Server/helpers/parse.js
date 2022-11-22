@@ -46,9 +46,10 @@ const parseUserObject = object => {
 };
 
 const parseDebtObject = object => {
-	const parsedObject = parseMongoObject(object);
-	parsedObject.accountInvolved = parseMongoObject(parsedObject.accountInvolved);
-	return parsedObject;
+	const parsedObj = parseMongoObject(object);
+	parsedObj.accountInvolved = parseMongoObject(parsedObj.accountInvolved);
+	parsedObj.userInvolved = parseUserObject(parsedObj.userInvolved);
+	return parsedObj;
 };
 
 exports.parseMongoObject = parseMongoObject;

@@ -1,4 +1,4 @@
-const { parseMongoObject, parseUserObject } = require("../helpers/parse");
+const { parseMongoObject, parseUserObject, parseDebtObject } = require("../helpers/parse");
 const validateId = require("../helpers/validateId");
 const { ContactSchema } = require("../models/contact.model");
 const {DebtModel } = require("../models/debt.model");
@@ -22,7 +22,7 @@ class Contact {
 		const result = await ContactSchema.find({ subject: subjectId }).populate("userAsContact");
 		return result.map(contact => {
 			const parsed = parseMongoObject(contact);
-			parsed.userAsContact = parseMongoObject(parsed.userAsContact);
+			parsed.userAsContact = parseUserObject(parsed.userAsContact);
 			return parsed;
 		});
 	}
@@ -34,17 +34,41 @@ class Contact {
 
 	async getData() {
 		const data = await ContactSchema.findOne({ _id: this.id, subject: this.subject })
-			.populate("debtsToAccept")
-			.populate("debtsAccepted")
 			.populate("userAsContact")
+			.populate({ 
+				path: 'debtsAccepted',
+				populate: {
+				  path: 'accountInvolved',
+				} 
+			 })
+			 .populate({ 
+				path: 'debtsAccepted',
+				populate: {
+				  path: 'userInvolved',
+				} 
+			 })
+			 .populate({ 
+				path: 'debtsToAccept',
+				populate: {
+				  path: 'accountInvolved',
+				} 
+			 })
+			 .populate({ 
+				path: 'debtsToAccept',
+				populate: {
+				  path: 'userInvolved',
+				} 
+			 })
+			
 		if (!data) return null;
+	
 
 		const contactParsed = parseMongoObject(data);
 		contactParsed.userAsContact = parseUserObject(contactParsed.userAsContact)
 		contactParsed.debtsToAccept =
-			contactParsed.debtsToAccept?.map(debt => parseMongoObject(debt)) ?? [];
+			contactParsed.debtsToAccept?.map(debt => parseDebtObject(debt)) ?? [];
 		contactParsed.debtsAccepted =
-			contactParsed.debtsAccepted?.map(debt => parseMongoObject(debt)) ?? [];
+			contactParsed.debtsAccepted?.map(debt => parseDebtObject(debt)) ?? [];
 		return contactParsed;
 	}
 

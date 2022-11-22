@@ -12,6 +12,7 @@ import com.example.proyecto_final_apps.data.repository.ContactRepository
 import com.example.proyecto_final_apps.data.repository.DebtRepository
 import com.example.proyecto_final_apps.domain.AccountDomain
 import com.example.proyecto_final_apps.domain.ContactDomain
+import com.example.proyecto_final_apps.ui.util.ErrorType
 import com.example.proyecto_final_apps.ui.util.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +29,11 @@ class NewDebtViewModel @Inject constructor(
     private val contactDomain: ContactDomain
 ) : ViewModel() {
 
+    enum class NewDebtErrors : ErrorType {
+        NO_CONTACT,
+        NO_ACCOUNTS
+    }
+
     private val _fragmentState = MutableStateFlow<Status<Boolean>>(Status.Loading())
     val fragmentState: StateFlow<Status<Boolean>> = _fragmentState
 
@@ -39,22 +45,38 @@ class NewDebtViewModel @Inject constructor(
     val accountsList: StateFlow<Status<List<AccountModel>>> = _accountsList
 
 
-    fun getFormData() {
-        viewModelScope.launch {
+    suspend fun getFormData(forceUpdate:Boolean = false) {
+
             //get contacts
-            val contactResult = contactDomain.getContactsList(true)
+            val contactResult = contactDomain.getContactsList(forceUpdate)
             if (contactResult is Resource.Success) _contactsList.value =
                 Status.Success(contactResult.data)
-            else _fragmentState.value = Status.Error(contactResult.message ?: "")
+            else {
+                _fragmentState.value =
+                    Status.Error(contactResult.message ?: "", NewDebtErrors.NO_CONTACT)
+                return
+            }
 
-            val accountResult = accountDomain.getAccountList(true)
-            if (accountResult is Resource.Success) _accountsList.value =
-                Status.Success(accountResult.data)
-            else _fragmentState.value = Status.Error(accountResult.message ?: "")
+            val accountResult = accountDomain.getAccountList(false) //Ya se actualizó al obtener contactos
+            if (accountResult is Resource.Success) {
+                val editableAccount = accountResult.data.filter { it.editable }
+                if (editableAccount.isNotEmpty()) {
+                    _accountsList.value = Status.Success(editableAccount)
+                } else {
+                    //No se encontraron cuentas editables
+                    _fragmentState.value = Status.Error(
+                        "No se encontraron cuentas disponibles.",
+                        NewDebtErrors.NO_ACCOUNTS)
+                    return
+                }
 
-            if (contactResult is Resource.Success && accountResult is Resource.Success) _fragmentState.value =
-                Status.Success(true)
-        }
+            } else {
+                _fragmentState.value = Status.Error(accountResult.message ?: "")
+                return
+            }
+
+            _fragmentState.value = Status.Success(true)
+
     }
 
     fun createNewDebt(

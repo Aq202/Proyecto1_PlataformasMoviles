@@ -9,7 +9,7 @@ data class DebtsAcceptedDto(
     val id: String,
     val localId: Int,
     val subject: String,
-    val userInvolved: String,
+    val userInvolved: UserDto,
     val description:String?
 )
 
@@ -20,7 +20,7 @@ fun DebtsAcceptedDto.toDebtAcceptedModel(): DebtAcceptedModel {
         active = active,
         amount = amount,
         remoteId = id,
-        userInvolved = userInvolved,
+        userInvolved = userInvolved.id,
         description = description
     )
 }

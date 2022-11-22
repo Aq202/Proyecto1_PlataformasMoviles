@@ -126,13 +126,19 @@
     <string name="descripcion_operacion_inicial_cuenta">Monto inicial de la cuenta.</string>
     <string name="placeholder_titulo">Título</string>
     <string name="account_update_operation_title">Actualización del monto de la cuenta.</string>
-    <string name="active_debt_finalization_title">Deuda de %s finalizada</string>
-    <string name="passive_debt_finalization_title">Deuda con %s finalizada</string>
+    <string name="active_debt_finalization_title">Deuda finalizada de %s </string>
+    <string name="passive_debt_finalization_title">Deuda finalizada con %s </string>
     <string name="debt_finalization_description">Finalización de la deuda.</string>
     <string name="contacto_placeholder">Contacto</string>
     <string name="completar_deuda">Completar</string>
     <string name="olvidar_deuda">Olvidar</string>
     <string name="debt_disclaimer">Al completar la deuda se realizará el pago o depósito (según corresponda) en la cuenta especificada.</string>
     <string name="no_hay_operaciones_favoritas">No hay operaciones favoritas</string>
+    <string name="hint_seleccionar_cuenta">Seleccionar cuenta</string>
+    <string name="active_debt_complete_title">Deuda completada de %s</string>
+    <string name="passive_debt_complete_title">Deuda completada con %s</string>
+    <string name="origin_transfer_title">Transferencia hacia %s</string>
+    <string name="target_transfer_title">Transferencia desde %s</string>
+    <string name="transfer_description">Transferencia entre cuentas.</string>
 
 </resources>

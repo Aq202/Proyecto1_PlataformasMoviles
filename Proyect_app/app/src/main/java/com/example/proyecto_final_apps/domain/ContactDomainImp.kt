@@ -12,7 +12,8 @@ import javax.inject.Inject
 class ContactDomainImp @Inject constructor(
     private val accountRepository: AccountRepository,
     private val  contactRepository: ContactRepository,
-    private val operationRepository: OperationRepository
+    private val operationRepository: OperationRepository,
+    private val debtRepository: DebtRepository
 ) : ContactDomain {
     override suspend fun getContactsList(forceUpdate: Boolean): Resource<List<ContactWithUserModel>> {
 
@@ -20,6 +21,8 @@ class ContactDomainImp @Inject constructor(
         if(forceUpdate){
             accountRepository.getAccountList(true)
             operationRepository.getOperations(true)
+            debtRepository.getDebtList(true)
+
         }
 
         return contactRepository.getContactsList(forceUpdate)
@@ -34,6 +37,7 @@ class ContactDomainImp @Inject constructor(
         if(forceUpdate){
             accountRepository.getAccountList(true)
             operationRepository.getOperations(true)
+            debtRepository.getDebtList(true)
         }
 
         return contactRepository.getContactData(userId, forceUpdate)

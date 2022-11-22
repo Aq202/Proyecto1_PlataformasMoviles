@@ -7,6 +7,7 @@ import com.example.proyecto_final_apps.data.remote.dto.UserDto
 import com.example.proyecto_final_apps.data.remote.dto.accountListResponse.AccountListDto
 import com.example.proyecto_final_apps.data.remote.dto.contactListResponse.ContactListResponseDto
 import com.example.proyecto_final_apps.data.remote.dto.deleteAccountResponse.DeleteAccountDto
+import com.example.proyecto_final_apps.data.remote.dto.editProfileResponse.EditProfileResponse
 import com.example.proyecto_final_apps.data.remote.dto.deleteOperationResponse.DeleteOperationDto
 import com.example.proyecto_final_apps.data.remote.dto.getContactDataResponse.GetContactDataDto
 import com.example.proyecto_final_apps.data.remote.dto.getOperationsResponse.GetOperationsDto
@@ -38,6 +39,14 @@ interface API {
         @PartMap() data:MutableMap<String, RequestBody>,
         @Part image: MultipartBody.Part
     ): Response<SignUpResponse>
+
+    @Multipart
+    @POST("/user/edit")
+    suspend fun editProfile(
+        @Header("authorization") token:String,
+        @PartMap() data:MutableMap<String, RequestBody>,
+        @Part image: MultipartBody.Part?
+    ): Response<UserDto>
 
 
     @GET("/operation/getAll")
@@ -149,4 +158,8 @@ interface API {
         @Path("debtId") debtId:String,
     ):Response<Void>
 
+    @GET("/debt/list")
+    suspend fun getDebtsList(
+        @Header("authorization") token:String,
+    ):Response<List<DebtsAcceptedDto>>
 }

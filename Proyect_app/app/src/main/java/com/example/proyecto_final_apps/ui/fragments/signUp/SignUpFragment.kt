@@ -21,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentSignUpBinding
+import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.MainActivity
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -41,7 +42,6 @@ import java.util.*
 class SignUpFragment : Fragment() {
 
     private val signUpViewModel: SignUpViewModel by viewModels()
-    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentSignUpBinding
     private var profilePicPath: String? = ""
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -61,7 +61,6 @@ class SignUpFragment : Fragment() {
 
                 //Guardar path
                 profilePicPath = fileUri.path
-                Toast.makeText(requireContext(), profilePicPath, Toast.LENGTH_LONG).show()
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             } else {
@@ -69,19 +68,6 @@ class SignUpFragment : Fragment() {
             }
         }
     }
-    /*private val galleryLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
-    ActivityResultCallback<ActivityResult>(){
-        @Override
-        fun onActivityResult(result: ActivityResult){
-            print("bandera")
-            if(result.resultCode == RESULT_OK){
-                print("bandera")
-                val extras = result.data?.extras
-                val imgBitmap = extras?.get("data")
-                binding.imageViewSignUpFragmentBanner.setImageBitmap(imgBitmap as Bitmap?)
-            }
-        }
-    })*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -113,6 +99,7 @@ class SignUpFragment : Fragment() {
                         }
                     }
                     is SignUpStatus.Registered -> {
+
 
                         handleStartMainActivityAction()
 
@@ -162,8 +149,6 @@ class SignUpFragment : Fragment() {
 
             signUpFragmentUploadImageButton.setOnClickListener {
                 ImagePicker.with(this@SignUpFragment)
-                    .compress(1024)         //Final image size will be less than 1 MB(Optional)
-                    .maxResultSize(150,150)
                     .cropSquare()
                     .createIntent { intent: Intent ->
                         galleryLauncher.launch(intent)
@@ -180,15 +165,13 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUp() {
-        val firstName = binding.textFieldSignUpFragmentFirstName.editText!!.text.toString()
-        val lastName = binding.textFieldSignUpFragmentLastName.editText!!.text.toString()
-        val email = binding.textFieldSignUpFragmentEmail.editText!!.text.toString()
+        val firstName = binding.textFieldSignUpFragmentFirstName.editText!!.text.toString().trim()
+        val lastName = binding.textFieldSignUpFragmentLastName.editText!!.text.toString().trim()
+        val email = binding.textFieldSignUpFragmentEmail.editText!!.text.toString().trim()
         val password = binding.textFieldSignUpFragmentPassword.editText!!.text.toString()
         val confirmPass = binding.textFieldSignUpFragmentConfirmPassword.editText!!.text.toString()
-        val user = binding.textFieldSignUpFragmentUser.editText!!.text.toString()
-        val birthDate = signUpViewModel.birthDate.value!! //HACER VALIDACIÓN Y VERIFICAR QUE NO SEA NULL
-
-        println("DIEGO BIRTHDATE: $birthDate")
+        val user = binding.textFieldSignUpFragmentUser.editText!!.text.toString().trim()
+        val birthDate = signUpViewModel.birthDate.value
 
         signUpViewModel.signUp(
             firstName = firstName,

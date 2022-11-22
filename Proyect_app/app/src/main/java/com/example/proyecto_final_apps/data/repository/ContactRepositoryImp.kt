@@ -24,6 +24,11 @@ class ContactRepositoryImp @Inject constructor(
     val errorParser: ErrorParser,
     val debtRepository: DebtRepository
 ) : ContactRepository {
+
+
+    /**
+     * Obtiene la lista de contactos. No devuelve las deudas asociadas al contacto.
+     */
     override suspend fun getContactsList(forceUpdate: Boolean): Resource<List<ContactWithUserModel>> {
 
         uploadPendingChanges()
@@ -52,12 +57,12 @@ class ContactRepositoryImp @Inject constructor(
                     val contactsDto = result.body()
                     val contactsList = contactsDto?.map { it.toContactModel() }
 
-                    //delete all contacts in db
+                    //delete all contacts and debts in db
                     database.contactDao().deleteAll()
 
                     return if (contactsList != null && contactsList.isNotEmpty()) {
 
-                        //store database
+                        //Guardar contactos en bd
                         database.contactDao().insertManyContacts(contactsList)
 
                         //store user data
@@ -70,7 +75,7 @@ class ContactRepositoryImp @Inject constructor(
                             ContactWithUserModel(contact, user!!)
                         })
                     } else
-                        Resource.Error("No se obtuvo ningúna cuenta.")
+                        Resource.Error("No se obtuvo ningún contacto.")
                 }
             }
         } catch (ex: Exception) {
@@ -90,14 +95,12 @@ class ContactRepositoryImp @Inject constructor(
             }
         }
 
-        //Deudas por crear
+        //Contacto por crear
         val contactsToUpdate = database.contactDao().getAllContactsRequiringUpdate()
         contactsToUpdate.forEach {
             if (it.remoteId == null) {
                 //crear nuevo contacto
                 uploadNewContactToApi(it)
-            } else {
-                //Falta actualizar
             }
         }
     }
@@ -139,6 +142,9 @@ class ContactRepositoryImp @Inject constructor(
                         }
                         if (debtsAccepted?.isEmpty() == true) debtsAccepted = null
 
+                        //Eliminar datos en la bd local
+                        database
+
                         //guardar contacto en db
                         database.contactDao().insertContact(contactModel)
 
@@ -146,6 +152,9 @@ class ContactRepositoryImp @Inject constructor(
                         debtsAccepted?.let {
                             database.debtDao().insertManyAcceptedDebts(it)
                         }
+
+                        val debts = database.debtDao().getAcceptedDebts()
+                        println("HOLAAA: ${debts}")
 
                         return Resource.Success(
                             ContactFullDataModel(
@@ -172,6 +181,9 @@ class ContactRepositoryImp @Inject constructor(
         }
 
         //Return data from db
+        val debts = database.debtDao().getAcceptedDebts()
+        println("HOLAAA: $debts")
+        val h = debts.isEmpty()
         val debtsAccepted = database.debtDao().getAcceptedDebtsByUser(contact.userAsContact)
         return Resource.Success(
             ContactFullDataModel(
