@@ -319,7 +319,7 @@ class UserRepositoryImp @Inject constructor(
                 val response = result.body()
 
                 //guardar datos del usuario
-                database.userDao().insertUser(response!!.userData.toUserModel())
+                database.userDao().insertUser(response!!.toUserModel())
 
                 return Resource.Success(true)
 

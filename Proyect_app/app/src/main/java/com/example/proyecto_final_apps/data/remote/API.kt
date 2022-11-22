@@ -46,7 +46,7 @@ interface API {
         @Header("authorization") token:String,
         @PartMap() data:MutableMap<String, RequestBody>,
         @Part image: MultipartBody.Part?
-    ): Response<EditProfileResponse>
+    ): Response<UserDto>
 
 
     @GET("/operation/getAll")
