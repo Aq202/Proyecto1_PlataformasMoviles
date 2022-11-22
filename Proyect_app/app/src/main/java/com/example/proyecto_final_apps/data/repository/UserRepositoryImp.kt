@@ -221,7 +221,6 @@ class UserRepositoryImp @Inject constructor(
 
         try {
 
-
             //crear estructura a enviar como formData
             val dataMap: MutableMap<String, RequestBody> = mutableMapOf()
             dataMap["name"] = firstName.createPartFromString()
@@ -252,6 +251,76 @@ class UserRepositoryImp @Inject constructor(
 
                 //guardar datos del usuario
                 database.userDao().insertUser(response.userData.toUserModel())
+
+                return Resource.Success(true)
+
+            } else {
+
+                val errorBody = result.errorBody()
+                val error = errorParser.parseErrorObject(errorBody)
+
+                if(error != null) Resource.Error(error.err ?: "Ocurrió un error")
+                else Resource.Error("Ocurrió un error.")
+
+
+            }
+
+        } catch (exception: Exception) {
+            println("Pablo: ${exception.message}")
+            return Resource.Error("Error de conexión al servidor.")
+        }
+
+    }
+
+    override suspend fun editProfile(
+        firstName: String,
+        lastName: String,
+        birthDate: String,
+        user: String,
+        email: String,
+        password: String,
+        imageUrl: String?,
+        profilePicPath: String?
+    ): Resource<Boolean> {
+
+        try {
+
+            val ds = MyDataStore(context)
+            val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
+
+            //crear estructura a enviar como formData
+            val dataMap: MutableMap<String, RequestBody> = mutableMapOf()
+            dataMap["name"] = firstName.createPartFromString()
+            dataMap["lastName"] = lastName.createPartFromString()
+            dataMap["email"] = email.createPartFromString()
+            dataMap["birthDate"] = birthDate.createPartFromString()
+            dataMap["alias"] = user.createPartFromString()
+            dataMap["password"] = password.createPartFromString()
+
+            //Verificar si se cambió la imagen de perfil
+            if (imageUrl != null){
+                dataMap["imageUrl"] = imageUrl.createPartFromString()
+            }
+
+            //Imagen en formato multipart
+
+            var multipartImage: MultipartBody.Part? = null
+
+            if (profilePicPath != ""){
+                val file = File(profilePicPath)
+                val requestFile = file.asRequestBody("image/*".toMediaType())
+                multipartImage = MultipartBody.Part.createFormData("image", file.name, requestFile);
+            }
+
+
+            val result = api.editProfile(token, dataMap, multipartImage)
+
+            return if (result.isSuccessful) {
+
+                val response = result.body()
+
+                //guardar datos del usuario
+                database.userDao().insertUser(response!!.toUserModel())
 
                 return Resource.Success(true)
 
