@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.newOperation.NewOperationFragment"
-    android:paddingHorizontal="@dimen/horizontal_fragment_padding"
+
     >
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -13,11 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/horizontal_fragment_padding"
+            android:clipToPadding="false"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -244,6 +247,7 @@
                     android:textStyle="bold"
                     app:cornerRadius="@dimen/button_radius"
                     android:paddingVertical="@dimen/button_vertical_padding"
+                    android:layout_marginTop="20dp"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
