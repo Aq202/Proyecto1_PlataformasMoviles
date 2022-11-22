@@ -204,6 +204,10 @@ class MainActivity : AppCompatActivity() {
 
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         val search = menu.findItem(R.id.searchBar)
+        val delete = menu.findItem(R.id.deleteOperation)
+        var edit = menu.findItem(R.id.editOperation)
+        delete.isVisible = false
+        edit.isVisible = false
 
         if (navController.currentDestination?.id == R.id.contactsFragment) {
 

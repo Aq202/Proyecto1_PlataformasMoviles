@@ -1,13 +1,18 @@
 package com.example.proyecto_final_apps.ui.adapters
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.setPadding
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
@@ -19,21 +24,23 @@ import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.local.entity.getCategory
 import com.example.proyecto_final_apps.helpers.format
 import com.google.android.material.card.MaterialCardView
+import kotlin.coroutines.coroutineContext
 
 data class OperationItem(
     val localId:Int,
     val remoteId:String ?,
-    val title:String,
+    var title:String,
     val category:CategoryModel?,
     val amount:Double,
     val active:Boolean,
     val imgUrl:String?,
     val favorite:Boolean = false,
+    var isSelected:Boolean = false
 )
 
 class OperationAdapter(
     private val dataSet: MutableList<OperationItem>,
-    private val operationListener: OperationListener
+    private val operationListener: OperationListener,
 ) : RecyclerView.Adapter<OperationAdapter.ViewHolder>() {
 
     interface OperationListener {
@@ -43,7 +50,6 @@ class OperationAdapter(
 
     class ViewHolder(private val view: View, private val listener: OperationListener) :
         RecyclerView.ViewHolder(view) {
-
         private val container: MaterialCardView =
             view.findViewById(R.id.cardView_operationItemTemplate_parentContainer)
         private val imageIconContainer: MaterialCardView =
@@ -143,9 +149,15 @@ class OperationAdapter(
             if(operation.favorite)
                 favoriteIcon.visibility = View.VISIBLE
 
+            if(operation.isSelected)
+                container.setCardBackgroundColor(view.context.resources.getColor(R.color.light_gray_3))
+            else
+                container.setCardBackgroundColor(view.context.resources.getColor(R.color.light_gray_1))
+
             setListeners()
         }
 
+        @SuppressLint("NewApi")
         private fun setListeners() {
             container.setOnLongClickListener {
                 listener.onItemPressed(operationData, this.adapterPosition)

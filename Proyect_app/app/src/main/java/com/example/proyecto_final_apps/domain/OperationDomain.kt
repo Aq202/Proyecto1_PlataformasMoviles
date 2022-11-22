@@ -1,6 +1,7 @@
 package com.example.proyecto_final_apps.domain
 
 import com.example.proyecto_final_apps.data.Resource
+import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.data.local.entity.OperationModel
 
 interface OperationDomain {

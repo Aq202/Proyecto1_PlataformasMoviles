@@ -40,6 +40,7 @@ fun OperationModel.toOperationItem(context: Context):OperationItem{
         category= getCategory(context),
         amount = amount,
         active = active,
-        imgUrl = imgUrl
+        imgUrl = imgUrl,
+        favorite = favorite
     )
 }

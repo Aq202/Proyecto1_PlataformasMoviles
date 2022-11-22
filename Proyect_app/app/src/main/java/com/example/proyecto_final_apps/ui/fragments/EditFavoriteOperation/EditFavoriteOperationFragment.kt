@@ -1,4 +1,4 @@
-package com.example.proyecto_final_apps.ui.fragments.newOperation
+package com.example.proyecto_final_apps.ui.fragments.EditFavoriteOperation
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
@@ -16,19 +16,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.Category
 import com.example.proyecto_final_apps.data.local.entity.AccountModel
-import com.example.proyecto_final_apps.databinding.FragmentNewOperationBinding
+import com.example.proyecto_final_apps.databinding.FragmentEditFavoriteOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
-import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
-import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutFragmentDirections
 import com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListViewModel
 import com.example.proyecto_final_apps.ui.fragments.editOperation.EditOperationFragmentDirections
-import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutViewModel
+import com.example.proyecto_final_apps.ui.fragments.editOperation.EditOperationViewModel
 import com.example.proyecto_final_apps.ui.util.Status
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,49 +34,46 @@ import kotlinx.coroutines.flow.collectLatest
 import java.lang.NumberFormatException
 
 @AndroidEntryPoint
-class NewOperationFragment : Fragment() {
-    private lateinit var binding: FragmentNewOperationBinding
-    private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
-    private var accountsList : MutableList<AccountModel> = mutableListOf()
-    private val tabLayoutViewModel: TabLayoutViewModel by activityViewModels()
+class EditFavoriteOperationFragment : Fragment() {
+    private lateinit var binding: FragmentEditFavoriteOperationBinding
+    private val editFavoriteOperationViewModel: EditFavoriteOperationViewModel by viewModels()
     private val loadingViewModel: LoadingViewModel by activityViewModels()
-    private val newOperationViewModel: NewOperationViewModel by viewModels()
     private val accountListViewModel: AccountsListViewModel by viewModels()
-    private lateinit var checkedCathegory: String
-    private lateinit var toolBar: MaterialToolbar
+    private var accountsList : MutableList<AccountModel> = mutableListOf()
     private var selectedAccount: AccountModel? = null
+    private lateinit var checkedCathegory: String
+    private val args: EditFavoriteOperationFragmentArgs by navArgs()
     private val nullAccounts = "No hay cuentas disponibles"
+    private var operationImgUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNewOperationBinding.inflate(inflater, container, false)
+        binding = FragmentEditFavoriteOperationBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolBar = requireActivity().findViewById(R.id.toolbar)
         generateChipGroup()
         setListeners()
         setObservers()
-        fixToolBar()
         loadingViewModel.showLoadingDialog() //show loading
         lifecycleScope.launchWhenStarted {
             getFragmentData()
             setDropLists()
             loadingViewModel.hideLoadingDialog() //hide loading
-            newOperationViewModel.setSuccessFragmentStatus()
+            editFavoriteOperationViewModel.setSuccessFragmentStatus()
         }
     }
 
-    private fun fixToolBar() {
-        toolBar.menu.findItem(R.id.deleteOperation).isVisible = false
-        toolBar.menu.findItem(R.id.editOperation).isVisible = false
+    private suspend fun getFragmentData(forceUpdate: Boolean = false) {
+        accountListViewModel.getAccountList(forceUpdate)
+        editFavoriteOperationViewModel.getOperationData(args.localId, forceUpdate)
+        editFavoriteOperationViewModel.getAccountData(args.localId,forceUpdate)
     }
 
     private fun setObservers() {
@@ -88,56 +83,57 @@ class NewOperationFragment : Fragment() {
             }
         }
         lifecycleScope.launchWhenStarted {
-            newOperationViewModel.fragmentState.collectLatest { status->
+            editFavoriteOperationViewModel.fragmentState.collectLatest { status->
                 if(status is Status.Success){
-                    binding.swipeResfreshLayoutNewOperationFragment.visibility = View.VISIBLE
+                    binding.swipeResfreshLayoutEditFavoriteOperationFragment.visibility = View.VISIBLE
                 }
             }
         }
         lifecycleScope.launchWhenStarted {
-            tabLayoutViewModel.accountData.collectLatest { status ->
+            editFavoriteOperationViewModel.accountData.collectLatest { status ->
 
                 if (status is Status.Success) {
                     status.value?.let { account ->
-                        tabLayoutViewModel.operationData.collectLatest { statusOp ->
+                        editFavoriteOperationViewModel.operationData.collectLatest { statusOp ->
                             if (statusOp is Status.Success) {
                                 statusOp.value?.let { operation ->
+                                    operationImgUrl = operation.imgUrl
                                     selectedAccount = getAccount(account.title)
                                     binding.apply {
-                                        textInputLayoutNewOperationFragmentTitle.editText!!.setText(
+                                        textInputLayoutEditFavoriteOperationFragmentTitle.editText!!.setText(
                                             operation.title
                                         )
-                                        textInputLayoutNewOperationFragmentSourceAccount.editText!!.setText(
+                                        textInputLayoutEditFavoriteOperationFragmentSourceAccount.editText!!.setText(
                                             account.title
                                         )
-                                        textInputLayoutNewOperationFragmentAmount.editText!!.setText(
+                                        textInputLayoutEditFavoriteOperationFragmentAmount.editText!!.setText(
                                             operation.amount.toString()
                                         )
-                                        textInputLayoutNewOperationFragmentOperationType.editText!!.setText(
+                                        textInputLayoutEditFavoriteOperationFragmentOperationType.editText!!.setText(
                                             if (operation.active) "Ingreso" else "Egreso"
                                         )
-                                        textInputLayoutNewOperationFragmentDescription.editText!!.setText(
+                                        textInputLayoutEditFavoriteOperationFragmentDescription.editText!!.setText(
                                             operation.description
                                         )
-                                        chipGroupNewOperationFragmentCathegories.check(operation.category)
-                                        checkBoxNewOperationFragmentFavoriteOperation.isChecked =
-                                            false
-                                        checkBoxNewOperationFragmentFavoriteOperation.isEnabled =
-                                            false
+                                        chipGroupEditFavoriteOperationFragmentCathegories.check(operation.category)
                                     }
-                                    setDropLists()
-                                    fixToolBar()
                                 }
+                            } else if (statusOp is Status.Error) {
+                                Toast.makeText(requireContext(), statusOp.error, Toast.LENGTH_LONG)
+                                    .show()
+                                //Navegar al home
+                                val action = EditOperationFragmentDirections.actionToHome()
+                                findNavController().navigate(action)
                             }
                         }
                     }
+
                 } else if (status is Status.Error) {
                     Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
                 }
 
             }
         }
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -153,10 +149,6 @@ class NewOperationFragment : Fragment() {
         }
     }
 
-    private suspend fun getFragmentData(forceUpdate:Boolean = false) {
-        accountListViewModel.getAccountList(forceUpdate)
-    }
-
     private fun setDropLists() {
         val accounts = getAccountsNames()
         if(accounts.isEmpty()) accounts.add(nullAccounts)
@@ -164,8 +156,8 @@ class NewOperationFragment : Fragment() {
 
         val adapterAccount = ArrayAdapter(requireContext(), R.layout.list_item, accounts)
         val adapterOperation = ArrayAdapter(requireContext(), R.layout.list_item, operationTypes)
-        binding.autoCompleteViewNewOperationFragmentSourceAccount.setAdapter(adapterAccount)
-        binding.autoCompleteViewNewOperationFragmentOperationType.setAdapter(adapterOperation)
+        binding.autoCompleteViewEditFavoriteOperationFragmentSourceAccount.setAdapter(adapterAccount)
+        binding.autoCompleteViewEditFavoriteOperationFragmentOperationType.setAdapter(adapterOperation)
     }
 
     private fun getAccountsNames(): MutableList<String> {
@@ -178,24 +170,25 @@ class NewOperationFragment : Fragment() {
     }
 
     private fun setListeners() {
-        val chipGroup = binding.chipGroupNewOperationFragmentCathegories
+        val chipGroup = binding.chipGroupEditFavoriteOperationFragmentCathegories
         chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
             updateChips(chipGroup, checkedIds[0])
         }
-        binding.autoCompleteViewNewOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoCompleteViewEditFavoriteOperationFragmentSourceAccount.setOnItemClickListener { adapterView, view, i, l ->
             val account = adapterView.getItemAtPosition(i).toString()
             if(account != nullAccounts)
                 selectedAccount = getAccount(account)!!
         }
-        binding.buttonNewOperationFragmentAdd.setOnClickListener{
-            tabLayoutViewModel.deleteData()
-            createOperation()
+
+        binding.buttonEditFavoriteOperationFragmentAdd.setOnClickListener{
+            updateOperation()
         }
-        binding.swipeResfreshLayoutNewOperationFragment.setOnRefreshListener {
+
+        binding.swipeResfreshLayoutEditFavoriteOperationFragment.setOnRefreshListener {
             println("REFRESHING...")
             lifecycleScope.launchWhenStarted {
                 getFragmentData(true)
-                binding.swipeResfreshLayoutNewOperationFragment.isRefreshing = false
+                binding.swipeResfreshLayoutEditFavoriteOperationFragment.isRefreshing = false
             }
 
         }
@@ -211,49 +204,49 @@ class NewOperationFragment : Fragment() {
 
     private fun validateTitle(): Boolean {
         binding.apply {
-            val name = textInputLayoutNewOperationFragmentTitle.editText!!.text
+            val name = textInputLayoutEditFavoriteOperationFragmentTitle.editText!!.text
             if (name.trim().isEmpty()) {
-                textInputLayoutNewOperationFragmentTitle.error =
+                textInputLayoutEditFavoriteOperationFragmentTitle.error =
                     "El título de la operación es obligatorio."
                 return false
             }
-            textInputLayoutNewOperationFragmentTitle.error = null
+            textInputLayoutEditFavoriteOperationFragmentTitle.error = null
             return true
         }
     }
     private fun validateAccount(): Boolean {
         binding.apply {
-            val account = textInputLayoutNewOperationFragmentSourceAccount.editText!!.text
-            var amount = textInputLayoutNewOperationFragmentAmount.editText!!.text.toString()
+            val account = textInputLayoutEditFavoriteOperationFragmentSourceAccount.editText!!.text
+            var amount = textInputLayoutEditFavoriteOperationFragmentAmount.editText!!.text.toString()
             amount = if(amount == "") "0" else amount
-            val operationType = textInputLayoutNewOperationFragmentOperationType.editText!!.text
+            val operationType = textInputLayoutEditFavoriteOperationFragmentOperationType.editText!!.text
             if (account.trim().isEmpty()) {
-                textInputLayoutNewOperationFragmentSourceAccount.error =
+                textInputLayoutEditFavoriteOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
                 return false
             }else if(account.toString() == nullAccounts){
-                textInputLayoutNewOperationFragmentSourceAccount.error =
+                textInputLayoutEditFavoriteOperationFragmentSourceAccount.error =
                     "Debe seleccionar una cuenta de origen."
                 return false
             }else if (operationType.toString() != "Ingreso" &&
                 selectedAccount!!.total < amount.toDouble()) {
-                textInputLayoutNewOperationFragmentSourceAccount.error =
+                textInputLayoutEditFavoriteOperationFragmentSourceAccount.error =
                     "La cuenta seleccionada no tiene fondos suficientes para esta operación."
                 return false
             }
-            textInputLayoutNewOperationFragmentSourceAccount.error = null
+            textInputLayoutEditFavoriteOperationFragmentSourceAccount.error = null
             return true
         }
     }
     private fun validateOperationType(): Boolean {
         binding.apply {
-            val name = textInputLayoutNewOperationFragmentOperationType.editText!!.text
+            val name = textInputLayoutEditFavoriteOperationFragmentOperationType.editText!!.text
             if (name.trim().isEmpty()) {
-                textInputLayoutNewOperationFragmentOperationType.error =
+                textInputLayoutEditFavoriteOperationFragmentTitle.error =
                     "Debe especificar el tipo de operación."
                 return false
             }
-            textInputLayoutNewOperationFragmentOperationType.error = null
+            textInputLayoutEditFavoriteOperationFragmentOperationType.error = null
             return true
         }
     }
@@ -262,16 +255,16 @@ class NewOperationFragment : Fragment() {
         binding.apply {
             try {
                 val amount =
-                    textInputLayoutNewOperationFragmentAmount.editText!!.text.toString().toDouble()
+                    textInputLayoutEditFavoriteOperationFragmentAmount.editText!!.text.toString().toDouble()
 
-                if (amount <= 0) textInputLayoutNewOperationFragmentAmount.error =
+                if (amount < 0) textInputLayoutEditFavoriteOperationFragmentAmount.error =
                     "El monto de la operación debe ser mayor a cero."
                 else {
-                    textInputLayoutNewOperationFragmentAmount.error = null
+                    textInputLayoutEditFavoriteOperationFragmentAmount.error = null
                     return true
                 }
             } catch (ex: NumberFormatException) {
-                textInputLayoutNewOperationFragmentAmount.error =
+                textInputLayoutEditFavoriteOperationFragmentAmount.error =
                     "El monto de la operación es obligatorio."
             }
 
@@ -282,39 +275,41 @@ class NewOperationFragment : Fragment() {
 
     private fun validateCathegory(): Boolean{
         binding.apply {
-            if (chipGroupNewOperationFragmentCathegories.checkedChipIds.isEmpty()){
-                textViewNeOperationFragmentCathegory.error =
+            if (chipGroupEditFavoriteOperationFragmentCathegories.checkedChipIds.isEmpty()){
+                textViewEditFavoriteOperationFragmentCathegory.error =
                     "Debe seleccionar una categoría."
                 return false
             }else{
-                textViewNeOperationFragmentCathegory.error = null
+                textViewEditFavoriteOperationFragmentCathegory.error = null
                 return true
             }
         }
     }
 
-    private fun createOperation() {
+    private fun updateOperation() {
         if (!validateTitle() && !validateAmount() && !validateAccount() && !validateOperationType() && !validateCathegory()) return
         else if(!validateTitle() || !validateAmount() || !validateAccount() || !validateOperationType() || !validateCathegory()) return
 
-        val title = binding.textInputLayoutNewOperationFragmentTitle.editText!!.text.toString()
+        val title = binding.textInputLayoutEditFavoriteOperationFragmentTitle.editText!!.text.toString()
         val accountLocalId = selectedAccount!!.localId
-        val amount = binding.textInputLayoutNewOperationFragmentAmount.editText!!.text.toString().toDouble()
-        val operationType = binding.textInputLayoutNewOperationFragmentOperationType.editText!!.text.toString()
+        val amount = binding.textInputLayoutEditFavoriteOperationFragmentAmount.editText!!.text.toString().toDouble()
+        val operationType = binding.textInputLayoutEditFavoriteOperationFragmentOperationType.editText!!.text.toString()
         val active = operationType == "Ingreso"
-        val description = binding.textInputLayoutNewOperationFragmentDescription.editText!!.text.toString()
-        val favorite = binding.checkBoxNewOperationFragmentFavoriteOperation.isChecked
+        val description = binding.textInputLayoutEditFavoriteOperationFragmentDescription.editText!!.text.toString()
+        val favorite = true
         val category = Category(requireContext()).getId(checkedCathegory)
 
         lifecycleScope.launchWhenStarted {
-            newOperationViewModel.createOperation(
+            editFavoriteOperationViewModel.updateOperation(
+                operationLocalId = args.localId,
                 title = title,
                 accountLocalId = accountLocalId!!,
                 amount = amount,
                 active = active,
                 description = if (description != "") description else null,
                 category = category,
-                favorite = favorite
+                favorite = favorite,
+                imgUrl = operationImgUrl
             ).collectLatest { status ->
 
                 if(status is Status.Loading) loadingViewModel.showLoadingDialog()
@@ -322,7 +317,7 @@ class NewOperationFragment : Fragment() {
 
                 if(status is Status.Success){
                     println(status.value.localId!!)
-                    val action = TabLayoutFragmentDirections.actionTabLayoutFragmentToOperationDetailsFragment(status.value.localId!!)
+                    val action = EditOperationFragmentDirections.actionToOperationDetails(status.value.localId!!)
                     findNavController().navigate(action)
                 }else if(status is Status.Error && status.error.isNotEmpty())
                     Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
@@ -348,7 +343,7 @@ class NewOperationFragment : Fragment() {
             if(cathegory.name != "Deudas") {
                 val backgroundCSL = generateCSL(cathegory.color, true)
                 val strokeCSL = generateCSL(cathegory.color, false)
-                binding.chipGroupNewOperationFragmentCathegories.addChip(
+                binding.chipGroupEditFavoriteOperationFragmentCathegories.addChip(
                     requireContext(),
                     cathegory,
                     backgroundCSL,

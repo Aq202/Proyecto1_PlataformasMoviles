@@ -24,7 +24,7 @@ import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.databinding.FragmentEditOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
-import com.example.proyecto_final_apps.ui.fragments.TabLayoutFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutFragmentDirections
 import com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListViewModel
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.chip.Chip
@@ -219,7 +219,8 @@ class EditOperationFragment : Fragment() {
     private fun validateAccount(): Boolean {
         binding.apply {
             val account = textInputLayoutEditOperationFragmentSourceAccount.editText!!.text
-            val amount = textInputLayoutEditOperationFragmentAmount.editText!!.text
+            var amount = textInputLayoutEditOperationFragmentSourceAccount.editText!!.text.toString()
+            amount = if(amount == "") "0" else amount
             val operationType = textInputLayoutEditOperationFragmentOperationType.editText!!.text
             if (account.trim().isEmpty()) {
                 textInputLayoutEditOperationFragmentSourceAccount.error =
@@ -230,7 +231,7 @@ class EditOperationFragment : Fragment() {
                     "Debe seleccionar una cuenta de origen."
                 return false
             }else if (operationType.toString() != "Ingreso" &&
-                selectedAccount!!.total < amount.toString().toDouble()) {
+                selectedAccount!!.total < amount.toDouble()) {
                 textInputLayoutEditOperationFragmentSourceAccount.error =
                     "La cuenta seleccionada no tiene fondos suficientes para esta operación."
                 return false
