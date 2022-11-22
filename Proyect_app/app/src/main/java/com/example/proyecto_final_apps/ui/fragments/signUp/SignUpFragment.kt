@@ -21,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentSignUpBinding
+import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
 import com.example.proyecto_final_apps.ui.activity.MainActivity
 import com.example.proyecto_final_apps.ui.activity.UserViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -41,7 +42,6 @@ import java.util.*
 class SignUpFragment : Fragment() {
 
     private val signUpViewModel: SignUpViewModel by viewModels()
-    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentSignUpBinding
     private var profilePicPath: String? = ""
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -99,6 +99,7 @@ class SignUpFragment : Fragment() {
                         }
                     }
                     is SignUpStatus.Registered -> {
+
 
                         handleStartMainActivityAction()
 
