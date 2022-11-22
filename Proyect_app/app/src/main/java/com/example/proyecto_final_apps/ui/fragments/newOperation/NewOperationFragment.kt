@@ -28,6 +28,7 @@ import com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListVi
 import com.example.proyecto_final_apps.ui.fragments.editOperation.EditOperationFragmentDirections
 import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutViewModel
 import com.example.proyecto_final_apps.ui.util.Status
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +45,7 @@ class NewOperationFragment : Fragment() {
     private val newOperationViewModel: NewOperationViewModel by viewModels()
     private val accountListViewModel: AccountsListViewModel by viewModels()
     private lateinit var checkedCathegory: String
+    private lateinit var toolBar: MaterialToolbar
     private var selectedAccount: AccountModel? = null
     private val nullAccounts = "No hay cuentas disponibles"
 
@@ -60,9 +62,11 @@ class NewOperationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toolBar = requireActivity().findViewById(R.id.toolbar)
         generateChipGroup()
         setListeners()
         setObservers()
+        fixToolBar()
         loadingViewModel.showLoadingDialog() //show loading
         lifecycleScope.launchWhenStarted {
             getFragmentData()
@@ -70,6 +74,11 @@ class NewOperationFragment : Fragment() {
             loadingViewModel.hideLoadingDialog() //hide loading
             newOperationViewModel.setSuccessFragmentStatus()
         }
+    }
+
+    private fun fixToolBar() {
+        toolBar.menu.findItem(R.id.deleteOperation).isVisible = false
+        toolBar.menu.findItem(R.id.editOperation).isVisible = false
     }
 
     private fun setObservers() {
@@ -117,6 +126,7 @@ class NewOperationFragment : Fragment() {
                                             false
                                     }
                                     setDropLists()
+                                    fixToolBar()
                                 }
                             }
                         }

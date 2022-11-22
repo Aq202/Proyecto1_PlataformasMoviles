@@ -132,7 +132,7 @@
         />
     <fragment
         android:id="@+id/editFavouriteOperationFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.EditFavoriteOperationFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.EditFavoriteOperation.EditFavoriteOperationFragment"
         android:label="Editar operación favorita"
         tools:layout="@layout/fragment_edit_favorite_operation" >
         <argument

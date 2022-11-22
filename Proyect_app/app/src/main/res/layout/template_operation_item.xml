@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cardView_operationItemTemplate_parentContainer"
-        android:backgroundTint="@color/light_gray_1"
+        app:cardBackgroundColor="@color/light_gray_1"
         app:cardElevation="@dimen/item_elevation"
         app:cardCornerRadius="@dimen/operation_item_borderRadius"
         app:layout_constraintTop_toTopOf="parent"

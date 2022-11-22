@@ -9,8 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.setPadding
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
@@ -22,11 +24,12 @@ import com.example.proyecto_final_apps.data.local.entity.OperationModel
 import com.example.proyecto_final_apps.data.local.entity.getCategory
 import com.example.proyecto_final_apps.helpers.format
 import com.google.android.material.card.MaterialCardView
+import kotlin.coroutines.coroutineContext
 
 data class OperationItem(
     val localId:Int,
     val remoteId:String ?,
-    val title:String,
+    var title:String,
     val category:CategoryModel?,
     val amount:Double,
     val active:Boolean,
@@ -147,7 +150,9 @@ class OperationAdapter(
                 favoriteIcon.visibility = View.VISIBLE
 
             if(operation.isSelected)
-                Toast.makeText(view.context,"Seleccionada",Toast.LENGTH_SHORT)
+                container.setCardBackgroundColor(view.context.resources.getColor(R.color.light_gray_3))
+            else
+                container.setCardBackgroundColor(view.context.resources.getColor(R.color.light_gray_1))
 
             setListeners()
         }

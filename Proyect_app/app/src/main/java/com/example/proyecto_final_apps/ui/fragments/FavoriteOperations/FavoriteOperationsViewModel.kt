@@ -56,31 +56,42 @@ class FavoriteOperationsViewModel @Inject constructor(
     }
 
     fun addOperationSelected(operationId: Int){
-        _selectedOperations.value.add(operationId)
+        val list = mutableListOf<Int>()
+        if(selectedOperations.value.isNotEmpty())
+            selectedOperations.value.forEach {
+                list.add(it)
+            }
+        list.add(operationId)
+        _selectedOperations.value = list
     }
 
     fun removeOperationSelected(operationId: Int){
-        _selectedOperations.value.remove(operationId)
+        val list = mutableListOf<Int>()
+        if(selectedOperations.value.isNotEmpty())
+            selectedOperations.value.forEach {
+                list.add(it)
+            }
+        list.remove(operationId)
+        _selectedOperations.value = list
     }
 
     suspend fun deleteSelected(): Flow<Status<Boolean>> {
         return flow{
             emit(Status.Loading())
 
-            _selectedOperations.collectLatest{ selected ->
-                selected.forEach { operationId ->
-                    val resultDelete = opRepository.deleteOperation(operationId)
+            _selectedOperations.value.forEach { operationId ->
+                val resultDelete = opRepository.deleteOperation(operationId)
 
-                    if(resultDelete is Resource.Error)
-                        emit(Status.Error(resultDelete.message ?: ""))
-                }
-                emit(Status.Success(true))
+                if(resultDelete is Resource.Error)
+                    emit(Status.Error(resultDelete.message ?: ""))
             }
+            emit(Status.Success(true))
         }
     }
 
     fun desSelect(){
-        _selectedOperations.value.removeAll(_selectedOperations.value)
+        val list = mutableListOf<Int>()
+        _selectedOperations.value = list
     }
 
 }

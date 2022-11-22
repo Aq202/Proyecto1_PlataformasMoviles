@@ -112,6 +112,9 @@ class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListene
                 if(list.isNotEmpty()){
                     toolBar.menu.findItem(R.id.deleteOperation).isVisible = true
                     toolBar.menu.findItem(R.id.editOperation).isVisible = list.size == 1
+                }else{
+                    toolBar.menu.findItem(R.id.deleteOperation).isVisible = false
+                    toolBar.menu.findItem(R.id.editOperation).isVisible = false
                 }
             }
         }
@@ -128,7 +131,7 @@ class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListene
 
             binding.apply {
 
-                recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter?.notifyDataSetChanged()
+                recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter!!.notifyDataSetChanged()
 
                 //Mostrar lista y ocultar mensaje de no hay cuentas
                 if (favoriteOperationsList.isNotEmpty()) {
@@ -206,7 +209,6 @@ class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListene
             .setTitle("¿Deseas eliminar las operaciones seleccionadas?")
             .setMessage("Toma en cuenta que esta acción es permanente y no podrás recuperar la información de estas operaciones.")
             .show()
-        favoriteOperationsViewModel.desSelect()
     }
 
     private fun editOperation() {
@@ -236,12 +238,12 @@ class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListene
         if(favoriteOperationsViewModel.selectedOperations.value.contains(operationData.localId)){
             favoriteOperationsViewModel.removeOperationSelected(operationData.localId)
             operationData.isSelected = !operationData.isSelected
-            binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter?.notifyDataSetChanged()
+            binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter!!.notifyDataSetChanged()
         }
         else if(favoriteOperationsViewModel.selectedOperations.value.size>0){
             favoriteOperationsViewModel.addOperationSelected(operationData.localId)
             operationData.isSelected = !operationData.isSelected
-            binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter?.notifyDataSetChanged()
+            binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter!!.notifyDataSetChanged()
         }else{
             lifecycleScope.launch {
                 tabLayoutViewModel.getAccountData(operationData.localId, false)
@@ -255,7 +257,7 @@ class FavoriteOperationsFragment : Fragment(), OperationAdapter.OperationListene
     override fun onItemPressed(operationData: OperationItem, position: Int) {
         vibrate(100)
         operationData.isSelected = !operationData.isSelected
-        binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter?.notifyDataSetChanged()
+        binding.recyclerViewFavoriteOperationFragmentFavoriteOperations.adapter!!.notifyDataSetChanged()
 
         if(favoriteOperationsViewModel.selectedOperations.value.contains(operationData.localId))
             favoriteOperationsViewModel.removeOperationSelected(operationData.localId)
