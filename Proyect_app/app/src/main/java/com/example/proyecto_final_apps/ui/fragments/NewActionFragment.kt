@@ -10,11 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.databinding.FragmentNewActionBinding
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
+import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutViewModel
 
 class NewActionFragment : Fragment() {
 
     private lateinit var binding: FragmentNewActionBinding
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
+    private val tabLayoutViewModel: TabLayoutViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -29,6 +31,7 @@ class NewActionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        tabLayoutViewModel.deleteData()
         selectCurrentBottomNavigationItem()
     }
 
@@ -39,7 +42,7 @@ class NewActionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        tabLayoutViewModel.deleteData()
         setListeners()
 
     }

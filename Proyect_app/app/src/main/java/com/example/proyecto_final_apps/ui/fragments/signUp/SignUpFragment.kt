@@ -154,8 +154,8 @@ class SignUpFragment : Fragment() {
 
                         datePicker.addOnPositiveButtonClickListener {
                             signUpViewModel.setBirthDate(Date(it)) //guardar fecha en viewmodel
-                     datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
-                    }
+                            datePickerSignUpFragmentBirthDate.setText(datePicker.headerText)
+                        }
 
                 datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
             }

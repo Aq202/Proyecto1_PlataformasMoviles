@@ -112,7 +112,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/tabLayoutFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.TabLayoutFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutFragment"
         android:label="Nueva Operación"
         tools:layout="@layout/fragment_tab_layout" >
         <action
@@ -134,7 +134,11 @@
         android:id="@+id/editFavouriteOperationFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.EditFavoriteOperationFragment"
         android:label="Editar operación favorita"
-        tools:layout="@layout/fragment_edit_favorite_operation" />
+        tools:layout="@layout/fragment_edit_favorite_operation" >
+        <argument
+            android:name="localId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/newPendingPaymentFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.NewPendingPaymentFragment"
@@ -163,7 +167,7 @@
 
     <fragment
         android:id="@+id/favouriteOperationsFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.FavoriteOperationsFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.FavoriteOperations.FavoriteOperationsFragment"
         android:label="fragment_favourite_operations"
         tools:layout="@layout/fragment_favorite_operations" />
     <fragment

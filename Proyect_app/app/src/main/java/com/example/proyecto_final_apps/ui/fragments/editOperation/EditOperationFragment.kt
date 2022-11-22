@@ -24,7 +24,7 @@ import com.example.proyecto_final_apps.data.local.entity.AccountModel
 import com.example.proyecto_final_apps.databinding.FragmentEditOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
-import com.example.proyecto_final_apps.ui.fragments.TabLayoutFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutFragmentDirections
 import com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListViewModel
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.chip.Chip

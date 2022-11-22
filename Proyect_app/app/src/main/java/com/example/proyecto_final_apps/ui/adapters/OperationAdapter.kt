@@ -1,10 +1,13 @@
 package com.example.proyecto_final_apps.ui.adapters
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.setPadding
@@ -29,11 +32,12 @@ data class OperationItem(
     val active:Boolean,
     val imgUrl:String?,
     val favorite:Boolean = false,
+    var isSelected:Boolean = false
 )
 
 class OperationAdapter(
     private val dataSet: MutableList<OperationItem>,
-    private val operationListener: OperationListener
+    private val operationListener: OperationListener,
 ) : RecyclerView.Adapter<OperationAdapter.ViewHolder>() {
 
     interface OperationListener {
@@ -43,7 +47,6 @@ class OperationAdapter(
 
     class ViewHolder(private val view: View, private val listener: OperationListener) :
         RecyclerView.ViewHolder(view) {
-
         private val container: MaterialCardView =
             view.findViewById(R.id.cardView_operationItemTemplate_parentContainer)
         private val imageIconContainer: MaterialCardView =
@@ -143,9 +146,13 @@ class OperationAdapter(
             if(operation.favorite)
                 favoriteIcon.visibility = View.VISIBLE
 
+            if(operation.isSelected)
+                Toast.makeText(view.context,"Seleccionada",Toast.LENGTH_SHORT)
+
             setListeners()
         }
 
+        @SuppressLint("NewApi")
         private fun setListeners() {
             container.setOnLongClickListener {
                 listener.onItemPressed(operationData, this.adapterPosition)

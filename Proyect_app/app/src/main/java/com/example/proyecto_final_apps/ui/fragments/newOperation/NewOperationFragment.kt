@@ -23,8 +23,10 @@ import com.example.proyecto_final_apps.databinding.FragmentNewOperationBinding
 import com.example.proyecto_final_apps.helpers.addChip
 import com.example.proyecto_final_apps.ui.activity.BottomNavigationViewModel
 import com.example.proyecto_final_apps.ui.activity.LoadingViewModel
-import com.example.proyecto_final_apps.ui.fragments.TabLayoutFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutFragmentDirections
 import com.example.proyecto_final_apps.ui.fragments.accounts_list.AccountsListViewModel
+import com.example.proyecto_final_apps.ui.fragments.editOperation.EditOperationFragmentDirections
+import com.example.proyecto_final_apps.ui.fragments.tabLayout.TabLayoutViewModel
 import com.example.proyecto_final_apps.ui.util.Status
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -37,6 +39,7 @@ class NewOperationFragment : Fragment() {
     private lateinit var binding: FragmentNewOperationBinding
     private val bottomNavigationViewModel: BottomNavigationViewModel by activityViewModels()
     private var accountsList : MutableList<AccountModel> = mutableListOf()
+    private val tabLayoutViewModel: TabLayoutViewModel by activityViewModels()
     private val loadingViewModel: LoadingViewModel by activityViewModels()
     private val newOperationViewModel: NewOperationViewModel by viewModels()
     private val accountListViewModel: AccountsListViewModel by viewModels()
@@ -53,14 +56,6 @@ class NewOperationFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        selectCurrentBottomNavigationItem()
-    }
-
-    private fun selectCurrentBottomNavigationItem() {
-        bottomNavigationViewModel.setSelectedItem(BottomNavigationViewModel.BottomNavigationItem.NEW)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -90,6 +85,49 @@ class NewOperationFragment : Fragment() {
                 }
             }
         }
+        lifecycleScope.launchWhenStarted {
+            tabLayoutViewModel.accountData.collectLatest { status ->
+
+                if (status is Status.Success) {
+                    status.value?.let { account ->
+                        tabLayoutViewModel.operationData.collectLatest { statusOp ->
+                            if (statusOp is Status.Success) {
+                                statusOp.value?.let { operation ->
+                                    selectedAccount = getAccount(account.title)
+                                    binding.apply {
+                                        textInputLayoutNewOperationFragmentTitle.editText!!.setText(
+                                            operation.title
+                                        )
+                                        textInputLayoutNewOperationFragmentSourceAccount.editText!!.setText(
+                                            account.title
+                                        )
+                                        textInputLayoutNewOperationFragmentAmount.editText!!.setText(
+                                            operation.amount.toString()
+                                        )
+                                        textInputLayoutNewOperationFragmentOperationType.editText!!.setText(
+                                            if (operation.active) "Ingreso" else "Egreso"
+                                        )
+                                        textInputLayoutNewOperationFragmentDescription.editText!!.setText(
+                                            operation.description
+                                        )
+                                        chipGroupNewOperationFragmentCathegories.check(operation.category)
+                                        checkBoxNewOperationFragmentFavoriteOperation.isChecked =
+                                            false
+                                        checkBoxNewOperationFragmentFavoriteOperation.isEnabled =
+                                            false
+                                    }
+                                    setDropLists()
+                                }
+                            }
+                        }
+                    }
+                } else if (status is Status.Error) {
+                    Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()
+                }
+
+            }
+        }
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -140,6 +178,7 @@ class NewOperationFragment : Fragment() {
                 selectedAccount = getAccount(account)!!
         }
         binding.buttonNewOperationFragmentAdd.setOnClickListener{
+            tabLayoutViewModel.deleteData()
             createOperation()
         }
         binding.swipeResfreshLayoutNewOperationFragment.setOnRefreshListener {
@@ -175,7 +214,8 @@ class NewOperationFragment : Fragment() {
     private fun validateAccount(): Boolean {
         binding.apply {
             val account = textInputLayoutNewOperationFragmentSourceAccount.editText!!.text
-            val amount = textInputLayoutNewOperationFragmentAmount.editText!!.text
+            var amount = textInputLayoutNewOperationFragmentAmount.editText!!.text.toString()
+            amount = if(amount == "") "0" else amount
             val operationType = textInputLayoutNewOperationFragmentOperationType.editText!!.text
             if (account.trim().isEmpty()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
@@ -186,7 +226,7 @@ class NewOperationFragment : Fragment() {
                     "Debe seleccionar una cuenta de origen."
                 return false
             }else if (operationType.toString() != "Ingreso" &&
-                selectedAccount!!.total < amount.toString().toDouble()) {
+                selectedAccount!!.total < amount.toDouble()) {
                 textInputLayoutNewOperationFragmentSourceAccount.error =
                     "La cuenta seleccionada no tiene fondos suficientes para esta operación."
                 return false
