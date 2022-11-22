@@ -38,9 +38,9 @@ class MainActivity : AppCompatActivity() {
 
     //Drawer layout bindint
     lateinit var headerView: View
-    lateinit var navigationDrawerHeaderBinding:NavigationDrawerHeaderBinding
+    lateinit var navigationDrawerHeaderBinding: NavigationDrawerHeaderBinding
 
-    
+
     private val toolbarViewModel: ToolbarViewModel by viewModels()
     private val bottomNavigationViewModel: BottomNavigationViewModel by viewModels()
     private val mainUserViewModel: UserViewModel by viewModels()
@@ -58,13 +58,15 @@ class MainActivity : AppCompatActivity() {
 
         configureNavigation()
         listenToNavDrawerChanges()
+        listenToNavGraphChanges()
         setObservers()
 
         //Binding del drawer layout
         headerView = binding.navView.getHeaderView(0)
-        navigationDrawerHeaderBinding =  NavigationDrawerHeaderBinding.bind(headerView)
+        navigationDrawerHeaderBinding = NavigationDrawerHeaderBinding.bind(headerView)
 
     }
+
 
     private fun configureNavigation() {
         val navHostFragment =
@@ -157,6 +159,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setListeners()
+    }
+
+    private fun listenToNavGraphChanges() {
+        navController.addOnDestinationChangedListener(NavController.OnDestinationChangedListener { _, _, _ ->
+
+            //Ocultar toolbar al cambiar fragment
+            loadingViewModel.hideLoadingDialog()
+        })
     }
 
     private fun handleLogoutAction() {

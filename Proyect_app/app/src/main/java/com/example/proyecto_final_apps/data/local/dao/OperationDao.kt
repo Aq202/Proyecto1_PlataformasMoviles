@@ -40,6 +40,9 @@ interface OperationDao {
     @Query("SELECT * FROM OperationModel WHERE deletionPending=${false} AND localId=:localId")
     suspend fun getOperationById(localId:Int): OperationModel?
 
+    @Query("SELECT * FROM OperationModel WHERE localId=:localId")
+    suspend fun getOperationByIdIgnoringDeleteMark(localId:Int): OperationModel?
+
     @Query("SELECT * FROM OperationModel WHERE deletionPending=${true}")
     suspend fun getAllPendingToDeleteOperation():List<OperationModel>
 

@@ -136,5 +136,8 @@
     <string name="hint_seleccionar_cuenta">Seleccionar cuenta</string>
     <string name="active_debt_complete_title">Deuda completada de %s</string>
     <string name="passive_debt_complete_title">Deuda completada con %s</string>
+    <string name="origin_transfer_title">Transferencia hacia %s</string>
+    <string name="target_transfer_title">Transferencia desde %s</string>
+    <string name="transfer_description">Transferencia entre cuentas.</string>
 
 </resources>

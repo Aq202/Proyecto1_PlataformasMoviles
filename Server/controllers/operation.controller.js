@@ -65,7 +65,7 @@ const editOperation = async (req, res) => {
 			return;
 		}
 
-		const result = await Operation.editOperation(operationId, data);
+		const result = await Operation.updateOperation(operationId, data);
 
 		if (result === null) {
 			const error = "No se han encontrado operaciones con el ID indicado.";

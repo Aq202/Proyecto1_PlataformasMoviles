@@ -211,7 +211,7 @@ class OperationRepositoryImp @Inject constructor(
         val ds = MyDataStore(context)
         val token = ds.getValueFromKey("token") ?: return Resource.Error("No token")
 
-        val operation = database.operationDao().getOperationById(operationLocalId)
+        val operation = database.operationDao().getOperationByIdIgnoringDeleteMark(operationLocalId)
             ?: return Resource.Error("La operación no existe.")
 
         //delete in api
@@ -239,7 +239,8 @@ class OperationRepositoryImp @Inject constructor(
             //Marcar para late delete
             operation.deletionPending = true
             database.operationDao().updateOperation(operation)
-        } else database.operationDao().deleteOperation(operation) //Eliminar localmente
+        } else if (operation.remoteId == null) database.operationDao()
+            .deleteOperation(operation) // No existe en la api, eliminar localmente
 
         return Resource.Success(true)
     }
@@ -268,16 +269,22 @@ class OperationRepositoryImp @Inject constructor(
                     )
                 )
 
-                if (updateRequestResult.isSuccessful && updatedOperation.requiresUpdate == true) {
+                if (updateRequestResult.isSuccessful) {
 
-                    //Retirar la marca de requiresUpdate
-                    updatedOperation.requiresUpdate = false
-                    database.operationDao().updateOperation(updatedOperation)
+                    //Se actualizó correctamente en la api
+
+                    if (updatedOperation.requiresUpdate == true) {
+                        //Retirar la marca de requiresUpdate
+                        updatedOperation.requiresUpdate = false
+                        database.operationDao().updateOperation(updatedOperation)
+                    }
 
                 } else if (updatedOperation.requiresUpdate != true) {
-                    //Si no se actualizó en la api, marcarlo
+                    //Si no se actualizó en la api y no está marcado, marcarlo
+
                     updatedOperation.requiresUpdate = true
                     database.operationDao().updateOperation(updatedOperation)
+
                 }
             } catch (ex: Exception) {
                 println("Diego: ${ex.message}")
@@ -379,8 +386,11 @@ class OperationRepositoryImp @Inject constructor(
         val operation = database.operationDao().getOperationById(operationLocalId)
             ?: return Resource.Error("La operación no existe.")
 
-        var accRequest = accountRepository.getAccountData(operation.accountLocalId, false)
-        val accountRemoteId = if (accRequest is Resource.Success) accRequest.data.remoteId else return Resource.Error("La cuenta indicada no se ha encontrado remotamente.")
+        val accRequest = accountRepository.getAccountData(operation.accountLocalId, false)
+        val accountRemoteId =
+            if (accRequest is Resource.Success) accRequest.data.remoteId else return Resource.Error(
+                "La cuenta indicada no se ha encontrado remotamente."
+            )
 
         if (!(accountLocalId != null || accountRemoteId != null || active != null || amount != null || category != null || favorite != null || title != null || description != null || imgUrl != null))
             return Resource.Success(operation)
