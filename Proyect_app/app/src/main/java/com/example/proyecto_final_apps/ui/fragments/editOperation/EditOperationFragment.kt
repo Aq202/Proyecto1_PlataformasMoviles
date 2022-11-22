@@ -120,6 +120,8 @@ class EditOperationFragment : Fragment() {
                                             operation.favorite
                                     }
                                 }
+
+                                setDropLists()
                             } else if (statusOp is Status.Error) {
                                 Toast.makeText(requireContext(), statusOp.error, Toast.LENGTH_LONG)
                                     .show()
