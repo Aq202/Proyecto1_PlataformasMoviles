@@ -121,12 +121,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 when(result) {
                     is EditProfileStatus.Loading -> {
                         binding.apply {
-                            buttonEditProfileFragmentSaveChanges.visibility = View.INVISIBLE
-                            progressIndicatorFragmentEditProfile.visibility = View.VISIBLE
+                            loadingViewModel.showLoadingDialog()
                         }
                     }
                     is EditProfileStatus.Error -> {
                         binding.apply {
+                            loadingViewModel.hideLoadingDialog()
                             coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.VISIBLE
                             containerErrorFragmentMessageContent.visibility = View.GONE
                             buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE
@@ -137,6 +137,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     }
                     is EditProfileStatus.Success -> {
                         binding.apply {
+                            loadingViewModel.hideLoadingDialog()
                             coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.VISIBLE
                             containerErrorFragmentMessageContent.visibility = View.GONE
                             buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE
@@ -146,17 +147,20 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     is EditProfileStatus.UpdatingError -> {
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         binding.apply {
+                            loadingViewModel.hideLoadingDialog()
                             buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE
                             progressIndicatorFragmentEditProfile.visibility = View.GONE
                         }
-                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
+
                     }
                     is EditProfileStatus.Updated -> {
+                        loadingViewModel.hideLoadingDialog()
                         userViewModel.getUserData(true)
                         Toast.makeText(requireContext(), "Perfil actualizado exitosamente", Toast.LENGTH_LONG).show()
                         requireView().findNavController().navigate(R.id.action_toUserProfile)
                     }
                     is EditProfileStatus.LoadingDataError -> {
+                        loadingViewModel.hideLoadingDialog()
                         binding.apply {
                             coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.GONE
                             containerErrorFragmentMessageContent.visibility = View.VISIBLE
@@ -191,8 +195,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
             editProfileFragmentUploadImageButton.setOnClickListener {
                 ImagePicker.with(this@EditProfileFragment)
-                    .compress(1024)         //Final image size will be less than 1 MB(Optional)
-                    .maxResultSize(150,150)
                     .cropSquare()
                     .createIntent { intent: Intent ->
                         galleryLauncher.launch(intent)

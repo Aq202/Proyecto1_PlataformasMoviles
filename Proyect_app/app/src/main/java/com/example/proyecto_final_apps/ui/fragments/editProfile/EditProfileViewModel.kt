@@ -65,7 +65,26 @@ class EditProfileViewModel @Inject constructor(
 
     fun setBirthDate(birthDate: Date){
         //Lo guarda en el formato MM/DD/YYYY
-        _birthDate.value = "${birthDate.getMonthValue()}/${(birthDate.getDayValue())+1}/${birthDate.getYearValue()}"
+        var correctDay = birthDate.getDayValue()+1
+        var correctMonth = birthDate.getMonthValue()
+        var correctYear = birthDate.getYearValue()
+        if (birthDate.getDayValue() == 31){
+            correctDay = 1
+            correctMonth += 1
+            if (birthDate.getMonthValue() == 12){
+                correctMonth = 1
+                correctYear += 1
+            }
+        }
+        if (birthDate.getDayValue() == 30 && (birthDate.getMonthValue() == 11 || birthDate.getMonthValue() == 4 || birthDate.getMonthValue() == 6 || birthDate.getMonthValue() == 9)){
+            correctDay = 1
+            correctMonth += 1
+        }
+        if (birthDate.getDayValue() == 28 && (birthDate.getMonthValue() == 2)){
+            correctDay = 1
+            correctMonth += 1
+        }
+        _birthDate.value = "${correctMonth}/${correctDay}/${correctYear}"
     }
 
     fun editProfile(
