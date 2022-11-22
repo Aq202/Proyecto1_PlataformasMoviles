@@ -259,6 +259,7 @@ class OperationRepositoryImp @Inject constructor(
                     token,
                     updatedOperation.remoteId,
                     UpdateOperationRequest(
+                        account = updatedOperation.accountRemoteId,
                         active = updatedOperation.active,
                         amount = updatedOperation.amount,
                         category = updatedOperation.category,

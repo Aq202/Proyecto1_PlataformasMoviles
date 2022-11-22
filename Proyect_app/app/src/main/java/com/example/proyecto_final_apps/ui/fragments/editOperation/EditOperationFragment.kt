@@ -318,7 +318,7 @@ class EditOperationFragment : Fragment() {
 
                 if(status is Status.Success){
                     println(status.value.localId!!)
-                    val action = EditOperationFragmentDirections.actionToOperationDetails(status.value.localId!!)
+                    val action = EditOperationFragmentDirections.actionEditOperationFragmentToOperationDetailsFragment(status.value.localId!!)
                     findNavController().navigate(action)
                 }else if(status is Status.Error && status.error.isNotEmpty())
                     Toast.makeText(requireContext(), status.error, Toast.LENGTH_LONG).show()

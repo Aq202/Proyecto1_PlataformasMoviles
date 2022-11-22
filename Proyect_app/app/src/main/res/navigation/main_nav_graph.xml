@@ -120,7 +120,9 @@
             app:destination="@id/editFavouriteOperationFragment" />
         <action
             android:id="@+id/action_tabLayoutFragment_to_operationDetailsFragment"
-            app:destination="@id/operationDetailsFragment" />
+            app:destination="@id/operationDetailsFragment"
+            app:popUpTo="@id/tabLayoutFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 
@@ -175,7 +177,13 @@
         android:id="@+id/newDebtFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.new_debt.NewDebtFragment"
         android:label="Nueva deuda"
-        tools:layout="@layout/fragment_new_debt" />
+        tools:layout="@layout/fragment_new_debt" >
+        <action
+            android:id="@+id/action_newDebtFragment_to_debtDetailsFragment"
+            app:destination="@id/debtDetailsFragment"
+            app:popUpTo="@id/newDebtFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <action
         android:id="@+id/action_toOperationDetails"
@@ -188,7 +196,7 @@
     <fragment
         android:id="@+id/pendingPaymentsFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.pending_payments.PendingPaymentsFragment"
-        android:label=""
+        android:label=" "
         tools:layout="@layout/fragment_pending_payments" />
     <fragment
         android:id="@+id/newActionFragment"
@@ -217,7 +225,13 @@
         android:id="@+id/newTransferFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.transfer.NewTransferFragment"
         android:label="Nueva transferencia"
-        tools:layout="@layout/fragment_new_transfer" />
+        tools:layout="@layout/fragment_new_transfer" >
+        <action
+            android:id="@+id/action_newTransferFragment_to_operationDetailsFragment"
+            app:destination="@id/operationDetailsFragment"
+            app:popUpTo="@id/newTransferFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/externalUserProfileFragment"
         android:name="com.example.proyecto_final_apps.ui.fragments.external_user_profile.ExternalUserProfileFragment"
@@ -278,6 +292,11 @@
         <argument
             android:name="operationId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_editOperationFragment_to_operationDetailsFragment"
+            app:destination="@id/operationDetailsFragment"
+            app:popUpTo="@id/operationDetailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/debtDetailsFragment"

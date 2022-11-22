@@ -277,7 +277,8 @@ class NewDebtFragment : Fragment() {
             ).collectLatest { status ->
                 if (status is Status.Success) {
                     //NAVEGAR A DETALLES DE DEUDA
-                    findNavController().navigate(R.id.action_toHome)
+                    val action = NewDebtFragmentDirections.actionNewDebtFragmentToDebtDetailsFragment(status.value.localId!!)
+                    findNavController().navigate(action)
 
                 } else if (status is Status.Error) {
                     blockSendingAction = false
