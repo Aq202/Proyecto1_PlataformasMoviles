@@ -215,7 +215,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/newTransferFragment"
-        android:name="com.example.proyecto_final_apps.ui.fragments.NewTransferFragment"
+        android:name="com.example.proyecto_final_apps.ui.fragments.transfer.NewTransferFragment"
         android:label="Nueva transferencia"
         tools:layout="@layout/fragment_new_transfer" />
     <fragment

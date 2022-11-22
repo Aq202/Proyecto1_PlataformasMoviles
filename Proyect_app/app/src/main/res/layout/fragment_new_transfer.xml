@@ -1,159 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout_transferFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.NewTransferFragment"
-    android:padding="25dp">
+    tools:context=".ui.fragments.transfer.NewTransferFragment">
 
-    <TextView
-        app:layout_constraintVertical_chainStyle="packed"
-        android:id="@+id/text_newTransferFragment_originAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cuenta_de_origen"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_originAccount"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_newTransferFragment_originAccount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        app:layout_constraintTop_toBottomOf="@id/text_newTransferFragment_originAccount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/text_newTransferFragment_targetAccount"
-        android:hint="@string/placeholder_cuenta_de_origen"
-        app:startIconDrawable="@drawable/ic_folder_upload_outline"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_menu_down"
-        android:layout_margin="5dp">
-
-        <AutoCompleteTextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_transferFragment_fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            />
+            android:layout_height="match_parent"
+            android:padding="@dimen/horizontal_fragment_padding">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/text_newTransferFragment_originAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cuenta_de_origen"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_originAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/text_newTransferFragment_targetAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cuenta_destino"
-        android:textStyle="bold"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInput_newTransferFragment_originAccount"
-        app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_targetAccount"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_newTransferFragment_originAccount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="@string/placeholder_cuenta_de_origen"
+                app:endIconMode="dropdown_menu"
+                app:layout_constraintBottom_toTopOf="@id/text_newTransferFragment_targetAccount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_newTransferFragment_originAccount"
+                app:startIconDrawable="@drawable/ic_folder_upload_outline">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_newTransferFragment_targetAccount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        app:layout_constraintTop_toBottomOf="@id/text_newTransferFragment_targetAccount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_amount"
-        android:hint="@string/cuenta_destino"
-        app:startIconDrawable="@drawable/ic_folder_download_outline"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_menu_down"
-        android:layout_margin="5dp">
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteView_transferFragment_originAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
 
-        <AutoCompleteTextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_newTransferFragment_targetAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/cuenta_destino"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_targetAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInput_newTransferFragment_originAccount" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_newTransferFragment_targetAccount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="@string/cuenta_destino"
+                app:endIconMode="dropdown_menu"
+                app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_amount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_newTransferFragment_targetAccount"
+                app:startIconDrawable="@drawable/ic_folder_download_outline">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteView_transferFragment_targetAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_newAccountFragment_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/monto"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInput_newTransferFragment_targetAccount" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_newTransferFragment_amount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="@string/placeholder_monto"
+                app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_amount"
+                app:startIconDrawable="@drawable/ic_cash_multiple">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="@dimen/plain_text_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_newAccountFragment_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/description"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInput_newTransferFragment_amount" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_newTransferFragment_description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="@string/description"
+                app:layout_constraintBottom_toTopOf="@id/button_newTransferFragment_doneButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/plain_text_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_newTransferFragment_doneButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/aqua"
+                android:paddingVertical="@dimen/button_vertical_padding"
+                android:text="@string/terminar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/button_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInput_newTransferFragment_description" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_noContentMessage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            />
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/imageView_noResultsBanner"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/banner_money"
+                app:layout_constraintBottom_toTopOf="@id/textView_noResults"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/text_newAccountFragment_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/monto"
-        android:textStyle="bold"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInput_newTransferFragment_targetAccount"
-        app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_amount"/>
+            <TextView
+                android:id="@+id/textView_noResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/no_hay_cuentas_ndisponibles"
+                android:textAlignment="center"
+                android:textSize="@dimen/h3_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_noResultsBanner" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_newTransferFragment_amount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_amount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/text_newAccountFragment_description"
-        android:hint="@string/placeholder_monto"
-        android:layout_margin="5dp"
-        app:startIconDrawable="@drawable/ic_cash_multiple">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/plain_text_size"
-            android:inputType="number"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/text_newAccountFragment_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textStyle="bold"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInput_newTransferFragment_amount"
-        app:layout_constraintBottom_toTopOf="@id/textInput_newTransferFragment_description"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_newTransferFragment_description"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="@string/description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_newAccountFragment_description"
-        app:layout_constraintBottom_toTopOf="@id/button_newTransferFragment_doneButton">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/plain_text_size" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_newTransferFragment_doneButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/aqua"
-        android:paddingVertical="@dimen/button_vertical_padding"
-        android:text="@string/terminar"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:cornerRadius="@dimen/button_radius"
-        android:layout_marginTop="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInput_newTransferFragment_description" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
