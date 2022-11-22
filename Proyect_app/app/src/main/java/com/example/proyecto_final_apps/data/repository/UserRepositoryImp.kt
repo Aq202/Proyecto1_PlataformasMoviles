@@ -279,8 +279,8 @@ class UserRepositoryImp @Inject constructor(
         user: String,
         email: String,
         password: String,
-        imageUrl: String?,
-        profilePicPath: String?
+        imageUrl: String,
+        profilePicPath: String
     ): Resource<Boolean> {
 
         try {
@@ -295,12 +295,11 @@ class UserRepositoryImp @Inject constructor(
             dataMap["email"] = email.createPartFromString()
             dataMap["birthDate"] = birthDate.createPartFromString()
             dataMap["alias"] = user.createPartFromString()
-            dataMap["password"] = password.createPartFromString()
+            dataMap["imageUrl"] = imageUrl.createPartFromString()
 
-            //Verificar si se cambió la imagen de perfil
-            if (imageUrl != null){
-                dataMap["imageUrl"] = imageUrl.createPartFromString()
-            }
+            //Verificar si se cambió la contraseña
+            if (password != "") dataMap["password"] = password.createPartFromString()
+
 
             //Imagen en formato multipart
 

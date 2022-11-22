@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.request.CachePolicy
 import com.example.proyecto_final_apps.R
 import com.example.proyecto_final_apps.data.local.entity.UserModel
 import com.example.proyecto_final_apps.databinding.FragmentEditProfileBinding
@@ -55,7 +56,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
                 //Guardar path
                 profilePicPath = fileUri.path
-                Toast.makeText(requireContext(), profilePicPath, Toast.LENGTH_LONG).show()
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             } else {
@@ -95,7 +95,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 textFieldEditProfileFragmentBirthDate.editText!!.setText(currentUserData.birthDate)
                 textFieldEditProfileFragmentUser.editText!!.setText(currentUserData.alias)
                 textFieldEditProfileFragmentEmail.editText!!.setText(currentUserData.email)
-                imageViewEditProfileFragmentPicture.load(currentUserData.imageUrl)
+                imageViewEditProfileFragmentPicture.load(currentUserData.imageUrl){
+                    placeholder(R.drawable.ic_loading)
+                    error(R.drawable.ic_default_user) //Imagen por default
+                    memoryCachePolicy(CachePolicy.ENABLED)
+                    diskCachePolicy(CachePolicy.ENABLED)
+                }
 
             }
         }
@@ -122,8 +127,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     }
                     is EditProfileStatus.Error -> {
                         binding.apply {
-                            coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.GONE
-                            containerErrorFragmentMessageContent.visibility = View.VISIBLE
+                            coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.VISIBLE
+                            containerErrorFragmentMessageContent.visibility = View.GONE
+                            buttonEditProfileFragmentSaveChanges.visibility = View.VISIBLE
+                            progressIndicatorFragmentEditProfile.visibility = View.GONE
                         }
                         Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
                         println(result.error)
@@ -148,6 +155,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         userViewModel.getUserData(true)
                         Toast.makeText(requireContext(), "Perfil actualizado exitosamente", Toast.LENGTH_LONG).show()
                         requireView().findNavController().navigate(R.id.action_toUserProfile)
+                    }
+                    is EditProfileStatus.LoadingDataError -> {
+                        binding.apply {
+                            coordinatorLayoutEditProfileFragmentFragmentContainer.visibility = View.GONE
+                            containerErrorFragmentMessageContent.visibility = View.VISIBLE
+                        }
+                        Toast.makeText(requireContext(), result.error, Toast.LENGTH_LONG).show()
+                        println(result.error)
                     }
                     else -> {}
                 }
@@ -192,16 +207,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     private fun saveChanges() {
-        val firstName = binding.textFieldEditProfileFragmentFirstName.editText!!.text.toString()
-        val lastName = binding.textFieldEditProfileFragmentLastName.editText!!.text.toString()
-        val email = binding.textFieldEditProfileFragmentEmail.editText!!.text.toString()
+        val firstName = binding.textFieldEditProfileFragmentFirstName.editText!!.text.toString().trim()
+        val lastName = binding.textFieldEditProfileFragmentLastName.editText!!.text.toString().trim()
+        val email = binding.textFieldEditProfileFragmentEmail.editText!!.text.toString().trim()
         val password = binding.textFieldEditProfileFragmentPassword.editText!!.text.toString()
-        val confirmPass = binding.textFieldEditProfileFragmentConfirmPassword.editText!!.text.toString()
-        val username = binding.textFieldEditProfileFragmentUser.editText!!.text.toString()
+        val confirmPass = binding.textFieldEditProfileFragmentConfirmPassword.editText!!.text.toString().trim()
+        val username = binding.textFieldEditProfileFragmentUser.editText!!.text.toString().trim()
         val birthDate = editProfileViewModel.birthDate.value!!
-        var imageUrl: String? = null
-        if (profilePicPath == "")
-            imageUrl = currentUserData.imageUrl
+        var imageUrl = ""
+        if (profilePicPath == null) profilePicPath = ""
 
         editProfileViewModel.editProfile(
             firstName = firstName,
@@ -212,7 +226,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             password = password,
             confirmPass = confirmPass,
             imageUrl = imageUrl,
-            profilePicPath = profilePicPath
+            profilePicPath = profilePicPath!!
         )
     }
 

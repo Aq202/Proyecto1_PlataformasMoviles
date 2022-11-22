@@ -47,7 +47,7 @@ class SignUpViewModel @Inject constructor(
     fun signUp(
         firstName: String,
         lastName: String,
-        birthDate: String,
+        birthDate: String?,
         user: String,
         email: String,
         password: String,
@@ -58,30 +58,36 @@ class SignUpViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            if (firstName != "" && lastName != "" && birthDate != "" && user != "" && password != "" && email != "" && confirmPass != "") {
-                if (password == confirmPass){
+            if (firstName != "" && lastName != "" && birthDate != null && user != "" && password != "" && email != "" && confirmPass != "") {
+                if (profilePicPath != ""){
+                    if (password == confirmPass){
 
-                    when(val result = repository.signUp(
-                        firstName = firstName,
-                        lastName = lastName,
-                        birthDate = birthDate,
-                        user = user,
-                        email = email,
-                        password = password,
-                        profilePicPath = profilePicPath
-                    )){
-                        is Resource.Success -> {
-                            _signUpStateFlow.value = SignUpStatus.Registered
-                        }
-                        else -> {
-                            _signUpStateFlow.value = SignUpStatus.Error(result.message ?: "Ocurrió un error.")
+                        when(val result = repository.signUp(
+                            firstName = firstName,
+                            lastName = lastName,
+                            birthDate = birthDate,
+                            user = user,
+                            email = email,
+                            password = password,
+                            profilePicPath = profilePicPath
+                        )){
+                            is Resource.Success -> {
+                                _signUpStateFlow.value = SignUpStatus.Registered
+                            }
+                            else -> {
+                                _signUpStateFlow.value = SignUpStatus.Error(result.message ?: "Ocurrió un error.")
 
+                            }
                         }
+                    }
+                    else{
+                        _signUpStateFlow.value = SignUpStatus.Error("Las contraseñas ingresadas no coinciden.")
                     }
                 }
                 else{
-                    _signUpStateFlow.value = SignUpStatus.Error("Las contraseñas ingresadas no coinciden.")
+                    _signUpStateFlow.value = SignUpStatus.Error("Es necesario elegir una foto de perfil.")
                 }
+
             }
             else{
                 _signUpStateFlow.value = SignUpStatus.Error("Es necesario completar todos los campos.")

@@ -40,7 +40,7 @@
                         android:id="@+id/imageView_editProfileFragment_picture"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/profile_pic_1" />
+                        android:src="@drawable/ic_default_user" />
 
                 </androidx.cardview.widget.CardView>
 

@@ -61,7 +61,6 @@ class SignUpFragment : Fragment() {
 
                 //Guardar path
                 profilePicPath = fileUri.path
-                Toast.makeText(requireContext(), profilePicPath, Toast.LENGTH_LONG).show()
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             } else {
@@ -69,19 +68,6 @@ class SignUpFragment : Fragment() {
             }
         }
     }
-    /*private val galleryLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
-    ActivityResultCallback<ActivityResult>(){
-        @Override
-        fun onActivityResult(result: ActivityResult){
-            print("bandera")
-            if(result.resultCode == RESULT_OK){
-                print("bandera")
-                val extras = result.data?.extras
-                val imgBitmap = extras?.get("data")
-                binding.imageViewSignUpFragmentBanner.setImageBitmap(imgBitmap as Bitmap?)
-            }
-        }
-    })*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -180,13 +166,13 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUp() {
-        val firstName = binding.textFieldSignUpFragmentFirstName.editText!!.text.toString()
-        val lastName = binding.textFieldSignUpFragmentLastName.editText!!.text.toString()
-        val email = binding.textFieldSignUpFragmentEmail.editText!!.text.toString()
+        val firstName = binding.textFieldSignUpFragmentFirstName.editText!!.text.toString().trim()
+        val lastName = binding.textFieldSignUpFragmentLastName.editText!!.text.toString().trim()
+        val email = binding.textFieldSignUpFragmentEmail.editText!!.text.toString().trim()
         val password = binding.textFieldSignUpFragmentPassword.editText!!.text.toString()
         val confirmPass = binding.textFieldSignUpFragmentConfirmPassword.editText!!.text.toString()
-        val user = binding.textFieldSignUpFragmentUser.editText!!.text.toString()
-        val birthDate = signUpViewModel.birthDate.value!! //HACER VALIDACIÓN Y VERIFICAR QUE NO SEA NULL
+        val user = binding.textFieldSignUpFragmentUser.editText!!.text.toString().trim()
+        val birthDate = signUpViewModel.birthDate.value
 
         signUpViewModel.signUp(
             firstName = firstName,

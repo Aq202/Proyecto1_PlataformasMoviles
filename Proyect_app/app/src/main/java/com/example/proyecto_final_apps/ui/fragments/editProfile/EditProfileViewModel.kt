@@ -25,6 +25,7 @@ sealed class EditProfileStatus(){
     object Loading: EditProfileStatus()
     object Updated: EditProfileStatus()
     object Success: EditProfileStatus()
+    class LoadingDataError(val error: String): EditProfileStatus()
     class Error(val error: String): EditProfileStatus()
     class UpdatingError(val error: String): EditProfileStatus()
 }
@@ -57,30 +58,14 @@ class EditProfileViewModel @Inject constructor(
 
         } else {
             _userData.value = Status.Error(userDataResult.message ?: "Ocurrió un error al obtener los datos actuales")
-            _editProfileStateFlow.value = EditProfileStatus.Error("")
+            _editProfileStateFlow.value = EditProfileStatus.LoadingDataError("Ocurrió un error al obtener los datos actuales")
         }
     }
 
 
     fun setBirthDate(birthDate: Date){
         //Lo guarda en el formato MM/DD/YYYY
-        _birthDate.value = "${birthDate.getMonthValue()}/${birthDate.getDayValue()}/${birthDate.getYearValue()}"
-    }
-
-    fun updateUserData(){
-        _editProfileStateFlow.value = EditProfileStatus.Loading
-
-        viewModelScope.launch {
-            when(val result = repository.getUserInSessionData(true)){
-                is Resource.Success -> {
-                    _editProfileStateFlow.value = EditProfileStatus.Updated
-                }
-                else -> {
-                    _editProfileStateFlow.value = EditProfileStatus.UpdatingError(result.message ?: "Ocurrió un error.")
-
-                }
-            }
-        }
+        _birthDate.value = "${birthDate.getMonthValue()}/${(birthDate.getDayValue())+1}/${birthDate.getYearValue()}"
     }
 
     fun editProfile(
@@ -91,16 +76,18 @@ class EditProfileViewModel @Inject constructor(
         email: String,
         password: String,
         confirmPass: String,
-        imageUrl: String?,
-        profilePicPath: String?
+        imageUrl: String,
+        profilePicPath: String
     ){
         _editProfileStateFlow.value = EditProfileStatus.Loading
 
         viewModelScope.launch {
 
-            if (firstName != "" && lastName != "" && birthDate != "" && user != "" && password != "" && email != "" && confirmPass != ""){
-                if (password == confirmPass){
-
+            if (firstName != "" && lastName != "" && birthDate != "" && user != "" && email != ""){
+                if (password != "" && password != confirmPass){
+                    _editProfileStateFlow.value = EditProfileStatus.UpdatingError("Las contraseñas ingresadas no coinciden.")
+                }
+                else{
                     when(val result = repository.editProfile(
                         firstName = firstName,
                         lastName = lastName,
@@ -119,9 +106,6 @@ class EditProfileViewModel @Inject constructor(
 
                         }
                     }
-                }
-                else{
-                    _editProfileStateFlow.value = EditProfileStatus.UpdatingError("Las contraseñas ingresadas no coinciden.")
                 }
             }
             else{
